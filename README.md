@@ -13,7 +13,16 @@ Sur ma-nouvelle-branche :
 git commit (on fait ses commits)
 git commit
 ...
+(git rebase -i (si la branche n’est pas propre))
 git push (si c'est le premier push il va vous afficher la commande à écrire)
+ON ENVOIE UNE MERGE REQUEST SUR GITLAB à son responsable Qualité
+Le responsable qualité doit alors s’assurer de la qualité du code et des commits
+ -> S’il y a des modifications à faire
+  -> le responsable qualité peut alors ajouter des commentaires aux lignes qui posent problème
+  -> on fait ensuite les commits nécessaires pour corriger tout cela
+  -> on refait une merge request
+ -> Si tout va bien le responsable Qualité prend la suite
+
 git checkout master (travail terminé et qui fonctionne, on retourne sur master)
 ```
 
