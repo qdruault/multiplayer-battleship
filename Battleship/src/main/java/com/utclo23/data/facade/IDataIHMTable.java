@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public interface IDataIHMTable {
     public ArrayList<Ship> getShips();
     public void setShip(Ship ship);
-    public boolean attack(Integer[] coords);
+    public boolean attack(Coordinate coords);
     public void leaveGame();
     public ArrayList<Ship> getInitialBoardFromGameId(UID gameid);
     public ArrayList<Event> getPreviousBoard();
