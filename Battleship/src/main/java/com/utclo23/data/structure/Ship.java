@@ -14,9 +14,9 @@ import java.util.ArrayList;
 public class Ship {
     private ShipType type;
     private Player owner;
-    private ArrayList<Integer[]> listCoord;
+    private ArrayList<Coordinate> listCoord;
 
-    public Ship(ShipType type, Player owner, ArrayList<Integer[]> listCoord) {
+    public Ship(ShipType type, Player owner, ArrayList<Coordinate> listCoord) {
         this.type = type;
         this.owner = owner;
         this.listCoord = listCoord;
@@ -38,11 +38,11 @@ public class Ship {
         this.owner = owner;
     }
 
-    public ArrayList<Integer[]> getListCoord() {
+    public ArrayList<Coordinate> getListCoord() {
         return listCoord;
     }
 
-    public void setListCoord(ArrayList<Integer[]> listCoord) {
+    public void setListCoord(ArrayList<Coordinate> listCoord) {
         this.listCoord = listCoord;
     }
     
