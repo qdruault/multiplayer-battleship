@@ -23,17 +23,21 @@ public abstract class Game {
         this.spectators = spectators;
         this.messages = messages;
     }
-    
-    
-    
-    public StatGame getStatGame()
-    {
-        return this.statGame;
-    }
-    
-    public ArrayList<PublicUser> getRecipients()
+
+    public ArrayList<LightPublicUser> getRecipients()
     {
         return null;
     }
+
+    public StatGame getStatGame() {
+        return statGame;
+    }
+
+    public void setStatGame(StatGame statGame) {
+        this.statGame = statGame;
+    }
+    
+    
+
     
 }

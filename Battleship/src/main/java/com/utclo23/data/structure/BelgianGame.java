@@ -11,8 +11,9 @@ import java.util.ArrayList;
  *
  * @author Davy
  */
+
 public class BelgianGame extends Game{
-    
+
     public BelgianGame(StatGame statGame, ArrayList<Player> players, ArrayList<LightPublicUser> spectators, ArrayList<Message> messages) {
         super(statGame, players, spectators, messages);
     }
