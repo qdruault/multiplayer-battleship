@@ -84,3 +84,5 @@ local.properties
 .scala_dependencies
 .worksheet
 /Battleship/target/
+
+nb-configuration.xml
