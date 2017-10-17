@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.utclo23.battleship.ihmmain;
+package com.utclo23.ihmmain;
 
 /**
  *
  * @author Linxuhao
  */
-public class IHMMainFacade {
+public class IHMMain {
     
 }

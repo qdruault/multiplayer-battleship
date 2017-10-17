@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.utclo23.battleship.ihmmain.controller;
+package com.utclo23.ihmmain.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,7 +13,7 @@ import javafx.scene.control.Label;
  *
  * @author Linxuhao
  */
-public class CreateUserController {
+public class PlayerProfileController {
     @FXML
     private Label label;
     
