@@ -6,15 +6,19 @@
 package com.utclo23.ihmmain.facade;
 
 import  com.utclo23.ihmmain.IHMMain;
+import java.io.IOException;
 /**
- *
+ *IHM Facade, provide interfaces
  * @author Linxuhao
  */
 public class IHMMainFacade implements IHMMainToIhmTable{
     IHMMain ihmmain;
     
+    public IHMMainFacade(IHMMain ihmmain){
+        this.ihmmain = ihmmain;
+    }
     @Override
-    public void returnMenu(){
+    public void toMenu() throws IOException{
         ihmmain.toMenu();
     }
 }
