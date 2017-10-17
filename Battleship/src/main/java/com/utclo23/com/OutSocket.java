@@ -17,6 +17,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import com.utclo23.com.messages.Message;
+
 
 /**
  *
@@ -27,6 +29,7 @@ class OutSocket implements Runnable {
     Socket socket;
     int port;
     String ip;
+    Message request;
     ObjectOutputStream out;
     ObjectInputStream in;
 
@@ -34,6 +37,7 @@ class OutSocket implements Runnable {
     public OutSocket(String ip, int port, Message request){
         ip = ip;
         port = port;
+        request = request;
     }
     
     

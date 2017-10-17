@@ -10,12 +10,13 @@ import com.utclo23.data.structure.Mine;
 import com.utclo23.data.structure.StatGame;
 import java.net.InetAddress;
 import java.util.HashMap;
+import com.utclo23.com.messages.Message;
 /**
  *
  * @author thibault
  */
 public class ComFacade {
-    private HashMap<UID, InetAddress> UID_IP;
+    //private HashMap<UID, InetAddress> UID_IP;
     
     void sendShipsToEnnemy(Ship[] listShips, PublicUser dest){
         

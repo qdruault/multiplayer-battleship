@@ -15,6 +15,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
+import com.utclo23.com.messages.Message;
 
 /**
  *
@@ -30,7 +31,7 @@ class InSocket implements Runnable {
     
     ServerSocket serverSocket;
     Socket client;
-    // Message request;
+    Message request;
     ObjectOutputStream out;
     ObjectInputStream in;
 
@@ -49,7 +50,7 @@ class InSocket implements Runnable {
                 out = new ObjectOutputStream(client.getOutputStream());
                 in = new ObjectInputStream(client.getInputStream());
                 
-                while((request = (Message)in.readObject) != null)
+                while((request = (Message) in.readObject()) != null)
                 {
                     request.callback();
                     break;
@@ -61,7 +62,10 @@ class InSocket implements Runnable {
 
             } catch (IOException e) {
 
+            }catch(ClassNotFoundException e){
+                
             }
+                
 
         }
     }
