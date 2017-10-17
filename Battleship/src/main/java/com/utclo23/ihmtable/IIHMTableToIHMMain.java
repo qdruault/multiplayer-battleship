@@ -5,10 +5,15 @@
  */
 package com.utclo23.ihmtable;
 
+import java.rmi.server.UID;
+
 /**
  *
  * @author pjeannot
  */
 public interface IIHMTableToIHMMain {
-    
+    public void showSavedGameWithId(int id);
+    public void createInGameGUI();
+    public void stopTimer();
+    public void showGame(UID guid);
 }
