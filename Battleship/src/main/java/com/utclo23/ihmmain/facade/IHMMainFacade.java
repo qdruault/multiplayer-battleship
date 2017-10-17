@@ -3,14 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.utclo23.ihmmain;
+package com.utclo23.ihmmain.facade;
 
+import  com.utclo23.ihmmain.IHMMain;
 /**
  *
  * @author Linxuhao
  */
-public class IHMMain {
+public class IHMMainFacade implements IHMMainToIhmTable{
+    IHMMain ihmmain;
     
-    public void toMenu(){
+    @Override
+    public void returnMenu(){
+        ihmmain.toMenu();
     }
 }
