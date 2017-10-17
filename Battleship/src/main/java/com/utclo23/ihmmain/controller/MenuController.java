@@ -7,6 +7,7 @@ package com.utclo23.ihmmain.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 /**
@@ -14,12 +15,31 @@ import javafx.scene.control.Label;
  * @author Linxuhao
  */
 public class MenuController {
-    @FXML
     private Label label;
-    
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
+    private Button playButton;
+    @FXML
+    private Label title;
+    @FXML
+    private Button profileButton;
+    @FXML
+    private Button PlayerListButton;
+    @FXML
+    private Button exitButton;
+
+    @FXML
+    private void play(ActionEvent event) {
+    }
+
+    @FXML
+    private void showProfile(ActionEvent event) {
+    }
+
+    @FXML
+    private void showPlayerList(ActionEvent event) {
+    }
+
+    @FXML
+    private void exit(ActionEvent event) {
     }
 }
