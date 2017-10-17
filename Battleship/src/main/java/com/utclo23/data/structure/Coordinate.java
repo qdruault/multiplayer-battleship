@@ -9,7 +9,7 @@ package com.utclo23.data.structure;
  *
  * @author lucillefargeau
  */
-public class Coordonnees {
+public class Coordinate {
     private int x;
     private int y;
 
@@ -29,7 +29,7 @@ public class Coordonnees {
         this.y = y;
     }
 
-    public Coordonnees(int x, int y) {
+    public Coordinate(int x, int y) {
         this.x = x;
         this.y = y;
     }
