@@ -50,12 +50,12 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain{
     }
 
     @Override
-    public boolean addConnectedUser() {
+    public boolean addConnectedUser(LightPublicUser user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean removeConnectedUser() {
+    public boolean removeConnectedUser(LightPublicUser user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

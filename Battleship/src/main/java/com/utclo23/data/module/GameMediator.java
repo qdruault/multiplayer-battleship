@@ -9,7 +9,5 @@ import java.util.ArrayList;
  * @author tboulair
  */
 public class GameMediator {
-    private ArrayList<Game> gamesList;
-    
-    
+    private ArrayList<Game> gamesList;    
 }
