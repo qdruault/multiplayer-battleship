@@ -1,3 +1,6 @@
+# Mac Os
+.DS_Store
+
 # Compiled class file
 *.class
 
@@ -30,6 +33,7 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+*nbactions.xml
 
 
 # Eclipse
@@ -85,4 +89,4 @@ local.properties
 .worksheet
 /Battleship/target/
 
-nb-configuration.xml
+*nb-configuration.xml
