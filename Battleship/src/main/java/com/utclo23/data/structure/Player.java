@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author Davy
  */
-class Player extends LightPublicUser{
+public class Player extends LightPublicUser{
     private ArrayList<Ship> ships;
     private ArrayList<Mine> mines;
 
