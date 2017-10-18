@@ -24,8 +24,8 @@
             </properties>
         </action>
         <action>
-            <actionName>CUSTOM-sonarbuild</actionName>
-            <displayName>sonarbuild</displayName>
+            <actionName>CUSTOM-sonar</actionName>
+            <displayName>sonar</displayName>
             <goals>
                 <goal>sonar:sonar</goal>
             </goals>
