@@ -89,4 +89,5 @@ local.properties
 .worksheet
 /Battleship/target/
 
-*nb-configuration.xml
+nb-configuration.xml
+/Battleship/nbproject/
