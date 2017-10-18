@@ -23,7 +23,7 @@ public abstract class Game {
         this.spectators = spectators;
         this.messages = messages;
     }
-    
+
     public ArrayList<LightPublicUser> getRecipients()
     {
         return null;
@@ -38,5 +38,6 @@ public abstract class Game {
     }
     
     
+
     
 }

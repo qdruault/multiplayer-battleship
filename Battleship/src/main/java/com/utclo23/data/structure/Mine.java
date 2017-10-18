@@ -11,14 +11,12 @@ package com.utclo23.data.structure;
  */
 public class Mine extends Event {
     private Player owner;
-    private Integer[] coord;
+    private Coordinate coord;
     
-    public Mine(Player owner, int x, int y)
+    public Mine(Player owner, Coordinate coord)
     {
         this.owner = owner;
-        this.coord = new Integer[2];
-        this.coord[0] = x;
-        this.coord[1] = y;
+        this.coord = coord;
         
     }
 
@@ -30,11 +28,11 @@ public class Mine extends Event {
         this.owner = owner;
     }
 
-    public Integer[] getCoord() {
+    public Coordinate getCoord() {
         return coord;
     }
 
-    public void setCoord(Integer[] coord) {
+    public void setCoord(Coordinate coord) {
         this.coord = coord;
     }
     

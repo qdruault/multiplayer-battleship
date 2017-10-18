@@ -5,14 +5,17 @@
  */
 package com.utclo23.data.structure;
 
+
 import java.rmi.server.UID;
 import java.util.ArrayList;
+
 
 /**
  *
  * @author Davy
  */
 public class StatGame {
+
     private UID id;
     private GameType type;
     private String name;
@@ -110,6 +113,6 @@ public class StatGame {
         this.realGame = realGame;
         this.gameAbandonned = gameAbandonned;
     }
-    
-    
+   
+
 }

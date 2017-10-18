@@ -5,6 +5,7 @@
  */
 package com.utclo23.data.facade;
 
+import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.Event;
 import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.LightPublicUser;
@@ -49,12 +50,12 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain{
     }
 
     @Override
-    public boolean addConnectedUser() {
+    public boolean addConnectedUser(LightPublicUser user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean removeConnectedUser() {
+    public boolean removeConnectedUser(LightPublicUser user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -84,7 +85,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain{
     }
 
     @Override
-    public boolean attack(Integer[] coords) {
+    public boolean attack(Coordinate coords) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
