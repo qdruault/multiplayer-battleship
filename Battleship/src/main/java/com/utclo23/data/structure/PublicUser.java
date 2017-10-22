@@ -17,6 +17,13 @@ public class PublicUser {
     private String firstName;
     private Date birthDate;
     //TODO avatar : picture
+    
+    public PublicUser(LightPublicUser lightPublicUser, String lastName, String firstName, Date birthDate){
+        this.lightPublicUser = lightPublicUser;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.birthDate = birthDate;
+    }
 
     public LightPublicUser getLightPublicUser() {
         return lightPublicUser;
