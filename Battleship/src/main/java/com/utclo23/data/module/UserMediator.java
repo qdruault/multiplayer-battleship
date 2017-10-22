@@ -15,15 +15,7 @@ public class UserMediator {
     private ArrayList<LightPublicUser> listConnectedUser;
     private Owner owner;
     
-    /**
-     *
-     * @param playerName
-     * @param password
-     * @param firstName
-     * @param lastName
-     * @param birthDate
-     * @param avatar
-     */
+    
     public void createUser(String playerName, String password, String firstName, String lastName, Date birthDate);
     public LightPublicUser getLightPublicUser(UID id);
     public void signIn(String username, String password);
