@@ -14,6 +14,7 @@ import com.utclo23.data.structure.PublicUser;
  */
 public abstract class Message implements Serializable{
     PublicUser user;
+    String name;
     
     public abstract void callback();
 }
