@@ -1,45 +1,233 @@
 package com.utclo23.data.module;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.utclo23.data.configuration.Configuration;
+import com.utclo23.data.facade.DataFacade;
 import com.utclo23.data.structure.*;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
+import java.io.File;
+import java.io.IOException;
 import java.rmi.server.UID;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
-
-
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
- *
+ * User mediator
+ * related to user features
  * @author wuxiaoda
  */
 public class UserMediator {
-    private ArrayList<LightPublicUser> listConnectedUser;
+
+    /**
+     * map that store users
+     */
+    private Map<String, LightPublicUser> mapConnectedUser;
+    /**
+     * owner who is the current user
+     */
     private Owner owner;
-    
-    
-    public void createUser(String playerName, String password, String firstName, String lastName, Date birthDate){
-        UID id = new UID();
-        LightPublicUser lightPublicUser = new LightPublicUser(id, playerName);
-        PublicUser publicUser = new PublicUser(lightPublicUser, lastName, firstName, birthDate);
-        //TODO avatar:picture
-        owner.setUserIdentity(publicUser);
-        owner.setPassword(password);
+    /**
+     * reference to the data facade
+     */
+    private DataFacade dataFacade;
+    /**
+     * constructor
+     * @param dataFacade reference to the facade
+     */
+    public UserMediator(DataFacade dataFacade) {
+           Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Création du mediator");
+          
+        this.dataFacade = dataFacade;
+        this.mapConnectedUser = new HashMap<String, LightPublicUser>();
     }
+    /**
+     * get connected user
+     * @return 
+     */
+    public List<LightPublicUser> getConnectedUsers() {
+        List<LightPublicUser> listConnectedUser = new ArrayList<LightPublicUser>(this.mapConnectedUser.values());
+        return listConnectedUser;
+    }
+    /**
+     * get the local connected user
+     * @return 
+     */
+    public Owner getOwner() {
+        return owner;
+    }
+    /**
+     * set the owner
+     * @param owner 
+     */
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
+    /**
+     * get facade
+     * @return 
+     */
+    public DataFacade getDataFacade() {
+        return dataFacade;
+    }
+    /** set facade
+    */
+    public void setDataFacade(DataFacade dataFacade) {
+        this.dataFacade = dataFacade;
+    }
+
+    /**
+     * extract bytes from a file
+     * @param ImageName
+     * @return
+     * @throws IOException 
+     */
+    private byte[] extractBytes(String ImageName) throws IOException {
+        // open image
+        File imgPath = new File(ImageName);
+        BufferedImage bufferedImage = ImageIO.read(imgPath);
+
+        // get DataBufferBytes from Raster
+        WritableRaster raster = bufferedImage.getRaster();
+        DataBufferByte data = (DataBufferByte) raster.getDataBuffer();
+        return (data.getData());
+    }
+
+
+
     
-    public LightPublicUser getLightPublicUser(UID id){
-        LightPublicUser lightPublicUser = null;
-        int numberElement = listConnectedUser.size();
-        for(int i = 0; i < numberElement ; i++){
-            lightPublicUser = listConnectedUser.get(i);
-            if(lightPublicUser.getId() == id){
-                return lightPublicUser;
-            }
+/**
+ * create a user
+ * @param playerName
+ * @param password
+ * @param firstName
+ * @param lastName
+ * @param birthDate
+ * @param fileImage
+ * @throws Exception 
+ */
+    public void createUser(String playerName, String password, String firstName, String lastName, Date birthDate, String fileImage) throws Exception {
+        String path = Configuration.SAVE_DIR + File.separator + playerName + ".json";
+        File userFile = new File(path);
+        if (userFile.exists()) {
+            throw new Exception("account already exists");
+        } else {
+
+            String id = new UID().toString();
+            LightPublicUser lightPublicUser = new LightPublicUser(id, playerName);
+           //TODO thumbnail
+            PublicUser publicUser = new PublicUser(lightPublicUser, lastName, firstName, birthDate);
+            publicUser.setAvatar(this.extractBytes(fileImage));
+            
+            this.owner = new Owner();
+            owner.setUserIdentity(publicUser);
+            owner.setPassword(password);
+           
+            save();
+            
         }
-        return null; // When the id given doesn't existe in data base, return null
     }
-    
-    public void signIn(String username, String password);
-    public void singOut();
-    public boolean addConnectedUser(LightPublicUser usr);
-    public ArrayList<LightPublicUser> getConnectedUsers();
-    public boolean removeConnectedUser();
+
+    /**
+     * get user profile
+     * @param id
+     * @return 
+     */
+    public LightPublicUser getLightPublicUser(String id) {
+        LightPublicUser lightPublicUser = null;
+
+        if (this.mapConnectedUser.containsKey(id)) {
+            lightPublicUser = this.mapConnectedUser.get(id);
+        }
+
+        return lightPublicUser;
+    }
+
+    /**
+     * connection
+     * @param username
+     * @param password
+     * @throws Exception 
+     */
+    public void signIn(String username, String password) throws Exception {
+        System.out.println("Try to connect");
+        String path = Configuration.SAVE_DIR + File.separator + username + ".json";
+        File userFile = new File(path);
+        if (!userFile.exists()) {
+            throw new Exception("erreur");
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        Owner user = mapper.readValue(userFile, Owner.class);
+
+        if (!user.getPassword().equals(password)) {
+            throw new Exception("erreur");
+        } else {
+            System.out.println("Connection ! ");
+            this.owner = user;
+        }
+
+    }
+
+    /**
+     * disconnection
+     */
+    public void singOut() throws IOException {
+        this.save();
+        this.owner = null;
+
+        System.out.println("Disconnection");
+    }
+
+    /**
+     * save
+     */
+    private void save() throws IOException {
+       
+            String path = Configuration.SAVE_DIR + File.separator + owner.getUserIdentity().getPlayerName() + ".json";
+            System.out.println(path);
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+            mapper.writeValue(new File(path), owner);
+      
+    }
+
+    /**
+     * add user
+     * @param usr
+     * @return 
+     */
+    public boolean addConnectedUser(LightPublicUser usr) {
+
+        boolean add = false;
+        if (!this.mapConnectedUser.containsKey(usr.getId())) {
+            add = true;
+            this.mapConnectedUser.put(usr.getId(), usr);
+        }
+
+        return add;
+    }
+
+    /**
+     * remove connected user
+     * @param usr
+     * @return 
+     */
+    public boolean removeConnectedUser(LightPublicUser usr) {
+        boolean remove = false;
+        if (this.mapConnectedUser.containsKey(usr.getId())) {
+            remove = true;
+            this.mapConnectedUser.remove(usr.getId());
+        }
+        return remove;
+    }
 }

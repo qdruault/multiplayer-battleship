@@ -5,18 +5,25 @@
  */
 package com.utclo23.data.structure;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.rmi.server.UID;
 import java.util.Date;
 
 /**
  *
  * @author Davy
  */
-public class PublicUser {
+public class PublicUser extends SerializableEntity{
     private LightPublicUser lightPublicUser;
     private String lastName;
     private String firstName;
     private Date birthDate;
-    //TODO avatar : picture
+    private byte[] avatar;
+
+    public PublicUser() {
+    }
+    
+    
     
     public PublicUser(LightPublicUser lightPublicUser, String lastName, String firstName, Date birthDate){
         this.lightPublicUser = lightPublicUser;
@@ -57,5 +64,26 @@ public class PublicUser {
         this.birthDate = birthDate;
     }
     
+     @JsonIgnore
+    public String getId()
+    {
+        return this.getLightPublicUser().getId();
+  
+    }
     
+     @JsonIgnore
+    public String getPlayerName()
+    {
+        return this.getLightPublicUser().getPlayerName();
+    }
+    
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    
+    
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
+    }
 }

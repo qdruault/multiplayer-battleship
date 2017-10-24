@@ -7,19 +7,19 @@ package com.utclo23.data.structure;
 
 
 import java.rmi.server.UID;
-import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  *
  * @author Davy
  */
-public class StatGame {
+public class StatGame extends SerializableEntity{
 
-    private UID id;
+    private String id;
     private GameType type;
     private String name;
-    private ArrayList<Player> LightPublicUser;
+    private List<Player> LightPublicUser;
     private boolean spectator;
     private boolean spectatorChat;
     private LightPublicUser winner;
@@ -37,7 +37,7 @@ public class StatGame {
         return name;
     }
 
-    public ArrayList<Player> getLightPublicUser() {
+    public List<Player> getLightPublicUser() {
         return LightPublicUser;
     }
 
@@ -74,7 +74,7 @@ public class StatGame {
         this.name = name;
     }
 
-    public void setLightPublicUser(ArrayList<Player> LightPublicUser) {
+    public void setLightPublicUser(List<Player> LightPublicUser) {
         this.LightPublicUser = LightPublicUser;
     }
 
@@ -102,7 +102,9 @@ public class StatGame {
         this.gameAbandonned = gameAbandonned;
     }
 
-    public StatGame(GameType type, String name, ArrayList<Player> LightPublicUser, boolean spectator, boolean spectatorChat, LightPublicUser winner, LightPublicUser creator, Game realGame, boolean gameAbandonned) {
+    public StatGame(GameType type, String name, List<Player> LightPublicUser, boolean spectator, boolean spectatorChat, LightPublicUser winner, LightPublicUser creator, Game realGame, boolean gameAbandonned) {
+        this.id = new UID().toString();
+        
         this.type = type;
         this.name = name;
         this.LightPublicUser = LightPublicUser;
@@ -112,6 +114,14 @@ public class StatGame {
         this.creator = creator;
         this.realGame = realGame;
         this.gameAbandonned = gameAbandonned;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
    
 

@@ -6,7 +6,7 @@
 
 package com.utclo23.data.module;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.utclo23.data.structure.BelgianGame;
 import com.utclo23.data.structure.ClassicGame;
@@ -18,14 +18,15 @@ import com.utclo23.data.structure.StatGame;
 /**
  *
  * @author tboulair
+ * 
  */
 public class GameFactory {
     public Game createGame(String type){
         Game game = null;
         StatGame stateGame = null;
-        ArrayList<Player> players = null;
-        ArrayList<LightPublicUser> spectators = null;
-        ArrayList<Message> messages = null;
+        List<Player> players = null;
+        List<LightPublicUser> spectators = null;
+        List<Message> messages = null;
         switch(type){
             case "Classic":
                 

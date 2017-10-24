@@ -1,5 +1,7 @@
 package com.utclo23.battleship;
 
+import com.utclo23.data.facade.DataFacade;
+import java.util.Date;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +16,7 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
         
+     
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
         
