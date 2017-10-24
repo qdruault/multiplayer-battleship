@@ -264,6 +264,12 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         this.userMediator.createUser(playerName, password, firstName, lastName, birthDate, fileImage);
     }
 
+    /** Update user **/
+     @Override
+    public void updateUser(String password, String firstName, String lastName, Date birthDate, String fileImage) throws Exception {
+        this.userMediator.updateUser(password, firstName, lastName, birthDate, fileImage);
+    }
+    
     /**
      * get a user profile
      * @param id

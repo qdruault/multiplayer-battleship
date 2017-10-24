@@ -16,6 +16,7 @@ import java.util.Date;
  */
 public interface IDataIHMMain {
     public void createUser(String playerName, String password, String firstName, String lastName, Date birthDate, String imageFile) throws Exception;
+    public void updateUser(String password, String firstName, String lastName, Date birthDate, String imageFile) throws Exception;
     public PublicUser getPublicUserProfile(UID id);
     public List<StatGame> getGameList();
     public void createGame(String name, boolean spectator, boolean spectatorChat, String type);

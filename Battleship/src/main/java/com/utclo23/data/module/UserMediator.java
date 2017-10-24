@@ -22,8 +22,8 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
- * User mediator
- * related to user features
+ * User mediator related to user features
+ *
  * @author wuxiaoda
  */
 public class UserMediator {
@@ -40,56 +40,69 @@ public class UserMediator {
      * reference to the data facade
      */
     private DataFacade dataFacade;
+
     /**
      * constructor
+     *
      * @param dataFacade reference to the facade
      */
     public UserMediator(DataFacade dataFacade) {
-           Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Création du mediator");
-          
+        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Création du mediator");
+
         this.dataFacade = dataFacade;
         this.mapConnectedUser = new HashMap<String, LightPublicUser>();
     }
+
     /**
      * get connected user
-     * @return 
+     *
+     * @return
      */
     public List<LightPublicUser> getConnectedUsers() {
         List<LightPublicUser> listConnectedUser = new ArrayList<LightPublicUser>(this.mapConnectedUser.values());
         return listConnectedUser;
     }
+
     /**
      * get the local connected user
-     * @return 
+     *
+     * @return
      */
     public Owner getOwner() {
         return owner;
     }
+
     /**
      * set the owner
-     * @param owner 
+     *
+     * @param owner
      */
     public void setOwner(Owner owner) {
         this.owner = owner;
     }
+
     /**
      * get facade
-     * @return 
+     *
+     * @return
      */
     public DataFacade getDataFacade() {
         return dataFacade;
     }
-    /** set facade
-    */
+
+    /**
+     * set facade
+     */
     public void setDataFacade(DataFacade dataFacade) {
         this.dataFacade = dataFacade;
     }
 
     /**
      * extract bytes from a file
+     *
      * @param ImageName
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
     private byte[] extractBytes(String ImageName) throws IOException {
         // open image
@@ -102,19 +115,31 @@ public class UserMediator {
         return (data.getData());
     }
 
+    /**
+     * return owner public profile
+     *
+     * @return public user
+     */
+    public PublicUser getMyPublicUserProfile() {
+        PublicUser publicUser = null;
+        if (this.owner != null) {
+            publicUser = this.owner.getUserIdentity();
+        }
 
+        return publicUser;
+    }
 
-    
-/**
- * create a user
- * @param playerName
- * @param password
- * @param firstName
- * @param lastName
- * @param birthDate
- * @param fileImage
- * @throws Exception 
- */
+    /**
+     * create a user
+     *
+     * @param playerName
+     * @param password
+     * @param firstName
+     * @param lastName
+     * @param birthDate
+     * @param fileImage
+     * @throws Exception
+     */
     public void createUser(String playerName, String password, String firstName, String lastName, Date birthDate, String fileImage) throws Exception {
         String path = Configuration.SAVE_DIR + File.separator + playerName + ".json";
         File userFile = new File(path);
@@ -124,23 +149,42 @@ public class UserMediator {
 
             String id = new UID().toString();
             LightPublicUser lightPublicUser = new LightPublicUser(id, playerName);
-           //TODO thumbnail
+            //TODO thumbnail
             PublicUser publicUser = new PublicUser(lightPublicUser, lastName, firstName, birthDate);
             publicUser.setAvatar(this.extractBytes(fileImage));
-            
+
             this.owner = new Owner();
             owner.setUserIdentity(publicUser);
             owner.setPassword(password);
-           
+
             save();
-            
+
         }
+    }
+
+    public void updateUser(String password, String firstName, String lastName, Date birthDate, String fileImage) throws Exception {
+
+        if (this.owner != null) {
+
+            this.owner.setPassword(password);
+            this.owner.getUserIdentity().setAvatar(this.extractBytes(fileImage));
+            //TODO update thumbnail
+            this.owner.getUserIdentity().setBirthDate(birthDate);
+            this.owner.getUserIdentity().setFirstName(firstName);
+            this.owner.getUserIdentity().setLastName(lastName);
+            
+            save();
+
+            //TODO notify network
+        }
+
     }
 
     /**
      * get user profile
+     *
      * @param id
-     * @return 
+     * @return
      */
     public LightPublicUser getLightPublicUser(String id) {
         LightPublicUser lightPublicUser = null;
@@ -154,12 +198,13 @@ public class UserMediator {
 
     /**
      * connection
+     *
      * @param username
      * @param password
-     * @throws Exception 
+     * @throws Exception
      */
     public void signIn(String username, String password) throws Exception {
-        System.out.println("Try to connect");
+      
         String path = Configuration.SAVE_DIR + File.separator + username + ".json";
         File userFile = new File(path);
         if (!userFile.exists()) {
@@ -172,8 +217,11 @@ public class UserMediator {
         if (!user.getPassword().equals(password)) {
             throw new Exception("erreur");
         } else {
-            System.out.println("Connection ! ");
+          
             this.owner = user;
+            //connection
+            //TODO notify network
+            
         }
 
     }
@@ -192,19 +240,20 @@ public class UserMediator {
      * save
      */
     private void save() throws IOException {
-       
-            String path = Configuration.SAVE_DIR + File.separator + owner.getUserIdentity().getPlayerName() + ".json";
-            System.out.println(path);
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            mapper.writeValue(new File(path), owner);
-      
+
+        String path = Configuration.SAVE_DIR + File.separator + owner.getUserIdentity().getPlayerName() + ".json";
+        System.out.println(path);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        mapper.writeValue(new File(path), owner);
+
     }
 
     /**
      * add user
+     *
      * @param usr
-     * @return 
+     * @return
      */
     public boolean addConnectedUser(LightPublicUser usr) {
 
@@ -219,8 +268,9 @@ public class UserMediator {
 
     /**
      * remove connected user
+     *
      * @param usr
-     * @return 
+     * @return
      */
     public boolean removeConnectedUser(LightPublicUser usr) {
         boolean remove = false;
