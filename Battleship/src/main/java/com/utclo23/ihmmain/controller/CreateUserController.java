@@ -10,20 +10,48 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 /**
  *
  * @author Linxuhao
  */
-public class CreateUserController extends AbstractController {
-    @FXML
-    private Label label;
-    @FXML
-    private Button backButton;
 
+public class CreateUserController {
+    
     @FXML
-    private void back(ActionEvent event) throws IOException{
-        ihmmain.toLogin();
-    }
+    private TextField userNameField;
+    
+    @FXML
+    private TextField passwordField;
+    
+    @FXML
+    private TextField firstNameField;
+    
+    @FXML 
+    private TextField lastNameField;
+    
+    @FXML 
+    private TextField ageField;
       
+    private IHMMain ihmMain;
+    
+    @FXML 
+    private void handleButtonCreate(ActionEvent event){
+        System.out.println("Action Create requested");
+    }
+    
+    @FXML
+    private void handleButtonReturn(ActionEvent event){
+        System.out.println("Action Return requested");
+    } 
+    
+    private void back(){
+        System.out.println("Return method called");
+    }
+    
+    private boolean createUser(String userName, String password, String firstName, String lastName, int age, String avatarPath){
+        System.out.println("toPlayerList method called");
+        return true;
+    }     
 }
