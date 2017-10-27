@@ -5,6 +5,7 @@
  */
 package com.utclo23.ihmmain.controller;
 
+import com.utclo23.ihmmain.IHMMain;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +18,7 @@ import javafx.scene.control.TextField;
  * @author Linxuhao
  */
 
-public class CreateUserController {
+public class CreateUserController extends AbstractController{
     
     @FXML
     private TextField userNameField;
@@ -39,19 +40,25 @@ public class CreateUserController {
     @FXML 
     private void handleButtonCreate(ActionEvent event){
         System.out.println("Action Create requested");
+        
     }
     
     @FXML
-    private void handleButtonReturn(ActionEvent event){
+    private void handleButtonReturn(ActionEvent event) throws IOException{
         System.out.println("Action Return requested");
+        back();
     } 
     
-    private void back(){
+    private void back() throws IOException{
         System.out.println("Return method called");
+        ihmmain.toMenu();
     }
+    
+
     
     private boolean createUser(String userName, String password, String firstName, String lastName, int age, String avatarPath){
         System.out.println("toPlayerList method called");
+        
         return true;
     }     
 }
