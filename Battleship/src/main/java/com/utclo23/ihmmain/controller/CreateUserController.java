@@ -5,6 +5,7 @@
  */
 package com.utclo23.ihmmain.controller;
 
+import com.utclo23.data.facade.DataFacade;
 import com.utclo23.ihmmain.IHMMain;
 import java.io.IOException;
 import javafx.event.ActionEvent;
@@ -37,28 +38,70 @@ public class CreateUserController extends AbstractController{
       
     private IHMMain ihmMain;
     
+    
+    // BUTTON HANDLERS
+    
     @FXML 
     private void handleButtonCreate(ActionEvent event){
-        System.out.println("Action Create requested");
         
+        if (!isAnyFieldEmpty()){
+            String userName = userNameField.getText();
+            String password = passwordField.getText();
+            String firstName = firstNameField.getText();
+            String lastName = lastNameField.getText();
+            int age = Integer.parseInt(ageField.getText());
+            // TODO add a field for the avatar path in the fxml view
+            String avatarPath = ""; 
+            createUser(userName, password, firstName, lastName, age, avatarPath);
+        }   
     }
     
     @FXML
     private void handleButtonReturn(ActionEvent event) throws IOException{
-        System.out.println("Action Return requested");
         back();
     } 
-    
+        
     private void back() throws IOException{
-        System.out.println("Return method called");
         ihmmain.toMenu();
     }
     
-
-    
     private boolean createUser(String userName, String password, String firstName, String lastName, int age, String avatarPath){
-        System.out.println("toPlayerList method called");
-        
-        return true;
+        System.out.println("createUser method called");
+        // TODO implement the call to dataFacade to create a user
+        //dataFacade.createUser(userName, password, firstName, lastName, age, avatarPath);
+        throw new UnsupportedOperationException("The call to createUser method from the dataFacade class is not implemented yet");
     }     
+    
+    // UTILITY methods
+    
+    private boolean isAnyFieldEmpty(){
+        
+        boolean fieldEmpty = false;
+        
+        if (isFieldEmpty(userNameField)){
+            fieldEmpty = true;
+        }
+        if (isFieldEmpty(passwordField)){
+            fieldEmpty = true;
+        }
+        if (isFieldEmpty(firstNameField)){
+            fieldEmpty = true;
+        }
+        if (isFieldEmpty(lastNameField)){
+            fieldEmpty = true;
+        }
+        if (isFieldEmpty(ageField)){
+            fieldEmpty = true;
+        }
+
+        return fieldEmpty;
+    }
+    
+    private boolean isFieldEmpty(TextField textField){
+        if (textField.getText() == null || textField.getText().trim().isEmpty() ){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
