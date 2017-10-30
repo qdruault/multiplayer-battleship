@@ -6,9 +6,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml" fx:controller="com.utclo23.battleship.ihmmain.controller.MenuController">
+<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="com.utclo23.ihmmain.controller.MenuController">
     <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
-        <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
+        <Button fx:id="playButton" layoutX="136.0" layoutY="45.0" onAction="#play" text="Play" />
+        <Label fx:id="title" layoutX="125.0" layoutY="12.0" minHeight="16" minWidth="69" text="Battleship" />
+      <Button fx:id="profileButton" layoutX="126.0" layoutY="82.0" onAction="#showProfile" text="Profile" />
+      <Button fx:id="PlayerListButton" layoutX="116.0" layoutY="118.0" onAction="#showPlayerList" text="PlayerList" />
+      <Button fx:id="exitButton" layoutX="135.0" layoutY="153.0" onAction="#exit" text="Exit" />
     </children>
 </AnchorPane>
