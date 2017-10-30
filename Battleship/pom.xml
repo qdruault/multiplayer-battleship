@@ -11,8 +11,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mainClass>com.utclo23.data.facade.DataFacade</mainClass>
-       <!--<mainClass>com.utclo23.battleship.MainApp</mainClass>-->
+        <!--<mainClass>com.utclo23.data.facade.DataFacade</mainClass>-->
+       <mainClass>com.utclo23.battleship.MainApp</mainClass>
     </properties>
 
     <organization>
