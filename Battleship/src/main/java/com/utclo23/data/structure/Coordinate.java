@@ -9,7 +9,7 @@ package com.utclo23.data.structure;
  *
  * @author lucillefargeau
  */
-public class Coordinate {
+public class Coordinate extends SerializableEntity{
     private int x;
     private int y;
 

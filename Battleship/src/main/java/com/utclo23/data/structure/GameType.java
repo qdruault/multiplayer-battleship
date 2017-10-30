@@ -6,7 +6,7 @@
 package com.utclo23.data.structure;
 
 /**
- *
+ * Enum that shows different types of game
  * @author lucillefargeau
  */
 public enum GameType {

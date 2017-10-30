@@ -5,26 +5,26 @@
  */
 package com.utclo23.data.structure;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Davy
  */
-public abstract class Game {
+public abstract class Game extends SerializableEntity{
     private StatGame statGame;
-    private ArrayList<Player> players;
-    private ArrayList<LightPublicUser> spectators;
-    private ArrayList<Message> messages;
+    private List<Player> players;
+    private List<LightPublicUser> spectators;
+    private List<Message> messages;
 
-    public Game(StatGame statGame, ArrayList<Player> players, ArrayList<LightPublicUser> spectators, ArrayList<Message> messages) {
+    public Game(StatGame statGame, List<Player> players, List<LightPublicUser> spectators, List<Message> messages) {
         this.statGame = statGame;
         this.players = players;
         this.spectators = spectators;
         this.messages = messages;
     }
 
-    public ArrayList<LightPublicUser> getRecipients()
+    public List<LightPublicUser> getRecipients()
     {
         return null;
     }

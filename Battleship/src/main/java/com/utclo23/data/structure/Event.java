@@ -8,10 +8,10 @@ package com.utclo23.data.structure;
 import java.util.Date;
 
 /**
- *
+ * 
  * @author Davy
  */
-public abstract class Event {
+public abstract class Event extends SerializableEntity{
     private Date timestamp;
 
     public Event() {

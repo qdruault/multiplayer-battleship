@@ -6,24 +6,40 @@
 package com.utclo23.data.module;
 
 import com.utclo23.data.structure.Event;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
- *
+ * Memento
+ * Keep a state of a game
  * @author Davy
  */
 public class Memento {
-    private ArrayList<Event> state;
+    /**
+     * list of events (messages, ships)
+     */
+    private List<Event> state;
 
-    public Memento(ArrayList<Event> state) {
+    /**
+     * constructor
+     * @param state 
+     */
+    public Memento(List<Event> state) {
         this.state = state;
     }
 
-    public ArrayList<Event> getState() {
+    /**
+     * get state
+     * @return  state
+     */
+    public List<Event> getState() {
         return state;
     }
 
-    public void setState(ArrayList<Event> state) {
+    /**
+     * set state of the memento
+     * @param state 
+     */
+    public void setState(List<Event> state) {
         this.state = state;
     }
     

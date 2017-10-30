@@ -5,28 +5,46 @@
  */
 package com.utclo23.data.module;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
- *
+ *Caretaker
+ * store mementos and reload it into game
  * @author Davy
  */
 public class Caretaker {
-    private ArrayList<Memento> mementoList;
+    /**
+     * list of memento
+     */
+    private List<Memento> mementoList;
+    /**
+     * current position
+     */
     private int current;
 
-    public Caretaker(ArrayList<Memento> mementoList) {
+    /**
+     * constructor
+     * @param mementoList 
+     */
+    public Caretaker(List<Memento> mementoList) {
         this.mementoList = mementoList;
         this.current = 0;
     }
     
     
-    
+    /**
+     * add memento
+     * @param mem 
+     */
     public void add(Memento mem)
     {
         this.mementoList.add(mem);
     }
     
+    /**
+     * get memento
+     * @return 
+     */
     public Memento getMemento()
     {
         if(this.mementoList.size() > this.current)
@@ -35,11 +53,13 @@ public class Caretaker {
         }
         else
         {
-            //TODO
             return null;
         }
     }
     
+    /**
+     * move to the next memento
+     */
     public void next()
     {
         this.current++;

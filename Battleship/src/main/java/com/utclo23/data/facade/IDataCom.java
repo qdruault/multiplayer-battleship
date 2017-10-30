@@ -7,7 +7,7 @@ package com.utclo23.data.facade;
 
 import com.utclo23.data.structure.*;
 import java.rmi.server.UID;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public interface IDataCom {
     public void addNewGame(StatGame game);
-    public void setEnnemyShips(ArrayList<Ship> ships);
+    public void setEnnemyShips(List<Ship> ships);
     public void forwardCoordinates(Mine mine);
     public void opponentHasLeftGame();
     public void connectionLostWithOpponent();
