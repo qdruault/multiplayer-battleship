@@ -20,3 +20,5 @@ public class BelgianGame extends Game{
         super(statGame, players, spectators, messages);
     }
 }
+
+
