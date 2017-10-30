@@ -5,16 +5,17 @@
  */
 package com.utclo23.data.structure;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
- *
+ * Classic game
+ * it extends Game
  * @author Davy
  */
 public class ClassicGame extends Game{
 
     
-    public ClassicGame(StatGame statGame, ArrayList<Player> players, ArrayList<LightPublicUser> spectators, ArrayList<Message> messages) {
+    public ClassicGame(StatGame statGame, List<Player> players, List<LightPublicUser> spectators, List<Message> messages) {
         super(statGame, players, spectators, messages);
     }
     
