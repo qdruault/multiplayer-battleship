@@ -1,5 +1,5 @@
 #inGameGUI{
-    -fx-background-image: url("../images/inGameGUI2.png");
+    -fx-background-image: url("../images/inGameGUI.png");
     -fx-background-repeat: stretch;
     -fx-background-size: 1283 721;
     -fx-background-position: center center;
@@ -183,5 +183,5 @@
 }
 
 .InGameGUI_selected_cell {
-    -fx-background-color: rgba(255, 255, 255, 0.15);    
+    -fx-background-color: rgba(255, 255, 255, 0.15);
 }
