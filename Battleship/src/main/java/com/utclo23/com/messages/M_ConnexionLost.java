@@ -5,13 +5,15 @@
  */
 package com.utclo23.com.messages;
 
+import com.utclo23.data.facade.IDataCom;
+
 /**
  *
  * @author thibault
  */
 public class M_ConnexionLost extends Message{
     @Override
-    public void callback(){
+    public void callback(IDataCom iDataCom){
         
     }
 }

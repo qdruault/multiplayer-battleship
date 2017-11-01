@@ -8,6 +8,7 @@ package com.utclo23.com.messages;
 import java.io.Serializable;
 import com.utclo23.data.structure.PublicUser;
 import java.net.Inet4Address;
+import com.utclo23.data.facade.IDataCom;
 /**
  *
  * @author remid
@@ -16,5 +17,5 @@ public abstract class Message implements Serializable{
     PublicUser user;
     String name;
     private Inet4Address IP_sender;
-    public abstract void callback();
+    public abstract void callback(IDataCom iDataCom);
 }

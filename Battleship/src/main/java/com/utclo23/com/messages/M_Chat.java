@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.utclo23.com.messages;
+import com.utclo23.data.facade.IDataCom;
 import java.util.Date;
 /**
  *
@@ -14,7 +15,7 @@ public class M_Chat extends Message {
     public Date timeStamp; 
     
     @Override
-    public void callback(){
+    public void callback(IDataCom iDataCom){
         
     }
 }

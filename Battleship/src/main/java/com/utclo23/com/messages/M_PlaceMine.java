@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.utclo23.com.messages;
+import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.Mine;
 /**
  *
@@ -13,7 +14,7 @@ public class M_PlaceMine extends Message {
     public Mine mine;
     
     @Override
-    public void callback() {
+    public void callback(IDataCom iDataCom) {
         
     }
 }

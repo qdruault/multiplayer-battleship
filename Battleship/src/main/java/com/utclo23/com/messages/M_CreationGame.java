@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.utclo23.com.messages;
+import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.StatGame;
 /**
  *
@@ -13,7 +14,7 @@ public class M_CreationGame extends Message{
     public StatGame game;
     
     @Override
-    public void callback(){
+    public void callback(IDataCom iDataCom){
         
     }
 }
