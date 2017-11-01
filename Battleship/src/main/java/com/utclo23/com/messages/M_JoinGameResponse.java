@@ -16,6 +16,6 @@ public class M_JoinGameResponse extends Message {
     
     @Override
     public void callback(IDataCom iDataCom){
-        
+
     }
 }

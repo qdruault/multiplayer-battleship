@@ -15,6 +15,6 @@ public class M_PlayerInfo extends Message {
     
     @Override
     public void callback(IDataCom iDataCom){
-        
+
     }
 }

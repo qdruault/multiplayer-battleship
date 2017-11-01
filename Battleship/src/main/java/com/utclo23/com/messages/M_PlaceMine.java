@@ -15,6 +15,6 @@ public class M_PlaceMine extends Message {
     
     @Override
     public void callback(IDataCom iDataCom) {
-        
+        iDataCom.forwardCoordinates(mine);
     }
 }
