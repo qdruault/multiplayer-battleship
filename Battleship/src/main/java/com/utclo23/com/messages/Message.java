@@ -15,7 +15,6 @@ import com.utclo23.data.facade.IDataCom;
  */
 public abstract class Message implements Serializable{
     PublicUser user;
-    String name;
     protected Inet4Address IP_sender;
     public abstract void callback(IDataCom iDataCom);
 }
