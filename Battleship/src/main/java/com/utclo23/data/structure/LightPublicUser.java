@@ -8,36 +8,80 @@ package com.utclo23.data.structure;
 import java.rmi.server.UID;
 
 /**
- *
+ * light profile
  * @author Davy
  */
-public class LightPublicUser {
-    private UID id;
+public class LightPublicUser extends SerializableEntity{
+    private String id;
     private String playerName;
-    //TODO avatarThumbnal
+    private byte[] avatarThumbnail;
 
-    public LightPublicUser(UID id, String playerName) {
-        this.id = id;
-        this.playerName = playerName;
+    public LightPublicUser() {
+        this.id ="";
+        this.playerName ="";
+        
     }
 
     
+    /**
+     * constructor
+     * @param id
+     * @param playerName 
+     */
+    public LightPublicUser(String id, String playerName) {
+        this.id = id;
+        this.playerName = playerName;
+        this.avatarThumbnail = null;
+    }
     
-    public UID getId() {
+    /**
+     * get id 
+     * @return uniq id 
+     */
+    public String getId() {
         return id;
     }
 
-    public void setId(UID id) {
+    /**
+     * set id
+     * @param id 
+     */
+    public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * get player name
+     * @return name
+     */
     public String getPlayerName() {
         return playerName;
     }
 
+    /**
+     * set name
+     * @param playerName 
+     */
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
+
+    /**
+     * get thumbnail
+     * @return 
+     */
+    public byte[] getAvatarThumbnail() {
+        return avatarThumbnail;
+    }
+
+    /**
+     * set thumbnail
+     * @param avatarThumbnail 
+     */
+    public void setAvatarThumbnail(byte[] avatarThumbnail) {
+        this.avatarThumbnail = avatarThumbnail;
+    }
+    
     
     
 }

@@ -5,10 +5,16 @@
  */
 package com.utclo23.data.structure;
 
+import java.rmi.server.UID;
+
 /**
- * Enumeration that shows types of ship
- * @author Davy
+ *
+ * @author lucillefargeau
  */
-public enum ShipType {
-    PORTE_AVION, CROISEUR, CONTRE_TORPILLEUR, SOUS_MARIN, TORPILLEUR, CUIRASSE
+public class ComputerPlayer extends Player{
+    
+    public ComputerPlayer(String id, String playerName) {
+        super(id, playerName);
+    }
+    
 }

@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.utclo23.data.structure;
+package com.utclo23.ihmmain.facade;
 
 /**
- * Enumeration that shows types of ship
- * @author Davy
+ *
+ * @author Linxuhao
  */
-public enum ShipType {
-    PORTE_AVION, CROISEUR, CONTRE_TORPILLEUR, SOUS_MARIN, TORPILLEUR, CUIRASSE
+public interface IHMMainToIhmTable {
+    /**
+     * return to menu page
+     * linxuhao
+     */
+    public abstract void returnMenu();
 }
