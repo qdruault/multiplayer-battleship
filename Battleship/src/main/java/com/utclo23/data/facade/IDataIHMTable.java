@@ -18,7 +18,7 @@ public interface IDataIHMTable {
     public void setShip(Ship ship);
     public boolean attack(Coordinate coords);
     public void leaveGame();
-    public List<Ship> getInitialBoardFromGameId(UID gameid);
+    public List<Ship> getInitialBoardFromGameId(String gameid);
     public List<Event> getPreviousBoard();
     public List<Event> getNextBoard();
     public void sendMessage(String text);

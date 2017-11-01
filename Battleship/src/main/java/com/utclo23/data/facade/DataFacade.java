@@ -182,7 +182,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @param role 
      */
     @Override
-    public void updateGameList(LightPublicUser user, UID id, String role) {
+    public void updateGameList(LightPublicUser user, String id, String role) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -228,7 +228,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @return 
      */
     @Override
-    public List<Ship> getInitialBoardFromGameId(UID gameid) {
+    public List<Ship> getInitialBoardFromGameId(String gameid) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -297,7 +297,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @return 
      */
     @Override
-    public PublicUser getPublicUserProfile(UID id) {
+    public PublicUser getPublicUserProfile(String id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
