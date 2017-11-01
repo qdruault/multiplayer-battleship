@@ -1,6 +1,8 @@
 package com.utclo23.battleship;
 
-import com.utclo23.data.facade.DataFacade;
+import com.utclo23.data.facade.*;
+import com.utclo23.com.ComFacade;
+
 import java.util.Date;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -16,7 +18,13 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
         
-     
+        DataFacade dataFacade = new DataFacade();
+        IDataCom iDataCom = dataFacade;
+        IDataIHMMain iDataIHMMain = dataFacade;
+        IDataIHMTable iDataIHMtable = dataFacade;
+        
+        ComFacade comFacade = new ComFacade(iDataCom);
+        
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
         
