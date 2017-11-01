@@ -12,8 +12,11 @@ import com.utclo23.data.facade.IDataCom;
  * @author thibault
  */
 public class M_JoinGameResponse extends Message {
-    public boolean success;
+    private boolean success;
     
+    public M_JoinGameResponse(boolean s){
+        success = s;
+    }
     @Override
     public void callback(IDataCom iDataCom){
 

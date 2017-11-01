@@ -12,8 +12,11 @@ import java.util.List;
  * @author thibault
  */
 public class M_PlaceShip extends Message {
-    public List<Ship> ships;
+    private List<Ship> ships;
     
+    public M_PlaceShip(List<Ship> s){
+        ships = s;
+    }
     @Override
     public void callback(IDataCom iDataCom) {
         iDataCom.setEnnemyShips(ships);

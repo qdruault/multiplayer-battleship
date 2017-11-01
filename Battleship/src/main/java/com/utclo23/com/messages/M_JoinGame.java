@@ -11,8 +11,11 @@ import com.utclo23.data.structure.StatGame;
  * @author thibault
  */
 public class M_JoinGame extends Message {
-    public StatGame game;
+    private StatGame game;
     
+    public M_JoinGame(StatGame g) {
+        game = g;
+    }
     @Override
     public void callback(IDataCom iDataCom) {
        

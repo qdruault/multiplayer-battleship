@@ -27,7 +27,7 @@ import com.utclo23.data.facade.IDataCom;
  * @author Thomas Michel
  * @author Grégoire Martinache
  */
-class InSocket implements Runnable {
+public class InSocket implements Runnable {
     
     ServerSocket serverSocket;
     Socket client;

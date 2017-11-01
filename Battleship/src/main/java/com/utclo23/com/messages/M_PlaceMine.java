@@ -11,8 +11,11 @@ import com.utclo23.data.structure.Mine;
  * @author thibault
  */
 public class M_PlaceMine extends Message {
-    public Mine mine;
+    private Mine mine;
     
+    public M_PlaceMine(Mine m){
+        mine = m;
+    }
     @Override
     public void callback(IDataCom iDataCom) {
         iDataCom.forwardCoordinates(mine);

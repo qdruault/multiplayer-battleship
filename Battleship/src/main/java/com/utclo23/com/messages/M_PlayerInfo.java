@@ -11,8 +11,11 @@ import com.utclo23.data.structure.PublicUser;
  * @author thibault
  */
 public class M_PlayerInfo extends Message {
-    public PublicUser user;
+    private PublicUser user;
     
+    public M_PlayerInfo(PublicUser u){
+        user = u;
+    }
     @Override
     public void callback(IDataCom iDataCom){
 

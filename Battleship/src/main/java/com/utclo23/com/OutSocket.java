@@ -25,7 +25,7 @@ import com.utclo23.com.messages.Message;
  * @author Thomas Michel
  * @author Grégoire Martinache
  */
-class OutSocket implements Runnable {
+public class OutSocket implements Runnable {
     Socket socket;
     int port;
     String ip;
