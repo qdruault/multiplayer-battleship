@@ -16,7 +16,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import com.utclo23.com.messages.Message;
-
+import com.utclo23.data.facade.IDataCom;
 /**
  *
  * @author Thomas
@@ -34,10 +34,12 @@ class InSocket implements Runnable {
     Message request;
     ObjectOutputStream out;
     ObjectInputStream in;
-
-    public InSocket(int port){
+    IDataCom iDataCom;
+    
+    public InSocket(int port, IDataCom dataCom){
         try {
-            serverSocket = new ServerSocket(port);   
+            serverSocket = new ServerSocket(port); 
+            iDataCom = dataCom;
         }catch(IOException e){
 
         }
@@ -52,7 +54,7 @@ class InSocket implements Runnable {
                 
                 while((request = (Message) in.readObject()) != null)
                 {
-                    request.callback();
+                    request.callback(iDataCom);
                     break;
                 }
 
