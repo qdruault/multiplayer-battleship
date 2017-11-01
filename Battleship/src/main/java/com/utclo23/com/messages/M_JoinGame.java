@@ -12,12 +12,17 @@ import com.utclo23.data.structure.StatGame;
  */
 public class M_JoinGame extends Message {
     private StatGame game;
+    private String role;
     
     public M_JoinGame(StatGame g) {
         game = g;
     }
     @Override
     public void callback(IDataCom iDataCom) {
-       
+        //Mettre à jour l'interface updateGameList()
+      // iDataCom.updateGameList(user.getLightPublicUser(), game.getId(), role);
+    }
+    public void setRole(String r){
+        role = r;
     }
 }
