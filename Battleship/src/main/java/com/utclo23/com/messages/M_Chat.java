@@ -11,8 +11,13 @@ import java.util.Date;
  * @author thibault
  */
 public class M_Chat extends Message {
-    public com.utclo23.data.structure.Message message;
-    public Date timeStamp; 
+    private com.utclo23.data.structure.Message message;
+    private Date timeStamp; 
+    
+    public M_Chat(com.utclo23.data.structure.Message m, Date t){
+        message = m;
+        timeStamp = t;
+    }
     
     @Override
     public void callback(IDataCom iDataCom){

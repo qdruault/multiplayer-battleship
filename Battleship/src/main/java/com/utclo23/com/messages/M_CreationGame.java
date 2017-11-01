@@ -13,6 +13,10 @@ import com.utclo23.data.structure.StatGame;
 public class M_CreationGame extends Message{
     public StatGame game;
     
+    public M_CreationGame(StatGame g){
+        game = g;
+    }
+    
     @Override
     public void callback(IDataCom iDataCom){
         iDataCom.addNewGame(game);

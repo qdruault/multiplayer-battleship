@@ -13,6 +13,10 @@ import com.utclo23.data.structure.LightPublicUser;
 public class M_Deconnexion extends Message {
     public LightPublicUser user;
     
+    public M_Deconnexion(LightPublicUser u){
+        user = u;
+    }
+    
     @Override
     public void callback(IDataCom iDataCom){
         iDataCom.removeConnectedUser(user);
