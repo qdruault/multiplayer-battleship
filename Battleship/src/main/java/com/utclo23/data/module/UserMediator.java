@@ -68,7 +68,7 @@ public class UserMediator {
      *
      * @return
      */
-    public Owner getOwner() {
+    public Owner getMyOwnerProfile() {
         return owner;
     }
 

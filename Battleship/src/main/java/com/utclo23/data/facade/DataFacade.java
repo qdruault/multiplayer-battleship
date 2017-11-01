@@ -14,6 +14,7 @@ import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.data.structure.Message;
 import com.utclo23.data.structure.Mine;
+import com.utclo23.data.structure.Owner;
 import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.StatGame;
@@ -146,13 +147,32 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    
     /**
-     * get owner profile
-     * @return owner profile
+     * get a owner profile
+     * @return my owner profile
+     */
+    public Owner getMyOwnerProfile() {
+        try {
+            return this.userMediator.getMyOwnerProfile();
+        }
+        catch (Exception e){
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+    }
+    
+    /**
+     * get Public user profile
+     * @return public profile
      */
     @Override
     public PublicUser getMyPublicUserProfile() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            return this.userMediator.getMyPublicUserProfile();
+        }
+        catch (Exception e){
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
     }
 
     /**
@@ -265,10 +285,11 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /** Update user **/
-     @Override
+    @Override
     public void updateUser(String password, String firstName, String lastName, Date birthDate, String fileImage) throws Exception {
         this.userMediator.updateUser(password, firstName, lastName, birthDate, fileImage);
     }
+    
     
     /**
      * get a user profile
