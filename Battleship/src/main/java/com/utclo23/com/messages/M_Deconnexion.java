@@ -15,6 +15,6 @@ public class M_Deconnexion extends Message {
     
     @Override
     public void callback(IDataCom iDataCom){
-        
+        iDataCom.removeConnectedUser(user);
     }
 }

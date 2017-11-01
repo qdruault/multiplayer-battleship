@@ -15,6 +15,6 @@ public class M_CreationGame extends Message{
     
     @Override
     public void callback(IDataCom iDataCom){
-        
+        iDataCom.addNewGame(game);
     }
 }

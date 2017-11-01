@@ -14,6 +14,6 @@ import com.utclo23.data.facade.IDataCom;
 public class M_ConnexionLost extends Message{
     @Override
     public void callback(IDataCom iDataCom){
-        
+        iDataCom.connectionLostWithOpponent();
     }
 }

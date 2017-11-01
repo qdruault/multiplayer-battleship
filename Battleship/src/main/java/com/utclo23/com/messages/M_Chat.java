@@ -16,6 +16,6 @@ public class M_Chat extends Message {
     
     @Override
     public void callback(IDataCom iDataCom){
-        
+        iDataCom.forwardMessage(this.message);
     }
 }
