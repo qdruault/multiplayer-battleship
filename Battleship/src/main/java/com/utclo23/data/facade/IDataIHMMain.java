@@ -16,9 +16,11 @@ import java.util.Date;
  * @author Davy
  */
 public interface IDataIHMMain {
+
     public void createUser(String playerName, String password, String firstName, String lastName, Date birthDate, String imageFile) throws DataException;
     public void updateUser(String password, String firstName, String lastName, Date birthDate, String imageFile) throws DataException;
-    public PublicUser getPublicUserProfile(UID id);
+    public PublicUser getPublicUserProfile(String id);
+    
     public List<StatGame> getGameList();
     public void createGame(String name, boolean spectator, boolean spectatorChat, String type);
     public void signin(String username, String password) throws DataException;

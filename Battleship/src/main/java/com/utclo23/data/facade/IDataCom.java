@@ -23,5 +23,5 @@ public interface IDataCom {
     public boolean removeConnectedUser(LightPublicUser user);
     public void forwardMessage(Message msg);
     public PublicUser getMyPublicUserProfile();
-    public void updateGameList(LightPublicUser user, UID id, String role);
+    public void updateGameList(LightPublicUser user, String id, String role);
 }

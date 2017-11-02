@@ -16,11 +16,12 @@ import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.data.structure.Message;
 import com.utclo23.data.structure.Mine;
+import com.utclo23.data.structure.Owner;
 import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.StatGame;
 import java.io.File;
-import java.rmi.server.UID;
+
 import java.util.List;
 import java.util.Date;
 import java.util.logging.Level;
@@ -31,7 +32,15 @@ import java.util.logging.Logger;
  * @author Davy
  */
 public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
+    /**
+     * Communication facade
+     */
     private ComFacade comfacade;
+    /**
+     * test mode 
+     * (useful for unit test to disable several features)
+     */
+    private  boolean testMode;
     /**
      * user mediator
      */
@@ -41,6 +50,14 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * game mediator
      */
     private GameMediator gameMediator;
+
+    public  boolean isTestMode() {
+        return testMode;
+    }
+
+    public  void setTestMode(boolean testMode) {
+        this.testMode = testMode;
+    }
 
     /**
      * Constructor 
@@ -53,7 +70,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
          */
         this.userMediator = new UserMediator(this);
         this.gameMediator = new GameMediator(this);
-        
+        this.testMode = false;
         this.comfacade = null;
 
         //creation of the save directory if it doesn't exist
@@ -159,13 +176,32 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    
     /**
-     * get owner profile
-     * @return owner profile
+     * get a owner profile
+     * @return my owner profile
+     */
+    public Owner getMyOwnerProfile() {
+        try {
+            return this.userMediator.getMyOwnerProfile();
+        }
+        catch (Exception e){
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+    }
+    
+    /**
+     * get Public user profile
+     * @return public profile
      */
     @Override
     public PublicUser getMyPublicUserProfile() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            return this.userMediator.getMyPublicUserProfile();
+        }
+        catch (Exception e){
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
     }
 
     /**
@@ -175,7 +211,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @param role 
      */
     @Override
-    public void updateGameList(LightPublicUser user, UID id, String role) {
+    public void updateGameList(LightPublicUser user, String id, String role) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -221,7 +257,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @return 
      */
     @Override
-    public List<Ship> getInitialBoardFromGameId(UID gameid) {
+    public List<Ship> getInitialBoardFromGameId(String gameid) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -277,11 +313,21 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         this.userMediator.createUser(playerName, password, firstName, lastName, birthDate, fileImage);
     }
 
-    /** Update user **/
+   /**
+    * updte user
+    * @param password
+    * @param firstName
+    * @param lastName
+    * @param birthDate
+    * @param fileImage
+    * @throws DataException 
+    */
      @Override
     public void updateUser(String password, String firstName, String lastName, Date birthDate, String fileImage) throws DataException {
+
         this.userMediator.updateUser(password, firstName, lastName, birthDate, fileImage);
     }
+    
     
     /**
      * get a user profile
@@ -289,7 +335,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @return 
      */
     @Override
-    public PublicUser getPublicUserProfile(UID id) {
+    public PublicUser getPublicUserProfile(String id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -314,32 +360,25 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    /**
-     * Connection to an account
-     * @param username
-     * @param password 
-     */
+  /***
+   * 
+   * @param username
+   * @param password
+   * @throws DataException 
+   */
     @Override
-    public void signin(String username, String password) {
-        try {
+    public void signin(String username, String password) throws DataException {
             this.userMediator.signIn(username, password);
-        } catch (Exception ex) {
-            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
 
-    /**
-     * Disconnection
-     */
+ /***
+  * 
+  * @throws DataException 
+  */
     @Override
     public void signOut()throws DataException{
-        try{
-        this.userMediator.singOut();
-        }
-        catch(DataException e)
-        {
-            throw new DataException("Problème de deconnexion");
-        }
+        this.userMediator.singOut();     
     }
 
     /**
@@ -358,12 +397,15 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     public static void main(String[] args) {
         try {
             DataFacade df = new DataFacade();
+            ComFacade cf = new ComFacade();
+            
+            df.setComfacade(cf);
+            
             df.createUser("konam", "password", "DAVID", "KONAM", new Date(), "C:\\Users\\Davy\\Pictures\\avatar.png");
             df.signin("konam", "password");
             df.signOut();
         } catch (Exception e) {
             Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, e.getMessage());
-            //e.printStackTrace();
         }
 
     }

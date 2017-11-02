@@ -2,6 +2,7 @@ package com.utclo23.data.module;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.utclo23.com.ComFacade;
 import com.utclo23.data.configuration.Configuration;
 import com.utclo23.data.facade.DataFacade;
 import com.utclo23.data.structure.*;
@@ -68,7 +69,7 @@ public class UserMediator {
      *
      * @return
      */
-    public Owner getOwner() {
+    public Owner getMyOwnerProfile() {
         return owner;
     }
 
@@ -102,17 +103,20 @@ public class UserMediator {
      *
      * @param ImageName
      * @return
-     * @throws IOException
+     * @throws DataException
      */
-    private byte[] extractBytes(String ImageName) throws IOException {
-        // open image
-        File imgPath = new File(ImageName);
-        BufferedImage bufferedImage = ImageIO.read(imgPath);
+    private byte[] extractBytes(String ImageName) throws DataException {
+        try { // open image
+            File imgPath = new File(ImageName);
+            BufferedImage bufferedImage = ImageIO.read(imgPath);
 
-        // get DataBufferBytes from Raster
-        WritableRaster raster = bufferedImage.getRaster();
-        DataBufferByte data = (DataBufferByte) raster.getDataBuffer();
-        return (data.getData());
+            // get DataBufferBytes from Raster
+            WritableRaster raster = bufferedImage.getRaster();
+            DataBufferByte data = (DataBufferByte) raster.getDataBuffer();
+            return (data.getData());
+        } catch (Exception e) {
+            throw new DataException("Data : error in image process");
+        }
     }
 
     /**
@@ -141,30 +145,67 @@ public class UserMediator {
      * @throws DataException
      */
     public void createUser(String playerName, String password, String firstName, String lastName, Date birthDate, String fileImage) throws DataException {
+       
+        //blank playername or password
+        if(playerName.isEmpty() || password.isEmpty())
+        {
+            throw new DataException("Data : error due to empty playername or password");
+        }
+        
+        //determine the parth
         String path = Configuration.SAVE_DIR + File.separator + playerName + ".json";
+
+        //all uppercase
+        playerName = playerName.toUpperCase();
+        password = password.toUpperCase();
+        firstName = firstName.toUpperCase();
+        lastName = lastName.toUpperCase();
+
         File userFile = new File(path);
+
+        //check the existence of the file
         if (userFile.exists()) {
-            throw new DataException("account already exists");
+            throw new DataException("account already exists"); // throw related error
         } else {
 
+            //create user 
             String id = new UID().toString();
             LightPublicUser lightPublicUser = new LightPublicUser(id, playerName);
             //TODO thumbnail
             PublicUser publicUser = new PublicUser(lightPublicUser, lastName, firstName, birthDate);
-            publicUser.setAvatar(this.extractBytes(fileImage));
+
+            //for unit test
+            if (!this.dataFacade.isTestMode()) {
+                publicUser.setAvatar(this.extractBytes(fileImage));
+            }
 
             this.owner = new Owner();
             owner.setUserIdentity(publicUser);
             owner.setPassword(password);
 
+            //save user in json file
             save();
 
         }
     }
 
-    public void updateUser(String password, String firstName, String lastName, Date birthDate, String fileImage) throws Exception {
+    /**
+     * Update user
+     *
+     * @param password
+     * @param firstName
+     * @param lastName
+     * @param birthDate
+     * @param fileImage
+     * @throws DataException
+     */
+    public void updateUser(String password, String firstName, String lastName, Date birthDate, String fileImage) throws DataException {
 
         if (this.owner != null) {
+
+            password = password.toUpperCase();
+            firstName = firstName.toUpperCase();
+            lastName = lastName.toUpperCase();
 
             this.owner.setPassword(password);
             this.owner.getUserIdentity().setAvatar(this.extractBytes(fileImage));
@@ -172,10 +213,19 @@ public class UserMediator {
             this.owner.getUserIdentity().setBirthDate(birthDate);
             this.owner.getUserIdentity().setFirstName(firstName);
             this.owner.getUserIdentity().setLastName(lastName);
-            
+
             save();
 
-            //TODO notify network
+            //remove old profile and add new one
+            //to check by data module
+            ComFacade comFacade = this.dataFacade.getComfacade();
+            if (comFacade != null) {
+                comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
+                comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+            }
+
+        } else {
+            throw new DataException("Data : error in updating");
         }
 
     }
@@ -203,49 +253,93 @@ public class UserMediator {
      * @param password
      * @throws Exception
      */
-    public void signIn(String username, String password) throws Exception {
-      
+    public void signIn(String username, String password) throws DataException {
+
+        //uppercase
+        username = username.toUpperCase();
+        password = password.toUpperCase();
+        
+        
+        //already connected
+        if(this.owner!= null)
+        {
+            throw new DataException("Data : already connected"); //throw related error
+        }
+        
+        
+        //determine path
         String path = Configuration.SAVE_DIR + File.separator + username + ".json";
         File userFile = new File(path);
+        //check the existence
         if (!userFile.exists()) {
-            throw new Exception("erreur");
+            throw new DataException("Data : error in save user file"); //throw related error
         }
 
         ObjectMapper mapper = new ObjectMapper();
-        Owner user = mapper.readValue(userFile, Owner.class);
 
-        if (!user.getPassword().equals(password)) {
-            throw new Exception("erreur");
-        } else {
-          
-            this.owner = user;
-            //connection
-            //TODO notify network
-            
+        //retrieval
+        Owner user = null;
+        try {
+            user = mapper.readValue(userFile, Owner.class);
+        } catch (Exception e) {
+            throw new DataException("Data : error in reading file");
         }
 
+        //password matching 
+        if (user != null && !user.getPassword().equals(password)) {
+            throw new DataException("Data : error in password");
+        } else {
+
+            this.owner = user;
+
+            //notification
+            ComFacade comFacade = this.dataFacade.getComfacade();
+            if (comFacade != null) {
+                comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+            }
+
+        }
     }
 
     /**
      * disconnection
      */
-    public void singOut() throws IOException {
-        this.save();
-        this.owner = null;
+    public void singOut() throws DataException {
+        if (this.owner != null) {
 
-        System.out.println("Disconnection");
+            this.save(); //Save the file
+
+            //notification
+            ComFacade comFacade = this.dataFacade.getComfacade();
+            if (comFacade != null) {
+                comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
+            }
+
+            //owner destroyed
+            this.owner = null;
+
+        } else {
+            throw new DataException("Data : no connected user");
+        }
+
     }
 
     /**
      * save
      */
-    private void save() throws IOException {
+    private void save() throws DataException {
 
-        String path = Configuration.SAVE_DIR + File.separator + owner.getUserIdentity().getPlayerName() + ".json";
-        System.out.println(path);
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        mapper.writeValue(new File(path), owner);
+        try {
+            //determine the path
+            String path = Configuration.SAVE_DIR + File.separator + owner.getUserIdentity().getPlayerName() + ".json";
+
+            //save into a json file
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+            mapper.writeValue(new File(path), owner);
+        } catch (Exception e) {
+            throw new DataException("Data : error in save process"); //throw related error by using exception of DataModule
+        }
 
     }
 
