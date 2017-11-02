@@ -138,13 +138,13 @@ public class UserMediator {
      * @param lastName
      * @param birthDate
      * @param fileImage
-     * @throws Exception
+     * @throws DataException
      */
-    public void createUser(String playerName, String password, String firstName, String lastName, Date birthDate, String fileImage) throws Exception {
+    public void createUser(String playerName, String password, String firstName, String lastName, Date birthDate, String fileImage) throws DataException {
         String path = Configuration.SAVE_DIR + File.separator + playerName + ".json";
         File userFile = new File(path);
         if (userFile.exists()) {
-            throw new Exception("account already exists");
+            throw new DataException("account already exists");
         } else {
 
             String id = new UID().toString();

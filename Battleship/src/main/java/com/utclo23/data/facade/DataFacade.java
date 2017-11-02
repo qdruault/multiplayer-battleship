@@ -5,7 +5,9 @@
  */
 package com.utclo23.data.facade;
 
+import com.utclo23.com.ComFacade;
 import com.utclo23.data.configuration.Configuration;
+import com.utclo23.data.module.DataException;
 import com.utclo23.data.module.GameMediator;
 import com.utclo23.data.module.UserMediator;
 import com.utclo23.data.structure.Coordinate;
@@ -29,7 +31,7 @@ import java.util.logging.Logger;
  * @author Davy
  */
 public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
-
+    private ComFacade comfacade;
     /**
      * user mediator
      */
@@ -51,6 +53,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
          */
         this.userMediator = new UserMediator(this);
         this.gameMediator = new GameMediator(this);
+        
+        this.comfacade = null;
 
         //creation of the save directory if it doesn't exist
         File saveDir = new File(Configuration.SAVE_DIR);
@@ -58,6 +62,15 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         
     }
 
+    public ComFacade getComfacade() {
+        return comfacade;
+    }
+
+    public void setComfacade(ComFacade comfacade) {
+        this.comfacade = comfacade;
+    }
+
+    
     /**
      * Get the user mediator
      * @return mediator
@@ -260,13 +273,13 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @para
      */
     @Override
-    public void createUser(String playerName, String password, String firstName, String lastName, Date birthDate, String fileImage) throws Exception {
+    public void createUser(String playerName, String password, String firstName, String lastName, Date birthDate, String fileImage) throws DataException {
         this.userMediator.createUser(playerName, password, firstName, lastName, birthDate, fileImage);
     }
 
     /** Update user **/
      @Override
-    public void updateUser(String password, String firstName, String lastName, Date birthDate, String fileImage) throws Exception {
+    public void updateUser(String password, String firstName, String lastName, Date birthDate, String fileImage) throws DataException {
         this.userMediator.updateUser(password, firstName, lastName, birthDate, fileImage);
     }
     
@@ -319,13 +332,13 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * Disconnection
      */
     @Override
-    public void signOut()throws Exception{
+    public void signOut()throws DataException{
         try{
         this.userMediator.singOut();
         }
-        catch(Exception e)
+        catch(DataException e)
         {
-            throw new Exception("Problème de deconnexion");
+            throw new DataException("Problème de deconnexion");
         }
     }
 
