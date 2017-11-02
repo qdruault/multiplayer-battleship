@@ -134,7 +134,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public boolean removeConnectedUser(LightPublicUser user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.userMediator.removeConnectedUser(user);
     }
 
     /**
@@ -282,11 +282,11 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
     /**
      * get game list
-     * @return 
+     * @return list of games
      */
     @Override
     public List<StatGame> getGameList() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.gameMediator.getGamesList() ;
     }
 
     /**
