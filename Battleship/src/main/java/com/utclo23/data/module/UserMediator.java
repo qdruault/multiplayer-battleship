@@ -6,12 +6,12 @@ import com.utclo23.com.ComFacade;
 import com.utclo23.data.configuration.Configuration;
 import com.utclo23.data.facade.DataFacade;
 import com.utclo23.data.structure.*;
-import java.awt.Graphics2D;
+
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
 import java.io.File;
-import java.io.IOException;
+
 import java.rmi.server.UID;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +51,7 @@ public class UserMediator {
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Création du mediator");
 
         this.dataFacade = dataFacade;
-        this.mapConnectedUser = new HashMap<String, LightPublicUser>();
+        this.mapConnectedUser = new HashMap<>();
     }
 
     /**
@@ -60,7 +60,7 @@ public class UserMediator {
      * @return
      */
     public List<LightPublicUser> getConnectedUsers() {
-        List<LightPublicUser> listConnectedUser = new ArrayList<LightPublicUser>(this.mapConnectedUser.values());
+        List<LightPublicUser> listConnectedUser = new ArrayList<>(this.mapConnectedUser.values());
         return listConnectedUser;
     }
 
@@ -101,13 +101,13 @@ public class UserMediator {
     /**
      * extract bytes from a file
      *
-     * @param ImageName
+     * @param imageName
      * @return
      * @throws DataException
      */
-    private byte[] extractBytes(String ImageName) throws DataException {
+    private byte[] extractBytes(String imageName) throws DataException {
         try { // open image
-            File imgPath = new File(ImageName);
+            File imgPath = new File(imageName);
             BufferedImage bufferedImage = ImageIO.read(imgPath);
 
             // get DataBufferBytes from Raster
@@ -145,13 +145,12 @@ public class UserMediator {
      * @throws DataException
      */
     public void createUser(String playerName, String password, String firstName, String lastName, Date birthDate, String fileImage) throws DataException {
-       
+
         //blank playername or password
-        if(playerName.isEmpty() || password.isEmpty())
-        {
+        if (playerName.isEmpty() || password.isEmpty()) {
             throw new DataException("Data : error due to empty playername or password");
         }
-        
+
         //determine the parth
         String path = Configuration.SAVE_DIR + File.separator + playerName + ".json";
 
@@ -220,8 +219,10 @@ public class UserMediator {
             //to check by data module
             ComFacade comFacade = this.dataFacade.getComfacade();
             if (comFacade != null) {
-                comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
-                comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+                if (this.owner.getUserIdentity() != null) {
+                    comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
+                    comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+                }
             }
 
         } else {
@@ -258,15 +259,12 @@ public class UserMediator {
         //uppercase
         username = username.toUpperCase();
         password = password.toUpperCase();
-        
-        
+
         //already connected
-        if(this.owner!= null)
-        {
+        if (this.owner != null) {
             throw new DataException("Data : already connected"); //throw related error
         }
-        
-        
+
         //determine path
         String path = Configuration.SAVE_DIR + File.separator + username + ".json";
         File userFile = new File(path);
@@ -295,7 +293,9 @@ public class UserMediator {
             //notification
             ComFacade comFacade = this.dataFacade.getComfacade();
             if (comFacade != null) {
-                comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+                if (this.owner.getUserIdentity() != null) {
+                    comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+                }
             }
 
         }
@@ -312,7 +312,9 @@ public class UserMediator {
             //notification
             ComFacade comFacade = this.dataFacade.getComfacade();
             if (comFacade != null) {
-                comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
+                if (this.owner.getUserIdentity() != null) {
+                    comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
+                }
             }
 
             //owner destroyed
