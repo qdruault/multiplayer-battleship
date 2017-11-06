@@ -5,6 +5,7 @@
  */
 package com.utclo23.data.facade;
 
+import com.utclo23.com.ComFacade;
 import com.utclo23.data.configuration.Configuration;
 import com.utclo23.data.module.GameMediator;
 import com.utclo23.data.module.UserMediator;
@@ -17,6 +18,8 @@ import com.utclo23.data.structure.Mine;
 import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.StatGame;
+import com.utclo23.ihmmain.facade.IHMMainFacade;
+import com.utclo23.ihmtable.IIHMTableToData;
 import java.io.File;
 import java.rmi.server.UID;
 import java.util.List;
@@ -57,6 +60,13 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         saveDir.mkdirs();
         
     }
+    
+    // TODO: implement that
+    public void setFacadeLinks(
+            ComFacade comFacade,
+            IIHMTableToData iIHMTableToData,
+            IHMMainFacade ihmMainFacade
+    ){}
 
     /**
      * Get the user mediator
