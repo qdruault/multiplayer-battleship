@@ -5,14 +5,20 @@
  */
 package com.utclo23.ihmmain.facade;
 
+import java.io.IOException;
+
 /**
  *
  * @author Linxuhao
  */
 public interface IHMMainToIhmTable {
     /**
+
+     */
+    /**
      * return to menu page
      * linxuhao
+     * @throws IOException 
      */
-    public abstract void returnMenu();
+    public abstract void toMenu() throws IOException;
 }
