@@ -262,6 +262,9 @@ public class UserProfileTest {
             
             df.setIPDiscovery(new_DiscoveryNodes);
 
+            //Check JSON has been impacting by reconnecting        
+            df.signOut();            
+            df.signin(PLAYER_NAME, PLAYER_PASSWORD);
            if(!owner.getDiscoveryNodes().equals(new_DiscoveryNodes)){
                 fail();
             }
