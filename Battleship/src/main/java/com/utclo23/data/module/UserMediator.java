@@ -219,7 +219,7 @@ public class UserMediator {
             //to check by data module
             ComFacade comFacade = this.dataFacade.getComfacade();
             if (comFacade != null) {
-                if (this.owner.getUserIdentity() != null) {
+                if (this.owner != null) {
                     comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
                     comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
                 }
@@ -293,7 +293,7 @@ public class UserMediator {
             //notification
             ComFacade comFacade = this.dataFacade.getComfacade();
             if (comFacade != null) {
-                if (this.owner.getUserIdentity() != null) {
+                if (this.owner != null) {
                     comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
                 }
             }
@@ -312,7 +312,7 @@ public class UserMediator {
             //notification
             ComFacade comFacade = this.dataFacade.getComfacade();
             if (comFacade != null) {
-                if (this.owner.getUserIdentity() != null) {
+                if (this.owner != null) {
                     comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
                 }
             }
