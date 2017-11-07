@@ -4,41 +4,54 @@
  * and open the template in the editor.
  */
 package com.utclo23.com.messages;
-import com.utclo23.data.structure.PublicUser;
-import com.utclo23.data.facade.DataFacade;
+import com.utclo23.com.KnownIPController;
+import com.utclo23.com.OutSocket;
+import java.net.Inet4Address;
+import java.util.HashMap;
+import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.data.structure.StatGame;
-import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author thibault
  */
 public class M_GetIP extends Message{
-	ArrayList<LightPublicUser> ListUsers;
-	ArrayList<StatGame> ListGames;
-	DataFacade dtf;
-	PublicUser initUser;
+	
+	KnownIPController kic;
+	String name;
+	
+	
     public M_GetIP(){
-		name = "GET_IP";
-		initUser = dtf.getMyPublicUserProfile();
     }
 	
+	
     @Override
-    public void callback(){
-		dtf.addConnectedUser(); // isn't it supposed to atke a user in argument ? Also It should be newConnectedUser() but they don't have...
-		ListUsers = dtf.getConnectedUsers();
-		ListGames = dtf.getGameList();
+    public void callback(IDataCom iDataCom){
 		
-		//TODO: Construction of the hashmap
-		// we should have that as a Communication intern methode (idk about its class).
-		// uidToIp = getUidToIp();
+		// get the necessairy data from the Data module to send back to the requesting node
+		iDataCom.addConnectedUser(user.getLightPublicUser());
 		
-		// send back the data this node has about its known network. 
-		// M_ReturnIP	returnIp = new ReturnIp(ListGames, ListUsers, uidToIp);
+		// TODO: add fonction to get the data from DATA
+		List<LightPublicUser> listUsers = null; // = iDataCom.getConnectedUsers();
+		List<StatGame>listGames = null; // = iDataCom.getGameList();
 		
-		// at the message level we don't have the Ip of the sender anymore. We had it in the InSocket. 
-		// so here we can't initialize the response anymore. 
-		// OutSocket os = new OutSocket(ip, port, returnIp);
+		kic = KnownIPController.getInstance();
+		// add new user to own knownIP hashmap. 
+		kic.addNode(user.getLightPublicUser().getId(), IP_sender);
+		
+		name = this.getClass().getName();
+
+		// get the hasmap of our IP to send it to the requesting node. 
+		HashMap<String,Inet4Address> IdToIp = kic.getHashMap();
+		
+		// send back the data this node has about its known network.
+		M_ReturnIP	returnIp = new M_ReturnIP(listGames, listUsers, IdToIp);
+		
+		OutSocket os = new OutSocket(IP_sender.toString(), 80, returnIp);
+		Thread thread = new Thread(os);
+			thread.start();
 		
 		// WORK IN PROGRESS
     }

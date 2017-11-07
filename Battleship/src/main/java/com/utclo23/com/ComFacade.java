@@ -29,8 +29,9 @@ public class ComFacade {
     public ComFacade(IDataCom iDataCom) {
         System.out.println(this.getClass() + " Creation de la facade");
         this.iDataCom = iDataCom;
-		discoCtrl = new DiscoveryController();
-		kIpCtrl = new KnownIPController(iDataCom);
+		discoCtrl = DiscoveryController.getInstance();
+		kIpCtrl = KnownIPController.getInstance(); // creation of KnownIPController
+		kIpCtrl.initIpList(iDataCom);
         // TODO: Instanciate receiver
     }
     
@@ -58,6 +59,7 @@ public class ComFacade {
     public void leaveGame(PublicUser user){
 
     }
+	
     public void sendDiscovery(PublicUser user, List<Inet4Address> listIpTarget){
 		
 		for (int i = 0; i < listIpTarget.size(); i++) {
@@ -66,9 +68,6 @@ public class ComFacade {
 			new Thread(os).start();
 			discoCtrl.addIP(listIpTarget.get(i));
 		}
-		
-		// 
-		
 		
     }
 }
