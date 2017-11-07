@@ -137,11 +137,14 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     /**
      * remove connected user
      * @param user
-     * @return success/failure
      */
     @Override
-    public boolean removeConnectedUser(LightPublicUser user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void removeConnectedUser(LightPublicUser user) {
+        try{
+            this.userMediator.removeConnectedUser(user);
+        } catch(RuntimeException e) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.WARNING, e.getMessage());
+        }
     }
 
     /**

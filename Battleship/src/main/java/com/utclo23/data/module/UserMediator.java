@@ -268,14 +268,12 @@ public class UserMediator {
      * remove connected user
      *
      * @param usr
-     * @return
      */
-    public boolean removeConnectedUser(LightPublicUser usr) {
-        boolean remove = false;
+    public void removeConnectedUser(LightPublicUser usr) {
         if (this.mapConnectedUser.containsKey(usr.getId())) {
-            remove = true;
             this.mapConnectedUser.remove(usr.getId());
+        } else {
+            throw new RuntimeException("There is no such user to remove form the list of connected users.");
         }
-        return remove;
     }
 }
