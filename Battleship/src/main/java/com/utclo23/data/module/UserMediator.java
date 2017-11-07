@@ -397,4 +397,19 @@ public class UserMediator {
     public List<String> getIPDiscovery() {
         return this.owner.getDiscoveryNodes();
     }
+    
+    /**
+     * set the discovery nodes
+     *
+     * @param discoveryNodes
+     * @throws com.utclo23.data.module.DataException
+     */
+    public void setIPDiscovery(List<String> discoveryNodes) throws DataException {        
+        if (this.owner != null) {
+            this.owner.setDiscoveryNodes(discoveryNodes);                       
+            save();
+        } else {
+            throw new DataException("Data : error in setting discovery nodes");
+        }
+    }
 }

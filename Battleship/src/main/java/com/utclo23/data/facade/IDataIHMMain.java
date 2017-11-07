@@ -29,5 +29,6 @@ public interface IDataIHMMain {
     public void signOut() throws Exception;
     public List<LightPublicUser> getConnectedUsers();
     public List<String> getIPDiscovery();
+    public void setIPDiscovery(List<String> discoveryNodes) throws DataException;
 }
 
