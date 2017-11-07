@@ -9,7 +9,7 @@ import java.util.List;
 
 
 /**
- * This class is implementing the design pattern mediator for Games.
+ * Game Mediator related to games features
  * @author tboulair
  */
 public class GameMediator {
