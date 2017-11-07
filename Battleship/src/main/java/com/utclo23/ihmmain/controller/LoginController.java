@@ -3,6 +3,8 @@ package com.utclo23.ihmmain.controller;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -27,8 +29,9 @@ public class LoginController extends AbstractController{
         
         if(fieldsAreNotEmpty(username, password)){
             try{
-                getFacade().iDataIHMMain.signin(username, password);
-                getIhmmain().toMenu();
+                facade.iDataIHMMain.signin(username, password);
+                ihmmain.toMenu();
+                throw new Exception();
             }catch (Exception e){
                 //TODO : show pop up
             }
@@ -37,7 +40,7 @@ public class LoginController extends AbstractController{
     
     @FXML
     private void createUserAction(ActionEvent event) throws IOException{
-        getIhmmain().toCreateUser();
+        ihmmain.toCreateUser();
     }
     
     @FXML
