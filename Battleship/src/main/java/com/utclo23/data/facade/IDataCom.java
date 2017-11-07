@@ -24,4 +24,6 @@ public interface IDataCom {
     public void forwardMessage(Message msg);
     public PublicUser getMyPublicUserProfile();
     public void updateGameList(LightPublicUser user, UID id, String role);
+    public List<StatGame> getGameList();
+    public List<LightPublicUser> getConnectedUsers();
 }
