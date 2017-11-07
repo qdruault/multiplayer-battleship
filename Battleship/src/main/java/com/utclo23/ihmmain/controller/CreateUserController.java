@@ -26,12 +26,12 @@ import javafx.stage.FileChooser;
 
 public class CreateUserController extends AbstractController{
     
-    private String avatarPath;
+    private String avatarPath = null;
 
     @FXML
     private Label fileSelected;
-    // FXML fields
     
+    // FXML fields
     @FXML
     private TextField userNameField;
     
@@ -58,7 +58,6 @@ public class CreateUserController extends AbstractController{
             String firstName = firstNameField.getText();
             String lastName = lastNameField.getText();
             Date birthDate = Date.from(birthDateField.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-            String avatarPath = this.avatarPath; 
             createUser(userName, password, firstName, lastName, birthDate, avatarPath);
         }   
     }
@@ -73,10 +72,11 @@ public class CreateUserController extends AbstractController{
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open avatar file");
         File selectedFile = fileChooser.showOpenDialog(ihmmain.primaryStage);
-        avatarPath = selectedFile.getPath();
-        fileSelected.setText("file selected: " + avatarPath);
-        System.out.println("The chosen file is : " + avatarPath);
-        
+        if (selectedFile != null){
+            avatarPath = selectedFile.getPath();
+            fileSelected.setText("file selected: " + avatarPath);
+            System.out.println("The chosen file is : " + avatarPath);
+        }        
     }
         
     private void back() throws IOException{
@@ -106,8 +106,12 @@ public class CreateUserController extends AbstractController{
         if (isFieldEmpty(lastNameField)){
             fieldEmpty = true;
         }
-        // TODO add a control for the date field
-        // TODO add a control for the file selection field
+        if (birthDateField.getValue() == null){
+            fieldEmpty = true;
+        }
+        if (avatarPath == null){
+            fieldEmpty = true;
+        }
         
         return fieldEmpty;
     }
