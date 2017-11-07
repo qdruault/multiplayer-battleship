@@ -80,7 +80,11 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void addNewGame(StatGame game) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try{
+            this.gameMediator.addNewGame(game);
+        } catch(RuntimeException e) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.WARNING, e.getMessage());
+        }
     }
 
     /**
