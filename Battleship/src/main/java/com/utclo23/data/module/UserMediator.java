@@ -311,6 +311,7 @@ public class UserMediator {
             if (comFacade != null) {
                 if (this.owner != null) {
                     comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+                    //comFacade.sendDiscovery(this.owner.getUserIdentity(), this.owner.getDiscoveryNodes());
                 }
             }
 
