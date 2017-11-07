@@ -451,6 +451,11 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         return this.userMediator.getConnectedUsers();
     }
 
+    /**
+     * get the discovery nodes
+     *
+     * @return
+     */
     @Override
     public List<String> getIPDiscovery() {
         return this.userMediator.getIPDiscovery();

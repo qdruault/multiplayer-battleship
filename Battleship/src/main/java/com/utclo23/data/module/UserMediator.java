@@ -389,6 +389,11 @@ public class UserMediator {
         }
     }
     
+    /**
+     * get the discovery nodes
+     *
+     * @return
+     */
     public List<String> getIPDiscovery() {
         return this.owner.getDiscoveryNodes();
     }
