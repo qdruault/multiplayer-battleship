@@ -33,15 +33,15 @@
                     </rowConstraints>
                      <children>
                         <Label text="User ID" />
-                        <Label text="Player1" GridPane.columnIndex="1" />
+                        <Label fx:id="userID" text="Player1" GridPane.columnIndex="1" />
                         <Label text="First Name" GridPane.rowIndex="1" />
-                        <Label text="--" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="firstName" text="--" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="Last Name" GridPane.rowIndex="2" />
-                        <Label text="--" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label text="Birth Date" GridPane.rowIndex="3" />
-                        <Label text="--" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label fx:id="lastName" text="--" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Birthday" GridPane.rowIndex="3" />
+                        <Label fx:id="birthday" text="--" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <Label text="Password" GridPane.rowIndex="4" />
-                        <Button mnemonicParsing="false" text="edit" GridPane.columnIndex="2" />
+                        <Button mnemonicParsing="false" onAction="#editID" text="edit" GridPane.columnIndex="2" />
                         <Button mnemonicParsing="false" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                         <Button mnemonicParsing="false" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                         <Button mnemonicParsing="false" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="3" />
