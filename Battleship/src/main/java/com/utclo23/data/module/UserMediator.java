@@ -388,4 +388,8 @@ public class UserMediator {
             throw new RuntimeException("There is no such user to remove form the list of connected users.");
         }
     }
+    
+    public List<String> getIPDiscovery() {
+        return this.owner.getDiscoveryNodes();
+    }
 }
