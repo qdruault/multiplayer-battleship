@@ -41,4 +41,9 @@ public class IHMMainFacade implements IHMMainToIhmTable{
     public void toMenu() throws IOException{
         ihmmain.toMenu();
     }
+    
+    @Override
+    public Stage getPrimaryStage(){
+        return ihmmain.primaryStage;
+    }
 }

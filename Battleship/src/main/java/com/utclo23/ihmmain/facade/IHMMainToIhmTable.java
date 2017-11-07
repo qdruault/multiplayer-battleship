@@ -6,6 +6,7 @@
 package com.utclo23.ihmmain.facade;
 
 import java.io.IOException;
+import javafx.stage.Stage;
 
 /**
  *
@@ -21,4 +22,7 @@ public interface IHMMainToIhmTable {
      * @throws IOException 
      */
     public abstract void toMenu() throws IOException;
+    
+    public abstract Stage getPrimaryStage();
+    
 }

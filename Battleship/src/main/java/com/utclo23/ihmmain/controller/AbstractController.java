@@ -19,6 +19,8 @@ public class AbstractController {
     public IHMMain ihmmain;
     
     public IHMMainFacade facade;
+    
+    private boolean isRunning;
 
     public IHMMainFacade getFacade() {
         return facade;
@@ -35,5 +37,20 @@ public class AbstractController {
     public void setIhmmain(IHMMain ihmmain) {
         this.ihmmain = ihmmain;
     }
-     
+
+    public boolean isIsRunning() {
+        return isRunning;
+    }
+    
+    public void init(){
+        stop();
+    }
+    
+    public void start(){
+        this.isRunning = true;
+    }
+    
+    public void stop(){
+        this.isRunning = false;
+    }
 }
