@@ -5,10 +5,124 @@
  */
 package com.utclo23.data.structure;
 
+
+import java.rmi.server.UID;
+import java.util.List;
+
+
 /**
  *
  * @author Davy
  */
-public class StatGame {
+public class StatGame extends SerializableEntity{
+
+    private String id;
+    private GameType type;
+    private String name;
+    private List<Player> LightPublicUser;
+    private boolean spectator;
+    private boolean spectatorChat;
+    private LightPublicUser winner;
+    private LightPublicUser creator;
+    private Game realGame;
+    private boolean gameAbandonned;
     
+ 
+
+    public GameType getType() {
+        return type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<Player> getLightPublicUser() {
+        return LightPublicUser;
+    }
+
+    public boolean isSpectator() {
+        return spectator;
+    }
+
+    public boolean isSpectatorChat() {
+        return spectatorChat;
+    }
+
+    public LightPublicUser getWinner() {
+        return winner;
+    }
+
+    public LightPublicUser getCreator() {
+        return creator;
+    }
+
+    public Game getRealGame() {
+        return realGame;
+    }
+
+    public boolean isGameAbandonned() {
+        return gameAbandonned;
+    }
+
+
+    public void setType(GameType type) {
+        this.type = type;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLightPublicUser(List<Player> LightPublicUser) {
+        this.LightPublicUser = LightPublicUser;
+    }
+
+    public void setSpectator(boolean spectator) {
+        this.spectator = spectator;
+    }
+
+    public void setSpectatorChat(boolean spectatorChat) {
+        this.spectatorChat = spectatorChat;
+    }
+
+    public void setWinner(LightPublicUser winner) {
+        this.winner = winner;
+    }
+
+    public void setCreator(LightPublicUser creator) {
+        this.creator = creator;
+    }
+
+    public void setRealGame(Game realGame) {
+        this.realGame = realGame;
+    }
+
+    public void setGameAbandonned(boolean gameAbandonned) {
+        this.gameAbandonned = gameAbandonned;
+    }
+
+    public StatGame(GameType type, String name, List<Player> LightPublicUser, boolean spectator, boolean spectatorChat, LightPublicUser winner, LightPublicUser creator, Game realGame, boolean gameAbandonned) {
+        this.id = new UID().toString();
+        
+        this.type = type;
+        this.name = name;
+        this.LightPublicUser = LightPublicUser;
+        this.spectator = spectator;
+        this.spectatorChat = spectatorChat;
+        this.winner = winner;
+        this.creator = creator;
+        this.realGame = realGame;
+        this.gameAbandonned = gameAbandonned;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+   
+
 }

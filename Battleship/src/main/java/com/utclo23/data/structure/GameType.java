@@ -6,9 +6,9 @@
 package com.utclo23.data.structure;
 
 /**
- * Enumeration that shows types of ship
- * @author Davy
+ * Enum that shows different types of game
+ * @author lucillefargeau
  */
-public enum ShipType {
-    PORTE_AVION, CROISEUR, CONTRE_TORPILLEUR, SOUS_MARIN, TORPILLEUR, CUIRASSE
+public enum GameType {
+    CLASSIQUE, BELGE
 }

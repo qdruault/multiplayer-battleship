@@ -7,6 +7,7 @@ package com.utclo23.ihmmain;
 
 import com.utclo23.ihmmain.constants.SceneName;
 import com.utclo23.ihmmain.controller.AbstractController;
+import com.utclo23.ihmmain.facade.IHMMainFacade;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,15 +25,15 @@ public class IHMMain {
     public Stage primaryStage;
     public Map<String,Scene> sceneMap;
     public String styleFile = "/styles/Styles.css";
+    public IHMMainFacade facade;
     
-    
-    public void start(Stage stage) throws Exception {
+    public void start(IHMMainFacade facade,Stage stage) throws Exception {
         sceneMap = new HashMap<String,Scene>();
         primaryStage = stage;
         //load all scenes when app starts
         for(SceneName scenename : SceneName.values()){
             String scenenameString = scenename.toString();
-            Scene scene = loadPageAndGenerateControllers(scenenameString);
+            Scene scene = loadPageAndGenerateControllers(facade,scenenameString);
             sceneMap.put(scenenameString,scene);
         }
         
@@ -90,7 +91,7 @@ public class IHMMain {
      * @return
      * @throws Exception 
      */
-    private Scene loadPageAndGenerateControllers(String fxml) throws Exception {
+    private Scene loadPageAndGenerateControllers(IHMMainFacade facade, String fxml) throws Exception {
         String ressourceLocation = "/fxml/ihmmain/" + fxml + ".fxml";
         
         FXMLLoader paneLoader = new FXMLLoader(getClass().getResource(ressourceLocation));
@@ -100,6 +101,7 @@ public class IHMMain {
         
         AbstractController controller = (AbstractController) paneLoader.getController();
         controller.setIhmmain(this);
+        controller.setFacade(facade);
 
         return scene;
     }
