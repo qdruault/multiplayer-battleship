@@ -37,7 +37,7 @@ public class LoginController extends AbstractController{
     }
     
     @FXML
-    private void exitAction(ActionEvent event) throws IOException{
+    private void exitAction(ActionEvent event){
         System.exit(0);
     }
     
