@@ -19,39 +19,33 @@ import com.utclo23.com.messages.Message;
 
 /**
  *
- * @author Thomas
- */
-
-/**
- *
- * @author Thomas Michel
- * @author Grégoire Martinache
+ * @author Thomas MICHEL
+ * @author Grégoire MARTINACHE
  */
 class InSocket implements Runnable {
-    
+
     ServerSocket serverSocket;
     Socket client;
     Message request;
     ObjectOutputStream out;
     ObjectInputStream in;
 
-    public InSocket(int port){
+    public InSocket(int port) {
         try {
-            serverSocket = new ServerSocket(port);   
-        }catch(IOException e){
+            serverSocket = new ServerSocket(port);
+        } catch (IOException e) {
 
         }
     }
 
     public void run() {
-        while(true) {
-            try{
+        while (true) {
+            try {
                 client = serverSocket.accept();
                 out = new ObjectOutputStream(client.getOutputStream());
                 in = new ObjectInputStream(client.getInputStream());
-                
-                while((request = (Message) in.readObject()) != null)
-                {
+
+                while ((request = (Message) in.readObject()) != null) {
                     request.callback();
                     break;
                 }
@@ -62,12 +56,10 @@ class InSocket implements Runnable {
 
             } catch (IOException e) {
 
-            }catch(ClassNotFoundException e){
-                
+            } catch (ClassNotFoundException e) {
+
             }
-                
 
         }
     }
 }
-
