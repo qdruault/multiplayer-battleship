@@ -47,6 +47,7 @@ public class UserMediator {
      *
      * @param dataFacade reference to the facade
      */
+    
     public UserMediator(DataFacade dataFacade) {
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Création du mediator");
 
@@ -346,34 +347,29 @@ public class UserMediator {
     }
 
     /**
-     * add user
+     * add user to the list of connected users
      *
      * @param usr
-     * @return
+     * @exception RuntimeException if the user is already in the list of connected users.
      */
-    public boolean addConnectedUser(LightPublicUser usr) {
-
-        boolean add = false;
+    public void addConnectedUser(LightPublicUser usr) {
         if (!this.mapConnectedUser.containsKey(usr.getId())) {
-            add = true;
             this.mapConnectedUser.put(usr.getId(), usr);
+        }else {
+            throw new RuntimeException("User "+ usr.getPlayerName() +" was already in the list of connected users.");
         }
-
-        return add;
     }
 
     /**
      * remove connected user
      *
      * @param usr
-     * @return
      */
-    public boolean removeConnectedUser(LightPublicUser usr) {
-        boolean remove = false;
+    public void removeConnectedUser(LightPublicUser usr) {
         if (this.mapConnectedUser.containsKey(usr.getId())) {
-            remove = true;
             this.mapConnectedUser.remove(usr.getId());
+        } else {
+            throw new RuntimeException("There is no such user to remove form the list of connected users.");
         }
-        return remove;
     }
 }

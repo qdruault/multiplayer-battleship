@@ -110,7 +110,11 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void addNewGame(StatGame game) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try{
+            this.gameMediator.addNewGame(game);
+        } catch(RuntimeException e) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.WARNING, e.getMessage());
+        }
     }
 
     /**
@@ -150,21 +154,27 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     /**
      * add connected user
      * @param user
-     * @return succes/failure
      */
     @Override
-    public boolean addConnectedUser(LightPublicUser user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void addConnectedUser(LightPublicUser user) {
+        try{
+            this.userMediator.addConnectedUser(user);
+        } catch(RuntimeException e) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.WARNING, e.getMessage());
+        }
     }
 
     /**
      * remove connected user
      * @param user
-     * @return success/failure
      */
     @Override
-    public boolean removeConnectedUser(LightPublicUser user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void removeConnectedUser(LightPublicUser user) {
+        try{
+            this.userMediator.removeConnectedUser(user);
+        } catch(RuntimeException e) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.WARNING, e.getMessage());
+        }
     }
 
     /**
