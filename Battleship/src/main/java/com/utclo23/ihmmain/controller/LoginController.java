@@ -29,7 +29,6 @@ public class LoginController extends AbstractController{
             try{
                 facade.iDataIHMMain.signin(username, password);
                 ihmmain.toMenu();
-                throw new Exception();
             }catch (Exception e){
                 //TODO : show pop up
             }
