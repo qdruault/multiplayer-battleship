@@ -1,7 +1,9 @@
 package com.utclo23.data.module;
 
 import com.utclo23.data.facade.DataFacade;
+
 import com.utclo23.data.structure.StatGame;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class GameMediator {
     }
     
     /**
+<<<<<<< HEAD
      * add a new game
      *
      * @param game
@@ -31,5 +34,14 @@ public class GameMediator {
             throw new RuntimeException("This game already exists in the list");
         }
     } 
+
+     /* get list of games
+     *
+     * @return list of games
+     */
+    public List<StatGame> getGamesList() {
+        return this.gamesList;
+    }
+
     
 }

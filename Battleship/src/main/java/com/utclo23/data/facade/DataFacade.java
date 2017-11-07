@@ -169,12 +169,17 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @param user
      */
     @Override
+<<<<<<< HEAD
     public void removeConnectedUser(LightPublicUser user) {
         try{
             this.userMediator.removeConnectedUser(user);
         } catch(RuntimeException e) {
             Logger.getLogger(DataFacade.class.getName()).log(Level.WARNING, e.getMessage());
         }
+=======
+    public boolean removeConnectedUser(LightPublicUser user) {
+        return this.userMediator.removeConnectedUser(user);
+>>>>>>> Data/getgameslist_notifyusersignout
     }
 
     /**
@@ -351,11 +356,11 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
     /**
      * get game list
-     * @return 
+     * @return list of games
      */
     @Override
     public List<StatGame> getGameList() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.gameMediator.getGamesList() ;
     }
 
     /**
