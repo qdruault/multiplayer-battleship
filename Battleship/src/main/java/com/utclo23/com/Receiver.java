@@ -5,15 +5,10 @@
  */
 package com.utclo23.com;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
 import java.net.Socket;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import com.utclo23.com.messages.Message;
 import com.utclo23.data.facade.IDataCom;
@@ -22,7 +17,7 @@ import com.utclo23.data.facade.IDataCom;
  * @author Thomas MICHEL
  * @author Grégoire MARTINACHE
  */
-public class InSocket implements Runnable {
+public class Receiver implements Runnable {
     
     ServerSocket serverSocket;
     Socket client;
@@ -31,7 +26,7 @@ public class InSocket implements Runnable {
     ObjectInputStream in;
     IDataCom iDataCom;
     
-    public InSocket(int port, IDataCom dataCom){
+    public Receiver(int port, IDataCom dataCom){
         try {
             serverSocket = new ServerSocket(port); 
             iDataCom = dataCom;

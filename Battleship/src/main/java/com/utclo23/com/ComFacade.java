@@ -9,8 +9,6 @@ import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.Mine;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.com.messages.M_GetIP;
-import java.net.InetAddress;
-import java.util.HashMap;
 import com.utclo23.com.messages.Message;
 import com.utclo23.data.facade.IDataCom;
 import java.net.Inet4Address;
@@ -68,7 +66,7 @@ public class ComFacade {
 		
 		for (int i = 0; i < listIpTarget.size(); i++) {
 			M_GetIP m_getIp = new M_GetIP();
-			OutSocket os = new OutSocket(listIpTarget.get(i).toString(), 80, m_getIp);
+			Sender os = new Sender(listIpTarget.get(i).toString(), 80, m_getIp);
 			new Thread(os).start();
 			discoCtrl.addIP(listIpTarget.get(i));
 		}

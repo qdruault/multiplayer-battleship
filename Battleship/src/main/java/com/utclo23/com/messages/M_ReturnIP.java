@@ -6,7 +6,7 @@
 package com.utclo23.com.messages;
 import com.utclo23.com.DiscoveryController;
 import com.utclo23.com.KnownIPController;
-import com.utclo23.com.OutSocket;
+import com.utclo23.com.Sender;
 import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.data.structure.StatGame;
@@ -68,7 +68,7 @@ public class M_ReturnIP extends Message{
 			// send back the data this node has about its known network.
 			M_ReturnIP	returnIp = new M_ReturnIP(listGames, listUsers, IdToIp);
 			
-			OutSocket os = new OutSocket(IP_sender.toString(), 80, returnIp);
+			Sender os = new Sender(IP_sender.toString(), 80, returnIp);
 			new Thread(os).start();
 		
 		}
@@ -94,7 +94,7 @@ public class M_ReturnIP extends Message{
 			}
 			
 			M_ReturnIP	returnIp = new M_ReturnIP(listGames, listUsers, IdToIp);
-			OutSocket os = new OutSocket(IP_sender.toString(), 80, returnIp);
+			Sender os = new Sender(IP_sender.toString(), 80, returnIp);
 			Thread thread = new Thread(os);
 			thread.start();
 		
