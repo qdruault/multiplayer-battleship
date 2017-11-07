@@ -63,9 +63,11 @@ public class PlayerListController extends AbstractController{
     public void initialize(){
         TableColumn idColumn = new TableColumn("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("id"));
+        idColumn.getStyleClass().add("cell-right");
         
         TableColumn nameColumn = new TableColumn("NAME");
         nameColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("playerName"));
+        nameColumn.getStyleClass().add("cell-left");
         
         /* TODO Add this lines when data add avatar in LightPublicUser. Add avatarColum in listPlayers.getColumns().addAll(...);
         TableColumn avatarColumn = new TableColumn("AVATAR");
