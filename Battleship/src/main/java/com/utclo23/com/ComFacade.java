@@ -8,10 +8,11 @@ import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.Mine;
 import com.utclo23.data.structure.StatGame;
-import java.net.InetAddress;
-import java.util.HashMap;
+import com.utclo23.com.messages.M_GetIP;
 import com.utclo23.com.messages.Message;
 import com.utclo23.data.facade.IDataCom;
+import java.net.Inet4Address;
+import java.util.List;
 /**
  * Facade for the communication module
  * @author Thibault CHICHE
@@ -23,10 +24,16 @@ public class ComFacade {
      * The data facade
      */
     public IDataCom iDataCom;
+	
+	private DiscoveryController discoCtrl;
+	private KnownIPController kIpCtrl;
     
     public ComFacade(IDataCom iDataCom) {
         System.out.println(this.getClass() + " Creation de la facade");
         this.iDataCom = iDataCom;
+		discoCtrl = DiscoveryController.getInstance();
+		kIpCtrl = KnownIPController.getInstance(); // creation of KnownIPController
+		kIpCtrl.initIpList(iDataCom);
         // TODO: Instanciate receiver
     }
     
@@ -54,7 +61,15 @@ public class ComFacade {
     public void leaveGame(PublicUser user){
 
     }
-    public void sendDiscovery(){
-
+	
+    public void sendDiscovery(PublicUser user, List<Inet4Address> listIpTarget){
+		
+		for (int i = 0; i < listIpTarget.size(); i++) {
+			M_GetIP m_getIp = new M_GetIP();
+			Sender os = new Sender(listIpTarget.get(i).toString(), 80, m_getIp);
+			new Thread(os).start();
+			discoCtrl.addIP(listIpTarget.get(i));
+		}
+		
     }
 }
