@@ -25,10 +25,7 @@ public class GameMediator {
      * @return list of games
      */
     public List<StatGame> getGamesList() {
-        List<StatGame> listStatGames = new ArrayList<StatGame>();
-        for (int i = 0; i < this.gamesList.size(); i++)
-            listStatGames.add(this.gamesList.get(i).getStatGame());        
-        return listStatGames;
+        return this.gamesList;
     }
     
 }
