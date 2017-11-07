@@ -9,21 +9,32 @@ import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.stage.Stage;
 
-
+/**
+ * This class is call when the program start. It instantiate all the facades and
+ * link its together.
+ *
+ * @author Rémi DI VITA
+ */
 public class MainApp extends Application {
-    
+
+    /**
+     * The start() method is call when the application is launched
+     *
+     * @param stage is the top level JavaFX container
+     * @throws Exception
+     */
     @Override
     public void start(Stage stage) throws Exception {
-        
+
         // DataFacade creation
         DataFacade dataFacade = new DataFacade();
         IDataCom iDataCom = dataFacade;
         IDataIHMMain iDataIHMMain = dataFacade;
         IDataIHMTable iDataIHMtable = dataFacade;
-        
+
         // CommunicationFacade creation
         ComFacade comFacade = new ComFacade(iDataCom);
-        
+
         // IhmTableFacade creation
         IHMTableFacade ihmTableFacade = new IHMTableFacade(iDataIHMtable);
         IIHMTableToData iIHMTableToData = ihmTableFacade;
@@ -35,15 +46,15 @@ public class MainApp extends Application {
                 iIHMTableToIHMMain,
                 stage
         );
-        IHMMainToIhmTable iHMMainTOIhmTable = ihmMainFacade;
-        
+        IHMMainToIhmTable iHMMainToIhmTable = ihmMainFacade;
+
         // set link from IhmMainFacade to IhmTable
-        ihmTableFacade.setIhmMainLink(iHMMainTOIhmTable);
-        
+        ihmTableFacade.setIhmMainLink(iHMMainToIhmTable);
+
         // set link from IhmMain, Ihmtable and Communication Facade to Data
         dataFacade.setFacadeLinks(comFacade, iIHMTableToData, ihmMainFacade);
     }
-    
+
     /**
      * The main() method is ignored in correctly deployed JavaFX application.
      * main() serves only as fallback in case the application can not be

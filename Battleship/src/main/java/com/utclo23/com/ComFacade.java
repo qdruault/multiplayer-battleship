@@ -13,11 +13,15 @@ import java.util.HashMap;
 import com.utclo23.com.messages.Message;
 import com.utclo23.data.facade.IDataCom;
 /**
- *
- * @author thibault
+ * Facade for the communication module
+ * @author Thibault CHICHE
  */
 public class ComFacade {
     //private HashMap<UID, InetAddress> UID_IP;
+
+    /**
+     * The data facade
+     */
     public IDataCom iDataCom;
     
     public ComFacade(IDataCom iDataCom) {
@@ -26,31 +30,31 @@ public class ComFacade {
         // TODO: Instanciate receiver
     }
     
-    void sendShipsToEnnemy(Ship[] listShips, PublicUser dest){
+    public void sendShipsToEnnemy(Ship[] listShips, PublicUser dest){
         
     }
-    void notifyUserSignedIn(PublicUser user){
+    public void notifyUserSignedIn(PublicUser user){
 
     }
-    void notifyUserSignedOut(PublicUser user){
+    public void notifyUserSignedOut(PublicUser user){
 
     }
-    void notifyNewMessage(Message message){
+    public void notifyNewMessage(Message message){
 
     }
-    void notifyNewCoordinates(Mine mine, PublicUser[] recipient){
+    public void notifyNewCoordinates(Mine mine, PublicUser[] recipient){
 
     }
-    void notifyNewGame(StatGame game){
+    public void notifyNewGame(StatGame game){
 
     }
-    void connectionToGame(StatGame game){
+    public void connectionToGame(StatGame game){
 
     }
-    void leaveGame(PublicUser user){
+    public void leaveGame(PublicUser user){
 
     }
-    void sendDiscovery(){
+    public void sendDiscovery(){
 
     }
 }
