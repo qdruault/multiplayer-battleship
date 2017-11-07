@@ -9,7 +9,7 @@ package com.utclo23.data.module;
  *
  * @author Davy
  */
-public class DataException extends Exception
+public class DataException extends RuntimeException 
 {
 
     public DataException(String message) {

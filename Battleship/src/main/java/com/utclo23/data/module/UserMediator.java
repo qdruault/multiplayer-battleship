@@ -47,7 +47,6 @@ public class UserMediator {
      *
      * @param dataFacade reference to the facade
      */
-    
     public UserMediator(DataFacade dataFacade) {
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Création du mediator");
 
@@ -176,6 +175,12 @@ public class UserMediator {
 
             //for unit test
             if (!this.dataFacade.isTestMode()) {
+
+                //blank playername or password
+                if (fileImage.isEmpty()) {
+                    throw new DataException("Data : error due to empty image");
+                }
+
                 publicUser.setAvatar(this.extractBytes(fileImage));
             }
 
@@ -208,7 +213,12 @@ public class UserMediator {
             lastName = lastName.toUpperCase();
 
             this.owner.setPassword(password);
-            this.owner.getUserIdentity().setAvatar(this.extractBytes(fileImage));
+            if (!this.getDataFacade().isTestMode()) {
+                if (fileImage.isEmpty()) {
+                    throw new DataException("Data : error due to empty image");
+                }
+                this.owner.getUserIdentity().setAvatar(this.extractBytes(fileImage));
+            }
             //TODO update thumbnail
             this.owner.getUserIdentity().setBirthDate(birthDate);
             this.owner.getUserIdentity().setFirstName(firstName);
@@ -350,13 +360,14 @@ public class UserMediator {
      * add user to the list of connected users
      *
      * @param usr
-     * @exception RuntimeException if the user is already in the list of connected users.
+     * @exception RuntimeException if the user is already in the list of
+     * connected users.
      */
     public void addConnectedUser(LightPublicUser usr) {
         if (!this.mapConnectedUser.containsKey(usr.getId())) {
             this.mapConnectedUser.put(usr.getId(), usr);
-        }else {
-            throw new RuntimeException("User "+ usr.getPlayerName() +" was already in the list of connected users.");
+        } else {
+            throw new RuntimeException("User " + usr.getPlayerName() + " was already in the list of connected users.");
         }
     }
 

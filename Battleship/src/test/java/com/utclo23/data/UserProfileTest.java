@@ -8,6 +8,7 @@ package com.utclo23.data;
 import com.utclo23.data.facade.DataFacade;
 import com.utclo23.data.module.DataException;
 import com.utclo23.data.structure.Coordinate;
+import com.utclo23.data.structure.Owner;
 import com.utclo23.data.structure.StatGame;
 import java.rmi.server.UID;
 import java.util.Date;
@@ -31,6 +32,7 @@ public class UserProfileTest {
     private static final String LOGGER_NAME = "Data tests for user profile";
     private final static String PLAYER_NAME = "DavidK";
     private final static String PLAYER_PASSWORD = "password";
+    private final static String NEW_FIRSTNAME= "TEST";
 
     public UserProfileTest() {
     }
@@ -144,8 +146,48 @@ public class UserProfileTest {
     }
     
     
+     /**
+     * Test of signin method Must return dataexception when wrong credentials
+     */
+    @org.junit.Test
+    public void testUpdateUser() {
+        try {
+            DataFacade df = new DataFacade();
+            df.setTestMode(true);
+            df.signin(PLAYER_NAME, PLAYER_PASSWORD);
+
+            if (df.getMyOwnerProfile() == null) {
+                fail();
+            }
+
+            Owner owner = df.getMyOwnerProfile();
+            df.updateUser(owner.getPassword(), NEW_FIRSTNAME, owner.getUserIdentity().getLastName(), owner.getUserIdentity().getBirthDate(), "");
+            
+            if(!owner.getUserIdentity().getFirstName().equals(NEW_FIRSTNAME))
+            {
+                fail();
+            }
+            
+            df.updateUser(owner.getPassword(), "", owner.getUserIdentity().getLastName(), owner.getUserIdentity().getBirthDate(), "");
+           
+            df.signOut();
+            
+            
+            if (df.getMyOwnerProfile() != null) {
+                fail();
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+
+    }
+    
+    
+    
     /**
-     * Test when already connected
+     * Test for update 
      * 
      */
     @org.junit.Test
