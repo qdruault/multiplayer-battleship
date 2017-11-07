@@ -9,6 +9,7 @@ import com.utclo23.data.structure.LightPublicUser;
 import java.io.IOException;
 import java.rmi.server.UID;
 import java.util.ArrayList;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.ScheduledService;
@@ -117,17 +118,16 @@ public class PlayerListController extends AbstractController{
      * This function call the method of data to update the list of players
      */
     private void getConnectedUsers(){
-        // Call data method in order to collect connected users
-        // TODO call data method public ArrayList<LightPublicUser> getConnectedUsers() and remove the next line.
-        ArrayList<LightPublicUser> connectedUsers = new ArrayList<LightPublicUser>() {{
-            add(new LightPublicUser(new UID(), "toto"));
-            add(new LightPublicUser(new UID(), "patrick"));
-            add(new LightPublicUser(new UID(), "andré_@!°+="));
-        }};
-        ObservableList<LightPublicUser> data = FXCollections.observableArrayList(connectedUsers);
         
-        // Update the list in the GUI
-        listPlayers.setItems(data);
+        if(facade != null){
+            // Call data method in order to collect connected users
+            ArrayList<LightPublicUser> connectedUsers = new ArrayList<LightPublicUser>(facade.iDataIHMMain.getConnectedUsers());
+            ObservableList<LightPublicUser> data = FXCollections.observableArrayList(connectedUsers);
+        
+            // Update the list in the GUI
+            listPlayers.setItems(data);
+        }
+
     }
     
 }
