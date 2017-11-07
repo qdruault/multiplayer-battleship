@@ -8,10 +8,13 @@ import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.Mine;
 import com.utclo23.data.structure.StatGame;
+import com.utclo23.com.messages.M_GetIP;
 import java.net.InetAddress;
 import java.util.HashMap;
 import com.utclo23.com.messages.Message;
 import com.utclo23.data.facade.IDataCom;
+import java.net.Inet4Address;
+import java.util.List;
 /**
  * Facade for the communication module
  * @author Thibault CHICHE
@@ -23,38 +26,52 @@ public class ComFacade {
      * The data facade
      */
     public IDataCom iDataCom;
+	
+	private DiscoveryController discoCtrl;
+	private KnownIPController kIpCtrl;
     
     public ComFacade(IDataCom iDataCom) {
         System.out.println(this.getClass() + " Creation de la facade");
         this.iDataCom = iDataCom;
+		discoCtrl = DiscoveryController.getInstance();
+		kIpCtrl = KnownIPController.getInstance(); // creation of KnownIPController
+		kIpCtrl.initIpList(iDataCom);
         // TODO: Instanciate receiver
     }
     
-    void sendShipsToEnnemy(Ship[] listShips, PublicUser dest){
+    public void sendShipsToEnnemy(Ship[] listShips, PublicUser dest){
         
     }
-    void notifyUserSignedIn(PublicUser user){
+    public void notifyUserSignedIn(PublicUser user){
 
     }
-    void notifyUserSignedOut(PublicUser user){
+    public void notifyUserSignedOut(PublicUser user){
 
     }
-    void notifyNewMessage(Message message){
+    public void notifyNewMessage(Message message){
 
     }
-    void notifyNewCoordinates(Mine mine, PublicUser[] recipient){
+    public void notifyNewCoordinates(Mine mine, PublicUser[] recipient){
 
     }
-    void notifyNewGame(StatGame game){
+    public void notifyNewGame(StatGame game){
 
     }
-    void connectionToGame(StatGame game){
+    public void connectionToGame(StatGame game){
 
     }
-    void leaveGame(PublicUser user){
+    public void leaveGame(PublicUser user){
 
     }
-    void sendDiscovery(){
-
+	
+    public void sendDiscovery(PublicUser user, List<Inet4Address> listIpTarget){
+		
+		for (int i = 0; i < listIpTarget.size(); i++) {
+			M_GetIP m_getIp = new M_GetIP();
+			OutSocket os = new OutSocket(listIpTarget.get(i).toString(), 80, m_getIp);
+			new Thread(os).start();
+			discoCtrl.addIP(listIpTarget.get(i));
+		}
+		
     }
 }
