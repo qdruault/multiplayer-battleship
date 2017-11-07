@@ -230,7 +230,7 @@ public class UserMediator {
     /**
      * disconnection
      */
-    public void singOut() throws IOException {
+    public void signOut() throws IOException {
         this.save();
         this.owner = null;
 

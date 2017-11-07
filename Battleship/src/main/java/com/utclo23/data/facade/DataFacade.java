@@ -331,7 +331,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     @Override
     public void signOut()throws Exception{
         try{
-        this.userMediator.singOut();
+            this.userMediator.signOut();
         }
         catch(Exception e)
         {
