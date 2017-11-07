@@ -7,12 +7,17 @@ package com.utclo23.ihmmain.controller;
 
 import com.utclo23.data.facade.DataFacade;
 import com.utclo23.ihmmain.IHMMain;
+import java.io.File;
 import java.io.IOException;
+import java.time.ZoneId;
+import java.util.Date;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 
 /**
  *
@@ -20,6 +25,12 @@ import javafx.scene.control.TextField;
  */
 
 public class CreateUserController extends AbstractController{
+    
+    private String avatarPath;
+
+    @FXML
+    private Label fileSelected;
+    // FXML fields
     
     @FXML
     private TextField userNameField;
@@ -34,44 +45,49 @@ public class CreateUserController extends AbstractController{
     private TextField lastNameField;
     
     @FXML 
-    private TextField ageField;
-      
-    private IHMMain ihmMain;
-    
+    private DatePicker birthDateField;
     
     // BUTTON HANDLERS
     
     @FXML 
-    private void handleButtonCreate(ActionEvent event){
+    private void handleButtonCreate(ActionEvent event) throws Exception{
         
         if (!isAnyFieldEmpty()){
             String userName = userNameField.getText();
             String password = passwordField.getText();
             String firstName = firstNameField.getText();
             String lastName = lastNameField.getText();
-            int age = Integer.parseInt(ageField.getText());
-            // TODO add a field for the avatar path in the fxml view
-            String avatarPath = ""; 
-            createUser(userName, password, firstName, lastName, age, avatarPath);
+            Date birthDate = Date.from(birthDateField.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            String avatarPath = this.avatarPath; 
+            createUser(userName, password, firstName, lastName, birthDate, avatarPath);
         }   
     }
     
     @FXML
     private void handleButtonReturn(ActionEvent event) throws IOException{
         back();
-    } 
+    }
+    
+    @FXML
+    private void handleButtonChooseFile(ActionEvent event) throws IOException{
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open avatar file");
+        File selectedFile = fileChooser.showOpenDialog(ihmmain.primaryStage);
+        avatarPath = selectedFile.getPath();
+        fileSelected.setText("file selected: " + avatarPath);
+        System.out.println("The chosen file is : " + avatarPath);
+        
+    }
         
     private void back() throws IOException{
         ihmmain.toMenu();
     }
     
-    private boolean createUser(String userName, String password, String firstName, String lastName, int age, String avatarPath){
+    private void createUser(String userName, String password, String firstName, String lastName, Date birthDate, String avatarPath) throws Exception{
         System.out.println("createUser method called");
-        // TODO implement the call to dataFacade to create a user
-        //dataFacade.createUser(userName, password, firstName, lastName, age, avatarPath);
-        throw new UnsupportedOperationException("The call to createUser method from the dataFacade class is not implemented yet");
+        facade.iDataIHMMain.createUser(userName, password, firstName, lastName, birthDate, avatarPath);
     }     
-    
+        
     // UTILITY methods
     
     private boolean isAnyFieldEmpty(){
@@ -90,10 +106,9 @@ public class CreateUserController extends AbstractController{
         if (isFieldEmpty(lastNameField)){
             fieldEmpty = true;
         }
-        if (isFieldEmpty(ageField)){
-            fieldEmpty = true;
-        }
-
+        // TODO add a control for the date field
+        // TODO add a control for the file selection field
+        
         return fieldEmpty;
     }
     
