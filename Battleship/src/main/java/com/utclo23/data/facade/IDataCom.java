@@ -19,9 +19,13 @@ public interface IDataCom {
     public void forwardCoordinates(Mine mine);
     public void opponentHasLeftGame();
     public void connectionLostWithOpponent();
-    public boolean addConnectedUser(LightPublicUser user);
-    public boolean removeConnectedUser(LightPublicUser user);
+    public void addConnectedUser(LightPublicUser user);
+    public void removeConnectedUser(LightPublicUser user);
     public void forwardMessage(Message msg);
     public PublicUser getMyPublicUserProfile();
-    public void updateGameList(LightPublicUser user, UID id, String role);
+
+    public void updateGameList(LightPublicUser user, String id, String role);
+    public List<StatGame> getGameList();
+    public List<LightPublicUser> getConnectedUsers();
+
 }
