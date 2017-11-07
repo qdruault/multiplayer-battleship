@@ -32,12 +32,11 @@ public class UserProfileTest {
     private static final String LOGGER_NAME = "Data tests for user profile";
     private final static String PLAYER_NAME = "DavidK";
     private final static String PLAYER_PASSWORD = "password";
-    private final static String NEW_FIRSTNAME= "TEST";
+    private final static String NEW_FIRSTNAME = "TEST";
 
     public UserProfileTest() {
     }
 
-    
     @BeforeClass
     public static void setUpClass() {
 
@@ -48,7 +47,7 @@ public class UserProfileTest {
         try {
             df.createUser(PLAYER_NAME, PLAYER_PASSWORD, "", "", new Date(), "");
         } catch (Exception e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -89,7 +88,7 @@ public class UserProfileTest {
         df.signin("David", "mon mot de passe");
 
     }
-    
+
     /**
      * test when we enter empty string for player name in creation step
      */
@@ -102,9 +101,9 @@ public class UserProfileTest {
         df.createUser("", PLAYER_PASSWORD, "", "", new Date(), "");
 
     }
-    
+
     /**
-     * test when we enter empty string for password  in creation step
+     * test when we enter empty string for password in creation step
      */
     @org.junit.Test
     public void testBlankPasswordRegister() throws DataException {
@@ -115,8 +114,7 @@ public class UserProfileTest {
         df.createUser(PLAYER_NAME, "", "", "", new Date(), "");
 
     }
-    
-  
+
     /**
      * Test of signin method Must return dataexception when wrong credentials
      */
@@ -132,25 +130,54 @@ public class UserProfileTest {
             }
 
             df.signOut();
-            
-            
+
             if (df.getMyOwnerProfile() != null) {
                 fail();
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             fail();
         }
 
     }
-    
-    
-     /**
-     * Test of signin method Must return dataexception when wrong credentials
+
+    /**
+     * Test update firstname
      */
     @org.junit.Test
-    public void testUpdateUser() {
+    public void testUpdateBlankPasswordUser() throws DataException {
+        expectedException.expect(DataException.class);
+
+        DataFacade df = new DataFacade();
+        df.setTestMode(true);
+        df.signin(PLAYER_NAME, PLAYER_PASSWORD);
+
+        if (df.getMyOwnerProfile() == null) {
+            fail();
+        }
+
+        Owner owner = df.getMyOwnerProfile();
+        df.updateUser("", owner.getUserIdentity().getFirstName(), owner.getUserIdentity().getLastName(), owner.getUserIdentity().getBirthDate(), "");
+
+        if (!owner.getUserIdentity().getFirstName().equals(NEW_FIRSTNAME)) {
+            fail();
+        }
+
+        df.updateUser(owner.getPassword(), "", owner.getUserIdentity().getLastName(), owner.getUserIdentity().getBirthDate(), "");
+
+        df.signOut();
+
+        if (df.getMyOwnerProfile() != null) {
+            fail();
+        }
+    }
+
+    /**
+     * Test update firstname
+     */
+    @org.junit.Test
+    public void testUpdateFirstnameUser() {
         try {
             DataFacade df = new DataFacade();
             df.setTestMode(true);
@@ -162,46 +189,42 @@ public class UserProfileTest {
 
             Owner owner = df.getMyOwnerProfile();
             df.updateUser(owner.getPassword(), NEW_FIRSTNAME, owner.getUserIdentity().getLastName(), owner.getUserIdentity().getBirthDate(), "");
-            
-            if(!owner.getUserIdentity().getFirstName().equals(NEW_FIRSTNAME))
-            {
+
+            if (!owner.getUserIdentity().getFirstName().equals(NEW_FIRSTNAME)) {
                 fail();
             }
-            
+
             df.updateUser(owner.getPassword(), "", owner.getUserIdentity().getLastName(), owner.getUserIdentity().getBirthDate(), "");
-           
+
             df.signOut();
-            
-            
+
             if (df.getMyOwnerProfile() != null) {
                 fail();
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             fail();
         }
 
     }
-    
-    
-    
+
     /**
-     * Test for update 
-     * 
+     * Test for update
+     *
      */
     @org.junit.Test
     public void testAlreadyConnected() throws DataException {
-            expectedException.expect(DataException.class);
-            DataFacade df = new DataFacade();
-            df.setTestMode(true);
-            df.signin(PLAYER_NAME, PLAYER_PASSWORD);
-            df.signin("david", "mdp");    
+        expectedException.expect(DataException.class);
+        DataFacade df = new DataFacade();
+        df.setTestMode(true);
+        df.signin(PLAYER_NAME, PLAYER_PASSWORD);
+        df.signin("david", "mdp");
     }
 
     /**
      * Test of signout before signin
-     * 
+     *
      */
     @org.junit.Test
     public void testWrongSignout() throws Exception {

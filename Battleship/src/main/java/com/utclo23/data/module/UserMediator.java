@@ -208,6 +208,11 @@ public class UserMediator {
 
         if (this.owner != null) {
 
+            //blank  password
+            if (password.isEmpty()) {
+                throw new DataException("Data : error due to empty playername or password");
+            }
+
             password = password.toUpperCase();
             firstName = firstName.toUpperCase();
             lastName = lastName.toUpperCase();
