@@ -16,11 +16,15 @@ import com.utclo23.data.facade.IDataCom;
 import java.net.Inet4Address;
 import java.util.List;
 /**
- *
- * @author thibault
+ * Facade for the communication module
+ * @author Thibault CHICHE
  */
 public class ComFacade {
     //private HashMap<UID, InetAddress> UID_IP;
+
+    /**
+     * The data facade
+     */
     public IDataCom iDataCom;
 	
 	private DiscoveryController discoCtrl;

@@ -19,13 +19,8 @@ import com.utclo23.com.messages.Message;
 import com.utclo23.data.facade.IDataCom;
 /**
  *
- * @author Thomas
- */
-
-/**
- *
- * @author Thomas Michel
- * @author Grégoire Martinache
+ * @author Thomas MICHEL
+ * @author Grégoire MARTINACHE
  */
 public class InSocket implements Runnable {
     
@@ -46,8 +41,8 @@ public class InSocket implements Runnable {
     }
 
     public void run() {
-        while(true) {
-            try{
+        while (true) {
+            try {
                 client = serverSocket.accept();
                 out = new ObjectOutputStream(client.getOutputStream());
                 in = new ObjectInputStream(client.getInputStream());
@@ -64,12 +59,10 @@ public class InSocket implements Runnable {
 
             } catch (IOException e) {
 
-            }catch(ClassNotFoundException e){
-                
+            } catch (ClassNotFoundException e) {
+
             }
-                
 
         }
     }
 }
-
