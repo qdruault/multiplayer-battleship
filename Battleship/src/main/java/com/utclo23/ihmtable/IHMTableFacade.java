@@ -19,13 +19,29 @@ import java.rmi.server.UID;
 public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
     
     /**
+     * The Data facade.
+     */
+    private IDataIHMTable facadeData;
+    
+    /**
+     * The facade of IHM Main.
+     */
+    private IHMMainToIhmTable facadeIHMMain;
+    
+    /**
      * Constructor 
      */
-    // TODO: implement that
-    public IHMTableFacade(IDataIHMTable iDataIHMtable){}
+    public IHMTableFacade(IDataIHMTable iDataIHMtable) {
+        this.facadeData = iDataIHMtable;
+    }
     
-    // TODO: implement that
-    public void setIhmMainLink(IHMMainToIhmTable iHMMainTOIhmTable){}
+    /**
+     * Set a reference to the facade of IHM Main.
+     * @param iHMMainTOIhmTable : interface of the facade of ihm main for ihm table.
+     */
+    public void setIhmMainLink(IHMMainToIhmTable iHMMainTOIhmTable) {
+        this.facadeIHMMain = iHMMainTOIhmTable;
+    }
 
     /**
      * The message of the exception thrown by unimplemented methods.
