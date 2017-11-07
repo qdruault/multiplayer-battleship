@@ -53,10 +53,10 @@ public class IHMMain {
     public void toPlayerProfile() throws IOException{
         toScene(SceneName.PlayerProfile);
     }
-    /*
+    
     public void toPlayerList() throws IOException{
         toScene(SceneName.PlayerList);
-    }*/
+    }
     
     public void toCreateUser() throws IOException{
          toScene(SceneName.CreateUser);
