@@ -250,20 +250,17 @@ public class UserMediator {
     }
 
     /**
-     * add user
+     * add user to the list of connected users
      *
      * @param usr
-     * @return
+     * @exception RuntimeException if the user is already in the list of connected users.
      */
-    public boolean addConnectedUser(LightPublicUser usr) {
-
-        boolean add = false;
+    public void addConnectedUser(LightPublicUser usr) {
         if (!this.mapConnectedUser.containsKey(usr.getId())) {
-            add = true;
             this.mapConnectedUser.put(usr.getId(), usr);
+        }else {
+            throw new RuntimeException("User "+ usr.getPlayerName() +" was already in the list of connected users.");
         }
-
-        return add;
     }
 
     /**
