@@ -26,14 +26,18 @@ public class LoginController extends AbstractController{
         String password = passwordField.getText();
         
         if(fieldsAreNotEmpty(username, password)){
-            //TODO : add IDataIHMMain.signin(username, password) within a try/catch block
-            ihmmain.toMenu();
+            try{
+                getFacade().iDataIHMMain.signin(username, password);
+                getIhmmain().toMenu();
+            }catch (Exception e){
+                //TODO : show pop up
+            }
         }
     }
     
     @FXML
     private void createUserAction(ActionEvent event) throws IOException{
-        ihmmain.toCreateUser();
+        getIhmmain().toCreateUser();
     }
     
     @FXML
