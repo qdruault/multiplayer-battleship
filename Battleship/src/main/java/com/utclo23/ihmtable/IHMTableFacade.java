@@ -28,29 +28,29 @@ import javafx.stage.Stage;
  * @author pjeannot
  */
 public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
-    
+
     /**
      * The path of the inGameGUI.fxml.
      */
     private final String FXML_PATH = "/fxml/ihmtable/inGameGUI.fxml";
-    
+
     /**
      * The Data facade.
      */
     private IDataIHMTable facadeData;
-    
+
     /**
      * The facade of IHM Main.
      */
     private IHMMainToIhmTable facadeIHMMain;
-    
+
     /**
-     * Constructor 
+     * Constructor
      */
     public IHMTableFacade(IDataIHMTable iDataIHMtable) {
         this.facadeData = iDataIHMtable;
     }
-    
+
     /**
      * Set a reference to the facade of IHM Main.
      * @param iHMMainTOIhmTable : interface of the facade of ihm main for ihm table.
@@ -63,7 +63,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      * The message of the exception thrown by unimplemented methods.
      */
     public static final String EXCEPTION_MESSAGE = "Not supported yet";
-    
+
     /**
      * Replay a saved game.
      * @param id : id of the game.
@@ -159,5 +159,5 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
     public void connectionLostWithOpponent() {
         throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
     }
-    
+
 }
