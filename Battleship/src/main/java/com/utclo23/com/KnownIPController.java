@@ -42,12 +42,12 @@ public class KnownIPController {
 	
 	// used to put our own IP in the hashmap of IP
 	public void initIpList(IDataCom iDataCom){
-		try{
-			this.iDataCom = iDataCom;
-			knownIp.put(iDataCom.getMyPublicUserProfile().getId(), (Inet4Address)Inet4Address.getLocalHost());
-		}
-		catch(UnknownHostException e){
-		}
+//		try{
+//			this.iDataCom = iDataCom;
+//			knownIp.put(iDataCom.getMyPublicUserProfile().getId(), (Inet4Address)Inet4Address.getLocalHost());
+//		}
+//		catch(UnknownHostException e){
+//		}
 	}
 	
 	public String getKeyFromValue(HashMap<String, Inet4Address> tmphash, Inet4Address value){

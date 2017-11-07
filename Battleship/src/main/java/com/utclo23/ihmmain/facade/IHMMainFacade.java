@@ -16,16 +16,27 @@ import javafx.stage.Stage;
  * @author Linxuhao
  */
 public class IHMMainFacade implements IHMMainToIhmTable{
-    IHMMain ihmmain;
     
-    public IHMMainFacade (
-            IDataIHMMain iDataIHMMain, 
-            IIHMTableToIHMMain iIHMTableToIHMMain,
-            Stage stage
-    ) throws Exception{
+    private IHMMain ihmmain;
+    public IDataIHMMain iDataIHMMain;
+    public IIHMTableToIHMMain iIHMTableToIHMMain;
+    
+    /**
+     * create IHM Main facade and instanciate ihm main components
+     * 
+     * @param iDataIHMMain
+     * @param iIHMTableToIHMMain
+     * @param stage
+     * @throws Exception 
+     */
+    public IHMMainFacade (IDataIHMMain iDataIHMMain, IIHMTableToIHMMain iIHMTableToIHMMain,Stage stage ) throws Exception{
+        
+        this.iDataIHMMain = iDataIHMMain;
+        this.iIHMTableToIHMMain = iIHMTableToIHMMain;
         ihmmain = new IHMMain();
-        ihmmain.start(stage);
+        ihmmain.start(this, stage);
     }
+    
     @Override
     public void toMenu() throws IOException{
         ihmmain.toMenu();
