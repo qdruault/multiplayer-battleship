@@ -8,15 +8,31 @@ package com.utclo23.ihmtable;
 import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.data.facade.IDataIHMTable;
+import com.utclo23.ihmmain.controller.AbstractController;
 import com.utclo23.ihmmain.facade.IHMMainToIhmTable;
+import java.io.IOException;
 
 import java.rmi.server.UID;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  *
  * @author pjeannot
  */
 public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
+    
+    /**
+     * The path of the inGameGUI.fxml.
+     */
+    private final String FXML_PATH = "/fxml/ihmtable/inGameGUI.fxml";
     
     /**
      * The Data facade.
@@ -61,8 +77,18 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      * Launch a new game.
      */
     @Override
-    public void createInGameGUI() {
-        throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
+    public void createInGameGUI(Stage primaryStage) {
+        FXMLLoader paneLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
+        Parent pane;
+        try {
+            pane = paneLoader.load();
+            Scene scene = new Scene(pane);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("Game");
+            primaryStage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(IHMTableFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
