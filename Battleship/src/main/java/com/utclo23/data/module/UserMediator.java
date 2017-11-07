@@ -321,7 +321,7 @@ public class UserMediator {
     /**
      * disconnection
      */
-    public void singOut() throws DataException {
+    public void signOut() throws DataException {
         if (this.owner != null) {
 
             this.save(); //Save the file
