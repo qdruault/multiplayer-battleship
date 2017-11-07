@@ -21,7 +21,10 @@ import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.ihmmain.facade.IHMMainFacade;
+
 import com.utclo23.ihmtable.IHMTableFacade;
+import com.utclo23.ihmtable.IIHMTableToData;
+
 import java.io.File;
 
 import java.util.List;
@@ -108,6 +111,16 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
     public void setComfacade(ComFacade comfacade) {
         this.comfacade = comfacade;
+    }
+    
+    // TODO: implement that
+    public void setFacadeLinks(
+            ComFacade comFacade,
+            IIHMTableToData ihmTableToData,
+            IHMMainFacade ihmMainFacade
+    ){
+    
+    
     }
 
     /**
@@ -443,24 +456,6 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         return this.userMediator.getConnectedUsers();
     }
 
-    /**
-     * Test
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        try {
-            DataFacade df = new DataFacade();
-            ComFacade cf = new ComFacade();
-
-            df.setComfacade(cf);
-
-            df.createUser("konam", "password", "DAVID", "KONAM", new Date(), "C:\\Users\\Davy\\Pictures\\avatar.png");
-            df.signin("konam", "password");
-            df.signOut();
-        } catch (Exception e) {
-            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, e.getMessage());
-        }
-
-    }
+    
+    
 }

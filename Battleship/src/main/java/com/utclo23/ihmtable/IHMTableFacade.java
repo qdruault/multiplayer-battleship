@@ -7,6 +7,9 @@ package com.utclo23.ihmtable;
 
 import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.StatGame;
+import com.utclo23.data.facade.IDataIHMTable;
+import com.utclo23.ihmmain.facade.IHMMainToIhmTable;
+
 import java.rmi.server.UID;
 
 /**
@@ -14,6 +17,15 @@ import java.rmi.server.UID;
  * @author pjeannot
  */
 public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
+    
+    /**
+     * Constructor 
+     */
+    // TODO: implement that
+    public IHMTableFacade(IDataIHMTable iDataIHMtable){}
+    
+    // TODO: implement that
+    public void setIhmMainLink(IHMMainToIhmTable iHMMainTOIhmTable){}
 
     /**
      * The message of the exception thrown by unimplemented methods.

@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="com.utclo23.ihmmain.controller.MenuController">
+<AnchorPane id="AnchorPane" prefHeight="800" prefWidth="1280" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.MenuController">
     <children>
-        <Button fx:id="playButton" layoutX="136.0" layoutY="45.0" onAction="#play" text="Play" />
-        <Label fx:id="title" layoutX="125.0" layoutY="12.0" minHeight="16" minWidth="69" text="Battleship" />
-      <Button fx:id="profileButton" layoutX="126.0" layoutY="82.0" onAction="#showProfile" text="Profile" />
-      <Button fx:id="PlayerListButton" layoutX="116.0" layoutY="118.0" onAction="#showPlayerList" text="PlayerList" />
-      <Button fx:id="exitButton" layoutX="135.0" layoutY="153.0" onAction="#exit" text="Exit" />
+        <Button fx:id="playButton" layoutX="619.0" layoutY="207.0" onAction="#play" text="Play" />
+        <Label fx:id="title" layoutX="606.0" layoutY="32.0" minHeight="16" minWidth="69" text="Battleship" />
+      <Button fx:id="profileButton" layoutX="611.0" layoutY="293.0" onAction="#showProfile" text="Profile" />
+      <Button fx:id="PlayerListButton" layoutX="601.0" layoutY="369.0" onAction="#showPlayerList" text="PlayerList" />
+      <Button fx:id="exitButton" layoutX="621.0" layoutY="457.0" onAction="#exit" text="Exit" />
+      <Line endX="100.0" fill="BLACK" layoutX="640.0" layoutY="67.0" startX="-100.0" stroke="#140dbf" />
     </children>
 </AnchorPane>

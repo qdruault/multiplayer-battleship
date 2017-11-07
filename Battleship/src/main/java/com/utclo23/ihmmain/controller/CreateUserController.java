@@ -5,21 +5,25 @@
  */
 package com.utclo23.ihmmain.controller;
 
+import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 /**
  *
  * @author Linxuhao
  */
-public class CreateUserController {
+public class CreateUserController extends AbstractController {
     @FXML
     private Label label;
-    
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
+    private Button backButton;
+
+    @FXML
+    private void back(ActionEvent event) throws IOException{
+        ihmmain.toLogin();
     }
+      
 }

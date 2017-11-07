@@ -11,12 +11,24 @@ import com.utclo23.data.structure.StatGame;
 import java.net.InetAddress;
 import java.util.HashMap;
 import com.utclo23.com.messages.Message;
+import com.utclo23.data.facade.IDataCom;
 /**
- *
- * @author thibault
+ * Facade for the communication module
+ * @author Thibault CHICHE
  */
 public class ComFacade {
     //private HashMap<UID, InetAddress> UID_IP;
+
+    /**
+     * The data facade
+     */
+    public IDataCom iDataCom;
+    
+    public ComFacade(IDataCom iDataCom) {
+        System.out.println(this.getClass() + " Creation de la facade");
+        this.iDataCom = iDataCom;
+        // TODO: Instanciate receiver
+    }
     
     public void sendShipsToEnnemy(Ship[] listShips, PublicUser dest){
         
