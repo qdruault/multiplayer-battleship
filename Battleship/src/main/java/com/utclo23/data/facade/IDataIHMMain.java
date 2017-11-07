@@ -23,5 +23,6 @@ public interface IDataIHMMain {
     public void signin(String username, String password) throws Exception;
     public void signOut() throws Exception;
     public List<LightPublicUser> getConnectedUsers();
+    public PublicUser getMyPublicUserProfile();
 }
 
