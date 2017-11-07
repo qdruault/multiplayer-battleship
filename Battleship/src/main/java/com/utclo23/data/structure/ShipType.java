@@ -6,7 +6,7 @@
 package com.utclo23.data.structure;
 
 /**
- *
+ * Enumeration that shows types of ship
  * @author Davy
  */
 public enum ShipType {

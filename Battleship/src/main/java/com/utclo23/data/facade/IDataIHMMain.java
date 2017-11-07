@@ -5,9 +5,10 @@
  */
 package com.utclo23.data.facade;
 
+import com.utclo23.data.module.DataException;
 import com.utclo23.data.structure.*;
 import java.rmi.server.UID;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
 
 /**
@@ -15,12 +16,15 @@ import java.util.Date;
  * @author Davy
  */
 public interface IDataIHMMain {
-    public void createUser(String playerName, String password, String firstName, String lastName, Date birthDate);
-    public PublicUser getPublicUserProfile(UID id);
-    public ArrayList<StatGame> getGameList();
+
+    public void createUser(String playerName, String password, String firstName, String lastName, Date birthDate, String imageFile) throws DataException;
+    public void updateUser(String password, String firstName, String lastName, Date birthDate, String imageFile) throws DataException;
+    public PublicUser getPublicUserProfile(String id);
+    
+    public List<StatGame> getGameList();
     public void createGame(String name, boolean spectator, boolean spectatorChat, String type);
-    public void signin(String username, String password);
-    public void signOut();
-    public ArrayList<LightPublicUser> getConnectedUsers();
+    public void signin(String username, String password) throws DataException;
+    public void signOut() throws Exception;
+    public List<LightPublicUser> getConnectedUsers();
 }
 

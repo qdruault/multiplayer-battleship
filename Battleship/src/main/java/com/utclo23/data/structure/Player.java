@@ -6,33 +6,33 @@
 package com.utclo23.data.structure;
 
 import java.rmi.server.UID;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Davy
  */
-class Player extends LightPublicUser{
-    private ArrayList<Ship> ships;
-    private ArrayList<Mine> mines;
+public class Player extends LightPublicUser{
+    private List<Ship> ships;
+    private List<Mine> mines;
 
-    public Player(UID id, String playerName) {
+    public Player(String id, String playerName) {
         super(id, playerName);
     }
 
-    public ArrayList<Ship> getShips() {
+    public List<Ship> getShips() {
         return ships;
     }
 
-    public void setShips(ArrayList<Ship> ships) {
+    public void setShips(List<Ship> ships) {
         this.ships = ships;
     }
 
-    public ArrayList<Mine> getMines() {
+    public List<Mine> getMines() {
         return mines;
     }
 
-    public void setMines(ArrayList<Mine> mines) {
+    public void setMines(List<Mine> mines) {
         this.mines = mines;
     }
     

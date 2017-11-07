@@ -6,20 +6,28 @@
 package com.utclo23.data.structure;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Davy
  */
-public class Owner {
+public class Owner extends SerializableEntity{
     private PublicUser userIdentity;
     private String password;
-    private ArrayList<String> discoveryNodes;
-    private ArrayList<StatGame> savedGamesList;
-    private ArrayList<StatGame> playedGamesList;
-    private ArrayList<LightPublicUser> contactList;
-
+    private List<String> discoveryNodes;
+    private List<StatGame> savedGamesList;
+    private List<StatGame> playedGamesList;
+    private List<LightPublicUser> contactList;
+    private byte[] avatar;
     
+    public Owner()
+    {
+        this.discoveryNodes = new ArrayList<>();
+        this.savedGamesList = new ArrayList<>();
+        this.playedGamesList = new ArrayList<>();
+        
+    }
     
     public PublicUser getUserIdentity() {
         return userIdentity;
@@ -37,37 +45,39 @@ public class Owner {
         this.password = password;
     }
 
-    public ArrayList<String> getDiscoveryNodes() {
+    public List<String> getDiscoveryNodes() {
         return discoveryNodes;
     }
 
-    public void setDiscoveryNodes(ArrayList<String> discoveryNodes) {
+    public void setDiscoveryNodes(List<String> discoveryNodes) {
         this.discoveryNodes = discoveryNodes;
     }
 
-    public ArrayList<StatGame> getSavedGamesList() {
+    public List<StatGame> getSavedGamesList() {
         return savedGamesList;
     }
 
-    public void setSavedGamesList(ArrayList<StatGame> savedGamesList) {
+    public void setSavedGamesList(List<StatGame> savedGamesList) {
         this.savedGamesList = savedGamesList;
     }
 
-    public ArrayList<StatGame> getPlayedGamesList() {
+    public List<StatGame> getPlayedGamesList() {
         return playedGamesList;
     }
 
-    public void setPlayedGamesList(ArrayList<StatGame> playedGamesList) {
+    public void setPlayedGamesList(List<StatGame> playedGamesList) {
         this.playedGamesList = playedGamesList;
     }
 
-    public ArrayList<LightPublicUser> getContactList() {
+    public List<LightPublicUser> getContactList() {
         return contactList;
     }
 
-    public void setContactList(ArrayList<LightPublicUser> contactList) {
+    public void setContactList(List<LightPublicUser> contactList) {
         this.contactList = contactList;
     }
+
+
     
     
     

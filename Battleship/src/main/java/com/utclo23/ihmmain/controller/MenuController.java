@@ -5,8 +5,10 @@
  */
 package com.utclo23.ihmmain.controller;
 
+import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
@@ -14,7 +16,7 @@ import javafx.scene.control.Label;
  *
  * @author Linxuhao
  */
-public class MenuController {
+public class MenuController extends AbstractController{
     private Label label;
     @FXML
     private Button playButton;
@@ -32,14 +34,17 @@ public class MenuController {
     }
 
     @FXML
-    private void showProfile(ActionEvent event) {
+    private void showProfile(ActionEvent event) throws IOException{
+        ihmmain.toPlayerProfile();
     }
 
     @FXML
-    private void showPlayerList(ActionEvent event) {
+    private void showPlayerList(ActionEvent event) throws IOException{
+        //do nothing for now, because player list interface is not implemented yet
     }
 
     @FXML
-    private void exit(ActionEvent event) {
+    private void exit(ActionEvent event) throws IOException{
+        ihmmain.toLogin();
     }
 }

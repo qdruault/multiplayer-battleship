@@ -1,25 +1,58 @@
 package com.utclo23.battleship;
 
+import com.utclo23.data.facade.*;
+import com.utclo23.com.ComFacade;
+import com.utclo23.ihmmain.facade.*;
+import com.utclo23.ihmtable.*;
+
 import javafx.application.Application;
 import static javafx.application.Application.launch;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
+/**
+ * This class is call when the program start. It instantiate all the facades and
+ * link its together.
+ *
+ * @author Rémi DI VITA
+ */
 public class MainApp extends Application {
 
+    /**
+     * The start() method is call when the application is launched
+     *
+     * @param stage is the top level JavaFX container
+     * @throws Exception
+     */
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
-        
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add("/styles/Styles.css");
-        
-        stage.setTitle("JavaFX and Maven");
-        stage.setScene(scene);
-        stage.show();
+
+        // DataFacade creation
+        DataFacade dataFacade = new DataFacade();
+        IDataCom iDataCom = dataFacade;
+        IDataIHMMain iDataIHMMain = dataFacade;
+        IDataIHMTable iDataIHMtable = dataFacade;
+
+        // CommunicationFacade creation
+        ComFacade comFacade = new ComFacade(iDataCom);
+
+        // IhmTableFacade creation
+        IHMTableFacade ihmTableFacade = new IHMTableFacade(iDataIHMtable);
+        IIHMTableToData iIHMTableToData = ihmTableFacade;
+        IIHMTableToIHMMain iIHMTableToIHMMain = ihmTableFacade;
+
+        // IhmMainFacade creation
+        IHMMainFacade ihmMainFacade = new IHMMainFacade(
+                iDataIHMMain,
+                iIHMTableToIHMMain,
+                stage
+        );
+        IHMMainToIhmTable iHMMainToIhmTable = ihmMainFacade;
+
+        // set link from IhmMainFacade to IhmTable
+        ihmTableFacade.setIhmMainLink(iHMMainToIhmTable);
+
+        // set link from IhmMain, Ihmtable and Communication Facade to Data
+        dataFacade.setFacadeLinks(comFacade, iIHMTableToData, ihmMainFacade);
     }
 
     /**

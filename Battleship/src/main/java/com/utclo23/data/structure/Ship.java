@@ -5,18 +5,18 @@
  */
 package com.utclo23.data.structure;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Davy
  */
-public class Ship {
+public class Ship extends SerializableEntity{
     private ShipType type;
     private Player owner;
-    private ArrayList<Integer[]> listCoord;
+    private List<Coordinate> listCoord;
 
-    public Ship(ShipType type, Player owner, ArrayList<Integer[]> listCoord) {
+    public Ship(ShipType type, Player owner, List<Coordinate> listCoord) {
         this.type = type;
         this.owner = owner;
         this.listCoord = listCoord;
@@ -38,11 +38,11 @@ public class Ship {
         this.owner = owner;
     }
 
-    public ArrayList<Integer[]> getListCoord() {
+    public List<Coordinate> getListCoord() {
         return listCoord;
     }
 
-    public void setListCoord(ArrayList<Integer[]> listCoord) {
+    public void setListCoord(List<Coordinate> listCoord) {
         this.listCoord = listCoord;
     }
     

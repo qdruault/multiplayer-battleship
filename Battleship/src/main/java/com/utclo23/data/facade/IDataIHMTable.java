@@ -7,20 +7,21 @@ package com.utclo23.data.facade;
 
 import com.utclo23.data.structure.*;
 import java.rmi.server.UID;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Davy
  */
 public interface IDataIHMTable {
-    public ArrayList<Ship> getShips();
+    public List<Ship> getShips();
     public void setShip(Ship ship);
-    public boolean attack(Integer[] coords);
+    public boolean attack(Coordinate coords);
     public void leaveGame();
-    public ArrayList<Ship> getInitialBoardFromGameId(UID gameid);
-    public ArrayList<Event> getPreviousBoard();
-    public ArrayList<Event> getNextBoard();
+    public List<Ship> getInitialBoardFromGameId(String gameid);
+    public List<Event> getPreviousBoard();
+    public List<Event> getNextBoard();
     public void sendMessage(String text);
     public Game getGame();
+    
 }
