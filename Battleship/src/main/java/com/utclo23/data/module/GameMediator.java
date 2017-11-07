@@ -9,20 +9,29 @@ import java.util.List;
 
 
 /**
- *
+ * This class is implementing the design pattern mediator for Games.
  * @author tboulair
  */
 public class GameMediator {
+    /**
+     * reference to the data facade
+     */
     private DataFacade dataFacade;
+    
+    /**
+     * list that stores games
+     */
     private List<StatGame> gamesList; 
 
+    /**
+     * Constructor 
+     */
     public GameMediator(DataFacade dataFacade) {
         this.dataFacade = dataFacade;
         this.gamesList = new ArrayList<>();
     }
     
     /**
-<<<<<<< HEAD
      * add a new game
      *
      * @param game

@@ -46,8 +46,7 @@ public class UserMediator {
      * constructor
      *
      * @param dataFacade reference to the facade
-     */
-    
+     */    
     public UserMediator(DataFacade dataFacade) {
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Création du mediator");
 
