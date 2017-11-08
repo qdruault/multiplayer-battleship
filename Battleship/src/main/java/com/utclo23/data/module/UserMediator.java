@@ -311,6 +311,7 @@ public class UserMediator {
             if (comFacade != null) {
                 if (this.owner != null) {
                     comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+                    //comFacade.sendDiscovery(this.owner.getUserIdentity(), this.owner.getDiscoveryNodes());
                 }
             }
 
@@ -320,7 +321,7 @@ public class UserMediator {
     /**
      * disconnection
      */
-    public void singOut() throws DataException {
+    public void signOut() throws DataException {
         if (this.owner != null) {
 
             this.save(); //Save the file
@@ -386,6 +387,30 @@ public class UserMediator {
             this.mapConnectedUser.remove(usr.getId());
         } else {
             throw new RuntimeException("There is no such user to remove form the list of connected users.");
+        }
+    }
+    
+    /**
+     * get the discovery nodes
+     *
+     * @return
+     */
+    public List<String> getIPDiscovery() {
+        return this.owner.getDiscoveryNodes();
+    }
+    
+    /**
+     * set the discovery nodes
+     *
+     * @param discoveryNodes
+     * @throws com.utclo23.data.module.DataException
+     */
+    public void setIPDiscovery(List<String> discoveryNodes) throws DataException {        
+        if (this.owner != null) {
+            this.owner.setDiscoveryNodes(discoveryNodes);                       
+            save();
+        } else {
+            throw new DataException("Data : error in setting discovery nodes");
         }
     }
 }

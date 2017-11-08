@@ -44,7 +44,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     private ComFacade comfacade;
     private IHMMainFacade ihmMainFacade;
-    private IHMTableFacade ihmTablefacade;
+    private IIHMTableToData ihmTablefacade;
+    
     /**
      * test mode (useful for unit test to disable several features)
      */
@@ -71,16 +72,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         return ihmMainFacade;
     }
 
-    public void setIhmMainFacade(IHMMainFacade ihmMainFacade) {
-        this.ihmMainFacade = ihmMainFacade;
-    }
-
-    public IHMTableFacade getIhmTablefacade() {
+    public IIHMTableToData getIhmTablefacade() {
         return ihmTablefacade;
-    }
-
-    public void setIhmTablefacade(IHMTableFacade ihmTablefacade) {
-        this.ihmTablefacade = ihmTablefacade;
     }
 
     /**
@@ -109,9 +102,6 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         return comfacade;
     }
 
-    public void setComfacade(ComFacade comfacade) {
-        this.comfacade = comfacade;
-    }
     
     // TODO: implement that
     public void setFacadeLinks(
@@ -119,8 +109,9 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
             IIHMTableToData ihmTableToData,
             IHMMainFacade ihmMainFacade
     ){
-    
-    
+        this.comfacade = comFacade;
+        this.ihmMainFacade = ihmMainFacade;
+        this.ihmTablefacade = ihmTableToData;
     }
 
     /**
@@ -447,7 +438,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void signOut() throws DataException {
-        this.userMediator.singOut();
+        this.userMediator.signOut();
     }
 
     /**
@@ -460,6 +451,24 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         return this.userMediator.getConnectedUsers();
     }
 
+    /**
+     * get the discovery nodes
+     *
+     * @return
+     */
+    @Override
+    public List<String> getIPDiscovery() {
+        return this.userMediator.getIPDiscovery();
+    }
     
-    
+    /**
+     * set the discovery nodes
+     *
+     * @param discoveryNodes
+     * @throws com.utclo23.data.module.DataException
+     */
+    @Override
+    public void setIPDiscovery(List<String> discoveryNodes) throws DataException {
+        this.userMediator.setIPDiscovery(discoveryNodes);
+    }
 }
