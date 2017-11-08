@@ -344,7 +344,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void sendMessage(String text) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
     }
 
     /**
@@ -412,7 +412,6 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
     /**
      * Create a game
-     *
      * @param name
      * @param spectator
      * @param spectatorChat
@@ -420,9 +419,14 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void createGame(String name, boolean spectator, boolean spectatorChat, String type) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     
+        this.gameMediator.createGame(name, spectator, spectatorChat, type);
+        
     }
 
+    
+    
+    
     /**
      * *
      *
