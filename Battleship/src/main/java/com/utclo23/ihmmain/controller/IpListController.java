@@ -5,8 +5,12 @@
  */
 package com.utclo23.ihmmain.controller;
 
+import com.utclo23.data.module.DataException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -49,11 +53,28 @@ public class IpListController extends AbstractController{
         getKnownIp();
     }
     
+    /**
+     * @Lucille => c'est sur cette fonction que ça merde
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void validateList(ActionEvent event) throws IOException{
-        // TODO : save the list with data
+        ObservableList<ObservableIp> data = ipList.getItems();
+        List<String> discoveryNodes = new ArrayList<String>();
         
-        ihmmain.toMenu();
+        for (int i = 0; i<data.size(); i++){
+            discoveryNodes.add(data.get(i).getIpAdress());
+        }
+
+        try {
+            facade.iDataIHMMain.setIPDiscovery(discoveryNodes);
+        } catch (DataException ex) {
+            Logger.getLogger(IpListController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ihmmain.toMenu();
+        }
+
     }
     
     @FXML
@@ -83,13 +104,20 @@ public class IpListController extends AbstractController{
     
     private void getKnownIp(){
         // Call data method in order to collect know ip
-        // TODO call data method public getIPDiscovery() and remove the next line.
-        ArrayList<ObservableIp> knownIp = new ArrayList<ObservableIp>();         
-        ObservableList<ObservableIp> data = FXCollections.observableArrayList(knownIp);
+        if(facade != null){
+            ArrayList<ObservableIp> knownIp = new ArrayList<ObservableIp>();
+            List<String> ipDiscovery = facade.iDataIHMMain.getIPDiscovery();
+            
+            for(int i = 0; i<ipDiscovery.size(); i++){
+                knownIp.add(new ObservableIp((ipDiscovery.get(i))));
+            }
+            
+            ObservableList<ObservableIp> data = FXCollections.observableArrayList(knownIp);
 
-        // Update the list in the GUI
-        ipList.setItems(data);
-
+            // Update the list in the GUI
+            ipList.setItems(data);
+            
+        }
     }
     
     /**
