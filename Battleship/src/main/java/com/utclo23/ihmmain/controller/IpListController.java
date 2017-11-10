@@ -54,20 +54,25 @@ public class IpListController extends AbstractController{
     }
     
     /**
-     * @Lucille => c'est sur cette fonction que ça merde
+     * This function is call when the player click on the button "VALIDATE AND RETURN".
+     * It allows to save the list of Ip address et return home.
      * @param event
      * @throws IOException 
      */
     @FXML
     private void validateList(ActionEvent event) throws IOException{
+        // ip address in the tableview in the GUI
         ObservableList<ObservableIp> data = ipList.getItems();
-        List<String> discoveryNodes = new ArrayList<String>();
         
+        List<String> discoveryNodes = new ArrayList<>();
+        
+        // we convert our ObservableIp in String for data
         for (int i = 0; i<data.size(); i++){
             discoveryNodes.add(data.get(i).getIpAdress());
         }
 
         try {
+            // save the ip address
             facade.iDataIHMMain.setIPDiscovery(discoveryNodes);
         } catch (DataException ex) {
             Logger.getLogger(IpListController.class.getName()).log(Level.SEVERE, null, ex);
@@ -77,6 +82,13 @@ public class IpListController extends AbstractController{
 
     }
     
+    /**
+     * This function is call when the player click on the button "ADD/REMOVE ADDRESS".
+     * If the address is in the list, the address is removed.
+     * If the address is NOT in the list, the address is added.
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void addRemoveIpAdress(ActionEvent event) throws IOException{
         String ipAdress = ipAdressField.getText();
@@ -102,6 +114,9 @@ public class IpListController extends AbstractController{
         ipList.setItems(data);
     }
     
+    /**
+     * This function allows to update the list in the GUI with the saved ip address
+     */
     private void getKnownIp(){
         // Call data method in order to collect know ip
         if(facade != null){
@@ -116,7 +131,6 @@ public class IpListController extends AbstractController{
 
             // Update the list in the GUI
             ipList.setItems(data);
-            
         }
     }
     
@@ -133,7 +147,6 @@ public class IpListController extends AbstractController{
         public String getIpAdress(){
             return ipAdress;
         }
-
     }
     
 }
