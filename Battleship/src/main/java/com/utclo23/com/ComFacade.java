@@ -78,15 +78,25 @@ public class ComFacade {
     }
     // à tout le monde
     public void notifyNewGame(StatGame game){
-            
+        M_CreationGame m_creationgame = new M_CreationGame(game);
+        for(Inet4Address ip : kIpCtrl.getHashMap().values()){
+            Sender os = new Sender(ip.getHostAddress(), 80, m_creationgame);
+            new Thread(os).start();
+        }
     }
     // envoi à la machine qui a crée la game
     public void connectionToGame(StatGame game){
-        
+        M_JoinGame m_joingame = new M_JoinGame(game);
+        Sender os = new Sender(game.creator.getId().getHostAddress(), 80, m_joingame);
+        new Thread(os).start();
     }
     // envoi à tout ceux  qui sont dans la game logiquement, paramètre à revoir
     public void leaveGame(PublicUser user){
-
+        M_LeaveGame m_leavegame = new M_LeaveGame();
+        for(Inet4Address ip : kIpCtrl.getHashMap().values()){
+            Sender os = new Sender(ip.getHostAddress(), 80, m_leavegame);
+            new Thread(os).start();
+        }
     }
  
     // envoi à tout le monde
@@ -103,17 +113,25 @@ public class ComFacade {
     
     // envoi à l'id
     public void getPublicUserProfile(String id){
-        
+        M_GetPlayerInfo m_getplayerinfo = new M_GetPlayerInfo();
+        Sender os = new Sender(kIpCtrl.getHashMap().get(id).getHostAddress(), 80, m_getplayerinfo);
+        new Thread(os).start();
     }
     
     // envoi à l'id
     public void returnPublicUserProfile (String id){
-        
+        M_PlayerInfo m_playerinfo = new M_PlayerInfo(id);
+        Sender os = new Sender(kIpCtrl.getHashMap().get(id).getHostAddress(), 80, m_playerinfo);
+        new Thread(os).start();
     }
 
     // envoi à tout le monde
     public void joinGameResponse (boolean success, String id, StatGame game){
-        
+        M_JoinGameResponse m_joingameresponse = new M_JoinGameResponse(success);
+        for(Inet4Address ip : kIpCtrl.getHashMap().values()){
+            Sender os = new Sender(ip.getHostAddress(), 80, m_joingameresponse);
+            new Thread(os).start();
+        }
     }
        
 }
