@@ -7,13 +7,20 @@ package com.utclo23.ihmmain;
 
 import com.utclo23.ihmmain.constants.SceneName;
 import com.utclo23.ihmmain.controller.AbstractController;
+import com.utclo23.ihmmain.controller.PlayerListController;
 import com.utclo23.ihmmain.facade.IHMMainFacade;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -40,6 +47,13 @@ public class IHMMain {
         stage.setTitle("Login");
         stage.setScene(sceneMap.get(SceneName.Login.toString()));
         stage.show();
+        
+        // Load the font for the css
+        try {
+            Font c = Font.loadFont(new FileInputStream(new File("./target/classes/styles/space_age.ttf")), 10);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PlayerListController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void toLogin() throws IOException{
