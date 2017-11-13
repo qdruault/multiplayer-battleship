@@ -35,7 +35,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
-      <GridPane layoutX="772.0" layoutY="2.0" prefHeight="510.0" prefWidth="508.0">
+      <GridPane id="opponentGrid" fx:id="opponentGrid" layoutX="772.0" layoutY="2.0" prefHeight="510.0" prefWidth="508.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

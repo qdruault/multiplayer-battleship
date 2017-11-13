@@ -10,13 +10,17 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.EventObject;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -28,6 +32,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.PickResult;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -62,6 +69,9 @@ public class InGameGUIController {
     private Button menuButton;
 
     @FXML
+    private GridPane opponentGrid;
+    
+    @FXML
     public void buttonAction(ActionEvent event) throws IOException {
        System.out.println("test for the button Image !");
        
@@ -82,4 +92,35 @@ public class InGameGUIController {
     public void setFacade(IHMTableFacade facade) {
         this.facade = facade;
     }
+
+    private class AttackEvent implements EventHandler {
+
+        /**
+         * The row to attack.
+         */
+        private int row;
+        
+        /**
+         * The column to attack.
+         */
+        private int column;
+        
+        /**
+         * Constructor
+         * @param pRow: the row
+         * @param pColumn: the column
+         */
+        public AttackEvent(int pRow, int pColumn) {
+            row = pRow;
+            column = pColumn;
+        }
+        
+        @Override
+        public void handle(Event event) {
+            System.out.println("col: " + column + " row: " + row);
+        }
+        
+    }
+
 }
+
