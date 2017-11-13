@@ -88,6 +88,24 @@ public class InGameGUIController {
           cette fonction permet de modifier l'interface vers MenuInterface
         */
     }
+    
+    /**
+     * First method called.
+     */
+    @FXML
+    public void initialize() {
+        // Fill in the grid.
+        for (int col = 0; col < opponentGrid.getColumnConstraints().size(); col++) {
+            for (int row = 0; row < opponentGrid.getRowConstraints().size(); row++) {
+                // Create an empty pane.
+                Pane pane = new Pane();
+                
+                // Add a onClick event on it.
+                pane.setOnMouseClicked(new AttackEvent(row, col));
+                opponentGrid.add(pane, col, row);
+            }
+        }
+    }
   
     public void setFacade(IHMTableFacade facade) {
         this.facade = facade;
