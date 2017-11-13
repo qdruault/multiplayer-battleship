@@ -27,12 +27,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class IpListController extends AbstractController{
     @FXML
-    private Button validateButton;
-    
-    @FXML
-    private Button addRemoveButton;
-    
-    @FXML
     private TextField ipAdressField;
     
     @FXML
@@ -49,8 +43,6 @@ public class IpListController extends AbstractController{
         
         // Columns take all the width of the window
         ipList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        
-        getKnownIp();
     }
     
     /**
@@ -79,7 +71,17 @@ public class IpListController extends AbstractController{
         } finally {
             ihmmain.toMenu();
         }
-
+    }
+    
+    /**
+     * Temporary function.
+     * This function is present until the new controller launch method is implemented. Remove the function and and the button when it's done.
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    private void refreshList(ActionEvent event) throws IOException{
+        getKnownIp();
     }
     
     /**
