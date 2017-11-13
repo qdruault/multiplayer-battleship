@@ -92,24 +92,12 @@ public class InGameGUIController {
     }
 
     @FXML
-    public void fireAction(ActionEvent event) throws IOException {
-
-    }
-
-    @FXML
     public void menuAction(ActionEvent event) throws IOException {
         /*
           cette fonction permet de modifier l'interface vers MenuInterface
         */
     }
 
-
-    @FXML
-    public void menuAction(ActionEvent event) throws IOException {
-        /*
-          cette fonction permet de modifier l'interface vers MenuInterface
-        */
-    }
 
     /**
      * First method called.
