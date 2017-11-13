@@ -54,6 +54,8 @@ public class MainApp extends Application {
 
         // set link from IhmMain, Ihmtable and Communication Facade to Data
         dataFacade.setFacadeLinks(comFacade, iIHMTableToData, ihmMainFacade);
+        
+        ihmTableFacade.createInGameGUI(stage);
     }
 
     /**
