@@ -3,18 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.utclo23.data.module;
-
-import com.utclo23.battleship.GameException;
+package com.utclo23.battleship;
 
 /**
  *
+ * Basic exception for project
  * @author Davy
  */
-public class DataException extends GameException 
-{
+public class GameException extends Exception {
 
-    public DataException(String message) {
+    public GameException() {
+    }
+
+    public GameException(String message) {
         super(message);
     }
     

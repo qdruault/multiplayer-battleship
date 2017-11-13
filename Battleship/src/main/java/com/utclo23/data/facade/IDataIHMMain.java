@@ -22,10 +22,16 @@ public interface IDataIHMMain {
     public PublicUser getPublicUserProfile(String id);
     
     public List<StatGame> getGameList();
+    
+   
     public void createGame(String name, boolean spectator, boolean spectatorChat, String type);
     public void signin(String username, String password) throws DataException;
     public void signOut() throws Exception;
     public List<LightPublicUser> getConnectedUsers();
     public PublicUser getMyPublicUserProfile();
+
+    public List<String> getIPDiscovery();
+    public void setIPDiscovery(List<String> discoveryNodes) throws DataException;
+
 }
 

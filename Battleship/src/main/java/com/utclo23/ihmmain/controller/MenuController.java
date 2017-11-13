@@ -28,6 +28,8 @@ public class MenuController extends AbstractController{
     private Button PlayerListButton;
     @FXML
     private Button exitButton;
+    @FXML
+    private Button ipListButton;
 
     @FXML
     private void play(ActionEvent event) {
@@ -41,6 +43,11 @@ public class MenuController extends AbstractController{
     @FXML
     private void showPlayerList(ActionEvent event) throws IOException{
         ihmmain.toPlayerList();
+    }
+    
+    @FXML
+    private void showIpList(ActionEvent event) throws IOException{
+        ihmmain.toIpList();
     }
 
     @FXML

@@ -21,6 +21,19 @@ public class GameMediator {
         this.gamesList = new ArrayList<>();
     }
     
+  /**
+     * Create a game
+     * @param name
+     * @param spectator
+     * @param spectatorChat
+     * @param type
+     */
+
+    public void createGame(String name, boolean spectator, boolean spectatorChat, String type) {
+      
+    }
+
+    
     /**
 <<<<<<< HEAD
      * add a new game
