@@ -20,13 +20,10 @@
                 <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="27.0" minHeight="10.0" prefHeight="26.0" vgrow="SOMETIMES" />
               </rowConstraints>
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="User ID" />
-                  <TextArea prefHeight="28.0" prefWidth="118.0" GridPane.columnIndex="1" />
-               </children>
             </GridPane>
-            <Button layoutX="46.0" layoutY="91.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="97.0" text="Back" />
-            <Button layoutX="231.0" layoutY="91.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="97.0" text="Submit" />
+            <Button layoutX="46.0" layoutY="91.0" mnemonicParsing="false" onAction="#close" prefHeight="27.0" prefWidth="97.0" text="Back" />
+            <Button fx:id="submit" layoutX="231.0" layoutY="91.0" mnemonicParsing="false" onAction="#updateID" prefHeight="27.0" prefWidth="97.0" text="Submit" />
+            <TextArea fx:id="field" layoutX="77.0" layoutY="35.0" prefHeight="28.0" prefWidth="229.0" />
          </children></Pane>
    </children>
 </AnchorPane>
