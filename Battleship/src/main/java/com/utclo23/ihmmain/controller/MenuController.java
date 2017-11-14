@@ -33,6 +33,7 @@ public class MenuController extends AbstractController{
 
     @FXML
     private void play(ActionEvent event) {
+        facade.iIHMTableToIHMMain.createInGameGUI();
     }
 
     @FXML

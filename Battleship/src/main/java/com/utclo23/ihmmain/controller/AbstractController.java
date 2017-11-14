@@ -7,6 +7,7 @@ package com.utclo23.ihmmain.controller;
 
 import com.utclo23.ihmmain.IHMMain;
 import com.utclo23.ihmmain.facade.IHMMainFacade;
+import java.io.IOException;
 
 /**
  * upper class of all ihm-main controller class, contain IHMMain class
@@ -52,5 +53,12 @@ public class AbstractController {
     
     public void stop(){
         this.isRunning = false;
+    }
+    
+    /**
+     * Override this method to refresh the page when isRunning is true
+     * @throws IOException 
+     */
+    public void refresh() throws IOException {
     }
 }
