@@ -6,6 +6,7 @@
 package com.utclo23.ihmtable.controller;
 
 import com.utclo23.ihmtable.IHMTableFacade;
+import com.utclo23.data.structure.Coordinate;
 import java.io.IOException;
 import java.net.URL;
 import java.util.EventObject;
@@ -70,6 +71,13 @@ public class InGameGUIController {
 
     @FXML
     private GridPane opponentGrid;
+    @FXML
+    private Button btnFire;
+    
+    /**
+     * The cell chosen to attack;
+     */
+    private Coordinate cellToAttack;
     
     @FXML
     public void buttonAction(ActionEvent event) throws IOException {
@@ -106,7 +114,21 @@ public class InGameGUIController {
             }
         }
     }
-  
+    
+    /**
+     * Click on the "Fire" button.
+     * @param event 
+     */
+    @FXML
+    void onClickFire(MouseEvent event) {
+        // Only if a cell has been aimed.
+        if (cellToAttack != null) {
+            System.out.println("Row: " + cellToAttack.getY() + " Col: " + cellToAttack.getX());
+        } else {
+            System.err.println("No cell is selected!");
+        }
+    }
+   
     public void setFacade(IHMTableFacade facade) {
         this.facade = facade;
     }
@@ -135,7 +157,8 @@ public class InGameGUIController {
         
         @Override
         public void handle(Event event) {
-            System.out.println("col: " + column + " row: " + row);
+            // Save the cell to attack.
+            cellToAttack = new Coordinate(column, row);
         }
         
     }
