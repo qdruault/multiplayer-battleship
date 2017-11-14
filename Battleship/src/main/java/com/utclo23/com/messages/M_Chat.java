@@ -5,7 +5,6 @@
  */
 package com.utclo23.com.messages;
 import com.utclo23.data.facade.IDataCom;
-import java.net.UnknownHostException;
 import java.util.Date;
 /**
  *
@@ -14,15 +13,14 @@ import java.util.Date;
 public class M_Chat extends Message {
     private com.utclo23.data.structure.Message message;
     private Date timeStamp; 
-
-    public M_Chat(IDataCom iDataCom, com.utclo23.data.structure.Message m, Date t) throws UnknownHostException{
-        super(iDataCom);
+    
+    public M_Chat(com.utclo23.data.structure.Message m, Date t){
         message = m;
         timeStamp = t;
     }
     
     @Override
-    public void callback(){
+    public void callback(IDataCom iDataCom){
         iDataCom.forwardMessage(this.message);
     }
 }

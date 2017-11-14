@@ -30,15 +30,14 @@ public class M_ReturnIP extends Message {
     private KnownIPController kic;
     private DiscoveryController discoCtrl;
 
-    public M_ReturnIP(IDataCom iDataCom, List<StatGame> listGames, List<LightPublicUser> listUsers, HashMap<String, Inet4Address> idToIp) throws UnknownHostException {
-        super(iDataCom);
+    public M_ReturnIP(List<StatGame> listGames, List<LightPublicUser> listUsers, HashMap<String, Inet4Address> idToIp) {
         this.listGames = listGames;
         this.listUsers = listUsers;
         this.idToIp = idToIp;
     }
 
     @Override
-    public void callback() {
+    public void callback(IDataCom iDataCom) {
 
         // MAJ for Data
         for (int i = 0; i < listUsers.size(); i++) {
@@ -69,16 +68,11 @@ public class M_ReturnIP extends Message {
             HashMap<String, Inet4Address> IdToIp = kic.getNewIpHashMap();
 
             // send back the data this node has about its known network.
-            M_ReturnIP returnIp;
-            try {
-                returnIp = new M_ReturnIP(iDataCom, listGames, listUsers, IdToIp);
-
+            M_ReturnIP returnIp = new M_ReturnIP(listGames, listUsers, IdToIp);
 
             Sender os = new Sender(IP_sender.toString(), 80, returnIp);
             new Thread(os).start();
-            } catch (UnknownHostException ex) {
-                Logger.getLogger(M_ReturnIP.class.getName()).log(Level.SEVERE, null, ex);
-            }
+
         } else {
             String myId = iDataCom.getMyPublicUserProfile().getLightPublicUser().getId();
             // TODO: add fonction to get the data from DATA
@@ -100,16 +94,11 @@ public class M_ReturnIP extends Message {
                 Logger.getLogger(M_ReturnIP.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            M_ReturnIP returnIp;
-            try {
-                returnIp = new M_ReturnIP(iDataCom, listGames, listUsers, IdToIp);
-
+            M_ReturnIP returnIp = new M_ReturnIP(listGames, listUsers, IdToIp);
             Sender os = new Sender(IP_sender.toString(), 80, returnIp);
             Thread thread = new Thread(os);
             thread.start();
-            } catch (UnknownHostException ex) {
-                Logger.getLogger(M_ReturnIP.class.getName()).log(Level.SEVERE, null, ex);
-            }
+
         }
 
     }

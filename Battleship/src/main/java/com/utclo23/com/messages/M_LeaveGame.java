@@ -6,20 +6,14 @@
 package com.utclo23.com.messages;
 
 import com.utclo23.data.facade.IDataCom;
-import java.net.UnknownHostException;
 
 /**
  *
  * @author thibault
  */
 public class M_LeaveGame extends Message {
-    
-    public M_LeaveGame(IDataCom iDataCom) throws UnknownHostException{
-        super(iDataCom);
-    }
-    
     @Override
-    public void callback(){
+    public void callback(IDataCom iDataCom){
         iDataCom.opponentHasLeftGame();
     }
 }

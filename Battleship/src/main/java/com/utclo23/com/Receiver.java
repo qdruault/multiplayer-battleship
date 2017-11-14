@@ -38,13 +38,12 @@ public class Receiver implements Runnable {
     public void run() {
         while (true) {
             try {
-                System.out.println("Hello in receiver");
                 client = serverSocket.accept();
                 in = new ObjectInputStream(client.getInputStream());
                 
                 while((request = (Message) in.readObject()) != null)
                 {
-                    request.callback();
+                    request.callback(iDataCom);
                     break;
                 }
 

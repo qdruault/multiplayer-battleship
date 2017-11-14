@@ -17,12 +17,10 @@ import java.net.UnknownHostException;
 public abstract class Message implements Serializable{
     protected PublicUser user;
     protected Inet4Address IP_sender;
-    protected IDataCom iDataCom;
+    public abstract void callback(IDataCom iDataCom);
     
-    public abstract void callback();
-    
-    public Message(IDataCom iDataCom) throws UnknownHostException{
-        setUser(iDataCom.getMyPublicUserProfile());
+    public void Message(IDataCom idc) throws UnknownHostException{
+        setUser(idc.getMyPublicUserProfile());
         setIpSender((Inet4Address)Inet4Address.getLocalHost());
     }
     

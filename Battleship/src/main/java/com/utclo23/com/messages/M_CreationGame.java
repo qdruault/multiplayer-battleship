@@ -6,7 +6,6 @@
 package com.utclo23.com.messages;
 import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.StatGame;
-import java.net.UnknownHostException;
 /**
  *
  * @author thibault
@@ -14,13 +13,12 @@ import java.net.UnknownHostException;
 public class M_CreationGame extends Message{
     public StatGame game;
     
-    public M_CreationGame(IDataCom iDataCom, StatGame g) throws UnknownHostException{
-        super(iDataCom);
+    public M_CreationGame(StatGame g){
         game = g;
     }
     
     @Override
-    public void callback(){
+    public void callback(IDataCom iDataCom){
         iDataCom.addNewGame(game);
     }
 }

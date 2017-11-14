@@ -10,7 +10,6 @@ import com.utclo23.data.module.DataException;
 import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.Owner;
 import com.utclo23.data.structure.StatGame;
-import java.net.UnknownHostException;
 import java.rmi.server.UID;
 import java.util.Arrays;
 import java.util.Date;
@@ -152,7 +151,7 @@ public class UserProfileTest {
      * Test update firstname
      */
     @org.junit.Test
-    public void testUpdateBlankPasswordUser() throws DataException, UnknownHostException {
+    public void testUpdateBlankPasswordUser() throws DataException {
         expectedException.expect(DataException.class);
 
         DataFacade df = new DataFacade();
@@ -246,7 +245,7 @@ public class UserProfileTest {
      * Test update discoveryNodes
      */
     @org.junit.Test
-    public void testUpdateDiscoveryNodes() throws UnknownHostException {
+    public void testUpdateDiscoveryNodes() {
         try {            
             DataFacade df = new DataFacade();
             df.setTestMode(true);

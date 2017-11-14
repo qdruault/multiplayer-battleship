@@ -6,7 +6,6 @@
 package com.utclo23.com.messages;
 import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.StatGame;
-import java.net.UnknownHostException;
 /**
  *
  * @author thibault
@@ -15,12 +14,11 @@ public class M_JoinGame extends Message {
     private StatGame game;
     private String role;
     
-    public M_JoinGame(IDataCom iDataCom, StatGame g) throws UnknownHostException {
-        super(iDataCom);
+    public M_JoinGame(StatGame g) {
         game = g;
     }
     @Override
-    public void callback() {
+    public void callback(IDataCom iDataCom) {
         //Mettre à jour l'interface updateGameList()
       // iDataCom.updateGameList(user.getLightPublicUser(), game.getId(), role);
     }
