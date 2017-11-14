@@ -25,7 +25,7 @@
                   <TextArea prefHeight="28.0" prefWidth="118.0" GridPane.columnIndex="1" />
                </children>
             </GridPane>
-            <Button layoutX="46.0" layoutY="91.0" mnemonicParsing="false" onAction="#closePopup" prefHeight="27.0" prefWidth="97.0" text="Back" />
+            <Button layoutX="46.0" layoutY="91.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="97.0" text="Back" />
             <Button layoutX="231.0" layoutY="91.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="97.0" text="Submit" />
          </children></Pane>
    </children>

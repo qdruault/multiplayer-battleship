@@ -5,27 +5,19 @@
  */
 package com.utclo23.com;
 
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import com.utclo23.com.messages.Message;
-
 
 /**
  *
- * @author Thomas Michel
- * @author Grégoire Martinache
+ * @author Thomas MICHEL
+ * @author Grégoire MARTINACHE
  */
-class OutSocket implements Runnable {
+public class Sender implements Runnable {
     Socket socket;
     int port;
     String ip;
@@ -33,28 +25,24 @@ class OutSocket implements Runnable {
     ObjectOutputStream out;
     ObjectInputStream in;
 
-    
-    public OutSocket(String ip, int port, Message request){
+    public Sender(String ip, int port, Message request) {
         ip = ip;
         port = port;
         request = request;
     }
-    
-    
-    
+
     public void run() {
-     try {
-        socket = new Socket(ip, port);
-        out = new ObjectOutputStream(socket.getOutputStream());
-        in = new ObjectInputStream(socket.getInputStream());
-        
-        out.writeObject(request);
-        
-        in.close();
-        out.close();
-        socket.close();
-        
-        
+        try {
+            socket = new Socket(ip, port);
+            out = new ObjectOutputStream(socket.getOutputStream());
+            in = new ObjectInputStream(socket.getInputStream());
+
+            out.writeObject(request);
+
+            in.close();
+            out.close();
+            socket.close();
+
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -62,4 +50,3 @@ class OutSocket implements Runnable {
         }
     }
 }
-

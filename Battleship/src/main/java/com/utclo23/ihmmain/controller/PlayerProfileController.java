@@ -86,11 +86,6 @@ public class PlayerProfileController extends AbstractController{
         popup();
     }
     
-    
-    
-    
-    
-    
     private void popup() throws IOException{
         final Stage primaryStage = ihmmain.primaryStage;
         String path = "/fxml/ihmmain/popup.fxml";
@@ -98,7 +93,6 @@ public class PlayerProfileController extends AbstractController{
         Parent sceneLoader = loader.load();
         Scene newScene;
         newScene = new Scene(sceneLoader);
-        
         Stage popup = new Stage();
         popup.initOwner(primaryStage);
         popup.setScene(newScene);

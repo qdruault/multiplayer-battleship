@@ -67,6 +67,10 @@ public class IHMMain {
          toScene(SceneName.CreateUser);
     }
     
+    public void toIpList() throws IOException{
+        toScene(SceneName.IpList);
+    }
+    
     /**
      * use this carefully,  it throws a IOException if scene no found!
      * @param scenename
