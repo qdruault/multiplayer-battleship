@@ -133,7 +133,6 @@ public class UserMediator {
         if (this.owner != null) {
             publicUser = this.owner.getUserIdentity();
         }
-
         return publicUser;
     }
 
