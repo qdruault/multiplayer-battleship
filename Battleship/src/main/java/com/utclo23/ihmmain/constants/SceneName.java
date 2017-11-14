@@ -23,12 +23,16 @@ public enum SceneName {
      */
     Menu,
     /**
+     * name of player list scene
+     */
+    PlayerList,
+    /**
      * name of player profile scene
      */
     PlayerProfile,
     /**
-     * name of player list scene
+     * name of list of ip scene
      */
-    //PlayerList;
+    IpList,
     
 }
