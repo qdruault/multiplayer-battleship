@@ -31,7 +31,7 @@ public class Receiver implements Runnable {
             serverSocket = new ServerSocket(port); 
             iDataCom = dataCom;
         }catch(IOException e){
-
+            e.printStackTrace();
         }
     }
 
