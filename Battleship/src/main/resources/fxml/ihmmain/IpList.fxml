@@ -34,6 +34,5 @@
             <Button fx:id="addRemoveButton" mnemonicParsing="false" onAction="#addRemoveIpAdress" prefHeight="25.0" text="ADD / REMOVE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
-      <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refreshList" text="REFRESH" />
    </children>
 </GridPane>
