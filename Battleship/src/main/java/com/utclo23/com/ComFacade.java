@@ -50,11 +50,13 @@ public class ComFacade {
     // c'est sendDiscovery qui fait ça en fait non ?
     // dans le doute je l'implémente -> Thibault
     public void notifyUserSignedIn(PublicUser user){
-        M_Connexion m_connexion = new M_Connexion(user);
+        kIpCtrl.initIpList(iDataCom);
+        
+        /*M_Connexion m_connexion = new M_Connexion(user);
         for(Inet4Address ip : kIpCtrl.getHashMap().values()){
             Sender os = new Sender(ip.getHostAddress(), 80, m_connexion);
             new Thread(os).start();
-        }
+        }*/
     }
 
     // envoi à tout le monde
@@ -112,7 +114,7 @@ public class ComFacade {
 
     // envoi à tout le monde
     public void sendDiscovery(PublicUser user, List<Inet4Address> listIpTarget) {
-        kIpCtrl.initIpList(iDataCom);
+        
         for (int i = 0; i < listIpTarget.size(); i++) {
             M_GetIP m_getIp = new M_GetIP();
             Sender os = new Sender(listIpTarget.get(i).toString(), 80, m_getIp);
