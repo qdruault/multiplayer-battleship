@@ -1,5 +1,6 @@
 package com.utclo23.ihmmain.controller;
 
+import com.utclo23.data.module.DataException;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,7 +30,7 @@ public class LoginController extends AbstractController{
             try{
                 facade.iDataIHMMain.signin(username, password);
                 ihmmain.toMenu();
-            }catch (Exception e){
+            }catch (DataException e){
                 //TODO : show pop up
             }
         }
