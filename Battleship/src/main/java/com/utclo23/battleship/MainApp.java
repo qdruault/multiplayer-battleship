@@ -47,6 +47,7 @@ public class MainApp extends Application {
                 stage
         );
         IHMMainToIhmTable iHMMainToIhmTable = ihmMainFacade;
+        IHMMainToData iHMMainToData = ihmMainFacade;
 
         // set link from IhmMainFacade to IhmTable
         ihmTableFacade.setIhmMainLink(iHMMainToIhmTable);
