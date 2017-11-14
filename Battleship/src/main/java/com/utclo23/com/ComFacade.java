@@ -9,7 +9,6 @@ import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.Mine;
 import com.utclo23.data.structure.StatGame;
-import com.utclo23.com.messages.M_GetIP;
 import com.utclo23.com.messages.*;
 import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.LightPublicUser;
@@ -41,18 +40,30 @@ public class ComFacade {
     }
 
     // envoi au dest
-    public void sendShipsToEnnemy(Ship[] listShips, PublicUser dest) {
-
+    public void sendShipsToEnnemy(List<Ship> listShips, PublicUser dest){
+        M_PlaceShip m_placeship = new M_PlaceShip(listShips);
+        Sender os = new Sender(kIpCtrl.getHashMap().get(dest.getId()).getHostAddress(), 80, m_placeship);
+        new Thread(os).start();
     }
 
     // envoi à tout le monde
-    public void notifyUserSignedIn(PublicUser user) {
-
+    // c'est sendDiscovery qui fait ça en fait non ?
+    // dans le doute je l'implémente -> Thibault
+    public void notifyUserSignedIn(PublicUser user){
+        M_Connexion m_connexion = new M_Connexion(user);
+        for(Inet4Address ip : kIpCtrl.getHashMap().values()){
+            Sender os = new Sender(ip.getHostAddress(), 80, m_connexion);
+            new Thread(os).start();
+        }
     }
 
     // envoi à tout le monde
-    public void notifyUserSignedOut(PublicUser user) {
-
+    public void notifyUserSignedOut(PublicUser user){
+        M_Deconnexion m_deconnexion = new M_Deconnexion(user);
+        for(Inet4Address ip : kIpCtrl.getHashMap().values()){
+            Sender os = new Sender(ip.getHostAddress(), 80, m_deconnexion);
+            new Thread(os).start();
+        }
     }
 
     // envoi à tout ceux présents dans le game
@@ -65,23 +76,37 @@ public class ComFacade {
     }
 
     // envoi à tout ceux dans le game
-    public void notifyNewCoordinates(Mine mine, PublicUser[] recipient) {
-
+    public void notifyNewCoordinates(Mine mine, List<LightPublicUser> recipients){
+        M_PlaceMine m_placemine = new M_PlaceMine(mine);
+        for(LightPublicUser recipient : recipients){
+           Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), 80, m_placemine);
+           new Thread(os).start();
+        }
     }
 
     // à tout le monde
-    public void notifyNewGame(StatGame game) {
-
+    public void notifyNewGame(StatGame game){
+        M_CreationGame m_creationgame = new M_CreationGame(game);
+        for(Inet4Address ip : kIpCtrl.getHashMap().values()){
+            Sender os = new Sender(ip.getHostAddress(), 80, m_creationgame);
+            new Thread(os).start();
+        }
     }
 
     // envoi à la machine qui a crée la game
-    public void connectionToGame(StatGame game) {
-
+    public void connectionToGame(StatGame game){
+        M_JoinGame m_joingame = new M_JoinGame(game);
+        Sender os = new Sender(game.creator.getId().getHostAddress(), 80, m_joingame);
+        new Thread(os).start();
     }
 
     // envoi à tout ceux  qui sont dans la game logiquement, paramètre à revoir
-    public void leaveGame(PublicUser user) {
-
+    public void leaveGame(PublicUser user){
+        M_LeaveGame m_leavegame = new M_LeaveGame();
+        for(Inet4Address ip : kIpCtrl.getHashMap().values()){
+            Sender os = new Sender(ip.getHostAddress(), 80, m_leavegame);
+            new Thread(os).start();
+        }
     }
 
     // envoi à tout le monde
@@ -97,18 +122,26 @@ public class ComFacade {
     }
 
     // envoi à l'id
-    public void getPublicUserProfile(String id) {
-
+    public void getPublicUserProfile(String id){
+        M_GetPlayerInfo m_getplayerinfo = new M_GetPlayerInfo();
+        Sender os = new Sender(kIpCtrl.getHashMap().get(id).getHostAddress(), 80, m_getplayerinfo);
+        new Thread(os).start();
     }
 
     // envoi à l'id
-    public void returnPublicUserProfile(String id) {
-
+    public void returnPublicUserProfile (String id){
+        M_PlayerInfo m_playerinfo = new M_PlayerInfo(id);
+        Sender os = new Sender(kIpCtrl.getHashMap().get(id).getHostAddress(), 80, m_playerinfo);
+        new Thread(os).start();
     }
 
     // envoi à tout le monde
-    public void joinGameResponse(boolean success, String id, StatGame game) {
-
+    public void joinGameResponse (boolean success, String id, StatGame game){
+        M_JoinGameResponse m_joingameresponse = new M_JoinGameResponse(success);
+        for(Inet4Address ip : kIpCtrl.getHashMap().values()){
+            Sender os = new Sender(ip.getHostAddress(), 80, m_joingameresponse);
+            new Thread(os).start();
+        }
     }
 
 }
