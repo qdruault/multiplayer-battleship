@@ -29,13 +29,15 @@ public class ComFacade {
 
     private final DiscoveryController discoCtrl;
     private final KnownIPController kIpCtrl;
-
+    private final Receiver receiver;
+    
     public ComFacade(IDataCom iDataCom) {
         System.out.println(this.getClass() + " Creation de la facade");
         this.iDataCom = iDataCom;
         discoCtrl = DiscoveryController.getInstance();
         kIpCtrl = KnownIPController.getInstance(); // creation of KnownIPController
         // TODO: Instanciate receiver
+        receiver = new Receiver(80, iDataCom);
 
     }
 
