@@ -7,6 +7,7 @@ package com.utclo23.ihmmain;
 
 import com.utclo23.ihmmain.constants.SceneName;
 import com.utclo23.ihmmain.controller.AbstractController;
+import com.utclo23.ihmmain.facade.IHMMainFacade;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,28 +17,33 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Initialize IHM-Main scene and Contains all the functions to jump into scenes
+ * Contains all mains scene and controllers. 
+ * Contains primary stage.
+ * Contains activeScene's name to get it quickly;
  * @author Linxuhao
  */
 public class IHMMain {
     
     public Stage primaryStage;
     public Map<String,Scene> sceneMap;
+    public Map<String,AbstractController> controllerMap;
+    public String activeSceneName;
     public String styleFile = "/styles/Styles.css";
+    public IHMMainFacade facade;
     
-    
-    public void start(Stage stage) throws Exception {
+    public void start(IHMMainFacade facade,Stage stage) throws Exception {
         sceneMap = new HashMap<String,Scene>();
+        controllerMap = new HashMap<String,AbstractController>();
+        activeSceneName = null;
         primaryStage = stage;
         //load all scenes when app starts
         for(SceneName scenename : SceneName.values()){
             String scenenameString = scenename.toString();
-            Scene scene = loadPageAndGenerateControllers(scenenameString);
+            Scene scene = loadPageAndGenerateControllers(facade,scenenameString);
             sceneMap.put(scenenameString,scene);
         }
         
-        stage.setTitle("Login");
-        stage.setScene(sceneMap.get(SceneName.Login.toString()));
+        toLogin();
         stage.show();
     }
     
@@ -52,13 +58,17 @@ public class IHMMain {
     public void toPlayerProfile() throws IOException{
         toScene(SceneName.PlayerProfile);
     }
-    /*
+    
     public void toPlayerList() throws IOException{
         toScene(SceneName.PlayerList);
-    }*/
+    }
     
     public void toCreateUser() throws IOException{
          toScene(SceneName.CreateUser);
+    }
+    
+    public void toIpList() throws IOException{
+        toScene(SceneName.IpList);
     }
     
     /**
@@ -77,10 +87,17 @@ public class IHMMain {
      */
     public void toScene(String scenename)throws IOException{
         if(sceneMap.containsKey(scenename)){
+            //stop active controller
+            if(activeSceneName != null){
+                controllerMap.get(activeSceneName).stop();
+            }
             primaryStage.setTitle(scenename);
             primaryStage.setScene(sceneMap.get(scenename));
+            activeSceneName = scenename;
+            controllerMap.get(activeSceneName).start();
+            
         }else{
-        throw new IOException("the scene you asked " + scenename + " does not exist");
+        throw new IOException("[IHM-MAIN] - the scene you asked " + scenename + " does not exist");
                 }
     }
     
@@ -90,7 +107,7 @@ public class IHMMain {
      * @return
      * @throws Exception 
      */
-    private Scene loadPageAndGenerateControllers(String fxml) throws Exception {
+    private Scene loadPageAndGenerateControllers(IHMMainFacade facade, String fxml) throws Exception {
         String ressourceLocation = "/fxml/ihmmain/" + fxml + ".fxml";
         
         FXMLLoader paneLoader = new FXMLLoader(getClass().getResource(ressourceLocation));
@@ -100,6 +117,9 @@ public class IHMMain {
         
         AbstractController controller = (AbstractController) paneLoader.getController();
         controller.setIhmmain(this);
+        controller.setFacade(facade);
+        controller.init();
+        controllerMap.put(fxml, controller);
 
         return scene;
     }
