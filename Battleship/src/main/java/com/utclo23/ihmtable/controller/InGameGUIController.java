@@ -47,19 +47,30 @@ public class InGameGUIController {
     private Button buttonImage3;
     @FXML
     private Button buttonImage4;
-	
     @FXML
-    private Button sendButton;
+    private Button buttonImage5;
+    
+    @FXML
+    private Button fireButton;
+    @FXML
+    private Button menuButton;
 
     @FXML
     public void buttonAction(ActionEvent event) throws IOException {
-       System.out.println("test for the button Image ");
+       System.out.println("test for the button Image !");
        
     }
     
     @FXML
-    public void sendAction(ActionEvent event) throws IOException {
+    public void fireAction(ActionEvent event) throws IOException {
         
+    }
+    
+    @FXML
+    public void menuAction(ActionEvent event) throws IOException {
+        /*
+          cette fonction permet de modifier l'interface vers MenuInterface
+        */
     }
   
     
