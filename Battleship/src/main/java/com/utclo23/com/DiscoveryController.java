@@ -6,6 +6,7 @@
 package com.utclo23.com;
 
 import java.net.Inet4Address;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +19,7 @@ public class DiscoveryController {
     private List<Inet4Address> getIpIssuedList;
 
     private DiscoveryController() {
+        getIpIssuedList = new ArrayList<Inet4Address>();
     }
     // SINGLETON
     // Holder
