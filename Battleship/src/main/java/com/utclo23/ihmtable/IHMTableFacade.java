@@ -10,6 +10,7 @@ import com.utclo23.data.structure.StatGame;
 import com.utclo23.data.facade.IDataIHMTable;
 import com.utclo23.ihmmain.controller.AbstractController;
 import com.utclo23.ihmmain.facade.IHMMainToIhmTable;
+import com.utclo23.ihmtable.controller.InGameGUIController;
 import java.io.IOException;
 
 import java.rmi.server.UID;
@@ -40,12 +41,27 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
     private IDataIHMTable facadeData;
 
     /**
+     * @return the facadeData
+     */
+    public IDataIHMTable getFacadeData() {
+        return facadeData;
+    }
+
+    /**
+     * @return the facadeIHMMain
+     */
+    public IHMMainToIhmTable getFacadeIHMMain() {
+        return facadeIHMMain;
+    }
+
+    /**
      * The facade of IHM Main.
      */
     private IHMMainToIhmTable facadeIHMMain;
 
     /**
      * Constructor
+     * @param iDataIHMtable Interface Data IHMTable
      */
     public IHMTableFacade(IDataIHMTable iDataIHMtable) {
         this.facadeData = iDataIHMtable;
@@ -75,6 +91,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
 
     /**
      * Launch a new game.
+     * @param primaryStage Primary stage from IHMMain
      */
     @Override
     public void createInGameGUI(Stage primaryStage) {
@@ -85,6 +102,8 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
             Scene scene = new Scene(pane);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Game");
+            InGameGUIController controller = paneLoader.<InGameGUIController>getController();
+            controller.setFacade(this);
             primaryStage.show();
         } catch (IOException ex) {
             Logger.getLogger(IHMTableFacade.class.getName()).log(Level.SEVERE, null, ex);

@@ -5,6 +5,7 @@
  */
 package com.utclo23.ihmtable.controller;
 
+import com.utclo23.ihmtable.IHMTableFacade;
 import java.io.IOException;
 import java.net.URL;
 import java.util.EventObject;
@@ -38,6 +39,11 @@ import javafx.stage.Stage;
  * @author CHEN Tong
  */
 public class InGameGUIController {
+    
+    /**
+     * IHMTable façade
+     */
+    IHMTableFacade facade;
     
     @FXML
     private Button buttonImage1;
@@ -73,5 +79,7 @@ public class InGameGUIController {
         */
     }
   
-    
+    public void setFacade(IHMTableFacade facade) {
+        this.facade = facade;
+    }
 }
