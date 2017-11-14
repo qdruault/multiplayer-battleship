@@ -105,12 +105,27 @@ public class InGameGUIController {
         if (cellToAttack != null) {
             // Remove the highlight on the cell.
             clickedPane.getStyleClass().removeAll("InGameGUI_selected_cell");
-            System.out.println("Row: " + cellToAttack.getY() + " Col: " + cellToAttack.getX());
+            // Attack!
+            try {
+                if (facade.getFacadeData().attack(cellToAttack)) {
+                    // TODO: OK.
+                } else {
+                    // TODO: NOT OK.
+                }                
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
+            
         } else {
             System.err.println("No cell is selected!");
         }
     }
    
+  
+    /**
+     * Set the IHM Table facade.
+     * @param facade : IHM Table facade.
+     */
     public void setFacade(IHMTableFacade facade) {
         this.facade = facade;
     }
