@@ -19,7 +19,7 @@ public class StatGame extends SerializableEntity{
     private String id;
     private GameType type;
     private String name;
-    private List<Player> LightPublicUser;
+    private List<Player> players;
     private boolean spectator;
     private boolean spectatorChat;
     private LightPublicUser winner;
@@ -37,8 +37,8 @@ public class StatGame extends SerializableEntity{
         return name;
     }
 
-    public List<Player> getLightPublicUser() {
-        return LightPublicUser;
+    public List<Player> getPlayers() {
+        return players;
     }
 
     public boolean isSpectator() {
@@ -74,8 +74,8 @@ public class StatGame extends SerializableEntity{
         this.name = name;
     }
 
-    public void setLightPublicUser(List<Player> LightPublicUser) {
-        this.LightPublicUser = LightPublicUser;
+    public void setPlayers(List<Player> players) {
+        this.players = players;
     }
 
     public void setSpectator(boolean spectator) {
@@ -102,18 +102,31 @@ public class StatGame extends SerializableEntity{
         this.gameAbandonned = gameAbandonned;
     }
 
-    public StatGame(GameType type, String name, List<Player> LightPublicUser, boolean spectator, boolean spectatorChat, LightPublicUser winner, LightPublicUser creator, Game realGame, boolean gameAbandonned) {
+    public StatGame(GameType type, String name, List<Player> players, boolean spectator, boolean spectatorChat, LightPublicUser winner, LightPublicUser creator, Game realGame, boolean gameAbandonned) {
         this.id = new UID().toString();
         
         this.type = type;
         this.name = name;
-        this.LightPublicUser = LightPublicUser;
+        this.players = players;
         this.spectator = spectator;
         this.spectatorChat = spectatorChat;
         this.winner = winner;
         this.creator = creator;
         this.realGame = realGame;
         this.gameAbandonned = gameAbandonned;
+    }
+    
+    public StatGame(String id, GameType type, String name,  boolean spectator, boolean spectatorChat, LightPublicUser creator, Game game){
+        this.id = id;
+        this.type = type;
+        this.name = name;
+        this.spectator = spectator;
+        this.spectatorChat = spectatorChat;
+        this.players = null;
+        this.winner = null;
+        this.creator = creator;
+        this.realGame = game;
+        this.gameAbandonned = false;
     }
 
     public String getId() {

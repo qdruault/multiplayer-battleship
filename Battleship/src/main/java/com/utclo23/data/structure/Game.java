@@ -23,7 +23,7 @@ public abstract class Game extends SerializableEntity{
         this.spectators = spectators;
         this.messages = messages;
     }
-
+    
     public List<LightPublicUser> getRecipients()
     {
         return null;
