@@ -45,7 +45,8 @@ public class PlayerProfileController extends AbstractController{
     private PublicUser me;
     String testUserID="Player1";
     @FXML
-    public void initialize() throws IOException{
+    @Override
+    public void start(){
         try{
             me = facade.iDataIHMMain.getMyPublicUserProfile();
             userID.setText(me.getId());
@@ -56,7 +57,6 @@ public class PlayerProfileController extends AbstractController{
         catch(NullPointerException e){
             System.out.println("[PlayerProfile] - getMyPublicUserProfile() not supported yet");
         }
-        userID.setText(testUserID);
     }
     
      
