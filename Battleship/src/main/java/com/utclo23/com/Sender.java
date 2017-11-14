@@ -33,9 +33,6 @@ public class Sender implements Runnable {
 
     public void run() {
         try {
-            System.out.println("Opening socket :");
-            System.out.println(ip);
-            System.out.println(port);
             socket = new Socket(ip, port);
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
