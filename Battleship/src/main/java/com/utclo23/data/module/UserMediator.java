@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import java.net.Inet4Address;
 
 /**
  * User mediator related to user features
@@ -312,7 +313,19 @@ public class UserMediator {
             if (comFacade != null) {
                 if (this.owner != null) {
                     comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
-                    //comFacade.sendDiscovery(this.owner.getUserIdentity(), this.owner.getDiscoveryNodes());
+                    
+                    Inet4Address ip;
+                    boolean b;
+                    List<Inet4Address> listIpTarget = new ArrayList<>();
+                    for(String ipString :owner.getDiscoveryNodes()){                                           
+                        try{
+                            ip = (Inet4Address) Inet4Address.getByName(ipString); 
+                            listIpTarget.add(ip);
+                        } catch(Exception e){
+                            throw new DataException("Data : IP not valid");
+                        }
+                    }                                   
+                    comFacade.sendDiscovery(owner.getUserIdentity(), listIpTarget);                  
                 }
             }
 
