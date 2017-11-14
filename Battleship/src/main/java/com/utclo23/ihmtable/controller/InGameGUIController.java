@@ -22,12 +22,12 @@ import javafx.scene.layout.Pane;
  * @author CHEN Tong
  */
 public class InGameGUIController {
-    
+
     /**
      * IHMTable façade
      */
     IHMTableFacade facade;
-    
+
     @FXML
     private Button buttonImage1;
     @FXML
@@ -38,7 +38,7 @@ public class InGameGUIController {
     private Button buttonImage4;
     @FXML
     private Button buttonImage5;
-    
+
     @FXML
     private Button fireButton;
     @FXML
@@ -48,35 +48,43 @@ public class InGameGUIController {
     private GridPane opponentGrid;
     @FXML
     private Button btnFire;
-    
+
     /**
      * The cell chosen to attack;
      */
     private Coordinate cellToAttack;
-    
+
     /**
      * The pane of the previous attack.
      */
     private Pane clickedPane;
-    
+
     @FXML
     public void buttonAction(ActionEvent event) throws IOException {
        System.out.println("test for the button Image !");
-       
+
     }
-    
+
     @FXML
     public void fireAction(ActionEvent event) throws IOException {
-        
+
     }
-    
+
     @FXML
     public void menuAction(ActionEvent event) throws IOException {
         /*
           cette fonction permet de modifier l'interface vers MenuInterface
         */
     }
-    
+
+
+    @FXML
+    public void menuAction(ActionEvent event) throws IOException {
+        /*
+          cette fonction permet de modifier l'interface vers MenuInterface
+        */
+    }
+
     /**
      * First method called.
      */
@@ -87,17 +95,17 @@ public class InGameGUIController {
             for (int row = 0; row < opponentGrid.getRowConstraints().size(); row++) {
                 // Create an empty pane.
                 Pane pane = new Pane();
-                
+
                 // Add a onClick event on it.
                 pane.setOnMouseClicked(new AttackEvent(row, col));
                 opponentGrid.add(pane, col, row);
             }
         }
     }
-    
+
     /**
      * Click on the "Fire" button.
-     * @param event 
+     * @param event
      */
     @FXML
     void onClickFire(MouseEvent event) {
@@ -111,17 +119,17 @@ public class InGameGUIController {
                     // TODO: OK.
                 } else {
                     // TODO: NOT OK.
-                }                
+                }
             } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
-            
+
         } else {
             System.err.println("No cell is selected!");
         }
     }
-   
-  
+
+
     /**
      * Set the IHM Table facade.
      * @param facade : IHM Table facade.
@@ -136,12 +144,12 @@ public class InGameGUIController {
          * The row to attack.
          */
         private int row;
-        
+
         /**
          * The column to attack.
          */
         private int column;
-        
+
         /**
          * Constructor
          * @param pRow: the row
@@ -151,22 +159,21 @@ public class InGameGUIController {
             row = pRow;
             column = pColumn;
         }
-        
+
         @Override
         public void handle(Event event) {
             // Remove the higlight on the previous cell.
             if (clickedPane != null) {
                 clickedPane.getStyleClass().removeAll("InGameGUI_selected_cell");
             }
-            
+
             // Save the cell to attack.
             cellToAttack = new Coordinate(column, row);
             // Highlight the cell.
             clickedPane = (Pane)event.getSource();
             clickedPane.getStyleClass().add("InGameGUI_selected_cell");
         }
-        
+
     }
 
 }
-
