@@ -515,4 +515,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     public void setIPDiscovery(List<String> discoveryNodes) throws DataException {
         this.userMediator.setIPDiscovery(discoveryNodes);
     }
+    
+    public void receivePublicUserProfile(PublicUser profile) {
+        //this.ihmMainFacade.receivePublicUserProfile(profile);
+    }
 }
