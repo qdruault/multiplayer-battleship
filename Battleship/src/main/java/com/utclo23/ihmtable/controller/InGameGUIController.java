@@ -8,39 +8,14 @@ package com.utclo23.ihmtable.controller;
 import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.data.structure.Coordinate;
 import java.io.IOException;
-import java.net.URL;
-import java.util.EventObject;
-import java.util.ResourceBundle;
-import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.PickResult;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
 
 /**
  *
@@ -78,6 +53,11 @@ public class InGameGUIController {
      * The cell chosen to attack;
      */
     private Coordinate cellToAttack;
+    
+    /**
+     * The pane of the previous attack.
+     */
+    private Pane clickedPane;
     
     @FXML
     public void buttonAction(ActionEvent event) throws IOException {
@@ -123,6 +103,8 @@ public class InGameGUIController {
     void onClickFire(MouseEvent event) {
         // Only if a cell has been aimed.
         if (cellToAttack != null) {
+            // Remove the highlight on the cell.
+            clickedPane.getStyleClass().removeAll("InGameGUI_selected_cell");
             System.out.println("Row: " + cellToAttack.getY() + " Col: " + cellToAttack.getX());
         } else {
             System.err.println("No cell is selected!");
@@ -157,8 +139,16 @@ public class InGameGUIController {
         
         @Override
         public void handle(Event event) {
+            // Remove the higlight on the previous cell.
+            if (clickedPane != null) {
+                clickedPane.getStyleClass().removeAll("InGameGUI_selected_cell");
+            }
+            
             // Save the cell to attack.
             cellToAttack = new Coordinate(column, row);
+            // Highlight the cell.
+            clickedPane = (Pane)event.getSource();
+            clickedPane.getStyleClass().add("InGameGUI_selected_cell");
         }
         
     }
