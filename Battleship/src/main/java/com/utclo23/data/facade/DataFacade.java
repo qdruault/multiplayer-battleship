@@ -13,6 +13,7 @@ import com.utclo23.data.module.UserMediator;
 import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.Event;
 import com.utclo23.data.structure.Game;
+import com.utclo23.data.structure.GameType;
 import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.data.structure.Message;
 import com.utclo23.data.structure.Mine;
@@ -443,9 +444,9 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @param type type of the game created
      */
     @Override
-    public void createGame(String name, boolean spectator, boolean spectatorChat, String type) {
+    public Game createGame(String name, boolean spectator, boolean spectatorChat, GameType type) {
      
-        this.gameMediator.createGame(name, spectator, spectatorChat, type);
+        return this.createGame(name, spectator, spectatorChat, type);
         
     }
 
