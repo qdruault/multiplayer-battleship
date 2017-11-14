@@ -6,6 +6,7 @@
 package com.utclo23.ihmtable;
 
 import java.rmi.server.UID;
+import javafx.stage.Stage;
 
 /**
  *
@@ -13,7 +14,7 @@ import java.rmi.server.UID;
  */
 public interface IIHMTableToIHMMain {
     public void showSavedGameWithId(int id);
-    public void createInGameGUI();
+    public void createInGameGUI(Stage primaryStage);
     public void stopTimer();
     public void showGame(UID guid);
 }
