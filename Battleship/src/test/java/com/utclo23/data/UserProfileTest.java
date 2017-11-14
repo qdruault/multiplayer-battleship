@@ -35,8 +35,8 @@ public class UserProfileTest {
 
     //test variables
     private static final String LOGGER_NAME = "Data tests for user profile";
-    private final static String PLAYER_NAME = "DavidK";
-    private final static String PLAYER_PASSWORD = "password";
+    private final static String PLAYER_NAME = "DAVIDK";
+    private final static String PLAYER_PASSWORD = "PASSWORD";
     private final static String NEW_FIRSTNAME = "TEST";
 
     public UserProfileTest() {
