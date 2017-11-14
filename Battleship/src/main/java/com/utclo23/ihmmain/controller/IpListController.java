@@ -32,8 +32,8 @@ public class IpListController extends AbstractController{
     @FXML
     private TableView<ObservableIp> ipList;
     
-    @FXML
-    public void initialize(){
+    @Override
+    public void init(){
         TableColumn ipColumn = new TableColumn("IP");
         ipColumn.setCellValueFactory(new PropertyValueFactory<ObservableIp, String>("ipAdress"));
         
@@ -43,6 +43,8 @@ public class IpListController extends AbstractController{
         
         // Columns take all the width of the window
         ipList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        
+        System.out.println("Init IpListController");
     }
     
     /**
@@ -133,6 +135,8 @@ public class IpListController extends AbstractController{
 
             // Update the list in the GUI
             ipList.setItems(data);
+        } else {
+            System.out.println("facade == null");
         }
     }
     
