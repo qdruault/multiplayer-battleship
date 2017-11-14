@@ -22,7 +22,6 @@ public class Receiver implements Runnable {
     ServerSocket serverSocket;
     Socket client;
     Message request;
-    ObjectOutputStream out;
     ObjectInputStream in;
     IDataCom iDataCom;
     
@@ -31,15 +30,15 @@ public class Receiver implements Runnable {
             serverSocket = new ServerSocket(port); 
             iDataCom = dataCom;
         }catch(IOException e){
-
+            e.printStackTrace();
         }
     }
 
+    @Override
     public void run() {
         while (true) {
             try {
                 client = serverSocket.accept();
-                out = new ObjectOutputStream(client.getOutputStream());
                 in = new ObjectInputStream(client.getInputStream());
                 
                 while((request = (Message) in.readObject()) != null)
@@ -49,7 +48,6 @@ public class Receiver implements Runnable {
                 }
 
                 client.close();
-                out.close();
                 in.close();
 
             } catch (IOException e) {

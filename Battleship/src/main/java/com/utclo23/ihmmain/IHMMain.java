@@ -17,18 +17,24 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Initialize IHM-Main scene and Contains all the functions to jump into scenes
+ * Contains all mains scene and controllers. 
+ * Contains primary stage.
+ * Contains activeScene's name to get it quickly;
  * @author Linxuhao
  */
 public class IHMMain {
     
     public Stage primaryStage;
     public Map<String,Scene> sceneMap;
+    public Map<String,AbstractController> controllerMap;
+    public String activeSceneName;
     public String styleFile = "/styles/Styles.css";
     public IHMMainFacade facade;
     
     public void start(IHMMainFacade facade,Stage stage) throws Exception {
         sceneMap = new HashMap<String,Scene>();
+        controllerMap = new HashMap<String,AbstractController>();
+        activeSceneName = null;
         primaryStage = stage;
         //load all scenes when app starts
         for(SceneName scenename : SceneName.values()){
@@ -37,8 +43,7 @@ public class IHMMain {
             sceneMap.put(scenenameString,scene);
         }
         
-        stage.setTitle("Login");
-        stage.setScene(sceneMap.get(SceneName.Login.toString()));
+        toLogin();
         stage.show();
     }
     
@@ -62,6 +67,10 @@ public class IHMMain {
          toScene(SceneName.CreateUser);
     }
     
+    public void toIpList() throws IOException{
+        toScene(SceneName.IpList);
+    }
+    
     /**
      * use this carefully,  it throws a IOException if scene no found!
      * @param scenename
@@ -78,10 +87,17 @@ public class IHMMain {
      */
     public void toScene(String scenename)throws IOException{
         if(sceneMap.containsKey(scenename)){
+            //stop active controller
+            if(activeSceneName != null){
+                controllerMap.get(activeSceneName).stop();
+            }
             primaryStage.setTitle(scenename);
             primaryStage.setScene(sceneMap.get(scenename));
+            activeSceneName = scenename;
+            controllerMap.get(activeSceneName).start();
+            
         }else{
-        throw new IOException("the scene you asked " + scenename + " does not exist");
+        throw new IOException("[IHM-MAIN] - the scene you asked " + scenename + " does not exist");
                 }
     }
     
@@ -102,6 +118,8 @@ public class IHMMain {
         AbstractController controller = (AbstractController) paneLoader.getController();
         controller.setIhmmain(this);
         controller.setFacade(facade);
+        controller.init();
+        controllerMap.put(fxml, controller);
 
         return scene;
     }
