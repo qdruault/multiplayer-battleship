@@ -32,7 +32,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="User ID" />
+                        <Label text="Nickname" />
                         <Label fx:id="userID" text="Player1" GridPane.columnIndex="1" />
                         <Label text="First Name" GridPane.rowIndex="1" />
                         <Label fx:id="firstName" text="--" GridPane.columnIndex="1" GridPane.rowIndex="1" />
