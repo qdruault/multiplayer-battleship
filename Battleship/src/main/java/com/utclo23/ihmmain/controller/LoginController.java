@@ -31,6 +31,7 @@ public class LoginController extends AbstractController{
                 ihmmain.toMenu();
                 throw new Exception();
             }catch (Exception e){
+                e.printStackTrace();
                 //TODO : show pop up
             }
         }

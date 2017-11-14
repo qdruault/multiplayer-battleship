@@ -7,6 +7,7 @@ package com.utclo23.ihmmain.facade;
 
 import com.utclo23.data.facade.IDataIHMMain;
 import com.utclo23.ihmmain.IHMMain;
+import com.utclo23.ihmmain.constants.SceneName;
 import com.utclo23.ihmtable.IIHMTableToIHMMain;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ import javafx.stage.Stage;
  *IHM Facade, provide interfaces
  * @author Linxuhao
  */
-public class IHMMainFacade implements IHMMainToIhmTable{
+public class IHMMainFacade implements IHMMainToIhmTable, IHMMainToData{
     
     private IHMMain ihmmain;
     public IDataIHMMain iDataIHMMain;
@@ -40,5 +41,21 @@ public class IHMMainFacade implements IHMMainToIhmTable{
     @Override
     public void toMenu() throws IOException{
         ihmmain.toMenu();
+    }
+    
+    @Override
+    public Stage getPrimaryStage(){
+        return ihmmain.primaryStage;
+    }
+    
+    
+    @Override
+    public void refreshPlayerList() throws IOException {
+        ihmmain.controllerMap.get(SceneName.PlayerList).refresh();
+    }
+
+    @Override
+    public void refreshGameList() throws IOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

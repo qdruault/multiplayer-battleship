@@ -12,17 +12,16 @@ import javafx.stage.Stage;
  *
  * @author Linxuhao
  */
-public interface IHMMainToIhmTable {
+public interface IHMMainToData {
     /**
-
-     */
-    /**
-     * return to menu page
-     * linxuhao
+     * refreshes the player list if player list is currently displaying
      * @throws IOException 
      */
-    public abstract void toMenu() throws IOException;
+    public abstract void refreshPlayerList() throws IOException;
     
-    public abstract Stage getPrimaryStage();
-    
+    /**
+     * refreshes the game list if player list is currently displaying
+     * @throws IOException 
+     */
+    public abstract void refreshGameList() throws IOException;
 }

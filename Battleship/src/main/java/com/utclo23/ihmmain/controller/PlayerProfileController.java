@@ -17,18 +17,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 /**
  *
- * @author Linxuhao
+ * @author Lipeining
  */
 public class PlayerProfileController extends AbstractController{
     @FXML
-    private Label userID;
+    public  Label userID;
     @FXML
     private Label firstName;
     @FXML
@@ -42,33 +38,39 @@ public class PlayerProfileController extends AbstractController{
     @FXML
     private Button backButton;
     @FXML
-    private Button othersButton;
+    private Button playerList;
     @FXML
     private Button editDesc;
     
-    private PublicUser me; 
-    
+    private PublicUser me;
+    String testUserID="Player1";
     @FXML
-    private void initialisation() throws IOException{
+    public void initialize() throws IOException{
         try{
             me = facade.iDataIHMMain.getMyPublicUserProfile();
+            userID.setText(me.getId());
+            firstName.setText(me.getFirstName());
+            lastName.setText(me.getLastName());
+            birthday.setText(me.getBirthDate().toString());
         }
-        catch(UnsupportedOperationException e){
+        catch(NullPointerException e){
             System.out.println("[PlayerProfile] - getMyPublicUserProfile() not supported yet");
         }
-       
-       userID.setText(me.getId());
-       firstName.setText(me.getFirstName());
-       lastName.setText(me.getLastName());
-       birthday.setText(me.getBirthDate().toString());
-    } 
+        userID.setText(testUserID);
+    }
+    
+     
     @FXML
     private void back(ActionEvent event) throws IOException{
         ihmmain.toMenu();
     }
+    @FXML
+    private void toPlayerList(ActionEvent event) throws IOException{
+        ihmmain.toPlayerList();
+    }
     
     @FXML
-    private void editDesc(ActionEvent event) throws IOException{
+    private void editDescription(ActionEvent event) throws IOException{
         String text;
         description.setEditable(true);
         text = description.getText();
@@ -97,7 +99,5 @@ public class PlayerProfileController extends AbstractController{
         popup.initOwner(primaryStage);
         popup.setScene(newScene);
         popup.show();
-    }
-
-             
+    }         
 }
