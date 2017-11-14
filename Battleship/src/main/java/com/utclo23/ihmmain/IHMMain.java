@@ -7,6 +7,7 @@ package com.utclo23.ihmmain;
 
 import com.utclo23.ihmmain.constants.SceneName;
 import com.utclo23.ihmmain.controller.AbstractController;
+import com.utclo23.ihmmain.controller.IpListController;
 import com.utclo23.ihmmain.facade.IHMMainFacade;
 import java.io.IOException;
 import java.util.HashMap;
@@ -69,6 +70,8 @@ public class IHMMain {
     
     public void toIpList() throws IOException{
         toScene(SceneName.IpList);
+        IpListController ipListController = (IpListController)controllerMap.get(SceneName.IpList.toString());
+        ipListController.getKnownIp();
     }
     
     /**
