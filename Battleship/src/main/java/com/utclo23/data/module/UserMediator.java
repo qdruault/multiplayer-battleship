@@ -312,14 +312,14 @@ public class UserMediator {
             ComFacade comFacade = this.dataFacade.getComfacade();
             if (comFacade != null) {
                 if (this.owner != null) {
-                    comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+                    // comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
                     
                     Inet4Address ip;
                     boolean b;
                     List<Inet4Address> listIpTarget = new ArrayList<>();
                     for(String ipString :owner.getDiscoveryNodes()){                                           
-                        try{
-                            ip = (Inet4Address) Inet4Address.getByName(ipString); 
+                        try{                           
+                            ip = (Inet4Address) Inet4Address.getByName(ipString);
                             listIpTarget.add(ip);
                         } catch(Exception e){
                             throw new DataException("Data : IP not valid");
