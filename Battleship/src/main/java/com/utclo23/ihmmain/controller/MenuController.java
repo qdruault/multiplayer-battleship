@@ -8,7 +8,6 @@ package com.utclo23.ihmmain.controller;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
@@ -33,6 +32,7 @@ public class MenuController extends AbstractController{
 
     @FXML
     private void play(ActionEvent event) {
+        facade.iIHMTableToIHMMain.createInGameGUI(ihmmain.primaryStage);
     }
 
     @FXML
