@@ -1,0 +1,90 @@
+#menu_header{
+	-fx-background-image: url("../images/background_left_menu.png");
+    -fx-background-repeat: stretch;      
+    -fx-background-size: 100% 100%;
+}
+
+#menu_titre{
+	-fx-background-image: url("../images/ships_header.png");
+    -fx-background-repeat: stretch;      
+	-fx-background-position: center center;
+}
+
+#inGameGUI_button1,#inGameGUI_button2,#inGameGUI_button3,#inGameGUI_button4,#inGameGUI_button5{
+	-fx-background-color: none;
+	-fx-cursor: pointer;
+    -fx-background-repeat: stretch; 
+    -fx-background-position: center center;
+}
+
+#inGameGUI_button1{
+	-fx-background-image: url("../images/ship1.png");
+}
+
+#inGameGUI_button2{
+	-fx-background-image: url("../images/ship2.png");
+}
+
+#inGameGUI_button3{
+	-fx-background-image: url("../images/ship3.png");
+}
+
+#inGameGUI_button4{
+	-fx-background-image: url("../images/ship4.png");
+}
+
+#inGameGUI_button5{
+	-fx-background-image: url("../images/ship5.png");
+}
+
+#inGameGUI_button1:hover, #inGameGUI_button2:hover, #inGameGUI_button3:hover, #inGameGUI_button4:hover, #inGameGUI_button5:hover{
+	-fx-background-color: red;
+}
+
+#menu_bottom1, #menu_bottom2, #menu_bottom3{
+    -fx-background-repeat: stretch;      
+	-fx-background-size: 40% 60%;
+	-fx-background-position: center center;
+}
+
+#menu_bottom1{
+	-fx-background-image: url("../images/icon_bottom_left_menu_skull.png");
+}
+
+#menu_bottom2{
+	-fx-background-image: url("../images/icon_bottom_left_menu_target.png");
+}
+
+#menu_bottom3{
+	-fx-background-image: url("../images/icon_bottom_left_menu_bullet.png");
+}
+
+#left_side_game{
+	-fx-background-image: url("../images/background_left_side_game.png");
+	-fx-background-repeat: stretch;  
+	-fx-background-size: 100% 100%;
+}
+
+#right_side_game{
+	-fx-background-image: url("../images/background_right_side_game.png");
+	-fx-background-repeat: stretch;  
+	-fx-background-size: 100% 100%;
+}
+
+
+
+#inGameGUI_button_fire{
+	-fx-background-image: url("../images/fire.png");
+    -fx-background-repeat: stretch;   
+    -fx-background-size: 74 69;
+    -fx-background-position: center center;
+	-fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+#inGameGUI_button_menu{
+	-fx-background-image: url("../images/menu.png");
+    -fx-background-repeat: stretch;   
+    -fx-background-size: 102 98;
+    -fx-background-position: center center;
+	-fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
