@@ -117,7 +117,7 @@ public class ComFacade {
         
         for (int i = 0; i < listIpTarget.size(); i++) {
             M_GetIP m_getIp = new M_GetIP();
-            Sender os = new Sender(listIpTarget.get(i).toString(), 80, m_getIp);
+            Sender os = new Sender(listIpTarget.get(i).getHostAddress(), 80, m_getIp);
             new Thread(os).start();
             discoCtrl.addIP(listIpTarget.get(i));
         }
@@ -128,13 +128,6 @@ public class ComFacade {
     public void getPublicUserProfile(String id){
         M_GetPlayerInfo m_getplayerinfo = new M_GetPlayerInfo();
         Sender os = new Sender(kIpCtrl.getHashMap().get(id).getHostAddress(), 80, m_getplayerinfo);
-        new Thread(os).start();
-    }
-
-    // envoi à l'id
-    public void returnPublicUserProfile (String id){
-        M_PlayerInfo m_playerinfo = new M_PlayerInfo(id);
-        Sender os = new Sender(kIpCtrl.getHashMap().get(id).getHostAddress(), 80, m_playerinfo);
         new Thread(os).start();
     }
 
