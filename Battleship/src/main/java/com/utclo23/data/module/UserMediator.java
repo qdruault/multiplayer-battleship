@@ -159,8 +159,8 @@ public class UserMediator {
         String path = Configuration.SAVE_DIR + File.separator + playerName + ".json";
 
         //all uppercase
-        playerName = playerName.toUpperCase();
-        password = password.toUpperCase();
+        //playerName = playerName.toUpperCase();
+       // password = password.toUpperCase();
         firstName = firstName.toUpperCase();
         lastName = lastName.toUpperCase();
 
@@ -217,7 +217,7 @@ public class UserMediator {
                 throw new DataException("Data : error due to empty playername or password");
             }
 
-            password = password.toUpperCase();
+            //password = password.toUpperCase();
             firstName = firstName.toUpperCase();
             lastName = lastName.toUpperCase();
 
@@ -277,8 +277,8 @@ public class UserMediator {
     public void signIn(String username, String password) throws DataException {
 
         //uppercase
-        username = username.toUpperCase();
-        password = password.toUpperCase();
+        //username = username.toUpperCase();
+        //password = password.toUpperCase();
 
         //already connected
         if (this.owner != null) {
