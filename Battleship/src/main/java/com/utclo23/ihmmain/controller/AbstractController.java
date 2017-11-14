@@ -6,6 +6,7 @@
 package com.utclo23.ihmmain.controller;
 
 import com.utclo23.ihmmain.IHMMain;
+import com.utclo23.ihmmain.facade.IHMMainFacade;
 
 /**
  * upper class of all ihm-main controller class, contain IHMMain class
@@ -16,6 +17,16 @@ public class AbstractController {
      * the reference of ihmmain, to jump between scenes
      */
     public IHMMain ihmmain;
+    
+    public IHMMainFacade facade;
+
+    public IHMMainFacade getFacade() {
+        return facade;
+    }
+
+    public void setFacade(IHMMainFacade facade) {
+        this.facade = facade;
+    }
 
     public IHMMain getIhmmain() {
         return ihmmain;

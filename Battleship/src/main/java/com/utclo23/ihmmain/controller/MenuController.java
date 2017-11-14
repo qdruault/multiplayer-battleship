@@ -40,7 +40,7 @@ public class MenuController extends AbstractController{
 
     @FXML
     private void showPlayerList(ActionEvent event) throws IOException{
-        //do nothing for now, because player list interface is not implemented yet
+        ihmmain.toPlayerList();
     }
 
     @FXML

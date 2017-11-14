@@ -11,11 +11,16 @@ import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.Owner;
 import com.utclo23.data.structure.StatGame;
 import java.rmi.server.UID;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import static org.hamcrest.CoreMatchers.is;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -233,6 +238,41 @@ public class UserProfileTest {
         DataFacade df = new DataFacade();
         df.setTestMode(true);
         df.signOut();
+
+    }
+    
+    /**
+     * Test update discoveryNodes
+     */
+    @org.junit.Test
+    public void testUpdateDiscoveryNodes() {
+        try {            
+            DataFacade df = new DataFacade();
+            df.setTestMode(true);
+            df.signin(PLAYER_NAME, PLAYER_PASSWORD);
+            
+            
+            if (df.getMyOwnerProfile() == null) {
+                fail();
+            }
+
+            Owner owner = df.getMyOwnerProfile();
+
+            List<String> new_DiscoveryNodes = Arrays.asList("IP1", "IP2", "IP3");
+            
+            df.setIPDiscovery(new_DiscoveryNodes);
+
+            //Check JSON has been impacting by reconnecting        
+            df.signOut();            
+            df.signin(PLAYER_NAME, PLAYER_PASSWORD);
+           if(!owner.getDiscoveryNodes().equals(new_DiscoveryNodes)){
+                fail();
+            }
+
+            df.signOut();
+        } catch (DataException e) {
+            fail();
+        }
 
     }
 
