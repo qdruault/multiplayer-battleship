@@ -9,13 +9,23 @@ import java.util.List;
 
 
 /**
- *
+ * Game Mediator related to games features
  * @author tboulair
  */
 public class GameMediator {
+    /**
+     * reference to the data facade
+     */
     private DataFacade dataFacade;
+    
+    /**
+     * list that stores games
+     */
     private List<StatGame> gamesList; 
 
+    /**
+     * Constructor 
+     */
     public GameMediator(DataFacade dataFacade) {
         this.dataFacade = dataFacade;
         this.gamesList = new ArrayList<>();
@@ -35,7 +45,6 @@ public class GameMediator {
 
     
     /**
-<<<<<<< HEAD
      * add a new game
      *
      * @param game
