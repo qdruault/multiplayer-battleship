@@ -207,7 +207,7 @@ public class UserMediator {
      * @param fileImage
      * @throws DataException
      */
-    public void updateUser(String password, String firstName, String lastName, Date birthDate, String fileImage) throws DataException {
+    public void updateUser(String password, String firstName, String lastName, Date birthDate, String fileImage) throws DataException, UnknownHostException {
 
         if (this.owner != null) {
 
@@ -324,7 +324,7 @@ public class UserMediator {
     /**
      * disconnection
      */
-    public void signOut() throws DataException {
+    public void signOut() throws DataException, UnknownHostException {
         if (this.owner != null) {
 
             this.save(); //Save the file

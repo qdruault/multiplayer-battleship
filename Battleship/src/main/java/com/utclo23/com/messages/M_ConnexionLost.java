@@ -6,14 +6,20 @@
 package com.utclo23.com.messages;
 
 import com.utclo23.data.facade.IDataCom;
+import java.net.UnknownHostException;
 
 /**
  *
  * @author thibault
  */
 public class M_ConnexionLost extends Message{
+    
+    public M_ConnexionLost(IDataCom iDataCom) throws UnknownHostException{
+        super(iDataCom);
+    }
+    
     @Override
-    public void callback(IDataCom iDataCom){
+    public void callback(){
         iDataCom.connectionLostWithOpponent();
     }
 }

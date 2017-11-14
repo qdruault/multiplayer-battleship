@@ -6,6 +6,7 @@
 package com.utclo23.com.messages;
 import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.PublicUser;
+import java.net.UnknownHostException;
 /**
  *
  * @author thibault
@@ -13,12 +14,13 @@ import com.utclo23.data.structure.PublicUser;
 public class M_Connexion extends Message{
     public PublicUser user;
     
-    public M_Connexion(PublicUser u){
+    public M_Connexion(IDataCom iDataCom, PublicUser u) throws UnknownHostException{
+        super(iDataCom);
         user = u;
     }
     
     @Override
-    public void callback(IDataCom iDataCom){
+    public void callback(){
 
     }
 }

@@ -407,7 +407,11 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      @Override
     public void updateUser(String password, String firstName, String lastName, Date birthDate, String fileImage) throws DataException {
 
-        this.userMediator.updateUser(password, firstName, lastName, birthDate, fileImage);
+        try {
+            this.userMediator.updateUser(password, firstName, lastName, birthDate, fileImage);
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -479,7 +483,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
      */
     @Override
-    public void signOut() throws DataException {
+    public void signOut() throws DataException, UnknownHostException {
         this.userMediator.signOut();
     }
 

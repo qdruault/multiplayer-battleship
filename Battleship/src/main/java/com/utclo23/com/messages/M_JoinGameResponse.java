@@ -6,6 +6,7 @@
 package com.utclo23.com.messages;
 
 import com.utclo23.data.facade.IDataCom;
+import java.net.UnknownHostException;
 
 /**
  *
@@ -14,11 +15,12 @@ import com.utclo23.data.facade.IDataCom;
 public class M_JoinGameResponse extends Message {
     private boolean success;
     
-    public M_JoinGameResponse(boolean s){
+    public M_JoinGameResponse(IDataCom iDataCom, boolean s) throws UnknownHostException{
+        super(iDataCom);
         success = s;
     }
     @Override
-    public void callback(IDataCom iDataCom){
+    public void callback(){
 
     }
 }
