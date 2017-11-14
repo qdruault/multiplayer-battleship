@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import com.utclo23.com.messages.Message;
+import java.net.InetSocketAddress;
 
 /**
  *
@@ -26,23 +27,23 @@ public class Sender implements Runnable {
     ObjectInputStream in;
 
     public Sender(String ip, int port, Message request) {
-        ip = ip;
-        port = port;
-        request = request;
+        this.ip = ip;
+        this.port = port;
+        this.request = request;
     }
 
+    @Override
     public void run() {
         try {
-            socket = new Socket(ip, port);
+            socket = new Socket();
+            socket.setSoTimeout(2000);
+            socket.connect(new InetSocketAddress(ip, port), 2000);
             out = new ObjectOutputStream(socket.getOutputStream());
-            in = new ObjectInputStream(socket.getInputStream());
-
+            //in = new ObjectInputStream(socket.getInputStream());
             out.writeObject(request);
-
-            in.close();
+            //in.close();
             out.close();
             socket.close();
-
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
