@@ -50,7 +50,7 @@
                   </GridPane>
                   <Label layoutX="558.0" layoutY="55.0" text="Descriptions" />
                   <TextField fx:id="description" editable="false" layoutX="558.0" layoutY="80.0" onKeyPressed="#closeEdit" prefHeight="113.0" prefWidth="219.0" text="Hello!" />
-                  <Button fx:id="editDesc" layoutX="561.0" layoutY="200.0" mnemonicParsing="false" onAction="#editDesc" text="edit" />
+                  <Button fx:id="editDesc" layoutX="561.0" layoutY="200.0" mnemonicParsing="false" onAction="#editDescription" text="edit" />
                   <Label layoutX="669.0" layoutY="9.0" text="User ID" />
                </children>
             </AnchorPane>
@@ -94,7 +94,7 @@
                      </children>
                   </GridPane>
                   <Button fx:id="backButton" layoutX="32.0" layoutY="195.0" mnemonicParsing="false" onAction="#back" text="Return" />
-                  <Button fx:id="othersButton" layoutX="131.0" layoutY="195.0" mnemonicParsing="false" text="Other Player" />
+                  <Button fx:id="playerList" layoutX="131.0" layoutY="195.0" mnemonicParsing="false" onAction="#toPlayerList" text="Other Player" />
                   <PieChart layoutX="378.0" layoutY="67.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" title="All Mode" titleSide="BOTTOM" />
                   <PieChart layoutX="511.0" layoutY="67.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" title="Classical" titleSide="BOTTOM" />
                   <PieChart layoutX="645.0" layoutY="66.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" title="Belge" titleSide="BOTTOM" />
