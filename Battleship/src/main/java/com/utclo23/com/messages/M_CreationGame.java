@@ -5,6 +5,7 @@
  */
 package com.utclo23.com.messages;
 import com.utclo23.data.facade.IDataCom;
+import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.StatGame;
 /**
  *
@@ -13,7 +14,8 @@ import com.utclo23.data.structure.StatGame;
 public class M_CreationGame extends Message{
     public StatGame game;
     
-    public M_CreationGame(StatGame g){
+    public M_CreationGame(PublicUser user, StatGame g){
+        super(user);
         game = g;
     }
     

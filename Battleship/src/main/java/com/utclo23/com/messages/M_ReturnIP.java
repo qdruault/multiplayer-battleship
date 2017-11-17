@@ -10,6 +10,7 @@ import com.utclo23.com.KnownIPController;
 import com.utclo23.com.Sender;
 import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.LightPublicUser;
+import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.StatGame;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
@@ -30,7 +31,8 @@ public class M_ReturnIP extends Message {
     private KnownIPController kic;
     private DiscoveryController discoCtrl;
 
-    public M_ReturnIP(List<StatGame> listGames, List<LightPublicUser> listUsers, HashMap<String, Inet4Address> idToIp) {
+    public M_ReturnIP(PublicUser user, List<StatGame> listGames, List<LightPublicUser> listUsers, HashMap<String, Inet4Address> idToIp) {
+        super(user);
         this.listGames = listGames;
         this.listUsers = listUsers;
         this.idToIp = idToIp;
@@ -68,7 +70,7 @@ public class M_ReturnIP extends Message {
             HashMap<String, Inet4Address> IdToIp = kic.getNewIpHashMap();
 
             // send back the data this node has about its known network.
-            M_ReturnIP returnIp = new M_ReturnIP(listGames, listUsers, IdToIp);
+            M_ReturnIP returnIp = new M_ReturnIP(user, listGames, listUsers, IdToIp);
 
             Sender os = new Sender(IP_sender.toString(), 80, returnIp);
             new Thread(os).start();
@@ -94,7 +96,7 @@ public class M_ReturnIP extends Message {
                 Logger.getLogger(M_ReturnIP.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            M_ReturnIP returnIp = new M_ReturnIP(listGames, listUsers, IdToIp);
+            M_ReturnIP returnIp = new M_ReturnIP(user, listGames, listUsers, IdToIp);
             Sender os = new Sender(IP_sender.toString(), 80, returnIp);
             Thread thread = new Thread(os);
             thread.start();
