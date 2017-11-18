@@ -45,16 +45,6 @@ public class PlayerListController extends AbstractController{
         ihmmain.toMenu();
     }
     
-    @FXML
-    private void nextPage(ActionEvent event) throws IOException{
-        
-    }
-    
-    @FXML
-    private void lastPage(ActionEvent event) throws IOException{
-        
-    }
-    
     /**
      * This function is called at the beginning of the application.
      * It loads the connected users and print them into the tableview.
@@ -63,11 +53,11 @@ public class PlayerListController extends AbstractController{
     public void initialize(){
         TableColumn idColumn = new TableColumn("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("id"));
-        idColumn.getStyleClass().add("cell-right");
+        idColumn.getStyleClass().add("cell-left");
         
         TableColumn nameColumn = new TableColumn("NAME");
         nameColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("playerName"));
-        nameColumn.getStyleClass().add("cell-left");
+        nameColumn.getStyleClass().add("cell-right");
         
         /* TODO Add this lines when data add avatar in LightPublicUser. Add avatarColum in listPlayers.getColumns().addAll(...);
         TableColumn avatarColumn = new TableColumn("AVATAR");
@@ -123,7 +113,19 @@ public class PlayerListController extends AbstractController{
         
         if(facade != null){
             // Call data method in order to collect connected users
-            ArrayList<LightPublicUser> connectedUsers = new ArrayList<LightPublicUser>(facade.iDataIHMMain.getConnectedUsers());
+            //ArrayList<LightPublicUser> connectedUsers = new ArrayList<LightPublicUser>(facade.iDataIHMMain.getConnectedUsers());
+            ArrayList<LightPublicUser> connectedUsers = new ArrayList<LightPublicUser>(){{
+                add(new LightPublicUser("azertyuiop", "joueur 1"));
+                add(new LightPublicUser("qsdfghjklm", "joueur 2"));
+                add(new LightPublicUser("wxcvbnmlkj", "joueur 3"));
+                add(new LightPublicUser("ghfdxwvrsx", "joueur 4"));
+                add(new LightPublicUser("poiujhgfds", "joueur 5"));
+                add(new LightPublicUser("aqsdfgbvcx", "joueur 6"));
+                add(new LightPublicUser("wsdfghjkpl", "joueur 7"));
+                add(new LightPublicUser("mlkuhgrfde", "joueur 8"));
+                add(new LightPublicUser("njhgfderty", "joueur 9"));
+                add(new LightPublicUser("sdfygfdspj", "joueur 10"));
+            }};
             ObservableList<LightPublicUser> data = FXCollections.observableArrayList(connectedUsers);
         
             // Update the list in the GUI
