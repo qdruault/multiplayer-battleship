@@ -25,6 +25,9 @@ public class StatGame extends SerializableEntity{
     private LightPublicUser winner;
     private LightPublicUser creator;
     private Game realGame;
+    
+    private boolean computerMode;
+    
     private boolean gameAbandonned;
     
  
@@ -65,6 +68,14 @@ public class StatGame extends SerializableEntity{
         return gameAbandonned;
     }
 
+    public boolean isComputerMode() {
+        return computerMode;
+    }
+
+    public void setComputerMode(boolean computerMode) {
+        this.computerMode = computerMode;
+    }
+
 
     public void setType(GameType type) {
         this.type = type;
@@ -102,7 +113,7 @@ public class StatGame extends SerializableEntity{
         this.gameAbandonned = gameAbandonned;
     }
 
-    public StatGame(GameType type, String name, List<Player> players, boolean spectator, boolean spectatorChat, LightPublicUser winner, LightPublicUser creator, Game realGame, boolean gameAbandonned) {
+    public StatGame(GameType type, String name, List<Player> players, boolean computerMode, boolean spectator, boolean spectatorChat, LightPublicUser winner, LightPublicUser creator,  boolean gameAbandonned) {
         this.id = new UID().toString();
         
         this.type = type;
@@ -112,11 +123,12 @@ public class StatGame extends SerializableEntity{
         this.spectatorChat = spectatorChat;
         this.winner = winner;
         this.creator = creator;
-        this.realGame = realGame;
+        //this.realGame = realGame;
         this.gameAbandonned = gameAbandonned;
+        this.computerMode = computerMode;
     }
     
-    public StatGame(String id, GameType type, String name,  boolean spectator, boolean spectatorChat, LightPublicUser creator, Game game){
+    public StatGame(String id, GameType type, String name, boolean computerMode, boolean spectator, boolean spectatorChat, LightPublicUser creator){
         this.id = id;
         this.type = type;
         this.name = name;
@@ -125,10 +137,16 @@ public class StatGame extends SerializableEntity{
         this.players = null;
         this.winner = null;
         this.creator = creator;
-        this.realGame = game;
+       // this.realGame = game;
         this.gameAbandonned = false;
+        this.computerMode = computerMode;
     }
 
+    public StatGame() {
+    }
+
+    
+    
     public String getId() {
         return id;
     }

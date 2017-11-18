@@ -279,8 +279,15 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
      */
     @Override
-    public List<Ship> getShips() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Ship> getShips() throws DataException{
+        if(this.gameMediator.getCurrentGame()!=null)
+        {
+            return this.gameMediator.getCurrentGame().getTemplateShips();
+        }
+        else
+        {
+            throw new DataException("Data : no current game");
+        }
     }
 
     /**
@@ -290,7 +297,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
      */
     @Override
-    public void setShip(Ship ship) {
+    public void setShip(Ship ship) throws DataException{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

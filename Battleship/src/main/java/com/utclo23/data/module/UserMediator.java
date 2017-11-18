@@ -532,4 +532,16 @@ public class UserMediator {
         }
 
     }
+    
+    public void saveGame(Game game) throws DataException
+    {
+        if(this.owner != null){
+             game.prepareToBeSaved();
+             owner.getSavedGamesList().add(game);
+             
+             //Save 
+             this.save();
+             
+        }    
+    }
 }
