@@ -27,7 +27,7 @@ import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.ihmtable.IIHMTableToData;
 
 import java.io.File;
-import java.net.UnknownHostException;
+
 
 import java.util.List;
 import java.util.Date;
@@ -119,7 +119,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
 
     
-    // TODO: implement that
+   
     public void setFacadeLinks(
             ComFacade comFacade,
             IIHMTableToData ihmTableToData,
@@ -159,21 +159,16 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void addNewGame(StatGame game) {
-        try {
+      
             this.gameMediator.addNewGame(game);
-        } catch (RuntimeException e) {
-            Logger.getLogger(DataFacade.class.getName()).log(Level.WARNING, e.getMessage());
-        }
+     
     }
 
     /**
      * Set the ennemy ships
-<<<<<<< HEAD
-     *
-     * @param ships
-=======
+
      * @param ships the ships to set as a list
->>>>>>> Data/javadoc
+
      */
     @Override
     public void setEnnemyShips(List<Ship> ships) {
@@ -208,22 +203,16 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-<<<<<<< HEAD
-     * add connected user
-     *
-     * @param user
-=======
+
      * Add connected user
      * @param user user to add as connected
->>>>>>> Data/javadoc
+
      */
     @Override
     public void addConnectedUser(LightPublicUser user) {
-        try {
+     
             this.userMediator.addConnectedUser(user);
-        } catch (RuntimeException e) {
-            Logger.getLogger(DataFacade.class.getName()).log(Level.WARNING, e.getMessage());
-        }
+        
     }
 
     /**
@@ -254,11 +243,9 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @return my owner profile
      */
     public Owner getMyOwnerProfile() {
-        try {
+        
             return this.userMediator.getMyOwnerProfile();
-        } catch (Exception e) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
+       
     }
 
     /**
@@ -515,10 +502,6 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void setIPDiscovery(List<String> discoveryNodes) throws DataException {
-        try {
             this.userMediator.setIPDiscovery(discoveryNodes);
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }
