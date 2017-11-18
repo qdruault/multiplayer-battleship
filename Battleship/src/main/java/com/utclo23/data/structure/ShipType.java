@@ -10,5 +10,5 @@ package com.utclo23.data.structure;
  * @author Davy
  */
 public enum ShipType {
-    PORTE_AVION, CROISEUR, CONTRE_TORPILLEUR, SOUS_MARIN, TORPILLEUR, CUIRASSE
+    CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER
 }
