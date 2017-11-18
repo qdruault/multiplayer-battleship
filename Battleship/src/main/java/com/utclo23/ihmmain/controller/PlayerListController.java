@@ -27,16 +27,7 @@ import javafx.util.Duration;
  * @author calvezlo
  */
 public class PlayerListController extends AbstractController{
-    
-    @FXML
-    private Button lastButton;
-    
-    @FXML
-    private Button nextButton;
-    
-    @FXML
-    private Button returnButton;
-    
+
     @FXML
     private TableView<LightPublicUser> listPlayers;
 
@@ -52,81 +43,48 @@ public class PlayerListController extends AbstractController{
     @FXML
     @Override
     public void start(){
-        TableColumn idColumn = new TableColumn("ID");
-        idColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("id"));
-        idColumn.getStyleClass().add("cell-left");
+        // The first display : we create the tableview
+        if(listPlayers.getColumns().isEmpty()){
+            TableColumn idColumn = new TableColumn("ID");
+            idColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("id"));
+            idColumn.getStyleClass().add("cell-left");
+
+            TableColumn nameColumn = new TableColumn("NAME");
+            nameColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("playerName"));
+            nameColumn.getStyleClass().add("cell-right");
+
+            /* TODO Add this lines when data add avatar in LightPublicUser. Add avatarColum in listPlayers.getColumns().addAll(...);
+            TableColumn avatarColumn = new TableColumn("AVATAR");
+            avatarColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("avatarThumbnal"));*/
+
+            listPlayers.getColumns().addAll(idColumn, nameColumn);
+
+            // Columns take all the width of the window
+            listPlayers.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        }
         
-        TableColumn nameColumn = new TableColumn("NAME");
-        nameColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("playerName"));
-        nameColumn.getStyleClass().add("cell-right");
-        
-        /* TODO Add this lines when data add avatar in LightPublicUser. Add avatarColum in listPlayers.getColumns().addAll(...);
-        TableColumn avatarColumn = new TableColumn("AVATAR");
-        avatarColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("avatarThumbnal"));*/
-        
-        listPlayers.getColumns().addAll(idColumn, nameColumn);
-        
-        // Columns take all the width of the window
-        listPlayers.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        
+        // Load the connected users
         getConnectedUsers();
-        
-        refresh();
     }
     
     /**
-     * This function update the list of connected users.
-     * It is launched at the beginning of the application and work in background
+     * This method is call by data module when a new player is connected
      */
+    @Override
     public void refresh(){
-        // Service allows the GUI to create a task
-        final ScheduledService<Void> refreshService = new ScheduledService<Void>(){
-        
-            // Task is the task itself : it is the algorithm which run in background
-            @Override
-            protected Task<Void> createTask() {
-                
-                return new Task<Void>() {
-                
-                    @Override
-                    protected Void call() throws Exception {
-
-                        getConnectedUsers();
-
-                        return null;
-                    };
-                };
-            }
-        };
-        
-        // Refresh the list of players every 3 seconds
-        refreshService.setPeriod(Duration.seconds(3));
-        
-        // Launching the service which refresh the list of players
-        refreshService.start();
-        
+        if(isIsRunning()){
+            getConnectedUsers();
+        }
     }
     
     /**
      * This function call the method of data to update the list of players
      */
     private void getConnectedUsers(){
-        
+
         if(facade != null){
             // Call data method in order to collect connected users
-            //ArrayList<LightPublicUser> connectedUsers = new ArrayList<LightPublicUser>(facade.iDataIHMMain.getConnectedUsers());
-            ArrayList<LightPublicUser> connectedUsers = new ArrayList<LightPublicUser>(){{
-                add(new LightPublicUser("azertyuiop", "joueur 1"));
-                add(new LightPublicUser("qsdfghjklm", "joueur 2"));
-                add(new LightPublicUser("wxcvbnmlkj", "joueur 3"));
-                add(new LightPublicUser("ghfdxwvrsx", "joueur 4"));
-                add(new LightPublicUser("poiujhgfds", "joueur 5"));
-                add(new LightPublicUser("aqsdfgbvcx", "joueur 6"));
-                add(new LightPublicUser("wsdfghjkpl", "joueur 7"));
-                add(new LightPublicUser("mlkuhgrfde", "joueur 8"));
-                add(new LightPublicUser("njhgfderty", "joueur 9"));
-                add(new LightPublicUser("sdfygfdspj", "joueur 10"));
-            }};
+            ArrayList<LightPublicUser> connectedUsers = new ArrayList<LightPublicUser>(facade.iDataIHMMain.getConnectedUsers());
             ObservableList<LightPublicUser> data = FXCollections.observableArrayList(connectedUsers);
         
             // Update the list in the GUI
