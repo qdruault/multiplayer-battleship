@@ -22,7 +22,14 @@ public class LightPublicUser extends SerializableEntity{
         
     }
 
-    
+    public static LightPublicUser generateComputerProfile()
+    {
+        String id = new UID().toString();
+        String playerName = "IA LO23";
+        LightPublicUser computerProfile = new LightPublicUser(id, playerName);
+        
+        return computerProfile;
+    }
     /**
      * constructor
      * @param id

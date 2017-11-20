@@ -24,7 +24,7 @@ public interface IDataIHMMain {
     public List<StatGame> getGameList();
     
    
-    public void createGame(String name, boolean spectator, boolean spectatorChat, String type);
+    public Game createGame(String name, boolean spectator, boolean spectatorChat, GameType type);
     public void signin(String username, String password) throws DataException;
     public void signOut() throws Exception;
     public List<LightPublicUser> getConnectedUsers();

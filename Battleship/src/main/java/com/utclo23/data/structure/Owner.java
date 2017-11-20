@@ -26,7 +26,7 @@ public class Owner extends SerializableEntity{
     private PublicUser userIdentity;
     private String password;
     private List<String> discoveryNodes;
-    private List<StatGame> savedGamesList;
+    private List<Game> savedGamesList;
     private List<StatGame> playedGamesList;
     private List<LightPublicUser> contactList;
     private byte[] avatar;
@@ -138,11 +138,11 @@ public class Owner extends SerializableEntity{
         this.discoveryNodes = discoveryNodes;
     }
 
-    public List<StatGame> getSavedGamesList() {
+    public List<Game> getSavedGamesList() {
         return savedGamesList;
     }
 
-    public void setSavedGamesList(List<StatGame> savedGamesList) {
+    public void setSavedGamesList(List<Game> savedGamesList) {
         this.savedGamesList = savedGamesList;
     }
 

@@ -12,12 +12,14 @@ import java.util.List;
  *
  * @author Davy
  */
-public class Player extends LightPublicUser{
+public class Player extends SerializableEntity{
     private List<Ship> ships;
     private List<Mine> mines;
+    private LightPublicUser lightPublicUser;
 
-    public Player(String id, String playerName) {
-        super(id, playerName);
+    public Player(LightPublicUser lightPublicUser) {
+        super();
+        this.lightPublicUser = lightPublicUser;
     }
 
     public List<Ship> getShips() {
@@ -34,6 +36,10 @@ public class Player extends LightPublicUser{
 
     public void setMines(List<Mine> mines) {
         this.mines = mines;
+    }
+
+    public LightPublicUser getLightPublicUser() {
+        return lightPublicUser;
     }
     
     
