@@ -50,7 +50,15 @@ cell-right.table-row-cell {
 .table-row-cell {
     -fx-background-color: transparent;
 }
-
+.button{
+    -fx-font-family: "Space Age"; 
+    -fx-text-fill: #3DE6AF; 
+    /*svg path*/
+    -fx-shape:"M 0 0 L 1 -0.5 L 5 -0.5 L 6 0 L 5 0.5 L 1 0.5 z";
+    -fx-border-color:#ffffff;
+    -fx-background-color: #061f30;
+    
+}
 /*.table-view:focused .table-row-cell:filled:focused:selected {
     -fx-background-color: -fx-focus-color;
 }
