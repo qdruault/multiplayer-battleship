@@ -60,8 +60,7 @@ public class PlayerListController extends AbstractController{
      * It loads the connected users and print them into the tableview.
      */
     @FXML
-    @Override
-    public void start(){
+    public void initialize(){
         TableColumn idColumn = new TableColumn("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("id"));
         idColumn.getStyleClass().add("cell-right");

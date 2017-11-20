@@ -26,9 +26,9 @@ public class Sender implements Runnable {
     ObjectInputStream in;
 
     public Sender(String ip, int port, Message request) {
-        this.ip = ip;
-        this.port = port;
-        this.request = request;
+        ip = ip;
+        port = port;
+        request = request;
     }
 
     public void run() {

@@ -29,8 +29,6 @@ public class MenuController extends AbstractController{
     private Button exitButton;
     @FXML
     private Button ipListButton;
-    @FXML
-    private Button disconnectButton;
 
     @FXML
     private void play(ActionEvent event) {
@@ -55,15 +53,5 @@ public class MenuController extends AbstractController{
     @FXML
     private void exit(ActionEvent event) throws IOException{
         ihmmain.toLogin();
-    }
-
-    @FXML
-    private void disconnect(ActionEvent event) {
-        try{
-            facade.iDataIHMMain.signOut();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        
     }
 }

@@ -11,9 +11,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
 import java.io.File;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import java.rmi.server.UID;
 import java.util.ArrayList;
@@ -49,8 +46,7 @@ public class UserMediator {
      * constructor
      *
      * @param dataFacade reference to the facade
-     */    
-
+     */
     public UserMediator(DataFacade dataFacade) {
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Création du mediator");
 
@@ -133,6 +129,7 @@ public class UserMediator {
         if (this.owner != null) {
             publicUser = this.owner.getUserIdentity();
         }
+
         return publicUser;
     }
 
@@ -158,8 +155,8 @@ public class UserMediator {
         String path = Configuration.SAVE_DIR + File.separator + playerName + ".json";
 
         //all uppercase
-        //playerName = playerName.toUpperCase();
-       // password = password.toUpperCase();
+        playerName = playerName.toUpperCase();
+        password = password.toUpperCase();
         firstName = firstName.toUpperCase();
         lastName = lastName.toUpperCase();
 
@@ -216,7 +213,7 @@ public class UserMediator {
                 throw new DataException("Data : error due to empty playername or password");
             }
 
-            //password = password.toUpperCase();
+            password = password.toUpperCase();
             firstName = firstName.toUpperCase();
             lastName = lastName.toUpperCase();
 
@@ -276,8 +273,8 @@ public class UserMediator {
     public void signIn(String username, String password) throws DataException {
 
         //uppercase
-        //username = username.toUpperCase();
-        //password = password.toUpperCase();
+        username = username.toUpperCase();
+        password = password.toUpperCase();
 
         //already connected
         if (this.owner != null) {
@@ -408,18 +405,10 @@ public class UserMediator {
      * @param discoveryNodes
      * @throws com.utclo23.data.module.DataException
      */
-    public void setIPDiscovery(List<String> discoveryNodes) throws DataException, UnknownHostException {        
+    public void setIPDiscovery(List<String> discoveryNodes) throws DataException {        
         if (this.owner != null) {
             this.owner.setDiscoveryNodes(discoveryNodes);                       
             save();
-            
-            // Create the Inet4Address list
-            List<Inet4Address> ips = new ArrayList<Inet4Address>();
-            for(String stringIp:discoveryNodes) {
-                Inet4Address inetIp = (Inet4Address)InetAddress.getByName(stringIp);
-                ips.add(inetIp);
-            }
-            this.getDataFacade().getComfacade().sendDiscovery(this.owner.getUserIdentity(), ips);
         } else {
             throw new DataException("Data : error in setting discovery nodes");
         }

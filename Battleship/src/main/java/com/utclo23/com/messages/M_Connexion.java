@@ -5,15 +5,15 @@
  */
 package com.utclo23.com.messages;
 import com.utclo23.data.facade.IDataCom;
-import com.utclo23.data.structure.PublicUser;
+import com.utclo23.data.structure.LightPublicUser;
 /**
  *
  * @author thibault
  */
 public class M_Connexion extends Message{
-    public PublicUser user;
+    public LightPublicUser user;
     
-    public M_Connexion(PublicUser u){
+    public M_Connexion(LightPublicUser u){
         user = u;
     }
     
