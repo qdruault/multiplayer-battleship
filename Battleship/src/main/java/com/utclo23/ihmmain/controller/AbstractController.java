@@ -39,15 +39,18 @@ public class AbstractController {
         this.ihmmain = ihmmain;
     }
 
-    public boolean isIsRunning() {
+    public boolean isRunning() {
         return isRunning;
     }
     
-    public void init(){
-        stop();
+    /**
+     * Override this to init your controller when you arrived on it
+     */
+    public void start(){
+        
     }
     
-    public void start(){
+    public void run(){
         this.isRunning = true;
     }
     
