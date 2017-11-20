@@ -108,3 +108,22 @@
 .inGameGUI_player_cell:hover {
     -fx-background-color: rgba(255, 255, 255, 0.15);
 }
+
+
+.inGameGUI_touched_cell {
+    -fx-background-image: url("../images/mine_fired_ship_touched.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 100% 100%;
+}
+
+.inGameGUI_missed_cell {
+    -fx-background-image: url("../images/cross_ship_missed.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 100% 100%;
+}
+
+.inGameGUI_destroyed_cell {
+    -fx-background-image: url("../images/mine_fired_ship_destroyed.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 100% 100%;
+}

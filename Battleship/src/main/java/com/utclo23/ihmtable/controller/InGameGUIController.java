@@ -230,16 +230,17 @@ public class InGameGUIController {
                 // Attack!
                 try {
                     if (facade.getFacadeData().attack(cellToAttack)) {
-                        // TODO: OK.
+                        // Ship Touched!
+                        clickedPane.getStyleClass().add("inGameGUI_touched_cell");
+                        // TODO: check if the ship is destroyed.
+                        
                     } else {
-                        // TODO: NOT OK.
+                        // Ship missed!
+                        clickedPane.getStyleClass().add("inGameGUI_missed_cell");
                     }
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                 }
-
-            } else {
-                System.err.println("No cell is selected!");
             }
         }
     }
@@ -299,6 +300,12 @@ public class InGameGUIController {
                     clickedPane.getStyleClass().removeAll("inGameGUI_selected_cell");
                 }
 
+                // Save the cell to attack.
+                cellToAttack = new Coordinate(column, row);
+                // Highlight the cell.
+                clickedPane = (Pane)event.getSource();
+                clickedPane.getStyleClass().add("inGameGUI_selected_cell");
+                
                 // Save the cell to attack.
                 cellToAttack = new Coordinate(column, row);
                 // Highlight the cell.
@@ -498,5 +505,4 @@ public class InGameGUIController {
             }
         }
     }
-
 }
