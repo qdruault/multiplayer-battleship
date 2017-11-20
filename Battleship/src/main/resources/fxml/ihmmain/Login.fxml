@@ -32,6 +32,6 @@
         <Label text="Don't have an account?" GridPane.columnIndex="1" GridPane.rowIndex="4" />
         <Button fx:id="createButton" mnemonicParsing="false" onAction="#createUserAction" text="Create one now!" GridPane.columnIndex="2" GridPane.rowIndex="4" />
         <Button fx:id="exitButton" mnemonicParsing="false" onAction="#exitAction" text="Exit" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-        <Button fx:id="loginButton" mnemonicParsing="false" onAction="#loginAction" text="Login" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+        <Button fx:id="loginButton" mnemonicParsing="false" defaultButton="true" onAction="#loginAction" text="Login" GridPane.columnIndex="2" GridPane.rowIndex="6" />
     </children>            
 </GridPane>
