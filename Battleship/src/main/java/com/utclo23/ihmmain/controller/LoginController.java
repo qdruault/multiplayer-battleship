@@ -20,6 +20,12 @@ public class LoginController extends AbstractController{
     @FXML
     private PasswordField passwordField;
 
+    /**
+     * Attempts to log in with the given username and password.
+     * Called when the login button is clicked or when the ENTER key is pressed.
+     *
+     * @param event
+     */
     @FXML
     private void loginAction(ActionEvent event) throws IOException{
         String username = usernameField.getText();
@@ -39,11 +45,23 @@ public class LoginController extends AbstractController{
         }
     }
     
+    /**
+     * Goes to the 'Create User' page.
+     * Called when the create button is clicked.
+     *
+     * @param event
+     */
     @FXML
     private void createUserAction(ActionEvent event) throws IOException{
         ihmmain.toCreateUser();
     }
     
+    /**
+     * Exits the application.
+     * Called when the exit button is clicked.
+     *
+     * @param event
+     */
     @FXML
     private void exitAction(ActionEvent event){
         System.exit(0);
@@ -52,7 +70,7 @@ public class LoginController extends AbstractController{
     /**
      * Checks if the usernameField and the passwordField are not empty
      * and changes the color of their border accordingly (red or grey).
-     * 
+     *
      * @param username
      * @param password
      * @return true if they are not empty, false otherwise
