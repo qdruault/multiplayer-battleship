@@ -87,3 +87,26 @@ cell-right.table-row-cell {
     -fx-font-size: 12pt;
     -fx-font-family: "Segoe UI Semibold";
 }*/
+
+/* Alert customization */
+    .dialog-pane > .button-bar > .container {
+      -fx-background-color:#061f30;
+    }
+
+    .dialog-pane > .content.label {
+       -fx-padding: 0.5em 0.5em 0.5em 0.5em;
+       -fx-background-color: #061f30;
+       -fx-text-fill:white;
+       -fx-font-size:15.0px;
+    }
+
+    .dialog-pane:header .header-panel {
+      -fx-background-color: #061f30;
+    }
+
+    .dialog-pane:header .header-panel .label{
+      -fx-background-color: #061f30;
+      -fx-background-radius:10px;
+      -fx-text-fill:white;
+      -fx-font-size:15.0px;
+    }
