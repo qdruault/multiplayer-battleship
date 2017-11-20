@@ -11,7 +11,6 @@ import javafx.scene.control.TextField;
  * Controller of the login page.
  * 
  * @author Camille Quenin
- * @author Linxuhao
  */
 public class LoginController extends AbstractController{
     
@@ -31,7 +30,11 @@ public class LoginController extends AbstractController{
                 facade.iDataIHMMain.signin(username, password);
                 ihmmain.toMenu();
             }catch (DataException e){
-                //TODO : show pop up
+                showErrorPopup(
+                        "This user doesn't exist.",
+                        "Please, check that the username and the password are correct.",
+                        "(" + e.getMessage() + ")"
+                );
             }
         }
     }
