@@ -8,6 +8,8 @@ package com.utclo23.ihmmain.controller;
 import com.utclo23.ihmmain.IHMMain;
 import com.utclo23.ihmmain.facade.IHMMainFacade;
 import java.io.IOException;
+import javafx.scene.control.Alert;
+import javafx.scene.control.DialogPane;
 
 /**
  * upper class of all ihm-main controller class, contain IHMMain class
@@ -60,5 +62,23 @@ public class AbstractController {
      * @throws IOException 
      */
     public void refresh() throws IOException {
+    }
+
+    /**
+     * Displays an error popup.
+     *
+     * @param title
+     * @param header
+     * @param message
+     */
+    public void showErrorPopup(String title, String header, String message){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(message);
+        alert.setResizable(false);
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("/styles/ihmmain.css").toExternalForm());
+        alert.showAndWait();
     }
 }
