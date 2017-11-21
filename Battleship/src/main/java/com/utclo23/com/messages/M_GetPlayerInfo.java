@@ -9,19 +9,24 @@ import com.utclo23.com.Sender;
 import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.PublicUser;
 /**
- *
- * @author thibault
+ * M_GetPlayerInfo is a Message send to request detailed information about a
+ * specific user.
+ * @author Thibault CHICHE
  */
 public class M_GetPlayerInfo extends Message {
     
+    /**
+     * Constructor.
+     * @param user is the message's sender
+     */
     public M_GetPlayerInfo(PublicUser user){
         super(user);
     }
     
     @Override
     public void callback(IDataCom iDataCom){
-        PublicUser user = iDataCom.getMyPublicUserProfile();
-        M_PlayerInfo m_PlayerInfo = new M_PlayerInfo(user);
+        PublicUser my_profile = iDataCom.getMyPublicUserProfile();
+        M_PlayerInfo m_PlayerInfo = new M_PlayerInfo(my_profile);
         Sender os = new Sender(this.IP_sender.getHostAddress(), 80, m_PlayerInfo);
         new Thread(os).start();
     }
