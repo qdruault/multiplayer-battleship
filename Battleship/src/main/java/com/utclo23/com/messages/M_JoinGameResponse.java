@@ -9,15 +9,21 @@ import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.PublicUser;
 
 /**
- *
- * @author thibault
+ * M_JoinGameResponse is a Message generated to allow or not a user to join a
+ * game, sent to all connected users if success, otherwise just to the user who 
+ * wants to join the game.
+ * @author Thibault CHICHE
  */
 public class M_JoinGameResponse extends Message {
     private boolean success;
-    
-    public M_JoinGameResponse(PublicUser user, boolean s){
+    /**
+    * Constructor.
+    * @param user is the message's sender
+    * @param success is the response
+    */
+    public M_JoinGameResponse(PublicUser user, boolean success){
         super(user);
-        success = s;
+        this.success = success;
     }
     @Override
     public void callback(IDataCom iDataCom){

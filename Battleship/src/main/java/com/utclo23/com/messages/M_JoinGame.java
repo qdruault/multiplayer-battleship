@@ -8,16 +8,22 @@ import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.StatGame;
 /**
- *
- * @author thibault
+ * M_JoinGame is a Message generated when a user wants to join a game.
+ * 
+ * @author Thibault CHICHE 
  */
 public class M_JoinGame extends Message {
     private StatGame game;
     private String role;
     
-    public M_JoinGame(PublicUser user, StatGame g) {
+    /**
+     * Constructor
+     * @param user is the player who wants to join the group.
+     * @param game is the game that the player wants to join to. 
+     */
+    public M_JoinGame(PublicUser user, StatGame game) {
         super(user);
-        game = g;
+        this.game = game;
     }
     @Override
     public void callback(IDataCom iDataCom) {

@@ -9,15 +9,21 @@ import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.Ship;
 import java.util.List;
 /**
- *
- * @author thibault
+ * M_PlaceShip is a Message generated after a player placed all his ships,
+ * sent to the other player and the spectators.
+ * @author Thibault CHICHE
  */
 public class M_PlaceShip extends Message {
     private List<Ship> ships;
-    
-    public M_PlaceShip(PublicUser user, List<Ship> s){
+
+    /**
+    * Constructor.
+    * @param user is the message's sender
+    * @param ships is the coordinates' list of the ships
+    */
+    public M_PlaceShip(PublicUser user, List<Ship> ships){
         super(user);
-        ships = s;
+        this.ships = ships;
     }
     @Override
     public void callback(IDataCom iDataCom) {
