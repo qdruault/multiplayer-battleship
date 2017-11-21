@@ -347,7 +347,7 @@ public class UserMediator {
             ComFacade comFacade = this.dataFacade.getComfacade();
             if (comFacade != null) {
                 if (this.owner != null) {
-                    // comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+                    comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
                     
                     Inet4Address ip;
                     boolean b;
