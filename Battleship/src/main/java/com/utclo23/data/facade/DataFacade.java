@@ -26,6 +26,7 @@ import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.ihmtable.IIHMTableToData;
 
 import java.io.File;
+import java.net.UnknownHostException;
 
 import java.util.List;
 import java.util.Date;
@@ -60,11 +61,20 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     private GameMediator gameMediator;
 
-    public boolean isTestMode() {
+    
+    /**
+     * Get the test mode 
+     * @return testMode true if test mode is activated
+     */
+    public  boolean isTestMode() {
         return testMode;
     }
 
-    public void setTestMode(boolean testMode) {
+    /**
+     * Set the test mode
+     * @param boolean the value to set to testMode parameter
+     */
+    public  void setTestMode(boolean testMode) {
         this.testMode = testMode;
     }
 
@@ -98,9 +108,14 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
     }
 
+    /**
+     * Get the communication facade parameter
+     * @return communication facade 
+     */
     public ComFacade getComfacade() {
         return comfacade;
     }
+
 
     
     // TODO: implement that
@@ -112,8 +127,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         this.comfacade = comFacade;
         this.ihmMainFacade = ihmMainFacade;
         this.ihmTablefacade = ihmTableToData;
-    }
 
+    }
     /**
      * Get the user mediator
      *
@@ -134,8 +149,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
     /**
      * Add new game
-     *
-     * @param game
+     * @param game the game to add
      */
     @Override
     public void addNewGame(StatGame game) {
@@ -148,9 +162,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
     /**
      * Set the ennemy ships
-     *
-     * @param ships
-     */
+     * @param ships the ships to set as a list
+    */
     @Override
     public void setEnnemyShips(List<Ship> ships) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -184,9 +197,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-     * add connected user
-     *
-     * @param user
+     * Add connected user
+     * @param user user to add as connected
      */
     @Override
     public void addConnectedUser(LightPublicUser user) {
@@ -198,9 +210,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-     * remove connected user
-     *
-     * @param user
+     * Remove connected user
+     * @param user user to removed as connected
      */
     @Override
     public void removeConnectedUser(LightPublicUser user) {
@@ -213,9 +224,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-     * forward message
-     *
-     * @param msg
+     * Forward a message
+     * @param msg message to forward
      */
     @Override
     public void forwardMessage(Message msg) {
@@ -223,8 +233,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-     * get a owner profile
-     *
+     * Get my owner profile
      * @return my owner profile
      */
     public Owner getMyOwnerProfile() {
@@ -236,9 +245,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-     * get Public user profile
-     *
-     * @return public profile
+     * Get my public user profile
+     * @return my public profile
      */
     @Override
     public PublicUser getMyPublicUserProfile() {
@@ -250,11 +258,11 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-     * Update game list
-     *
-     * @param user
-     * @param id
-     * @param role
+
+     * Update game list as a new user has joined a game
+     * @param user the new user who has joined
+     * @param id id of the stat game 
+     * @param role role of the new user
      */
     @Override
     public void updateGameList(LightPublicUser user, String id, String role) {
@@ -262,9 +270,9 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-     * getShips
-     *
-     * @return
+     * Get ships to place
+     * @return the list of ships to place
+
      */
     @Override
     public List<Ship> getShips() {
@@ -273,8 +281,9 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
     /**
      * Set a given ship
-     *
-     * @param ship
+
+     * @param ship the ship to set
+
      */
     @Override
     public void setShip(Ship ship) {
@@ -283,9 +292,10 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
     /**
      * Attack a given location
-     *
-     * @param coords
-     * @return success/failure
+
+     * @param coords the location to attack
+     * @return success/failure of the attack
+
      */
     @Override
     public boolean attack(Coordinate coords) {
@@ -301,9 +311,10 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-     *
-     * @param gameid
-     * @return
+
+     * Get the initial board of a game
+     * @param gameid the game from which we want the initial board
+     * @return the initial board as a list of ships
      */
     @Override
     public List<Ship> getInitialBoardFromGameId(String gameid) {
@@ -311,8 +322,10 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-     *
-     * @return
+
+     * Get the previous board
+     * @return the previous board as a list of events such as mines, message
+
      */
     @Override
     public List<Event> getPreviousBoard() {
@@ -320,8 +333,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-     *
-     * @return
+     * Get the next board
+     * @return the next board as a list of events such as mines, messag
      */
     @Override
     public List<Event> getNextBoard() {
@@ -329,9 +342,10 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-     * send a chat message
-     *
-     * @param text
+
+     * Send a chat message 
+     * @param text the message to send
+
      */
     @Override
     public void sendMessage(String text) {
@@ -340,8 +354,9 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
     /**
      * Get the current game
-     *
-     * @return
+
+     * @return the current game
+
      */
     @Override
     public Game getGame() {
@@ -349,52 +364,54 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-     *
-     * @param playerName
-     * @param password
-     * @param firstName
-     * @param lastName
-     * @param birthDate
-     * @param fileImage
-     * @throws java.lang.Exception
-     * @para
+     * Create a user
+     * @param playerName the pseudo of the new player
+     * @param password the password of the new player
+     * @param firstName the first name of the new player
+     * @param lastName the last name of the new player
+     * @param birthDate the birth date of the new player
+     * @param fileImage the avatar of the new user
+     * @throws DataException if the playername or password is empty, or if the account already exists
      */
     @Override
     public void createUser(String playerName, String password, String firstName, String lastName, Date birthDate, String fileImage) throws DataException {
         this.userMediator.createUser(playerName, password, firstName, lastName, birthDate, fileImage);
     }
 
-    /**
-     * updte user
-     *
-     * @param password
-     * @param firstName
-     * @param lastName
-     * @param birthDate
-     * @param fileImage
-     * @throws DataException
-     */
-    @Override
+
+   /**
+    * Update user information
+    * @param password the new password
+    * @param firstName the new first name
+    * @param lastName the new last name
+    * @param birthDate the new birthdate
+    * @param fileImage the new avatar
+    * @throws DataException if there is an error in updating
+    */
+     @Override
     public void updateUser(String password, String firstName, String lastName, Date birthDate, String fileImage) throws DataException {
 
         this.userMediator.updateUser(password, firstName, lastName, birthDate, fileImage);
     }
 
     /**
-     * get a user profile
-     *
-     * @param id
-     * @return
+
+     * Get a user profile
+     * @param id the id of the user to get his profile
+     * @return the public user
+
      */
     @Override
     public PublicUser getPublicUserProfile(String id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    /**
-     * get game list
-     *
-     * @return list of games
+
+    
+    /** 
+     * Get list of games
+     * @return list of games as StatGame
+
      */
     @Override
     public List<StatGame> getGameList() {
@@ -403,10 +420,11 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
     /**
      * Create a game
-     * @param name
-     * @param spectator
-     * @param spectatorChat
-     * @param type
+
+     * @param name the name of the game created
+     * @param spectator are spectators allowed or not
+     * @param spectatorChat are spectators allowed to chat or not
+     * @param type type of the game created
      */
     @Override
     public void createGame(String name, boolean spectator, boolean spectatorChat, String type) {
@@ -418,12 +436,12 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     
     
     
+
     /**
-     * *
-     *
+     * Sign in the application
      * @param username
      * @param password
-     * @throws DataException
+     * @throws DataException if the user is already connected, there is a problem in saving or reading file, or if the password is incorrect
      */
     @Override
     public void signin(String username, String password) throws DataException {
@@ -432,9 +450,10 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-     * *
-     *
-     * @throws DataException
+
+     * Sign out of the application
+     * @throws DataException if there is no connected user
+
      */
     @Override
     public void signOut() throws DataException {
@@ -442,9 +461,10 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-     * get users who are connected
-     *
-     * @return
+
+     * Get users who are connected
+     * @return the list of connected users
+
      */
     @Override
     public List<LightPublicUser> getConnectedUsers() {
@@ -452,6 +472,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
+
      * get the discovery nodes
      *
      * @return
@@ -466,9 +487,14 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      *
      * @param discoveryNodes
      * @throws com.utclo23.data.module.DataException
+
      */
     @Override
     public void setIPDiscovery(List<String> discoveryNodes) throws DataException {
-        this.userMediator.setIPDiscovery(discoveryNodes);
+        try {
+            this.userMediator.setIPDiscovery(discoveryNodes);
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

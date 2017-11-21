@@ -29,10 +29,12 @@ public class MenuController extends AbstractController{
     private Button exitButton;
     @FXML
     private Button ipListButton;
+    @FXML
+    private Button disconnectButton;
 
     @FXML
-    private void play(ActionEvent event) {
-        facade.iIHMTableToIHMMain.createInGameGUI(ihmmain.primaryStage);
+    private void play(ActionEvent event) throws IOException{
+        ihmmain.toGameList();
     }
 
     @FXML
@@ -57,6 +59,17 @@ public class MenuController extends AbstractController{
 
     @FXML
     private void exit(ActionEvent event) throws IOException{
-        ihmmain.toLogin();
+        System.exit(0);
+    }
+
+    @FXML
+    private void disconnect(ActionEvent event)  throws IOException{
+        try{
+            facade.iDataIHMMain.signOut();
+            ihmmain.toLogin();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
     }
 }

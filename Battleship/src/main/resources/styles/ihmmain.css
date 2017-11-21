@@ -50,7 +50,15 @@ cell-right.table-row-cell {
 .table-row-cell {
     -fx-background-color: transparent;
 }
-
+.button{
+    -fx-font-family: "Space Age"; 
+    -fx-text-fill: #3DE6AF; 
+    /*svg path*/
+    -fx-shape:"M 0 0 L 1 -0.5 L 5 -0.5 L 6 0 L 5 0.5 L 1 0.5 z";
+    -fx-border-color:#ffffff;
+    -fx-background-color: #061f30;
+    
+}
 /*.table-view:focused .table-row-cell:filled:focused:selected {
     -fx-background-color: -fx-focus-color;
 }
@@ -87,3 +95,26 @@ cell-right.table-row-cell {
     -fx-font-size: 12pt;
     -fx-font-family: "Segoe UI Semibold";
 }*/
+
+/* Alert customization */
+    .dialog-pane > .button-bar > .container {
+      -fx-background-color:#061f30;
+    }
+
+    .dialog-pane > .content.label {
+       -fx-padding: 0.5em 0.5em 0.5em 0.5em;
+       -fx-background-color: #061f30;
+       -fx-text-fill:white;
+       -fx-font-size:15.0px;
+    }
+
+    .dialog-pane:header .header-panel {
+      -fx-background-color: #061f30;
+    }
+
+    .dialog-pane:header .header-panel .label{
+      -fx-background-color: #061f30;
+      -fx-background-radius:10px;
+      -fx-text-fill:white;
+      -fx-font-size:15.0px;
+    }

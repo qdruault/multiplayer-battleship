@@ -15,6 +15,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javax.swing.JOptionPane;
 
 /**
  * @author Audrick
@@ -71,18 +72,19 @@ public class CreateGameController extends AbstractController{
     private void validateCreateGame(ActionEvent event){
         String names = gameNameField.getText();
         gameNameField.setStyle("");
+        JOptionPane msg = new JOptionPane();
         if (!names.isEmpty()){
             String modes = ((RadioButton) mode.getSelectedToggle()).getText();
             String enemys = ((RadioButton) enemy.getSelectedToggle()).getText();
             boolean chats = radioButtonChat.isSelected();
             boolean audiences = radioButtonAudience.isSelected();
-            facade.iDataIHMMain.createGame(names, audiences, chats, modes);
-            System.out.println(modes);
-            System.out.println(enemys);
-            System.out.println(names);
-            System.out.println(chats);
-            System.out.println(audiences);
-            // comparer deux strings : string1.equal(string2)
+            try{
+                facade.iDataIHMMain.createGame(names, audiences, chats, modes);
+                msg.showMessageDialog(null, "Game created", "Information", JOptionPane.INFORMATION_MESSAGE);
+               
+            }catch (Exception e){
+                //TODO : show pop up
+            }
         }
         else
             gameNameField.setStyle("-fx-border-color: red;"); 

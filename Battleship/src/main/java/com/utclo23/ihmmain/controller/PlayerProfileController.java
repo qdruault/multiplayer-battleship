@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -34,21 +33,15 @@ public class PlayerProfileController extends AbstractController{
             
     @FXML
     private TextField description;
-
-    @FXML
-    private Button backButton;
-    @FXML
-    private Button playerList;
-    @FXML
-    private Button editDesc;
     
     private PublicUser me;
-    String testUserID="Player1";
+    
     @FXML
-    public void initialize() throws IOException{
+    @Override
+    public void start(){
         try{
             me = facade.iDataIHMMain.getMyPublicUserProfile();
-            userID.setText(me.getId());
+            userID.setText(me.getLightPublicUser().getPlayerName());
             firstName.setText(me.getFirstName());
             lastName.setText(me.getLastName());
             birthday.setText(me.getBirthDate().toString());
@@ -56,7 +49,6 @@ public class PlayerProfileController extends AbstractController{
         catch(NullPointerException e){
             System.out.println("[PlayerProfile] - getMyPublicUserProfile() not supported yet");
         }
-        userID.setText(testUserID);
     }
     
      
