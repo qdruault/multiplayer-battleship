@@ -7,6 +7,7 @@ package com.utclo23.ihmmain;
 
 import com.utclo23.ihmmain.constants.SceneName;
 import com.utclo23.ihmmain.controller.AbstractController;
+import com.utclo23.ihmmain.controller.PlayerProfileController;
 import com.utclo23.ihmmain.facade.IHMMainFacade;
 import java.io.IOException;
 import java.util.HashMap;
@@ -56,6 +57,13 @@ public class IHMMain {
     }
     
     public void toPlayerProfile() throws IOException{
+        toScene(SceneName.PlayerProfile);
+    }
+    
+    public void toOthersPlayerProfile() throws IOException{
+        PlayerProfileController controller;   
+        controller = (PlayerProfileController)controllerMap.get(SceneName.PlayerProfile.toString());
+        controller.loading();
         toScene(SceneName.PlayerProfile);
     }
     

@@ -37,7 +37,7 @@ public enum SceneName {
     /**
      * name of play a game scene
      */
-    GameList,
+    GameList
     
     
 }

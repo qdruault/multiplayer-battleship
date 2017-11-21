@@ -21,6 +21,8 @@ import javafx.stage.Stage;
  *
  * @author Lipeining
  */
+
+//recievePublicUserProfile(Player);
 public class PlayerProfileController extends AbstractController{
     @FXML
     public  Label userID;
@@ -35,6 +37,7 @@ public class PlayerProfileController extends AbstractController{
     private TextField description;
     
     private PublicUser me;
+    private boolean isLoading = false; 
     
     @FXML
     @Override
@@ -91,5 +94,11 @@ public class PlayerProfileController extends AbstractController{
         popup.initOwner(primaryStage);
         popup.setScene(newScene);
         popup.show();
-    }         
+    }  
+    public void recievePublicUser(PublicUser player) throws IOException{
+    
+    }
+    public void loading() throws IOException{
+        
+    }
 }

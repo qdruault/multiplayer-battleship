@@ -5,6 +5,7 @@
  */
 package com.utclo23.ihmmain.facade;
 
+import com.utclo23.data.structure.PublicUser;
 import java.io.IOException;
 import javafx.stage.Stage;
 
@@ -24,4 +25,11 @@ public interface IHMMainToData {
      * @throws IOException 
      */
     public abstract void refreshGameList() throws IOException;
+    
+     /**
+     * obtain info of other player asked by user
+     * @throws IOException 
+     */
+    public abstract void recievePublicUserProfile(PublicUser player) throws IOException;
+    
 }
