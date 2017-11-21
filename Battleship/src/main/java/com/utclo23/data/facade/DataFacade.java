@@ -27,6 +27,7 @@ import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.ihmtable.IIHMTableToData;
 
 import java.io.File;
+import java.net.NetworkInterface;
 
 
 import java.util.List;
@@ -520,5 +521,14 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     public void gameConnectionRequestGame(String id, String role) {
         
         this.gameMediator.gameConnectionRequestGame(id, role);
+    }
+
+    @Override
+    public void setNetworkInterface(NetworkInterface net_interface) {
+        
+        if(this.getComfacade()!=null)
+        {
+            this.getComfacade().setUsedInterface(net_interface);
+        }
     }
 }

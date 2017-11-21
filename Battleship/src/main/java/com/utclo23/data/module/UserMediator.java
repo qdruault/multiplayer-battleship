@@ -36,7 +36,6 @@ import javax.imageio.stream.ImageInputStream;
 
 import java.net.Inet4Address;
 
-
 /**
  * User mediator related to user features
  *
@@ -348,19 +347,19 @@ public class UserMediator {
             if (comFacade != null) {
                 if (this.owner != null) {
                     comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
-                    
+
                     Inet4Address ip;
-                    boolean b;
+
                     List<Inet4Address> listIpTarget = new ArrayList<>();
-                    for(String ipString :owner.getDiscoveryNodes()){                                           
-                        try{                           
+                    for (String ipString : owner.getDiscoveryNodes()) {
+                        try {
                             ip = (Inet4Address) Inet4Address.getByName(ipString);
                             listIpTarget.add(ip);
-                        } catch(Exception e){
+                        } catch (Exception e) {
                             throw new DataException("Data : IP not valid");
                         }
-                    }                                   
-                    comFacade.sendDiscovery(owner.getUserIdentity(), listIpTarget);                  
+                    }
+                    comFacade.sendDiscovery(owner.getUserIdentity(), listIpTarget);
                 }
             }
 
@@ -539,25 +538,28 @@ public class UserMediator {
                     Inet4Address inetIp = (Inet4Address) InetAddress.getByName(stringIp);
                     ips.add(inetIp);
                 }
-                this.getDataFacade().getComfacade().sendDiscovery(this.owner.getUserIdentity(), ips);
+                if (!this.dataFacade.isTestMode() && this.getDataFacade().getComfacade() != null) {
+                    this.getDataFacade().getComfacade().sendDiscovery(this.owner.getUserIdentity(), ips);
+                }
             } else {
+ 
                 throw new DataException("Data : error in setting discovery nodes");
             }
         } catch (Exception e) {
+            
             throw new DataException("Data : error in setting discovery nodes");
         }
 
     }
-    
-    public void saveGame(Game game) throws DataException
-    {
-        if(this.owner != null){
-             game.prepareToBeSaved();
-             owner.getSavedGamesList().add(game);
-             
-             //Save 
-             this.save();
-             
-        }    
+
+    public void saveGame(Game game) throws DataException {
+        if (this.owner != null) {
+            game.prepareToBeSaved();
+            owner.getSavedGamesList().add(game);
+
+            //Save 
+            this.save();
+
+        }
     }
 }

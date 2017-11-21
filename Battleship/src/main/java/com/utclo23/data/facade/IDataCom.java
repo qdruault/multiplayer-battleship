@@ -6,6 +6,7 @@
 package com.utclo23.data.facade;
 
 import com.utclo23.data.structure.*;
+import java.net.NetworkInterface;
 import java.rmi.server.UID;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @author Davy
  */
 public interface IDataCom {
+    public void setNetworkInterface(NetworkInterface net_interface);
     public void addNewGame(StatGame game);
     public void setEnnemyShips(List<Ship> ships);
     public void forwardCoordinates(Mine mine);
