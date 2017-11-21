@@ -46,7 +46,7 @@ public class M_ReturnIP extends Message {
 			iDataCom.addConnectedUser(listUsers.get(i));
 		}
 
-		for (int i = 0; i < listUsers.size(); i++) {
+		for (int i = 0; i < listGames.size(); i++) {
 			iDataCom.addNewGame(listGames.get(i));
 		}
 
