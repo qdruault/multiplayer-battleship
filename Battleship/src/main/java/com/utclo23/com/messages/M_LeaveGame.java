@@ -15,7 +15,7 @@ import com.utclo23.data.structure.PublicUser;
 public class M_LeaveGame extends Message {
     
     /**
-     * Constructor .
+     * Constructor.
      * @param user is the message's sender
      */
     public M_LeaveGame(PublicUser user){

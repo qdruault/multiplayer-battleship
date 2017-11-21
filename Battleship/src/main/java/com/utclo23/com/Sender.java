@@ -5,7 +5,7 @@
  */
 package com.utclo23.com;
 
-import com.utclo23.com.messages.M_Connexion;
+import com.utclo23.com.messages.M_Connection;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.io.IOException;

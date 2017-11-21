@@ -10,7 +10,7 @@ import com.utclo23.data.structure.Ship;
 import java.util.List;
 /**
  * M_PlaceShip is a Message generated after a player placed all his ships,
- * sent to the other player and the spectators.
+ * sent to all users connected to the game.
  * @author Thibault CHICHE
  */
 public class M_PlaceShip extends Message {

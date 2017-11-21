@@ -17,8 +17,8 @@ public class M_JoinGame extends Message {
     
     /**
      * Constructor
-     * @param user is the player who wants to join the group.
-     * @param game is the game that the player wants to join to. 
+     * @param user is the message's sender
+     * @param game is the game that the player wants to join to
      */
     public M_JoinGame(PublicUser user, StatGame game) {
         super(user);

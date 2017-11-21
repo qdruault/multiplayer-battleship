@@ -75,7 +75,7 @@ public class ComFacade {
     * @return nothing
     */
     public void notifyUserSignedOut(PublicUser user){
-        M_Deconnexion m_deconnexion = new M_Deconnexion(user);
+        M_Deconnection m_deconnexion = new M_Deconnection(user);
         for(Inet4Address ip : kIpCtrl.getHashMap().values()){
             Sender os = new Sender(ip.getHostAddress(), 80, m_deconnexion);
             new Thread(os).start();

@@ -9,7 +9,7 @@ import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.StatGame;
 /**
  * M_CreationGame is a Message generated when a game is created,
- * sent to all connected user.
+ * sent to all connected users.
  * @author Thibault CHICHE
  */
 public class M_CreationGame extends Message{

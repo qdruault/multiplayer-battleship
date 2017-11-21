@@ -8,7 +8,8 @@ import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.Mine;
 import com.utclo23.data.structure.PublicUser;
 /**
- * M_PlaceMine is a Message to send the position of a new placed mine.
+ * M_PlaceMine is a Message to send the position of a new placed mine,
+ * sent to all users connected to the game.
  * @author Thibault CHICHE
  */
 public class M_PlaceMine extends Message {

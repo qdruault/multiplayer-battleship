@@ -9,7 +9,7 @@ import com.utclo23.com.Sender;
 import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.PublicUser;
 /**
- * M_GetPlayerInfo is a Message send to request detailed information about a
+ * M_GetPlayerInfo is a Message sent to request detailed information about a
  * specific user.
  * @author Thibault CHICHE
  */

@@ -10,8 +10,8 @@ import com.utclo23.data.structure.PublicUser;
 
 /**
  * M_JoinGameResponse is a Message generated to allow or not a user to join a
- * game, sent to all connected users if success, otherwise just to the user who 
- * wants to join the game.
+ * game, sent to all connected users if success, otherwise just to the sender
+ * of M_JoinGame.
  * @author Thibault CHICHE
  */
 public class M_JoinGameResponse extends Message {

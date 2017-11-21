@@ -9,8 +9,8 @@ import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.PublicUser;
 
 /**
- * M_ConnexionLost is a Message generated when user looses connexion,
- * sent to all connected user.
+ * M_ConnexionLost is a Message generated when a user looses connection,
+ * sent to all connected users.
  * @author Thibault CHICHE
  */
 public class M_ConnexionLost extends Message{

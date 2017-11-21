@@ -43,12 +43,12 @@ public class M_GetIP extends Message {
         List<StatGame> listGames = null; // = iDataCom.getGameList();
 
         kic = KnownIPController.getInstance();
-        // add new user to own knownIP hashmap. 
+        // add new user to own knownIP hashmap.
         kic.addNode(user.getLightPublicUser().getId(), IP_sender);
 
         name = this.getClass().getName();
 
-        // get the hasmap of our IP to send it to the requesting node. 
+        // get the hasmap of our IP to send it to the requesting node.
         HashMap<String, Inet4Address> IdToIp = kic.getHashMap();
 
         // send back the data this node has about its known network.

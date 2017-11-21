@@ -7,17 +7,17 @@ package com.utclo23.com.messages;
 import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.PublicUser;
 /**
- * M_Deconnexion is a Message generated when a user disconnects,
- * sent to all connected user.
+ * M_Deconnection is a Message generated when a user disconnects,
+ sent to all connected users.
  * @author Thibault CHICHE
  */
-public class M_Deconnexion extends Message {
+public class M_Deconnection extends Message {
 
     /**
     * Constructor.
     * @param user is the message's sender
     */
-    public M_Deconnexion(PublicUser user){
+    public M_Deconnection(PublicUser user){
         super(user);
     }
     
