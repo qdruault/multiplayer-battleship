@@ -141,15 +141,16 @@ public class GameMediator {
             ship.setOwner(player);
             player.getShips().add(ship);
             
+            //last ship
             if(this.currentGame.getTemplateShips().size() == player.getShips().size())
             {
                 if(this.dataFacade.getComfacade()!=null)
                 {
                     //TODO notify network that the player is ready (all ships initialized
-                   // this.dataFacade.getComfacade().sendShipsToEnnemy(player.getShips(), player.getLightPublicUser());
+                    //this.dataFacade.getComfacade().sendShipsToEnnemy(player.getShips(), player.getLightPublicUser());
                 }
             }
-
+            
         } else {
             throw new DataException("Data : error as no current game");
         }

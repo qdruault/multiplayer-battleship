@@ -420,9 +420,7 @@ public class UserMediator {
     public void addConnectedUser(LightPublicUser usr) {
         if (!this.mapConnectedUser.containsKey(usr.getId())) {
             this.mapConnectedUser.put(usr.getId(), usr);
-        } else {
-            throw new RuntimeException("User " + usr.getPlayerName() + " was already in the list of connected users.");
-        }
+        } 
     }
 
     /**
@@ -433,9 +431,7 @@ public class UserMediator {
     public void removeConnectedUser(LightPublicUser usr) {
         if (this.mapConnectedUser.containsKey(usr.getId())) {
             this.mapConnectedUser.remove(usr.getId());
-        } else {
-            throw new RuntimeException("There is no such user to remove form the list of connected users.");
-        }
+        } 
     }
 
     /**
