@@ -33,6 +33,8 @@
         <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
         <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
         <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+        <RowConstraints percentHeight="35.0" vgrow="SOMETIMES" />
     </rowConstraints>
 
     <children>
