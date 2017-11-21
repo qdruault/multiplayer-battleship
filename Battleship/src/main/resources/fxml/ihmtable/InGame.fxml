@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane minHeight="700.0" minWidth="1200.0" stylesheets="@../../styles/InGame.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="inGameGUI" minHeight="700.0" minWidth="1200.0" stylesheets="@../../styles/InGame.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmtable.controller.InGameGUIController">
    <children>
       <HBox id="menu_header" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -25,27 +25,27 @@
                                  <children>
                                     <AnchorPane VBox.vgrow="ALWAYS">
                                        <children>
-                                          <Button id="inGameGUI_button1" layoutY="2.0" mnemonicParsing="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button id="inGameGUI_button1" fx:id="buttonImage1" layoutY="2.0" mnemonicParsing="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane VBox.vgrow="ALWAYS">
                                        <children>
-                                          <Button id="inGameGUI_button2" mnemonicParsing="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button id="inGameGUI_button2" fx:id="buttonImage2" mnemonicParsing="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane VBox.vgrow="ALWAYS">
                                        <children>
-                                          <Button id="inGameGUI_button3" mnemonicParsing="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button id="inGameGUI_button3" fx:id="buttonImage3" mnemonicParsing="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane VBox.vgrow="ALWAYS">
                                        <children>
-                                          <Button id="inGameGUI_button4" mnemonicParsing="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button id="inGameGUI_button4" fx:id="buttonImage4" mnemonicParsing="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane VBox.vgrow="ALWAYS">
                                        <children>
-                                          <Button id="inGameGUI_button5" mnemonicParsing="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button id="inGameGUI_button5" fx:id="buttonImage5" layoutX="-8.0" mnemonicParsing="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </children>
@@ -111,7 +111,7 @@
                                           <RowConstraints minHeight="-Infinity" vgrow="ALWAYS" />
                                        </rowConstraints>
                                     </GridPane>
-                                    <GridPane id="right_side_game" gridLinesVisible="true" prefHeight="500.0" prefWidth="435.0" HBox.hgrow="ALWAYS">
+                                    <GridPane id="right_side_game" fx:id="opponentGrid" gridLinesVisible="true" prefHeight="500.0" prefWidth="435.0" HBox.hgrow="ALWAYS">
                                       <columnConstraints>
                                           <ColumnConstraints hgrow="SOMETIMES" />
                                           <ColumnConstraints hgrow="SOMETIMES" />
@@ -172,7 +172,7 @@
                                        <children>
                                           <AnchorPane prefHeight="170.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <Button id="button_fire" mnemonicParsing="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <Button id="button_fire" fx:id="fireButton" mnemonicParsing="false" onMouseClicked="#onClickFire" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                              </children>
                                           </AnchorPane>
                                           <AnchorPane HBox.hgrow="ALWAYS">
@@ -182,7 +182,7 @@
                                           </AnchorPane>
                                           <AnchorPane prefWidth="100.0" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <Button id="button_menu" mnemonicParsing="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <Button id="button_menu" fx:id="menuButton" mnemonicParsing="false" onMouseClicked="#onClickMenuButton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                              </children>
                                           </AnchorPane>
                                        </children>

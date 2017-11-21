@@ -145,7 +145,7 @@ public class InGameGUIController {
     public void setFacade(IHMTableFacade facade) {
         this.facade = facade;
     }
-    
+
     private class AttackEvent implements EventHandler {
 
         /**

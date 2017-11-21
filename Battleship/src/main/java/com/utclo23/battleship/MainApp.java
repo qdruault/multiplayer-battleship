@@ -37,7 +37,7 @@ public class MainApp extends Application {
 
         // IhmTableFacade creation
         IHMTableFacade ihmTableFacade = new IHMTableFacade(iDataIHMtable);
-        IIHMTableToData iIHMTableToData = ihmTableFacade;
+        /*IIHMTableToData iIHMTableToData = ihmTableFacade;
         IIHMTableToIHMMain iIHMTableToIHMMain = ihmTableFacade;
 
         // IhmMainFacade creation
@@ -53,7 +53,9 @@ public class MainApp extends Application {
         ihmTableFacade.setIhmMainLink(iHMMainToIhmTable);
 
         // set link from IhmMain, Ihmtable and Communication Facade to Data
-        dataFacade.setFacadeLinks(comFacade, iIHMTableToData, ihmMainFacade);
+        dataFacade.setFacadeLinks(comFacade, iIHMTableToData, ihmMainFacade);*/
+        
+        ihmTableFacade.createInGameGUI(stage);
     }
 
     /**

@@ -33,7 +33,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
     /**
      * The path of the inGameGUI.fxml.
      */
-    private final String FXML_PATH = "/fxml/ihmtable/inGameGUI.fxml";
+    private final String FXML_PATH = "/fxml/ihmtable/InGame.fxml";
 
     /**
      * The Data facade.

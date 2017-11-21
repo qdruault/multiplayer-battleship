@@ -240,18 +240,18 @@ public class UserProfileTest {
         df.signOut();
 
     }
-    
+
     /**
      * Test update discoveryNodes
-     
+
     @org.junit.Test
     public void testUpdateDiscoveryNodes() {
-        try {            
+        try {
             DataFacade df = new DataFacade();
             df.setTestMode(true);
             df.signin(PLAYER_NAME, PLAYER_PASSWORD);
-            
-            
+
+
             if (df.getMyOwnerProfile() == null) {
                 fail();
             }
@@ -259,11 +259,11 @@ public class UserProfileTest {
             Owner owner = df.getMyOwnerProfile();
 
             List<String> new_DiscoveryNodes = Arrays.asList("IP1", "IP2", "IP3");
-            
+
             df.setIPDiscovery(new_DiscoveryNodes);
 
-            //Check JSON has been impacting by reconnecting        
-            df.signOut();            
+            //Check JSON has been impacting by reconnecting
+            df.signOut();
             df.signin(PLAYER_NAME, PLAYER_PASSWORD);
            if(!owner.getDiscoveryNodes().equals(new_DiscoveryNodes)){
                 fail();
