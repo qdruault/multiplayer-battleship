@@ -18,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 /**
@@ -34,17 +35,8 @@ public class PlayerListController extends AbstractController{
         ihmmain.toMenu();
     }
     
-    @FXML
-    private void nextPage(ActionEvent event) throws IOException{
-        //TODO: implement it        
-    }
-    
-    @FXML
-    private void lastPage(ActionEvent event) throws IOException{
-        //TODO: implement it        
-    }
-    
-     /* This function is called at the beginning of the application.
+    /**
+     * This function is called at the beginning of the application.
      * It loads the connected users and print them into the tableview.
      */
     @FXML
@@ -98,6 +90,16 @@ public class PlayerListController extends AbstractController{
             listPlayers.setItems(data);
         }
 
+    }
+    
+    /**
+     * This function is call when the user click on a line in the tableview
+     * @param event 
+     */
+    @FXML
+    public void clickItem(MouseEvent event){
+        // TODO Call PlayerProfile to show the profile of the user.
+        String id = listPlayers.getSelectionModel().getSelectedItem().getId();
     }
     
 }

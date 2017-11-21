@@ -161,10 +161,9 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
     /**
      * Set the ennemy ships
-
      * @param ships the ships to set as a list
+    */
 
-     */
     @Override
     public void setEnnemyShips(List<Ship> ships) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -198,10 +197,15 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
+<<<<<<< HEAD
 
      * Add connected user
      * @param user user to add as connected
 
+=======
+     * Add connected user
+     * @param user user to add as connected
+>>>>>>> 1b221f230ccc9e15dde3044faad8dbfdfaeb817c
      */
     @Override
     public void addConnectedUser(LightPublicUser user) {
@@ -442,13 +446,14 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     
     
     
-    /**
+
+
+
     /**
      * Sign in the application
      * @param username
      * @param password
      * @throws DataException if the user is already connected, there is a problem in saving or reading file, or if the password is incorrect
-
      */
     @Override
     public void signin(String username, String password) throws DataException {

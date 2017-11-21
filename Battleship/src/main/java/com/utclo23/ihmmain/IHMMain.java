@@ -62,6 +62,7 @@ public class IHMMain {
     
     public void toPlayerProfile() throws IOException{
         toScene(SceneName.PLAYER_PROFILE);
+
     }
     
     public void toOthersPlayerProfile() throws IOException{

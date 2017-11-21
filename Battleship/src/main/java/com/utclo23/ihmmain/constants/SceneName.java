@@ -42,13 +42,13 @@ public enum SceneName {
 
      /* name of play a game scene
      */
-
     GAME_LIST("GameList"),
     
     /**
      * name of the network interface choice scene
      */
     NETWORK_INTERFACE("NetworkInterface");
+
     
     private String name;
     SceneName(String name){
