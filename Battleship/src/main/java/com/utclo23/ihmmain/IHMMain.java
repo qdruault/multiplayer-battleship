@@ -71,6 +71,10 @@ public class IHMMain {
         toScene(SceneName.IpList);
     }
     
+    public void toGameList() throws IOException{
+        toScene(SceneName.GameList);
+    }
+    
     /**
      * use this carefully,  it throws a IOException if scene no found!
      * @param scenename
@@ -94,6 +98,7 @@ public class IHMMain {
             primaryStage.setTitle(scenename);
             primaryStage.setScene(sceneMap.get(scenename));
             activeSceneName = scenename;
+            controllerMap.get(activeSceneName).run();
             controllerMap.get(activeSceneName).start();
             
         }else{
@@ -118,7 +123,7 @@ public class IHMMain {
         AbstractController controller = (AbstractController) paneLoader.getController();
         controller.setIhmmain(this);
         controller.setFacade(facade);
-        controller.init();
+        controller.stop();
         controllerMap.put(fxml, controller);
 
         return scene;
