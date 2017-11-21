@@ -36,8 +36,8 @@ public class M_GetIP extends Message{
 		iDataCom.addConnectedUser(user.getLightPublicUser());
 		
 		// TODO: add fonction to get the data from DATA
-		List<LightPublicUser> listUsers = null; // = iDataCom.getConnectedUsers();
-		List<StatGame>listGames = null; // = iDataCom.getGameList();
+		List<LightPublicUser> listUsers = iDataCom.getConnectedUsers();
+		List<StatGame>listGames = iDataCom.getGameList();
 		
 		kic = KnownIPController.getInstance();
 		// add new user to own knownIP hashmap. 
@@ -51,7 +51,7 @@ public class M_GetIP extends Message{
 		// send back the data this node has about its known network.
 		M_ReturnIP	returnIp = new M_ReturnIP(user, listGames, listUsers, IdToIp);
 		
-		Sender os = new Sender(IP_sender.toString(), 80, returnIp);
+		Sender os = new Sender(IP_sender.getHostAddress(), 80, returnIp);
 		Thread thread = new Thread(os);
 			thread.start();
 		

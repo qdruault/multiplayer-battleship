@@ -56,32 +56,27 @@ public class M_ReturnIP extends Message {
 
         discoCtrl = DiscoveryController.getInstance();
 
+        List<LightPublicUser> listUsersTmp = iDataCom.getConnectedUsers();
+        List<StatGame> listGamesTmp = iDataCom.getGameList();
+        
         // if SenderNode in GetIPIssuedList
         // send all available data EXCEPT IP for nodes in the GetIPIssuedList
         // else (we got this returnIp from a newly updated node
         // send only our OWN data to all new IP
         if (discoCtrl.isIn(IP_sender)) {
 
-            // TODO: add fonction to get the data from DATA
-            List<LightPublicUser> listUsers = null; // = iDataCom.getConnectedUsers();
-            List<StatGame> listGames = null; // = iDataCom.getGameList();
-
             // get the hasmap of our IP to send it to the requesting node. 
             HashMap<String, Inet4Address> IdToIp = kic.getNewIpHashMap();
 
             // send back the data this node has about its known network.
-            M_ReturnIP returnIp = new M_ReturnIP(user, listGames, listUsers, IdToIp);
+            M_ReturnIP returnIp = new M_ReturnIP(user, listGamesTmp, listUsers, IdToIp);
 
-            Sender os = new Sender(IP_sender.toString(), 80, returnIp);
+            Sender os = new Sender(IP_sender.getHostAddress(), 80, returnIp);
             new Thread(os).start();
 
         } else {
             String myId = iDataCom.getMyPublicUserProfile().getLightPublicUser().getId();
-            // TODO: add fonction to get the data from DATA
-            List<LightPublicUser> listUsersTmp = null; // = iDataCom.getConnectedUsers();
-            List<StatGame> listGames = null; // = iDataCom.getGameList();
 
-            List<LightPublicUser> listUsers = null;
             for (int i = 0; i < listUsersTmp.size(); i++) {
                 if (listUsers.get(i).getId() == myId) {
                     listUsers.add(listUsersTmp.get(i));
@@ -97,7 +92,7 @@ public class M_ReturnIP extends Message {
             }
 
             M_ReturnIP returnIp = new M_ReturnIP(user, listGames, listUsers, IdToIp);
-            Sender os = new Sender(IP_sender.toString(), 80, returnIp);
+            Sender os = new Sender(IP_sender.getHostAddress(), 80, returnIp);
             Thread thread = new Thread(os);
             thread.start();
 
