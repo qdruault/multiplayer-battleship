@@ -7,9 +7,7 @@ package com.utclo23.ihmmain.controller;
 
 import com.utclo23.data.structure.LightPublicUser;
 import java.io.IOException;
-import java.rmi.server.UID;
 import java.util.ArrayList;
-import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.ScheduledService;
@@ -47,12 +45,12 @@ public class PlayerListController extends AbstractController{
     
     @FXML
     private void nextPage(ActionEvent event) throws IOException{
-        
+        //TODO: implement it        
     }
     
     @FXML
     private void lastPage(ActionEvent event) throws IOException{
-        
+        //TODO: implement it        
     }
     
     /**
@@ -88,6 +86,7 @@ public class PlayerListController extends AbstractController{
      * This function update the list of connected users.
      * It is launched at the beginning of the application and work in background
      */
+    @Override
     public void refresh(){
         // Service allows the GUI to create a task
         final ScheduledService<Void> refreshService = new ScheduledService<Void>(){
@@ -104,7 +103,7 @@ public class PlayerListController extends AbstractController{
                         getConnectedUsers();
 
                         return null;
-                    };
+                    }
                 };
             }
         };
