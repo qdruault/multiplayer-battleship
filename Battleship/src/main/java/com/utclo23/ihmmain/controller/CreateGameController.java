@@ -80,7 +80,14 @@ public class CreateGameController extends AbstractController{
             String enemys = ((RadioButton) enemy.getSelectedToggle()).getText();
             boolean chats = radioButtonChat.isSelected();
             boolean audiences = radioButtonAudience.isSelected();
-            facade.iDataIHMMain.createGame(names, true, audiences, chats, GameType.CLASSIC);
+
+            /*try{
+                facade.iDataIHMMain.createGame(names, audiences, chats, modes, enemys);
+                msg.showMessageDialog(null, "Game created", "Information", JOptionPane.INFORMATION_MESSAGE);
+            }catch (DataException e){
+                showErrorPopup(
+                    "Game not created.");
+            }*/
         }
         else
             gameNameField.setStyle("-fx-border-color: red;"); 
