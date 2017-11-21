@@ -60,9 +60,8 @@ public class GameListController extends AbstractController{
     }
 
     @FXML
-    private void createNewGame(ActionEvent event) {
-        //TODO
-         System.out.println("Not supported yet");
+    private void createNewGame(ActionEvent event) throws IOException{
+        ihmmain.toCreateGame();
     }
 
     @FXML

@@ -42,7 +42,6 @@ public class PlayerProfileController extends AbstractController{
     @FXML
     @Override
     public void start(){
-
        refresh();
     }
     

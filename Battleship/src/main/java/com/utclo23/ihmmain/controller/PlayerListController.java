@@ -35,8 +35,17 @@ public class PlayerListController extends AbstractController{
         ihmmain.toMenu();
     }
     
-    /**
-     * This function is called at the beginning of the application.
+    @FXML
+    private void nextPage(ActionEvent event) throws IOException{
+        //TODO: implement it        
+    }
+    
+    @FXML
+    private void lastPage(ActionEvent event) throws IOException{
+        //TODO: implement it        
+    }
+    
+     /* This function is called at the beginning of the application.
      * It loads the connected users and print them into the tableview.
      */
     @FXML

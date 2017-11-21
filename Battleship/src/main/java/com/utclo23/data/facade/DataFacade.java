@@ -197,15 +197,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-<<<<<<< HEAD
-
      * Add connected user
      * @param user user to add as connected
-
-=======
-     * Add connected user
-     * @param user user to add as connected
->>>>>>> 1b221f230ccc9e15dde3044faad8dbfdfaeb817c
      */
     @Override
     public void addConnectedUser(LightPublicUser user) {
