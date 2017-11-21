@@ -71,8 +71,14 @@ public class IHMMain {
         toScene(SceneName.IpList);
     }
     
+
+    public void toCreateGame() throws IOException{
+        toScene(SceneName.CreateGame);
+    }
+
     public void toGameList() throws IOException{
         toScene(SceneName.GameList);
+
     }
     
     /**
