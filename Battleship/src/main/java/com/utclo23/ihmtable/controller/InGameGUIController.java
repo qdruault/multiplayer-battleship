@@ -8,12 +8,27 @@ package com.utclo23.ihmtable.controller;
 import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.data.structure.Coordinate;
 import java.io.IOException;
+import java.net.URL;
+import java.util.EventObject;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -39,8 +54,6 @@ public class InGameGUIController {
     @FXML
     private Button buttonImage5;
 
-    @FXML
-    private Button fireButton;
     @FXML
     private Button menuButton;
 
@@ -128,7 +141,7 @@ public class InGameGUIController {
     public void setFacade(IHMTableFacade facade) {
         this.facade = facade;
     }
-
+    
     private class AttackEvent implements EventHandler {
 
         /**
@@ -167,4 +180,26 @@ public class InGameGUIController {
 
     }
 
+    /**
+     * Function for displaying new window with menu option (Save and leave)
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    public void onClickMenuButton(MouseEvent event) throws IOException {
+       System.out.println("Clic sur le bouton menu ");
+       FXMLLoader menuLoader = new FXMLLoader();
+       menuLoader.setLocation(getClass().getResource("/fxml/ihmtable/inGameGUIMenu.fxml"));
+       try {
+            Scene scene = new Scene((Parent) menuLoader.load(), 220, 300);
+            Stage stage = new Stage();
+            stage.setTitle("Pause");
+            stage.setScene(scene);
+            InGameGUIMenuController controller = menuLoader.<InGameGUIMenuController>getController();
+            controller.setFacade(facade);
+            stage.show();
+       } catch (IOException ex) {
+            Logger.getLogger(IHMTableFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
