@@ -21,16 +21,23 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author thibault
+ * @author Thibault CHICHE
  */
 public class M_ReturnIP extends Message {
 
-    private List<StatGame> listGames;
-    private List<LightPublicUser> listUsers;
-    private HashMap<String, Inet4Address> idToIp;
+    private final List<StatGame> listGames;
+    private final List<LightPublicUser> listUsers;
+    private final HashMap<String, Inet4Address> idToIp;
     private KnownIPController kic;
     private DiscoveryController discoCtrl;
 
+    /**
+     *
+     * @param user is the message's sender
+     * @param listGames
+     * @param listUsers
+     * @param idToIp
+     */
     public M_ReturnIP(PublicUser user, List<StatGame> listGames, List<LightPublicUser> listUsers, HashMap<String, Inet4Address> idToIp) {
         super(user);
         this.listGames = listGames;

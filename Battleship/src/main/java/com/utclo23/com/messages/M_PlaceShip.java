@@ -14,12 +14,12 @@ import java.util.List;
  * @author Thibault CHICHE
  */
 public class M_PlaceShip extends Message {
-    private List<Ship> ships;
+    private final List<Ship> ships;
 
     /**
     * Constructor.
     * @param user is the message's sender
-    * @param ships is the coordinates' list of the ships
+    * @param ships is the coordinates list of the ships
     */
     public M_PlaceShip(PublicUser user, List<Ship> ships){
         super(user);

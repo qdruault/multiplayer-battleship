@@ -12,7 +12,7 @@ import com.utclo23.data.structure.PublicUser;
  * @author Thibault CHICHE
  */
 public class M_PlaceMine extends Message {
-    private Mine mine;
+    private final Mine mine;
     
     /**
      * Constructor.
