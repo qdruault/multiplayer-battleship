@@ -86,7 +86,6 @@ public class IHMMain {
 
     public void toGameList() throws IOException{
         toScene(SceneName.GAME_LIST);
-
     }
     
     /**
