@@ -45,7 +45,7 @@ public class ComFacade {
     * Called to send all ships coordinates to the other player of the game, after placing all ships on the board
     * in order to update other player's Data module. 
     * @param listShips   List of placed ships
-    * @param dest the player who must receive ships coordinates
+    * @param dest The player who must receive ships coordinates
     * @return nothing
     */
     public void sendShipsToEnnemy(List<Ship> listShips, PublicUser dest){
