@@ -10,8 +10,8 @@
 
 <AnchorPane id="AnchorPane" prefHeight="800" prefWidth="1280" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.MenuController">
     <children>
-        <Button fx:id="playButton" layoutX="619.0" layoutY="207.0" onAction="#play" text="Play" />
-        <Label fx:id="title" layoutX="606.0" layoutY="32.0" minHeight="16" minWidth="69" text="Battleship" />
+       <Button fx:id="playButton" layoutX="619.0" layoutY="207.0" onAction="#play" text="Play" />
+       <Label fx:id="title" layoutX="606.0" layoutY="32.0" minHeight="16" minWidth="69" text="Battleship" />
       <Button fx:id="profileButton" layoutX="611.0" layoutY="293.0" onAction="#showProfile" text="Profile" />
       <Button fx:id="PlayerListButton" layoutX="601.0" layoutY="369.0" onAction="#showPlayerList" text="PlayerList" />
       <Button fx:id="ipListButton" layoutX="612.0" layoutY="453.0" mnemonicParsing="false" onAction="#showIpList" text="IPList" />
