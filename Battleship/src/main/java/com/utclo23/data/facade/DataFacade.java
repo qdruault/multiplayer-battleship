@@ -27,6 +27,7 @@ import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.ihmtable.IIHMTableToData;
 
 import java.io.File;
+import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 
 
@@ -438,10 +439,10 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @param spectatorChat are spectators allowed to chat or not
      * @param type type of the game created
      */
-    @Override
-    public Game createGame(String name, boolean spectator, boolean spectatorChat, GameType type) {
+    @Override     
+    public Game createGame(String name, boolean computerMode, boolean spectator, boolean spectatorChat, GameType type) {
      
-        return this.createGame(name, spectator, spectatorChat, type);
+        return this.createGame(name, computerMode, spectator, spectatorChat, type);
         
     }
 
@@ -524,7 +525,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     @Override
-    public void setNetworkInterface(NetworkInterface net_interface) {
+    public void setNetworkInterface(InterfaceAddress net_interface) {
         
         if(this.getComfacade()!=null)
         {
