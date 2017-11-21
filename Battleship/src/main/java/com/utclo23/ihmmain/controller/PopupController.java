@@ -28,7 +28,7 @@ public class PopupController extends AbstractController{
         text = field.getText();
         facade.iDataIHMMain.updatePlayername(text);
         //System.out.println(profile.testUserID);
-        ihmmain.controllerMap.get(SceneName.PlayerProfile.toString()).refresh();
+        ihmmain.controllerMap.get(SceneName.PLAYER_PROFILE.toString()).refresh();
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }
 }
