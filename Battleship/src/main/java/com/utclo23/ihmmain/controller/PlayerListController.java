@@ -18,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 /**
@@ -98,6 +99,16 @@ public class PlayerListController extends AbstractController{
             listPlayers.setItems(data);
         }
 
+    }
+    
+    /**
+     * This function is call when the user click on a line in the tableview
+     * @param event 
+     */
+    @FXML
+    public void clickItem(MouseEvent event){
+        // TODO Call PlayerProfile to show the profile of the user.
+        String id = listPlayers.getSelectionModel().getSelectedItem().getId();
     }
     
 }
