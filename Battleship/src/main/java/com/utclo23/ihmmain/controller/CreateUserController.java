@@ -21,7 +21,13 @@ import javafx.stage.FileChooser;
 
 /**
  *
- * @author Linxuhao
+ * @author Louis Groisne
+ * Controller class for the user creation view. 
+ * This class allows a user to create a new user json file to log into the application.
+ * This class get the values from the form's fields with FXML properties.
+ * The associated view is defined in the FXML file CreateUser.fxml.
+ * No field can be empty for the controller to authorize a new user creation.
+ *
  */
 
 public class CreateUserController extends AbstractController{
@@ -47,8 +53,18 @@ public class CreateUserController extends AbstractController{
     @FXML 
     private DatePicker birthDateField;
     
+    
     // BUTTON HANDLERS
     
+    /**
+     * 
+     * This method is the handler for the Create button.
+     * It is called when a user click on the create button.
+     * This method checks the fields by calling @ref isAnyFieldEmpty()
+     * If every field is filled, the method calls @createUser()
+     * @param event the event parameter used by Java for buttons' handler.
+     * @throws IOException throws a default Java exception in case if any failure.
+     */
     @FXML 
     private void handleButtonCreate(ActionEvent event) throws Exception{
         
@@ -61,12 +77,26 @@ public class CreateUserController extends AbstractController{
             createUser(userName, password, firstName, lastName, birthDate, avatarPath);
         }   
     }
-    
+    /**
+     * This method is the handler for the Return button.
+     * It is called when a user click on the return button.
+     * Returns to the login screen by calling @ref back().
+     * @param event the event parameter used by Java for buttons' handler.
+     * @throws IOException throws a default Java exception in case if any failure.
+     */
     @FXML
     private void handleButtonReturn(ActionEvent event) throws IOException{
         back();
     }
-    
+    /**
+     * This method is the handler for the ChooseFile button.
+     * It is called when a user click on the choose file button.
+     * This opens a windows file chooser to choose a file.
+     * A File object is created with the path associated to the selected file.
+     * If the File is successfully created, the avatarPath property is set.
+     * @param event the event parameter used by Java for buttons' handler.
+     * @throws IOException throws a default Java exception in case if any failure.
+     */
     @FXML
     private void handleButtonChooseFile(ActionEvent event) throws IOException{
         FileChooser fileChooser = new FileChooser();
@@ -78,18 +108,35 @@ public class CreateUserController extends AbstractController{
             System.out.println("The chosen file is : " + avatarPath);
         }        
     }
-        
+    /**
+     * Returns to the login view.
+     * Method called by @ref handleButtonReturn.
+     * @throws IOException throws a default Java exception in case if any failure.
+     */
     private void back() throws IOException{
-        ihmmain.toMenu();
+        ihmmain.toLogin();
     }
-    
+    /**
+     * This method calls Data's createUser() method to create a new user's JSON file.
+     * @param userName: user's name
+     * @param password: user's password
+     * @param firstName user's first name
+     * @param lastName user's last name
+     * @param birthDate user's birth date
+     * @param avatarPath user's avatar path
+     * @throws Exception throws a default Java exception in case if any failure.
+     */
     private void createUser(String userName, String password, String firstName, String lastName, Date birthDate, String avatarPath) throws Exception{
         System.out.println("createUser method called");
         facade.iDataIHMMain.createUser(userName, password, firstName, lastName, birthDate, avatarPath);
     }     
         
     // UTILITY methods
-    
+    /**
+     * This method is used internally to this class.
+     * It checks if any field is empty, either by calling @ref isFieldEmpty or by checking against a null value.
+     * @return true if any field is empty, false otherwise.
+     */
     private boolean isAnyFieldEmpty(){
         
         boolean fieldEmpty = false;
@@ -115,7 +162,12 @@ public class CreateUserController extends AbstractController{
         
         return fieldEmpty;
     }
-    
+    /**
+     * This method is used internally to this class.
+     * It checks if the given value is null or an empty string.
+     * @param textField the TextField to check.
+     * @return true if the given field is empty, false otherwise.
+     */
     private boolean isFieldEmpty(TextField textField){
         if (textField.getText() == null || textField.getText().trim().isEmpty() ){
             return true;
