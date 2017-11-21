@@ -14,8 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
- * @author Thomas
+ * Class containing a hashmap with UID and corresponding IP address of the known players. Singleton class,
+ * only one instance can be instantiate in the application.
+ * @author Thomas Michel
  */
 public class KnownIPController {
 
@@ -29,19 +30,27 @@ public class KnownIPController {
         knownIp = new HashMap<>();
     }
 
-    // SINGLETON
-    // Holder
+    /**
+    * Called to instantiate the unique instance of KnowIPController class in the application. 
+    * @return nothing
+    */
     private static class SingletonHolder {
 
         private final static KnownIPController INSTANCE = new KnownIPController();
     }
 
-    // Access point for unique INSTANCE of the singleton class
+    /**
+    * Called to return the unique INSTANCE of the singleton class KnownIPController.
+    * @return singleton instnce of KnowIPController
+    */
     public static KnownIPController getInstance() {
         return SingletonHolder.INSTANCE;
     }
 
-    // used to put our own IP in the hashmap of IP
+    /**
+    * Called to put our own IP in @attribute "knownIP" and initialize iDataCom attribute.
+    * @param iDataCom Value affected to @attribute iDataCom of the class
+    */
     public void initIpList(IDataCom iDataCom) {
         try {
             this.iDataCom = iDataCom;
@@ -64,6 +73,10 @@ public class KnownIPController {
         return null;
     }
 
+    /**
+    * Called to return @attribute "knownIp" value without our own node.
+    * @return Hashmap value
+    */
     public HashMap<String, Inet4Address> getHashMap() {
         try {
             Inet4Address ourIpAddress = (Inet4Address) Inet4Address.getLocalHost();
@@ -95,10 +108,19 @@ public class KnownIPController {
         }
     }
 
+    /**
+    * Called to add a new node in @attribute "knownIP".
+    * @param id String "id" of the new node
+    * @param ip Inet4address of the new node
+    */
     public void addNode(String id, Inet4Address ip) {
         knownIp.put(id, ip);
     }
 
+    /**
+    * Called to add non existing nodes in @attribute "knownIp" from another hashmap.
+    * @param hashToCheck Hashmap containing String ids and Inet4Address 
+    */
     public void addNonExistingNodes(HashMap<String, Inet4Address> hashToCheck) {
         Iterator it = hashToCheck.entrySet().iterator();
         while (it.hasNext()) {
@@ -109,5 +131,4 @@ public class KnownIPController {
             it.remove(); // avoids a ConcurrentModificationException
         }
     }
-
 }
