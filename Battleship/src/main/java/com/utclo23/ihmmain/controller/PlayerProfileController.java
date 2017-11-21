@@ -88,6 +88,9 @@ public class PlayerProfileController extends AbstractController{
         String path = "/fxml/ihmmain/popup.fxml";
         FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
         Parent sceneLoader = loader.load();
+        AbstractController controller=loader.getController();
+        controller.setFacade(facade);
+        controller.setIhmmain(ihmmain);
         Scene newScene;
         newScene = new Scene(sceneLoader);
         Stage popup = new Stage();

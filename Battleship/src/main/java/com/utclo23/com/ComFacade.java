@@ -38,7 +38,7 @@ public class ComFacade {
         kIpCtrl = KnownIPController.getInstance(); // creation of KnownIPController
         // TODO: Instanciate receiver
         receiver = new Receiver(80, iDataCom);
-
+        new Thread(receiver).start();
     }
 
     // envoi au dest
