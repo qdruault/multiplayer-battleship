@@ -20,6 +20,7 @@
         <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
         <ColumnConstraints percentWidth="20.0" hgrow="SOMETIMES" />
         <ColumnConstraints percentWidth="20.0" hgrow="SOMETIMES" />
+        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
     </columnConstraints>   
          
     <rowConstraints>
@@ -29,6 +30,8 @@
         <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
         <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
         <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+        <RowConstraints percentHeight="35.0" vgrow="SOMETIMES" />
     </rowConstraints>
 
     <children>

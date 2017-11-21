@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package com.utclo23.ihmmain.controller;
-
-
 import com.utclo23.data.structure.GameType;
 import com.utclo23.data.module.DataException;
 import java.io.IOException;
@@ -82,17 +80,7 @@ public class CreateGameController extends AbstractController{
             String enemys = ((RadioButton) enemy.getSelectedToggle()).getText();
             boolean chats = radioButtonChat.isSelected();
             boolean audiences = radioButtonAudience.isSelected();
-            try{
-                facade.iDataIHMMain.createGame(names, true, audiences, chats, GameType.CLASSIC);
-
-            /*try{
-                facade.iDataIHMMain.createGame(names, audiences, chats, modes, enemys);
->>>>>>> [ihm-main] add createGameController and GUI
-                msg.showMessageDialog(null, "Game created", "Information", JOptionPane.INFORMATION_MESSAGE);
-            }catch (DataException e){
-                showErrorPopup(
-                    "Game not created.");
-            }*/
+            facade.iDataIHMMain.createGame(names, true, audiences, chats, GameType.CLASSIC);
         }
         else
             gameNameField.setStyle("-fx-border-color: red;"); 
