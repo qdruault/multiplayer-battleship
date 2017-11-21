@@ -15,7 +15,7 @@ import com.utclo23.data.structure.PublicUser;
  * @author Thibault CHICHE
  */
 public class M_JoinGameResponse extends Message {
-    private boolean success;
+    private final boolean success;
     /**
     * Constructor.
     * @param user is the message's sender

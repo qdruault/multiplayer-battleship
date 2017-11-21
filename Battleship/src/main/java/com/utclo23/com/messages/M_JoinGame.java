@@ -9,11 +9,10 @@ import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.StatGame;
 /**
  * M_JoinGame is a Message generated when a user wants to join a game.
- * 
  * @author Thibault CHICHE 
  */
 public class M_JoinGame extends Message {
-    private StatGame game;
+    private final StatGame game;
     private String role;
     
     /**

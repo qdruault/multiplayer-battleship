@@ -12,7 +12,6 @@ import com.utclo23.data.facade.IDataCom;
 
 /**
  * Message is the abstract base class that all message inherit from.
- * 
  * @author Rémi DI VITA
  */
 public abstract class Message implements Serializable{
