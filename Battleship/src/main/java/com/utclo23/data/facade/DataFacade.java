@@ -413,8 +413,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
      */
     @Override
-    public PublicUser getPublicUserProfile(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void askPublicUserProfile(String id) {
+        this.comfacade.getPublicUserProfile(id);
     }
 
 
@@ -510,5 +510,15 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     @Override
     public void setIPDiscovery(List<String> discoveryNodes) throws DataException {
             this.userMediator.setIPDiscovery(discoveryNodes);
+    }
+    
+    public void receivePublicUserProfile(PublicUser profile) {
+        //this.ihmMainFacade.receivePublicUserProfile(profile);
+    }
+
+    @Override
+    public void gameConnectionRequestGame(String id, String role) {
+        
+        this.gameMediator.gameConnectionRequestGame(id, role);
     }
 }

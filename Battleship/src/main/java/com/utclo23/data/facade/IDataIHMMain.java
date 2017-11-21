@@ -19,7 +19,7 @@ public interface IDataIHMMain {
 
     public void createUser(String playerName, String password, String firstName, String lastName, Date birthDate, String imageFile) throws DataException;
     public void updateUser(String password, String firstName, String lastName, Date birthDate, String imageFile) throws DataException;
-    public PublicUser getPublicUserProfile(String id);
+    public void askPublicUserProfile(String id);
     
     public List<StatGame> getGameList();
     
@@ -32,6 +32,8 @@ public interface IDataIHMMain {
 
     public List<String> getIPDiscovery();
     public void setIPDiscovery(List<String> discoveryNodes) throws DataException;
+    
+    public void gameConnectionRequestGame(String id, String role);
 
 }
 
