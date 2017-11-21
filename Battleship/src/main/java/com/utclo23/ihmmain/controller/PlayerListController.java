@@ -88,32 +88,9 @@ public class PlayerListController extends AbstractController{
      */
     @Override
     public void refresh(){
-        // Service allows the GUI to create a task
-        final ScheduledService<Void> refreshService = new ScheduledService<Void>(){
-        
-            // Task is the task itself : it is the algorithm which run in background
-            @Override
-            protected Task<Void> createTask() {
-                
-                return new Task<Void>() {
-                
-                    @Override
-                    protected Void call() throws Exception {
-
-                        getConnectedUsers();
-
-                        return null;
-                    }
-                };
-            }
-        };
-        
-        // Refresh the list of players every 3 seconds
-        refreshService.setPeriod(Duration.seconds(3));
-        
-        // Launching the service which refresh the list of players
-        refreshService.start();
-        
+       if(isRunning()){
+            getConnectedUsers();
+       }
     }
     
     /**
