@@ -5,7 +5,9 @@
  */
 package com.utclo23.ihmmain.controller;
 
+
 import com.utclo23.data.structure.GameType;
+import com.utclo23.data.module.DataException;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -66,7 +68,7 @@ public class CreateGameController extends AbstractController{
     
     @FXML
     private void back(ActionEvent event) throws IOException{
-        ihmmain.toMenu();
+        ihmmain.toGameList();
     }
     
     @FXML
@@ -81,11 +83,15 @@ public class CreateGameController extends AbstractController{
             boolean audiences = radioButtonAudience.isSelected();
             try{
                 facade.iDataIHMMain.createGame(names, true, audiences, chats, GameType.CLASSIC);
+
+            /*try{
+                facade.iDataIHMMain.createGame(names, audiences, chats, modes, enemys);
+>>>>>>> [ihm-main] add createGameController and GUI
                 msg.showMessageDialog(null, "Game created", "Information", JOptionPane.INFORMATION_MESSAGE);
-               
-            }catch (Exception e){
-                //TODO : show pop up
-            }
+            }catch (DataException e){
+                showErrorPopup(
+                    "Game not created.");
+            } */
         }
         else
             gameNameField.setStyle("-fx-border-color: red;"); 

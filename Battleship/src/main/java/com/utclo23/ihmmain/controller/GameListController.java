@@ -53,6 +53,29 @@ public class GameListController extends AbstractController{
     private StatGame selectedGame;
     
     private TableView<StatGame> gameList;
+
+
+    @FXML
+    private void returnMenu(ActionEvent event) throws IOException{
+        ihmmain.toMenu();
+    }
+
+    @FXML
+    private void joinSelectedGame(ActionEvent event) {
+        //TODO
+        System.out.println("Not supported yet");
+    }
+
+    @FXML
+    private void createNewGame(ActionEvent event) throws IOException{
+        ihmmain.toCreateGame();
+    }
+
+    @FXML
+    private void watchSelectedGame(ActionEvent event) {
+        //TODO
+         System.out.println("Not supported yet");
+    }
     
     private Boolean isLoading;
     
