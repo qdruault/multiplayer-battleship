@@ -14,8 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Class containing a hashmap with UID and corresponding IP address of the known players. Singleton class,
- * only one instance can be instantiate in the application.
+ * Class containing a hashmap with UID and corresponding IP address of the 
+ * known players. Singleton class,only one instance can be instantiate in the 
+ * application.
  * @author Thomas Michel
  */
 public class KnownIPController {
@@ -31,7 +32,8 @@ public class KnownIPController {
     }
 
     /**
-    * Called to instantiate the unique instance of KnowIPController class in the application. 
+    * Called to instantiate the unique instance of KnowIPController class in 
+    * the application. 
     * @return nothing
     */
     private static class SingletonHolder {
@@ -40,7 +42,8 @@ public class KnownIPController {
     }
 
     /**
-    * Called to return the unique INSTANCE of the singleton class KnownIPController.
+    * Called to return the unique INSTANCE of the singleton class 
+    * KnownIPController.
     * @return singleton instnce of KnowIPController
     */
     public static KnownIPController getInstance() {
@@ -48,8 +51,9 @@ public class KnownIPController {
     }
 
     /**
-    * Called to put our own IP in @attribute "knownIP" and initialize iDataCom attribute.
-    * @param iDataCom Value affected to @attribute iDataCom of the class
+    * Called to put our own IP in attribute "knownIP" and initialize iDataCom 
+    * attribute.
+    * @param iDataCom Value affected to attribute iDataCom of the class
     */
     public void initIpList(IDataCom iDataCom) {
         try {
@@ -74,7 +78,7 @@ public class KnownIPController {
     }
 
     /**
-    * Called to return @attribute "knownIp" value without our own node.
+    * Called to return attribute "knownIp" value without our own node.
     * @return Hashmap value
     */
     public HashMap<String, Inet4Address> getHashMap() {
@@ -118,7 +122,8 @@ public class KnownIPController {
     }
 
     /**
-    * Called to add non existing nodes in @attribute "knownIp" from another hashmap.
+    * Called to add non existing nodes in attribute "knownIp" from another 
+    * hashmap.
     * @param hashToCheck Hashmap containing String ids and Inet4Address 
     */
     public void addNonExistingNodes(HashMap<String, Inet4Address> hashToCheck) {

@@ -42,8 +42,9 @@ public class ComFacade {
     }
 
     /**
-    * Called to send all ships coordinates to the other player of the game, after placing all ships on the board
-    * in order to update other player's Data module. 
+    * Called to send all ships coordinates to the other player of the game, 
+    * after placing all ships on the board in order to update other player's 
+    * Data module. 
     * @param listShips   List of placed ships
     * @param dest The player who must receive ships coordinates
     * @return nothing
@@ -55,7 +56,7 @@ public class ComFacade {
     }
 
     /**
-    * Called to initialize @attribute kIpCtrl's knowIp hashmap.
+    * Called to initialize attribute kIpCtrl's knownIp hashmap.
     * @return nothing
     */
     public void notifyUserSignedIn(PublicUser user){
@@ -109,7 +110,8 @@ public class ComFacade {
     }
 
     /**
-    * Called to notify everybody of the creation of a new game to update all Data's module. 
+    * Called to notify everybody of the creation of a new game to update all 
+    * Data's module. 
     * @param game   New created game
     * @return nothing
     */
@@ -164,7 +166,8 @@ public class ComFacade {
     }
 
     /**
-    * Called to send a demand of getting to the specified recipient's PublicUserInfo.
+    * Called to send a demand of getting to the specified recipient's 
+    * PublicUserInfo.
     * @param id   UID of the recipient
     * @return nothing
     */
@@ -175,8 +178,9 @@ public class ComFacade {
     }
 
     /**
-    * If success, called to send a join game notification to everybody with the player who joins the game.
-    * Otherwise, the player who wanted to join the game is advertise that it fails.
+    * If success, called to send a join game notification to everybody with the 
+    * player who joins the game.Otherwise, the player who wanted to join the 
+    * game is advertise that it fails.
     * @param success True if the play can join the game, false otherwise 
     * @param id UID of the player demanding to join the game
     * @param game The game in question
