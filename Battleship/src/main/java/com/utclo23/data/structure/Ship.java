@@ -17,6 +17,7 @@ public class Ship extends SerializableEntity{
     private Player owner;
     private int size;
     private List<Coordinate> listCoord;
+    
 
     public Ship(ShipType type, Player owner, List<Coordinate> listCoord, int size) {
         this.type = type;
