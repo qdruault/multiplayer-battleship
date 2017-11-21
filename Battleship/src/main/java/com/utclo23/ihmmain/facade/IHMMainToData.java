@@ -7,7 +7,6 @@ package com.utclo23.ihmmain.facade;
 
 import com.utclo23.data.structure.PublicUser;
 import java.io.IOException;
-import javafx.stage.Stage;
 
 /**
  *
