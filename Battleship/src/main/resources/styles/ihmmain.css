@@ -3,6 +3,13 @@
     Author     : Loïc
 */
 
+.root {
+    -fx-font: 12pt "Space Age";
+    -fx-background-image: url("../images/background.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+}
+
 #generalGrid{
     -fx-background-color: #061f30;
 }
