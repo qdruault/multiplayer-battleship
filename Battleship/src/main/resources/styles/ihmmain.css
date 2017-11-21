@@ -79,13 +79,13 @@ cell-right.table-row-cell {
     -fx-text-fill: #ef8d00;
     -fx-font-size: 13pt;
 }
-
 /* Used for all other labels (popup messages, etc.) */
 .label{
     -fx-font-family: "Arial";
     -fx-text-fill: white;
     -fx-font-size: 11pt;
 }
+
 /*.table-view:focused .table-row-cell:filled:focused:selected {
     -fx-background-color: -fx-focus-color;
 }

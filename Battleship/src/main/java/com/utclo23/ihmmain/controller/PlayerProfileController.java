@@ -42,16 +42,7 @@ public class PlayerProfileController extends AbstractController{
     @FXML
     @Override
     public void start(){
-        try{
-            me = facade.iDataIHMMain.getMyPublicUserProfile();
-            userID.setText(me.getLightPublicUser().getPlayerName());
-            firstName.setText(me.getFirstName());
-            lastName.setText(me.getLastName());
-            birthday.setText(me.getBirthDate().toString());
-        }
-        catch(NullPointerException e){
-            System.out.println("[PlayerProfile] - getMyPublicUserProfile() not supported yet");
-        }
+       refresh();
     }
     
      
@@ -103,5 +94,18 @@ public class PlayerProfileController extends AbstractController{
     }
     public void loading() throws IOException{
         
+    }
+    @Override
+    public void refresh(){
+        try{
+            me = facade.iDataIHMMain.getMyPublicUserProfile();
+            userID.setText(me.getLightPublicUser().getPlayerName());
+            firstName.setText(me.getFirstName());
+            lastName.setText(me.getLastName());
+            birthday.setText(me.getBirthDate().toString());
+        }
+        catch(NullPointerException e){
+            System.out.println("[PlayerProfile] - getMyPublicUserProfile() not supported yet");
+        }
     }
 }
