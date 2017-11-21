@@ -5,6 +5,11 @@
  */
 package com.utclo23.ihmmain.controller;
 
+<<<<<<< HEAD
+=======
+
+import com.utclo23.data.structure.GameType;
+>>>>>>> [ihm-main] add createGameController and GUI
 import com.utclo23.data.module.DataException;
 import java.io.IOException;
 import javafx.event.ActionEvent;

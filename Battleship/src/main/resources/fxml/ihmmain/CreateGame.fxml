@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.*?>
 
 
+
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600" minWidth="800" prefHeight="768" prefWidth="1368" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.CreateGameController" stylesheets="@../../styles/ihmmain.css">
     
     <columnConstraints>
