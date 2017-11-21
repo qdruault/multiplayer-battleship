@@ -18,10 +18,15 @@
     
     <columnConstraints>
         <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
+<<<<<<< HEAD
         <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
         <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
         <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
         <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
+=======
+        <ColumnConstraints percentWidth="20.0" hgrow="SOMETIMES" />
+        <ColumnConstraints percentWidth="20.0" hgrow="SOMETIMES" />
+>>>>>>> [ihm-main] create gamecontroller
     </columnConstraints>   
          
     <rowConstraints>
