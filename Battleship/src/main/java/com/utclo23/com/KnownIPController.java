@@ -76,7 +76,8 @@ public class KnownIPController {
 
     public HashMap<String, Inet4Address> getHashMap() {
         HashMap<String, Inet4Address> tmphash = knownIp;
-        tmphash.remove(iDataCom.getMyPublicUserProfile().getLightPublicUser().getId());	// to avoid sending back our own Ip adress (cuz it already got it).
+        String id = iDataCom.getMyPublicUserProfile().getLightPublicUser().getId();
+        tmphash.remove(id);	// to avoid sending back our own Ip adress (cuz it already got it).
         return tmphash;
 
     }
