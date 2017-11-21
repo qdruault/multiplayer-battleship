@@ -18,7 +18,7 @@ public interface IHMMainToData {
      * refreshes the player list if player list is currently displaying
      * @throws IOException 
      */
-    public abstract void refreshPlayerList() throws IOException;
+    public abstract void refreshUserList() throws IOException;
     
     /**
      * refreshes the game list if player list is currently displaying

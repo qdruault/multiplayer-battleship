@@ -49,38 +49,44 @@ public class IHMMain {
     }
     
     public void toLogin() throws IOException{
-        toScene(SceneName.Login);
+        toScene(SceneName.LOGIN);
     }
     
     public void toMenu() throws IOException{
-        toScene(SceneName.Menu);
+        toScene(SceneName.MENU);
     }
     
     public void toPlayerProfile() throws IOException{
-        toScene(SceneName.PlayerProfile);
+        toScene(SceneName.PLAYER_PROFILE);
     }
     
     public void toOthersPlayerProfile() throws IOException{
         PlayerProfileController controller;   
-        controller = (PlayerProfileController)controllerMap.get(SceneName.PlayerProfile.toString());
+        controller = (PlayerProfileController)controllerMap.get(SceneName.PLAYER_PROFILE.toString());
         controller.loading();
-        toScene(SceneName.PlayerProfile);
+        toScene(SceneName.PLAYER_PROFILE);
     }
     
     public void toPlayerList() throws IOException{
-        toScene(SceneName.PlayerList);
+        toScene(SceneName.PLAYER_LIST);
     }
     
     public void toCreateUser() throws IOException{
-         toScene(SceneName.CreateUser);
+         toScene(SceneName.CREATE_USER);
     }
     
     public void toIpList() throws IOException{
-        toScene(SceneName.IpList);
+        toScene(SceneName.IP_LIST);
     }
     
+
+    public void toCreateGame() throws IOException{
+        toScene(SceneName.CREATE_GAME);
+    }
+
     public void toGameList() throws IOException{
-        toScene(SceneName.GameList);
+        toScene(SceneName.GAME_LIST);
+
     }
     
     /**

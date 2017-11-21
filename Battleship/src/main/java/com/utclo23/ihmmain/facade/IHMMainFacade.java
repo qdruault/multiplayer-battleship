@@ -52,17 +52,17 @@ public class IHMMainFacade implements IHMMainToIhmTable, IHMMainToData{
     
     
     @Override
-    public void refreshPlayerList() throws IOException {
-        ihmmain.controllerMap.get(SceneName.PlayerList).refresh();
+    public void refreshUserList() throws IOException {
+        ihmmain.controllerMap.get(SceneName.PLAYER_LIST).refresh();
     }
 
     @Override
     public void refreshGameList() throws IOException {
-        ihmmain.controllerMap.get(SceneName.GameList).refresh();
+        ihmmain.controllerMap.get(SceneName.GAME_LIST).refresh();
     }
     @Override
     public void recievePublicUserProfile(PublicUser player) throws IOException {
-       PlayerProfileController controller =(PlayerProfileController)ihmmain.controllerMap.get(SceneName.PlayerProfile.toString());
+       PlayerProfileController controller =(PlayerProfileController)ihmmain.controllerMap.get(SceneName.PLAYER_PROFILE.toString());
        controller.recievePublicUser(player);
     }
 

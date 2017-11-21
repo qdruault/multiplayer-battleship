@@ -40,4 +40,3 @@ public interface IDataIHMMain {
     public void setIPDiscovery(List<String> discoveryNodes) throws DataException;
 
 }
-
