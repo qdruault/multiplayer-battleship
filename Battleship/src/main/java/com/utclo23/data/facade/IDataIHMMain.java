@@ -36,6 +36,8 @@ public interface IDataIHMMain {
     public void gameConnectionRequestGame(String id, String role);
     
      public void setNetworkInterface(InterfaceAddress net_interface) ;
+
+    public void createGame(String names, boolean audiences, boolean chats, String modes, String enemys);
    
 }
 
