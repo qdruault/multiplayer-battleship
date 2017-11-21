@@ -32,6 +32,8 @@ public interface IDataIHMMain {
 
     public List<String> getIPDiscovery();
     public void setIPDiscovery(List<String> discoveryNodes) throws DataException;
+    
+    public void gameConnectionRequestGame(String id, String role);
 
 }
 

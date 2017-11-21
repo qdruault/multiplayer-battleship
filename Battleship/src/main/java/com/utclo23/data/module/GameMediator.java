@@ -146,6 +146,7 @@ public class GameMediator {
                 if(this.dataFacade.getComfacade()!=null)
                 {
                     //TODO notify network that the player is ready (all ships initialized
+                   // this.dataFacade.getComfacade().sendShipsToEnnemy(player.getShips(), player.getLightPublicUser());
                 }
             }
 
@@ -175,5 +176,13 @@ public class GameMediator {
       }
     }
     
+    
+    public void gameConnectionRequestGame(String id, String role) {
+        
+           if(this.dataFacade.getComfacade()!=null)
+           {
+               //this.dataFacade.getComfacade().connectionToGame(game);
+           }
+    }
     
 }
