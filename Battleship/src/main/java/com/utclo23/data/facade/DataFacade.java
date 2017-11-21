@@ -201,6 +201,15 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     public void connectionLostWithOpponent() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    /**
+     * Request a connection to a specific game hosted by another player.
+     * 
+     * @param gameID ID of the game you want to connect to
+     * @param role role you want to play int this game (obs, player)
+     */
+    public void gameConnectionRequest(StatGame game, String role) {
+        this.comfacade.connectionToGame(game);
+    }
 
     /**
 
@@ -315,6 +324,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
     /**
      * Notify that player leaves game
+     * Different behavior when a player and an observer leave a game and when
+     * the player who leaves is an host or not.
      */
     @Override
     public void leaveGame() {
