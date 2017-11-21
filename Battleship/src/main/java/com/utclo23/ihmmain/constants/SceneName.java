@@ -35,9 +35,15 @@ public enum SceneName {
      */
     IpList,
     /**
-     * name of play a game scene
+
+     * name of create game scene
      */
-    GameList,
+    CreateGame,
+
+     /* name of play a game scene
+     */
+    GameList
     
     
+
 }

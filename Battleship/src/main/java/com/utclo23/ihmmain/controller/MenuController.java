@@ -51,6 +51,11 @@ public class MenuController extends AbstractController{
     private void showIpList(ActionEvent event) throws IOException{
         ihmmain.toIpList();
     }
+    
+    @FXML
+    private void showCreateGame(ActionEvent event) throws IOException{
+        ihmmain.toCreateGame();
+    }
 
     @FXML
     private void exit(ActionEvent event) throws IOException{
