@@ -34,5 +34,9 @@ public enum SceneName {
      * name of list of ip scene
      */
     IpList,
+    /**
+     * name of the network interface choice scene
+     */
+    NetworkInterface
     
 }

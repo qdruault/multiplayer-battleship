@@ -47,16 +47,18 @@ public class ComFacade {
     }
     
     // envoi au dest
-    public void sendShipsToEnnemy(List<Ship> listShips, PublicUser dest){
+    public void sendShipsToEnnemy(List<Ship> listShips, List<LightPublicUser> recipients){
         M_PlaceShip m_placeship = new M_PlaceShip(iDataCom.getMyPublicUserProfile(), listShips);
-        Sender os = new Sender(kIpCtrl.getHashMap().get(dest.getId()).getHostAddress(), 80, m_placeship);
-        new Thread(os).start();
+        for (LightPublicUser recipient: recipients){
+            Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), 80, m_placeship);
+            new Thread(os).start();
+        }
     }
 
     // envoi à tout le monde
     // c'est sendDiscovery qui fait ça en fait non ?
     // dans le doute je l'implémente -> Thibault
-    public void notifyUserSignedIn(PublicUser user){
+    public void notifyUserSignedIn(){
         kIpCtrl.initIpList(iDataCom);
         
         /*M_Connexion m_connexion = new M_Connexion(user);
@@ -67,8 +69,8 @@ public class ComFacade {
     }
 
     // envoi à tout le monde
-    public void notifyUserSignedOut(PublicUser user){
-        M_Deconnexion m_deconnexion = new M_Deconnexion(user);
+    public void notifyUserSignedOut(){
+        M_Deconnexion m_deconnexion = new M_Deconnexion(iDataCom.getMyPublicUserProfile());
         for(Inet4Address ip : kIpCtrl.getHashMap().values()){
             Sender os = new Sender(ip.getHostAddress(), 80, m_deconnexion);
             new Thread(os).start();
@@ -111,7 +113,7 @@ public class ComFacade {
     }
 
     // envoi à tout ceux  qui sont dans la game logiquement, paramètre à revoir
-    public void leaveGame(PublicUser user){
+    public void leaveGame(){
         M_LeaveGame m_leavegame = new M_LeaveGame(iDataCom.getMyPublicUserProfile());
         for(Inet4Address ip : kIpCtrl.getHashMap().values()){
             Sender os = new Sender(ip.getHostAddress(), 80, m_leavegame);
@@ -120,7 +122,7 @@ public class ComFacade {
     }
 
     // envoi à tout le monde
-    public void sendDiscovery(PublicUser user, List<Inet4Address> listIpTarget) {
+    public void sendDiscovery(List<Inet4Address> listIpTarget) {
         
         for (int i = 0; i < listIpTarget.size(); i++) {
             M_GetIP m_getIp = new M_GetIP(iDataCom.getMyPublicUserProfile());
