@@ -13,6 +13,11 @@ import com.utclo23.data.structure.PublicUser;
  * @author thibault
  */
 public class M_GetPlayerInfo extends Message {
+    
+    public M_GetPlayerInfo(PublicUser user){
+        super(user);
+    }
+    
     @Override
     public void callback(IDataCom iDataCom){
         PublicUser user = iDataCom.getMyPublicUserProfile();

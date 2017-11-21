@@ -6,6 +6,7 @@
 package com.utclo23.com.messages;
 
 import com.utclo23.data.facade.IDataCom;
+import com.utclo23.data.structure.PublicUser;
 
 /**
  *
@@ -14,11 +15,13 @@ import com.utclo23.data.facade.IDataCom;
 public class M_JoinGameResponse extends Message {
     private boolean success;
     
-    public M_JoinGameResponse(boolean s){
+    public M_JoinGameResponse(PublicUser user, boolean s){
+        super(user);
         success = s;
     }
     @Override
     public void callback(IDataCom iDataCom){
-
+        //if success call xxx
+        //else connexionImpossible()
     }
 }
