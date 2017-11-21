@@ -25,79 +25,81 @@ import java.util.logging.Logger;
  */
 public class M_ReturnIP extends Message {
 
-    private List<StatGame> listGames;
-    private List<LightPublicUser> listUsers;
-    private HashMap<String, Inet4Address> idToIp;
-    private KnownIPController kic;
-    private DiscoveryController discoCtrl;
+	private List<StatGame> listGames;
+	private List<LightPublicUser> listUsers;
+	private HashMap<String, Inet4Address> idToIp;
+	private KnownIPController kic;
+	private DiscoveryController discoCtrl;
 
-    public M_ReturnIP(PublicUser user, List<StatGame> listGames, List<LightPublicUser> listUsers, HashMap<String, Inet4Address> idToIp) {
-        super(user);
-        this.listGames = listGames;
-        this.listUsers = listUsers;
-        this.idToIp = idToIp;
-    }
+	public M_ReturnIP(PublicUser user, List<StatGame> listGames, List<LightPublicUser> listUsers, HashMap<String, Inet4Address> idToIp) {
+		super(user);
+		this.listGames = listGames;
+		this.listUsers = listUsers;
+		this.idToIp = idToIp;
+	}
 
-    @Override
-    public void callback(IDataCom iDataCom) {
+	@Override
+	public void callback(IDataCom iDataCom) {
 
-        // MAJ for Data
-        for (int i = 0; i < listUsers.size(); i++) {
-            iDataCom.addConnectedUser(listUsers.get(i));
-        }
+		// MAJ for Data
+		for (int i = 0; i < listUsers.size(); i++) {
+			iDataCom.addConnectedUser(listUsers.get(i));
+		}
 
-        for (int i = 0; i < listUsers.size(); i++) {
-            iDataCom.addNewGame(listGames.get(i));
-        }
+		for (int i = 0; i < listUsers.size(); i++) {
+			iDataCom.addNewGame(listGames.get(i));
+		}
 
-        kic = KnownIPController.getInstance();
-        //MAJ our knownIp hashMap
-        kic.addNonExistingNodes(idToIp);
+		kic = KnownIPController.getInstance();
+		//MAJ our knownIp hashMap
+		kic.addNonExistingNodes(idToIp);
 
-        discoCtrl = DiscoveryController.getInstance();
+		discoCtrl = DiscoveryController.getInstance();
 
-        List<LightPublicUser> listUsersTmp = iDataCom.getConnectedUsers();
-        List<StatGame> listGamesTmp = iDataCom.getGameList();
-        
-        // if SenderNode in GetIPIssuedList
-        // send all available data EXCEPT IP for nodes in the GetIPIssuedList
-        // else (we got this returnIp from a newly updated node
-        // send only our OWN data to all new IP
-        if (discoCtrl.isIn(IP_sender)) {
+		List<LightPublicUser> listUsersMaj = iDataCom.getConnectedUsers();
+		List<StatGame> listGamesMaj = iDataCom.getGameList();
 
-            // get the hasmap of our IP to send it to the requesting node. 
-            HashMap<String, Inet4Address> IdToIp = kic.getNewIpHashMap();
+		// if SenderNode in GetIPIssuedList
+		// send all available data EXCEPT IP for nodes in the GetIPIssuedList
+		// else (we got this returnIp from a newly updated node
+		// send only our OWN data to all new IP
+		if (discoCtrl.isIn(IP_sender)) {
 
-            // send back the data this node has about its known network.
-            M_ReturnIP returnIp = new M_ReturnIP(user, listGamesTmp, listUsers, IdToIp);
+			// get the hasmap of our IP to send it to the requesting node. 
+			HashMap<String, Inet4Address> IdToIp = kic.getNewIpHashMap();
 
-            Sender os = new Sender(IP_sender.getHostAddress(), 80, returnIp);
-            new Thread(os).start();
+			// send back the data this node has about its known network.
+			M_ReturnIP returnIp = new M_ReturnIP(user, listGamesMaj, listUsersMaj, IdToIp);
 
-        } else {
-            String myId = iDataCom.getMyPublicUserProfile().getLightPublicUser().getId();
+			Sender os = new Sender(IP_sender.getHostAddress(), 80, returnIp);
+			new Thread(os).start();
 
-            for (int i = 0; i < listUsersTmp.size(); i++) {
-                if (listUsers.get(i).getId() == myId) {
-                    listUsers.add(listUsersTmp.get(i));
-                }
-            }
-            // get the hasmap of our IP to send it to the requesting node. 
-            HashMap<String, Inet4Address> IdToIp = null;
+		} else {
 
-            try {
-                IdToIp.put(myId, (Inet4Address) Inet4Address.getLocalHost());
-            } catch (UnknownHostException ex) {
-                Logger.getLogger(M_ReturnIP.class.getName()).log(Level.SEVERE, null, ex);
-            }
+			String myId = iDataCom.getMyPublicUserProfile().getLightPublicUser().getId();
 
-            M_ReturnIP returnIp = new M_ReturnIP(user, listGames, listUsers, IdToIp);
-            Sender os = new Sender(IP_sender.getHostAddress(), 80, returnIp);
-            Thread thread = new Thread(os);
-            thread.start();
+			List<LightPublicUser> listUsersToSend = null;
+			for (int i = 0; i < listUsersMaj.size(); i++) {
+				if (listUsersMaj.get(i).getId().contentEquals(myId)) {
+					listUsersToSend.add(listUsersMaj.get(i));
+				}
+			}
+			// get the hasmap of our IP to send it to the requesting node. 
+			HashMap<String, Inet4Address> IdToIp = null;
 
-        }
+			try {
+				IdToIp.put(myId, (Inet4Address) Inet4Address.getLocalHost());
+			} catch (UnknownHostException ex) {
+				Logger.getLogger(M_ReturnIP.class.getName()).log(Level.SEVERE, null, ex);
+			}
 
-    }
+			M_ReturnIP returnIp = new M_ReturnIP(user, listGamesMaj, listUsersToSend, IdToIp);
+			Sender os = new Sender(IP_sender.getHostAddress(), 80, returnIp);
+			Thread thread = new Thread(os);
+			thread.start();
+
+		}
+
+	}
 
 }
