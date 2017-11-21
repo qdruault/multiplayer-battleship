@@ -26,7 +26,8 @@ public class PopupController extends AbstractController{
     private void updateID(ActionEvent event) throws IOException, DataException{
         String text;
         text = field.getText();
-        facade.iDataIHMMain.updatePlayername(text);
+        //you can't update playername now
+        //facade.iDataIHMMain.updatePlayername(text);
         //System.out.println(profile.testUserID);
         ihmmain.controllerMap.get(SceneName.PLAYER_PROFILE.toString()).refresh();
         ((Node) (event.getSource())).getScene().getWindow().hide();

@@ -30,8 +30,11 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
+
+import java.net.Inet4Address;
 
 /**
  * User mediator related to user features
@@ -57,8 +60,7 @@ public class UserMediator {
      * constructor
      *
      * @param dataFacade reference to the facade
-     */    
-
+     */
     public UserMediator(DataFacade dataFacade) {
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Création du mediator");
 
@@ -110,7 +112,7 @@ public class UserMediator {
         this.dataFacade = dataFacade;
     }
 
-     /**
+    /**
      * extract bytes from a file
      *
      * @param imageName
@@ -120,38 +122,36 @@ public class UserMediator {
     private byte[] extractBytes(String imageName) throws DataException {
         String format = "jpg"; //jpg by default
         byte[] imageInByte = null;
-        
+
         // open image
         File imgPath = new File(imageName);
         BufferedImage bufferedImage;
         try {
             bufferedImage = ImageIO.read(imgPath);
-       
-        
-        //Get image format
-        ImageInputStream iis = ImageIO.createImageInputStream(imgPath);
 
-        Iterator<ImageReader> imageReaders = ImageIO.getImageReaders(iis);
+            //Get image format
+            ImageInputStream iis = ImageIO.createImageInputStream(imgPath);
 
-        while (imageReaders.hasNext()) {
-            ImageReader reader = (ImageReader) imageReaders.next();
-            format = reader.getFormatName();
-        }
+            Iterator<ImageReader> imageReaders = ImageIO.getImageReaders(iis);
 
-        //Get the array of bytes
-        ByteArrayOutputStream baos=new ByteArrayOutputStream();
-        ImageIO.write(bufferedImage, format, baos );
-        imageInByte=baos.toByteArray();
-         
-         
-        //BufferedImage imgbck = ImageIO.read(new ByteArrayInputStream(imageInByte));
-        //File outputfile = new File("D:\\Fabien Boucaud\\Pictures\\markertest.PNG");
-        //ImageIO.write(imgbck, format, outputfile);
-         } catch (IOException ex) {
+            while (imageReaders.hasNext()) {
+                ImageReader reader = (ImageReader) imageReaders.next();
+                format = reader.getFormatName();
+            }
+
+            //Get the array of bytes
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, format, baos);
+            imageInByte = baos.toByteArray();
+
+            //BufferedImage imgbck = ImageIO.read(new ByteArrayInputStream(imageInByte));
+            //File outputfile = new File("D:\\Fabien Boucaud\\Pictures\\markertest.PNG");
+            //ImageIO.write(imgbck, format, outputfile);
+        } catch (IOException ex) {
             Logger.getLogger(UserMediator.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-       return imageInByte;
+
+        return imageInByte;
     }
 
     /**
@@ -190,7 +190,7 @@ public class UserMediator {
 
         //all uppercase
         //playerName = playerName.toUpperCase();
-       // password = password.toUpperCase();
+        // password = password.toUpperCase();
         firstName = firstName.toUpperCase();
         lastName = lastName.toUpperCase();
 
@@ -204,7 +204,7 @@ public class UserMediator {
             //create user 
             String id = new UID().toString();
             LightPublicUser lightPublicUser = new LightPublicUser(id, playerName);
-            
+
             PublicUser publicUser = new PublicUser(lightPublicUser, lastName, firstName, birthDate);
 
             //for unit test
@@ -216,7 +216,7 @@ public class UserMediator {
                 }
 
                 publicUser.setAvatar(this.extractBytes(fileImage));
-               publicUser.getLightPublicUser().setAvatarThumbnail(this.createThumbnail(fileImage));
+                publicUser.getLightPublicUser().setAvatarThumbnail(this.createThumbnail(fileImage));
             }
 
             this.owner = new Owner();
@@ -228,85 +228,42 @@ public class UserMediator {
 
         }
     }
- 
+
     /**
      * Update user
      *
-     * @param playername
-     * @throws DataException
-     */
-    public void updatePlayername(String playername) throws DataException {
-
-        if (this.owner != null) {
-
-            //blank  password
-            if (playername.isEmpty()) {
-                throw new DataException("Data : error due to empty playername");
-            }
-            playername = playername.toUpperCase();
-
-            if (!this.getDataFacade().isTestMode()) {
-                this.owner.getUserIdentity().getLightPublicUser().setPlayerName(playername);
-            }
-            save();
-
-            //remove old profile and add new one
-            //to check by data module
-            ComFacade comFacade = this.dataFacade.getComfacade();
-            if (comFacade != null) {
-                if (this.owner != null) {
-                    comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
-                    comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
-                }
-            }
-
-        } else {
-            throw new DataException("Data : error in updating");
-        }
-
-    }
-    
-    /**
-     *
+     * @param password
      * @param firstName
+     * @param lastName
+     * @param birthDate
+     * @param fileImage
      * @throws DataException
      */
-    public void updateFirstname(String firstName) throws DataException {
+    public void updateUser(String password, String firstName, String lastName, Date birthDate, String fileImage) throws DataException {
 
         if (this.owner != null) {
 
             //blank  password
-            if (firstName.isEmpty()) {
-                throw new DataException("Data : error due to empty first name");
-            }
-            firstName = firstName.toUpperCase();          
-            this.owner.getUserIdentity().setFirstName(firstName);
-
-            save();
-
-            //remove old profile and add new one
-            //to check by data module
-            ComFacade comFacade = this.dataFacade.getComfacade();
-            if (comFacade != null) {
-                if (this.owner != null) {
-                    comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
-                    comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
-                }
-            }
-        } else {
-            throw new DataException("Data : error in updating");
-        }
-
-    }
-
-    public void updateLastname(String lastName) throws DataException {
-        if (this.owner != null) {
-
-            if (lastName.isEmpty()) {
-                throw new DataException("Data : error due to empty lastName");
+            if (password.isEmpty()) {
+                throw new DataException("Data : error due to empty playername or password");
             }
 
+            //password = password.toUpperCase();
+            firstName = firstName.toUpperCase();
             lastName = lastName.toUpperCase();
+
+            this.owner.setPassword(password);
+            if (!this.getDataFacade().isTestMode()) {
+                if (fileImage.isEmpty()) {
+                    throw new DataException("Data : error due to empty image");
+                }
+                this.owner.getUserIdentity().setAvatar(this.extractBytes(fileImage));
+                this.owner.getUserIdentity().getLightPublicUser().setAvatarThumbnail(this.createThumbnail(fileImage));
+
+            }
+
+            this.owner.getUserIdentity().setBirthDate(birthDate);
+            this.owner.getUserIdentity().setFirstName(firstName);
             this.owner.getUserIdentity().setLastName(lastName);
 
             save();
@@ -316,8 +273,8 @@ public class UserMediator {
             ComFacade comFacade = this.dataFacade.getComfacade();
             if (comFacade != null) {
                 if (this.owner != null) {
-                    comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
-                    comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+                    comFacade.notifyUserSignedOut();
+                    comFacade.notifyUserSignedIn();
                 }
             }
 
@@ -326,98 +283,7 @@ public class UserMediator {
         }
 
     }
-    
-    /**
-     *
-     * @param birthDate
-     * @throws DataException
-     */
-    public void updateBirthdate(Date birthDate) throws DataException {
 
-        if (this.owner != null) {     
-            this.owner.getUserIdentity().setBirthDate(birthDate);
-            save();
-
-            ComFacade comFacade = this.dataFacade.getComfacade();
-            if (comFacade != null) {
-                if (this.owner != null) {
-                    comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
-                    comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
-                }
-            }
-
-        } else {
-            throw new DataException("Data : error in updating");
-        }
-
-    }
-    
-    /**
-     *
-     * @param fileImage
-     * @throws DataException
-     */
-    public void updateFileImage(String fileImage) throws DataException {
-
-        if (this.owner != null) {
-            if (!this.getDataFacade().isTestMode()) {
-                if (fileImage.isEmpty()) {
-                    throw new DataException("Data : error due to empty image");
-                }
-                this.owner.getUserIdentity().setAvatar(this.extractBytes(fileImage));
-                this.owner.getUserIdentity().getLightPublicUser().setAvatarThumbnail(this.createThumbnail(fileImage));
-
-            }      
-            save();
-
-            //remove old profile and add new one
-            //to check by data module
-            ComFacade comFacade = this.dataFacade.getComfacade();
-            if (comFacade != null) {
-                if (this.owner != null) {
-                    comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
-                    comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
-                }
-            }
-
-        } else {
-            throw new DataException("Data : error in updating");
-        }
-
-    }
-    
-    /**
-     *
-     * @param password
-     * @throws DataException
-     */
-    public void updatePassword(String password) throws DataException {
-
-        if (this.owner != null) {
-
-            //blank  password
-            if (password.isEmpty()) {
-                throw new DataException("Data : error due to empty playername or password");
-            }
-
-            this.owner.setPassword(password);
-            save();
-
-            //remove old profile and add new one
-            //to check by data module
-            ComFacade comFacade = this.dataFacade.getComfacade();
-            if (comFacade != null) {
-                if (this.owner != null) {
-                    comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
-                    comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
-                }
-            }
-
-        } else {
-            throw new DataException("Data : error in updating");
-        }
-
-    }
     /**
      * get user profile
      *
@@ -446,7 +312,6 @@ public class UserMediator {
         //uppercase
         //username = username.toUpperCase();
         //password = password.toUpperCase();
-
         //already connected
         if (this.owner != null) {
             throw new DataException("Data : already connected"); //throw related error
@@ -481,8 +346,20 @@ public class UserMediator {
             ComFacade comFacade = this.dataFacade.getComfacade();
             if (comFacade != null) {
                 if (this.owner != null) {
-                    comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
-                    //comFacade.sendDiscovery(this.owner.getUserIdentity(), this.owner.getDiscoveryNodes());
+                    comFacade.notifyUserSignedIn();
+
+                    Inet4Address ip;
+
+                    List<Inet4Address> listIpTarget = new ArrayList<>();
+                    for (String ipString : owner.getDiscoveryNodes()) {
+                        try {
+                            ip = (Inet4Address) Inet4Address.getByName(ipString);
+                            listIpTarget.add(ip);
+                        } catch (Exception e) {
+                            throw new DataException("Data : IP not valid");
+                        }
+                    }
+                    comFacade.sendDiscovery(listIpTarget);
                 }
             }
 
@@ -501,7 +378,7 @@ public class UserMediator {
             ComFacade comFacade = this.dataFacade.getComfacade();
             if (comFacade != null) {
                 if (this.owner != null) {
-                    comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
+                    comFacade.notifyUserSignedOut();
                 }
             }
 
@@ -543,9 +420,7 @@ public class UserMediator {
     public void addConnectedUser(LightPublicUser usr) {
         if (!this.mapConnectedUser.containsKey(usr.getId())) {
             this.mapConnectedUser.put(usr.getId(), usr);
-        } else {
-            throw new RuntimeException("User " + usr.getPlayerName() + " was already in the list of connected users.");
-        }
+        } 
     }
 
     /**
@@ -556,11 +431,9 @@ public class UserMediator {
     public void removeConnectedUser(LightPublicUser usr) {
         if (this.mapConnectedUser.containsKey(usr.getId())) {
             this.mapConnectedUser.remove(usr.getId());
-        } else {
-            throw new RuntimeException("There is no such user to remove form the list of connected users.");
-        }
+        } 
     }
-    
+
     /**
      * get the discovery nodes
      *
@@ -569,8 +442,7 @@ public class UserMediator {
     public List<String> getIPDiscovery() {
         return this.owner.getDiscoveryNodes();
     }
-    
-    
+
     /**
      * Resize the avatar to get a thumbnail
      *
@@ -584,7 +456,7 @@ public class UserMediator {
             int thumbnailWidth = 100;
             File imgPath = new File(ImageName);
             BufferedImage originalBufferedImage = ImageIO.read(imgPath);
-            
+
             //Get image format
             ImageInputStream iis = ImageIO.createImageInputStream(imgPath);
 
@@ -594,23 +466,23 @@ public class UserMediator {
                 ImageReader reader = (ImageReader) imageReaders.next();
                 format = reader.getFormatName();
             }
-            
+
             //Resize the image and calculate the scaling depending on width and height
             int widthToScale, heightToScale;
             if (originalBufferedImage.getWidth() > originalBufferedImage.getHeight()) {
 
-                heightToScale = (int)(1.1 * thumbnailWidth);
-                widthToScale = (int)((heightToScale * 1.0) / originalBufferedImage.getHeight() 
-                                * originalBufferedImage.getWidth());
+                heightToScale = (int) (1.1 * thumbnailWidth);
+                widthToScale = (int) ((heightToScale * 1.0) / originalBufferedImage.getHeight()
+                        * originalBufferedImage.getWidth());
 
             } else {
-                widthToScale = (int)(1.1 * thumbnailWidth);
-                heightToScale = (int)((widthToScale * 1.0) / originalBufferedImage.getWidth() 
-                                * originalBufferedImage.getHeight());
+                widthToScale = (int) (1.1 * thumbnailWidth);
+                heightToScale = (int) ((widthToScale * 1.0) / originalBufferedImage.getWidth()
+                        * originalBufferedImage.getHeight());
             }
 
-            BufferedImage resizedImage = new BufferedImage(widthToScale, 
-            heightToScale, originalBufferedImage.getType());
+            BufferedImage resizedImage = new BufferedImage(widthToScale,
+                    heightToScale, originalBufferedImage.getType());
             Graphics2D g = resizedImage.createGraphics();
 
             //Interpolation to avoid loss in quality
@@ -630,45 +502,60 @@ public class UserMediator {
             }
 
             //Get the array of bytes of the image (serialization)
-            ByteArrayOutputStream baos=new ByteArrayOutputStream();
-            ImageIO.write(resizedImage, format, baos );
-            byte[] imageInByte=baos.toByteArray();
-            
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(resizedImage, format, baos);
+            byte[] imageInByte = baos.toByteArray();
+
             //BufferedImage imgbck = ImageIO.read(new ByteArrayInputStream(imageInByte));
             //File outputfile = new File("D:\\Fabien Boucaud\\Pictures\\markerthumbnail.PNG");
             //ImageIO.write(imgbck, format, outputfile);
-            
             return (imageInByte);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new DataException("Error while trying to resize the thumbnail:" + e.getMessage());
         }
     }
-    
+
     /**
      * set the discovery nodes
      *
      * @param discoveryNodes
      * @throws com.utclo23.data.module.DataException
      */
-    public void setIPDiscovery(List<String> discoveryNodes) throws DataException, UnknownHostException {        
-        if (this.owner != null) {
-            this.owner.setDiscoveryNodes(discoveryNodes);                       
-            save();
-            
-            // Create the Inet4Address list
-            List<Inet4Address> ips = new ArrayList<Inet4Address>();
-            for(String stringIp:discoveryNodes) {
-                Inet4Address inetIp = (Inet4Address)InetAddress.getByName(stringIp);
-                ips.add(inetIp);
+    public void setIPDiscovery(List<String> discoveryNodes) throws DataException {
+        try {
+            if (this.owner != null) {
+                this.owner.setDiscoveryNodes(discoveryNodes);
+                save();
+
+                // Create the Inet4Address list
+                List<Inet4Address> ips = new ArrayList<Inet4Address>();
+                for (String stringIp : discoveryNodes) {
+
+                    Inet4Address inetIp = (Inet4Address) InetAddress.getByName(stringIp);
+                    ips.add(inetIp);
+                }
+                if (!this.dataFacade.isTestMode() && this.getDataFacade().getComfacade() != null) {
+                    this.getDataFacade().getComfacade().sendDiscovery(ips);
+                }
+            } else {
+ 
+                throw new DataException("Data : error in setting discovery nodes");
             }
-            this.getDataFacade().getComfacade().sendDiscovery(this.owner.getUserIdentity(), ips);
-        } else {
+        } catch (Exception e) {
+            
             throw new DataException("Data : error in setting discovery nodes");
         }
+
     }
 
-    public void updateBirthdate(String lastName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void saveGame(Game game) throws DataException {
+        if (this.owner != null) {
+            game.prepareToBeSaved();
+            owner.getSavedGamesList().add(game);
+
+            //Save 
+            this.save();
+
+        }
     }
 }

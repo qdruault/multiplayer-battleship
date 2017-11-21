@@ -11,10 +11,9 @@ import com.utclo23.data.structure.PublicUser;
  * @author thibault
  */
 public class M_Deconnexion extends Message {
-    public PublicUser user;
     
-    public M_Deconnexion(PublicUser u){
-        user = u;
+    public M_Deconnexion(PublicUser user){
+        super(user);
     }
     
     @Override

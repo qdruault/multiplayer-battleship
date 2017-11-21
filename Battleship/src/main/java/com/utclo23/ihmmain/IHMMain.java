@@ -44,8 +44,12 @@ public class IHMMain {
             sceneMap.put(scenenameString,scene);
         }
         
-        toLogin();
+        toNetworkInterfaceChoice();
         stage.show();
+    }
+    
+    public void toNetworkInterfaceChoice() throws IOException{
+        toScene(SceneName.NETWORK_INTERFACE);
     }
     
     public void toLogin() throws IOException{
@@ -58,6 +62,7 @@ public class IHMMain {
     
     public void toPlayerProfile() throws IOException{
         toScene(SceneName.PLAYER_PROFILE);
+
     }
     
     public void toOthersPlayerProfile() throws IOException{

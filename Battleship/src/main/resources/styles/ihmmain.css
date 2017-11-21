@@ -124,7 +124,6 @@ and open the template in the editor.
     .dialog-pane > .button-bar > .container {
       -fx-background-color:#061f30;
     }
-
     .dialog-pane > .content.label {
        -fx-padding: 0.5em 0.5em 0.5em 0.5em;
        -fx-background-color: #061f30;
@@ -152,3 +151,4 @@ and open the template in the editor.
     -fx-stroke: #0ce8f0;
     -fx-stroke-width: 2px;
 }
+
