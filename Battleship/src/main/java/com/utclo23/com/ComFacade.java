@@ -31,6 +31,7 @@ public class ComFacade {
     private final DiscoveryController discoCtrl;
     private final KnownIPController kIpCtrl;
     private final Receiver receiver;
+    private NetworkInterface usedInterface;
     
     public ComFacade(IDataCom iDataCom) {
         System.out.println(this.getClass() + " Creation de la facade");
@@ -40,8 +41,13 @@ public class ComFacade {
         // TODO: Instanciate receiver
         receiver = new Receiver(80, iDataCom);
         new Thread(receiver).start();
+        this.usedInterface = null;
     }
 
+    public void setUsedInterface(NetworkInterface uif){
+        this.usedInterface = uif;
+    }
+    
     // envoi au dest
     public void sendShipsToEnnemy(List<Ship> listShips, PublicUser dest){
         M_PlaceShip m_placeship = new M_PlaceShip(iDataCom.getMyPublicUserProfile(), listShips);
@@ -147,7 +153,5 @@ public class ComFacade {
             new Thread(os).start();
         }*/
     }
-
- 
 
 }
