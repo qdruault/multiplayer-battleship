@@ -6,12 +6,17 @@
 package com.utclo23.com.messages;
 
 import com.utclo23.data.facade.IDataCom;
+import com.utclo23.data.structure.PublicUser;
 
 /**
  *
  * @author thibault
  */
 public class M_ConnexionLost extends Message{
+    public M_ConnexionLost(PublicUser user){
+        super(user);
+    }
+    
     @Override
     public void callback(IDataCom iDataCom){
         iDataCom.connectionLostWithOpponent();

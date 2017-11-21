@@ -5,12 +5,14 @@
  */
 package com.utclo23.com;
 
+import com.utclo23.com.messages.M_Connexion;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import com.utclo23.com.messages.Message;
+import com.utclo23.data.structure.PublicUser;
 import java.net.InetSocketAddress;
 
 /**
@@ -24,7 +26,7 @@ public class Sender implements Runnable {
     String ip;
     Message request;
     ObjectOutputStream out;
-    ObjectInputStream in;
+    //ObjectInputStream in;
 
     public Sender(String ip, int port, Message request) {
         this.ip = ip;

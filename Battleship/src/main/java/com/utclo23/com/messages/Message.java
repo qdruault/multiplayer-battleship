@@ -19,9 +19,8 @@ public abstract class Message implements Serializable{
     protected Inet4Address IP_sender;
     public abstract void callback(IDataCom iDataCom);
     
-    public void Message(IDataCom idc) throws UnknownHostException{
-        setUser(idc.getMyPublicUserProfile());
-        setIpSender((Inet4Address)Inet4Address.getLocalHost());
+    public Message(PublicUser user){
+        this.user = user;
     }
     
     public void setIpSender(Inet4Address ip){
