@@ -64,9 +64,3 @@ and open the template in the editor.
     -fx-stroke: #0ce8f0;
     -fx-stroke-width: 2px;
 }
-
-/*************************************************************/
-
-.scroll-bar {
-    -fx-background-color: pink;
-}
