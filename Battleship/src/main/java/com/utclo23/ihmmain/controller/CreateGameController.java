@@ -50,19 +50,20 @@ public class CreateGameController extends AbstractController{
     
     @FXML
     public void initialize(){
-        //
+        // Toggle Group
         mode = new ToggleGroup();
         enemy = new ToggleGroup();
         
-        //
         radioButtonClassical.setToggleGroup(mode);
         radioButtonBelge.setToggleGroup(mode);
         radioButtonComputer.setToggleGroup(enemy);
         radioButtonPlayer.setToggleGroup(enemy);
         
-        // Affectation des valeurs par défaut
+        // Default values
         radioButtonClassical.setSelected(true);
         radioButtonComputer.setSelected(true);
+        
+        //avatar
                 
     }
     
@@ -91,7 +92,7 @@ public class CreateGameController extends AbstractController{
             }catch (DataException e){
                 showErrorPopup(
                     "Game not created.");
-            } */
+            }*/
         }
         else
             gameNameField.setStyle("-fx-border-color: red;"); 
