@@ -5,7 +5,8 @@
 
 .root {
     -fx-font: 12pt "Space Age";
-    -fx-background-image: url("../images/background.jpg");
+    -fx-background-image: url("../images/background_ihm_main.png");
+    -fx-background-size: 2000 750;
     -fx-background-repeat: stretch;
     -fx-background-position: center center;
 }
