@@ -42,6 +42,7 @@ public class Receiver implements Runnable {
                 in = new ObjectInputStream(client.getInputStream());
                 System.out.println(in.available());
                 request = (Message) in.readObject();
+                request.callback(iDataCom);
                 /*while((request = (Message) in.readObject()) != null)
                 {
                     request.callback(iDataCom);

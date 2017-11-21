@@ -13,6 +13,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import com.utclo23.com.messages.Message;
 import com.utclo23.data.structure.PublicUser;
+import java.net.Inet4Address;
 import java.net.InetSocketAddress;
 
 /**
@@ -42,6 +43,7 @@ public class Sender implements Runnable {
             socket.connect(new InetSocketAddress(ip, port), 2000);
             out = new ObjectOutputStream(socket.getOutputStream());
             //in = new ObjectInputStream(socket.getInputStream());
+            request.setIpSender((Inet4Address)Inet4Address.getLocalHost());
             out.writeObject(request);
             //in.close();
             out.close();

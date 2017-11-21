@@ -26,7 +26,4 @@ public abstract class Message implements Serializable{
     public void setIpSender(Inet4Address ip){
         IP_sender = ip;
     }
-    public void setUser(PublicUser u){
-        user = u;
-    }
 }
