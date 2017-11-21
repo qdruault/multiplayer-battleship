@@ -201,4 +201,11 @@ public class GameMediator {
                     + " update is not the current game.");
         }
     }
+    
+    /**
+     * Exit current game.
+     */
+    public void leaveGame() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

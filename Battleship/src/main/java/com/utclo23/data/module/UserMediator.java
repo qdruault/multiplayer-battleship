@@ -167,6 +167,14 @@ public class UserMediator {
         }
         return publicUser;
     }
+    
+    public LightPublicUser getMyLightPublicUserProfile() {
+        LightPublicUser user = null;
+        if(this.owner != null) {
+            user = this.owner.getUserIdentity().getLightPublicUser();
+        }
+        return user;
+    }
 
     /**
      * create a user
