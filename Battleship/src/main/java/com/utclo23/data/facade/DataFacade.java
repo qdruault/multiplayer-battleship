@@ -23,12 +23,10 @@ import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.ihmmain.facade.IHMMainFacade;
 
-import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.ihmtable.IIHMTableToData;
 
 import java.io.File;
 import java.net.InterfaceAddress;
-import java.net.NetworkInterface;
 
 
 import java.util.List;
@@ -152,12 +150,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
     /**
      * Add new game
-<<<<<<< HEAD
-     *
-     * @param game
-=======
      * @param game the game to add
->>>>>>> Data/javadoc
      */
     @Override
     public void addNewGame(StatGame game) {
@@ -168,10 +161,9 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
     /**
      * Set the ennemy ships
-
      * @param ships the ships to set as a list
+    */
 
-     */
     @Override
     public void setEnnemyShips(List<Ship> ships) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -205,10 +197,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-
      * Add connected user
      * @param user user to add as connected
-
      */
     @Override
     public void addConnectedUser(LightPublicUser user) {
@@ -281,7 +271,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
      */
     @Override
-    public List<Ship> getShips() throws DataException{
+    public List<Ship> getTemplateShips() throws DataException{
         if(this.gameMediator.getCurrentGame()!=null)
         {
             return this.gameMediator.getCurrentGame().getTemplateShips();
@@ -449,19 +439,14 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     
     
     
-    /**
-     * *
-     *
-     * @param username
-     * @param password
-     * @throws DataException
-=======
+
+
+
     /**
      * Sign in the application
      * @param username
      * @param password
      * @throws DataException if the user is already connected, there is a problem in saving or reading file, or if the password is incorrect
->>>>>>> Data/javadoc
      */
     @Override
     public void signin(String username, String password) throws DataException {

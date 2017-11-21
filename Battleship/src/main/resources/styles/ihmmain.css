@@ -12,27 +12,28 @@ and open the template in the editor.
     -fx-background-color: #061f30;
 }
 
+/* About the table View */
 .table-view {
     -fx-base: transparent;
+    -fx-background-color: transparent;
     -fx-control-inner-background: transparent;
-    /*-fx-table-cell-border-color: #0ce8f0;
-    -fx-table-header-border-color: #0ce8f0;
-    -fx-padding: 5;*/
 }
 
 .table-view .column-header {
-    /*-fx-border-width: 0 0 1 0;
-    -fx-background-color: transparent;*/
-    /*-fx-border-color: #0ce8f0;*/
     -fx-border-color: #0ce8f0;
+    -fx-background-color: transparent;
 }
 
-cell-right.table-row-cell {
+.table-view .cell-left.column-header{
     -fx-border-radius: 10px 0px 0px 0px;
 }
-    
-.cell-left {
-    -fx-border-radius: 0px 10px 00px 0px;
+
+.table-view .cell-right.column-header{
+    -fx-border-radius: 0px 10px 0px 0px;
+}
+
+.table-view{
+    -fx-padding: 20px;
 }
 
 .table-column {
@@ -44,11 +45,55 @@ cell-right.table-row-cell {
     -fx-font-family: "Space Age";
     -fx-text-fill: #ef8d00;
     -fx-alignment: center;
-    /*-fx-opacity: 1;*/
 }
 
 .table-row-cell {
     -fx-background-color: transparent;
+}
+
+.table-row-cell:empty {
+    -fx-background-color: transparent;
+}
+
+.table-row-cell:empty .table-cell {
+    -fx-border-width: 0px;
+}
+
+/* Used to personalize the button */
+.button{
+    -fx-font-family: "Space Age"; 
+    -fx-text-fill: #3DE6AF; 
+    /*svg path*/
+    -fx-shape:"M 0 0 L 1 -0.5 L 5 -0.5 L 6 0 L 5 0.5 L 1 0.5 z";
+    -fx-border-color:#ffffff;
+    -fx-background-color: #061f30;
+    
+}
+
+/* Used for the title of each page (ex : 'Create User') */
+#pageTitleLabel{
+    -fx-font-family: "Space Age";
+    -fx-text-fill: #0ce8f0;
+    -fx-font-size: 18pt; 
+}
+/* Used for smaller titles (ex : 'all modes' in Player Profile) */
+#sectionTitleLabel{
+    -fx-font-family: "Space Age";
+    -fx-text-fill: #0ce8f0;
+    -fx-font-size: 15pt;
+}
+
+/* Used in forms (username, description, etc.) */
+#formLabel{
+    -fx-font-family: "Space Age";
+    -fx-text-fill: #ef8d00;
+    -fx-font-size: 13pt;
+}
+/* Used for all other labels (popup messages, etc.) */
+.label{
+    -fx-font-family: "Arial";
+    -fx-text-fill: white;
+    -fx-font-size: 11pt;
 }
 
 /*.table-view:focused .table-row-cell:filled:focused:selected {
@@ -66,24 +111,44 @@ cell-right.table-row-cell {
 
 .menu-bar {
     -fx-background-color: derive(#1d1d1d,20%);
+
+/* About the line */
+.lineDesign{
+    -fx-stroke: #0ce8f0;
+    -fx-stroke-width: 2px;
 }
 
-.context-menu {
-    -fx-background-color: derive(#1d1d1d,50%);
+/*************************************************************/
+
+/* Alert customization */
+    .dialog-pane > .button-bar > .container {
+      -fx-background-color:#061f30;
+    }
+    .dialog-pane > .content.label {
+       -fx-padding: 0.5em 0.5em 0.5em 0.5em;
+       -fx-background-color: #061f30;
+       -fx-text-fill:white;
+       -fx-font-size:15.0px;
+    }
+
+    .dialog-pane:header .header-panel {
+      -fx-background-color: #061f30;
+    }
+
+    .dialog-pane:header .header-panel .label{
+      -fx-background-color: #061f30;
+      -fx-background-radius:10px;
+      -fx-text-fill:white;
+      -fx-font-size:15.0px;
+    }
+
+.table-row-cell:empty .table-cell {
+    -fx-border-width: 0px;
 }
 
-.menu-bar .label {
-    -fx-font-size: 14pt;
-    -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: white;
-    -fx-opacity: 0.9;
+/* About the line */
+.lineDesign{
+    -fx-stroke: #0ce8f0;
+    -fx-stroke-width: 2px;
 }
 
-.menu .left-container {
-    -fx-background-color: black;
-}
-
-.text-field {
-    -fx-font-size: 12pt;
-    -fx-font-family: "Segoe UI Semibold";
-}*/

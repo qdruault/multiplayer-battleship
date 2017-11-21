@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -22,6 +21,8 @@ import javafx.stage.Stage;
  *
  * @author Lipeining
  */
+
+//recievePublicUserProfile(Player);
 public class PlayerProfileController extends AbstractController{
     @FXML
     public  Label userID;
@@ -34,29 +35,14 @@ public class PlayerProfileController extends AbstractController{
             
     @FXML
     private TextField description;
-
-    @FXML
-    private Button backButton;
-    @FXML
-    private Button playerList;
-    @FXML
-    private Button editDesc;
     
     private PublicUser me;
-    String testUserID="Player1";
+    private boolean isLoading = false; 
+    
     @FXML
     @Override
     public void start(){
-        try{
-            me = facade.iDataIHMMain.getMyPublicUserProfile();
-            userID.setText(me.getLightPublicUser().getPlayerName());
-            firstName.setText(me.getFirstName());
-            lastName.setText(me.getLastName());
-            birthday.setText(me.getBirthDate().toString());
-        }
-        catch(NullPointerException e){
-            System.out.println("[PlayerProfile] - getMyPublicUserProfile() not supported yet");
-        }
+       refresh();
     }
     
      
@@ -93,11 +79,33 @@ public class PlayerProfileController extends AbstractController{
         String path = "/fxml/ihmmain/popup.fxml";
         FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
         Parent sceneLoader = loader.load();
+        AbstractController controller=loader.getController();
+        controller.setFacade(facade);
+        controller.setIhmmain(ihmmain);
         Scene newScene;
         newScene = new Scene(sceneLoader);
         Stage popup = new Stage();
         popup.initOwner(primaryStage);
         popup.setScene(newScene);
         popup.show();
-    }         
+    }  
+    public void recievePublicUser(PublicUser player) throws IOException{
+    
+    }
+    public void loading() throws IOException{
+        
+    }
+    @Override
+    public void refresh(){
+        try{
+            me = facade.iDataIHMMain.getMyPublicUserProfile();
+            userID.setText(me.getLightPublicUser().getPlayerName());
+            firstName.setText(me.getFirstName());
+            lastName.setText(me.getLastName());
+            birthday.setText(me.getBirthDate().toString());
+        }
+        catch(NullPointerException e){
+            System.out.println("[PlayerProfile] - getMyPublicUserProfile() not supported yet");
+        }
+    }
 }
