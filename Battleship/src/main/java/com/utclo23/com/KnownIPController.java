@@ -33,8 +33,7 @@ public class KnownIPController {
 
     /**
     * Called to instantiate the unique instance of KnowIPController class in 
-    * the application. 
-    * @return nothing
+    * the application.
     */
     private static class SingletonHolder {
 
@@ -53,7 +52,7 @@ public class KnownIPController {
     /**
     * Called to put our own IP in attribute "knownIP" and initialize iDataCom 
     * attribute.
-    * @param iDataCom Value affected to attribute iDataCom of the class
+    * @param iDataCom is the Value affected to attribute iDataCom of the class
     */
     public void initIpList(IDataCom iDataCom) {
         try {
@@ -113,9 +112,9 @@ public class KnownIPController {
     }
 
     /**
-    * Called to add a new node in @attribute "knownIP".
-    * @param id String "id" of the new node
-    * @param ip Inet4address of the new node
+    * Called to add a new node in the attribute "knownIP".
+    * @param id is the "id", of type string, of the new node
+    * @param ip is the Inet4address of the new node
     */
     public void addNode(String id, Inet4Address ip) {
         knownIp.put(id, ip);
@@ -124,7 +123,8 @@ public class KnownIPController {
     /**
     * Called to add non existing nodes in attribute "knownIp" from another 
     * hashmap.
-    * @param hashToCheck Hashmap containing String ids and Inet4Address 
+    * @param hashToCheck is the Hashmap containing ids of type String
+    * and Inet4Address 
     */
     public void addNonExistingNodes(HashMap<String, Inet4Address> hashToCheck) {
         Iterator it = hashToCheck.entrySet().iterator();
