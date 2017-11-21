@@ -5,7 +5,6 @@
  */
 package com.utclo23.ihmmain.controller;
 
-import com.sun.security.ntlm.Client;
 import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.GameType;
 import com.utclo23.data.structure.LightPublicUser;
@@ -26,7 +25,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
-import org.sonarsource.scanner.api.internal.shaded.okhttp.Address;
 
 /**
  * The GUI that displays the list of connected users
@@ -87,7 +85,7 @@ public class GameListController extends AbstractController{
         
         TableColumn creatorColumn = new TableColumn("CREATOR");
         creatorColumn.setCellValueFactory(new PropertyValueFactory<StatGame, String>("creator"));
-        // ======== setting the cell factory for the creator.playerName column  
+        //setting the cell factory for the creator.playerName column  
         creatorColumn.setCellFactory(new Callback<TableColumn<StatGame, LightPublicUser>, TableCell<StatGame, LightPublicUser>>(){
 
             @Override
