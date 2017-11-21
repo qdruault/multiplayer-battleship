@@ -59,6 +59,33 @@ cell-right.table-row-cell {
     -fx-background-color: #061f30;
     
 }
+
+/* Used for the title of each page (ex : 'Create User') */
+#pageTitleLabel{
+    -fx-font-family: "Space Age";
+    -fx-text-fill: #0ce8f0;
+    -fx-font-size: 18pt; 
+}
+/* Used for smaller titles (ex : 'all modes' in Player Profile) */
+#sectionTitleLabel{
+    -fx-font-family: "Space Age";
+    -fx-text-fill: #0ce8f0;
+    -fx-font-size: 15pt;
+}
+
+/* Used in forms (username, description, etc.) */
+#formLabel{
+    -fx-font-family: "Space Age";
+    -fx-text-fill: #ef8d00;
+    -fx-font-size: 13pt;
+}
+
+/* Used for all other labels (popup messages, etc.) */
+.label{
+    -fx-font-family: "Arial";
+    -fx-text-fill: white;
+    -fx-font-size: 11pt;
+}
 /*.table-view:focused .table-row-cell:filled:focused:selected {
     -fx-background-color: -fx-focus-color;
 }
