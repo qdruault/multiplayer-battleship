@@ -124,7 +124,7 @@ public class CreateUserController extends AbstractController{
      * @param lastName user's last name
      * @param birthDate user's birth date
      * @param avatarPath user's avatar path
-     * @throws Exception throws a default Java exception in case if any failure.
+     * @throws Exception throws a default Java exception if any failure occurs.
      */
     private void createUser(String userName, String password, String firstName, String lastName, Date birthDate, String avatarPath) throws Exception{
         System.out.println("createUser method called");
