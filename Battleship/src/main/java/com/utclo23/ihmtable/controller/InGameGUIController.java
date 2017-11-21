@@ -117,23 +117,26 @@ public class InGameGUIController {
      */
     @FXML
     void onClickFire(MouseEvent event) {
-        // Only if a cell has been aimed.
-        if (cellToAttack != null) {
-            // Remove the highlight on the cell.
-            clickedPane.getStyleClass().removeAll("InGameGUI_selected_cell");
-            // Attack!
-            try {
-                if (facade.getFacadeData().attack(cellToAttack)) {
-                    // TODO: OK.
-                } else {
-                    // TODO: NOT OK.
+        // Prevent to click if the game is not started.
+        if (facade.isGameReady()) {
+            // Only if a cell has been aimed.
+            if (cellToAttack != null) {
+                // Remove the highlight on the cell.
+                clickedPane.getStyleClass().removeAll("InGameGUI_selected_cell");
+                // Attack!
+                try {
+                    if (facade.getFacadeData().attack(cellToAttack)) {
+                        // TODO: OK.
+                    } else {
+                        // TODO: NOT OK.
+                    }
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
                 }
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
-            }
 
-        } else {
-            System.err.println("No cell is selected!");
+            } else {
+                System.err.println("No cell is selected!");
+            }
         }
     }
 
@@ -170,18 +173,20 @@ public class InGameGUIController {
 
         @Override
         public void handle(Event event) {
-            // Remove the higlight on the previous cell.
-            if (clickedPane != null) {
-                clickedPane.getStyleClass().removeAll("InGameGUI_selected_cell");
+            // Prevent to click if the game is not started.
+            if (facade.isGameReady()) {
+                // Remove the higlight on the previous cell.
+                if (clickedPane != null) {
+                    clickedPane.getStyleClass().removeAll("InGameGUI_selected_cell");
+                }
+
+                // Save the cell to attack.
+                cellToAttack = new Coordinate(column, row);
+                // Highlight the cell.
+                clickedPane = (Pane)event.getSource();
+                clickedPane.getStyleClass().add("InGameGUI_selected_cell");
             }
-
-            // Save the cell to attack.
-            cellToAttack = new Coordinate(column, row);
-            // Highlight the cell.
-            clickedPane = (Pane)event.getSource();
-            clickedPane.getStyleClass().add("InGameGUI_selected_cell");
         }
-
     }
 
     /**
