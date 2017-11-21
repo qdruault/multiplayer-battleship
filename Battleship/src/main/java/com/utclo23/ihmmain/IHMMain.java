@@ -43,8 +43,12 @@ public class IHMMain {
             sceneMap.put(scenenameString,scene);
         }
         
-        toLogin();
+        toNetworkInterfaceChoice();
         stage.show();
+    }
+    
+    public void toNetworkInterfaceChoice() throws IOException{
+        toScene(SceneName.NetworkInterface);
     }
     
     public void toLogin() throws IOException{
