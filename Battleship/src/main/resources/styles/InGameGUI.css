@@ -65,3 +65,9 @@
 .InGameGUI_selected_cell {
     -fx-background-color: rgba(255, 255, 255, 0.15);
 }
+
+.inGameGUI_selected_ship {
+    -fx-border-color: rgba(255, 100, 100, 0.75);
+    -fx-border-style: solid;
+    -fx-border-width: 3px;
+}

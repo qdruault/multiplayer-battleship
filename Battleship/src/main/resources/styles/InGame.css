@@ -1,19 +1,19 @@
 #menu_header{
 	-fx-background-image: url("../images/background_left_menu.png");
-    -fx-background-repeat: stretch;      
+    -fx-background-repeat: stretch;
     -fx-background-size: 100% 100%;
 }
 
 #menu_titre{
 	-fx-background-image: url("../images/ships_header.png");
-    -fx-background-repeat: stretch;      
+    -fx-background-repeat: stretch;
 	-fx-background-position: center center;
 }
 
 #inGameGUI_button1,#inGameGUI_button2,#inGameGUI_button3,#inGameGUI_button4,#inGameGUI_button5{
 	-fx-background-color: none;
 	-fx-cursor: pointer;
-    -fx-background-repeat: stretch; 
+    -fx-background-repeat: stretch;
     -fx-background-position: center center;
 }
 
@@ -42,7 +42,7 @@
 }
 
 #menu_bottom1, #menu_bottom2, #menu_bottom3{
-    -fx-background-repeat: stretch;      
+    -fx-background-repeat: stretch;
 	-fx-background-size: 40% 60%;
 	-fx-background-position: center center;
 }
@@ -61,21 +61,21 @@
 
 #left_side_game{
 	-fx-background-image: url("../images/background_left_side_game.png");
-	-fx-background-repeat: stretch;  
+	-fx-background-repeat: stretch;
 	-fx-background-size: 100% 100%;
 }
 
 #right_side_game{
 	-fx-background-image: url("../images/background_right_side_game.png");
-	-fx-background-repeat: stretch;  
+	-fx-background-repeat: stretch;
 	-fx-background-size: 100% 100%;
 }
 
 
 #button_fire, #button_temps, #button_menu{
     -fx-background-color: none;
-	-fx-cursor: pointer;
-    -fx-background-repeat: stretch; 
+    -fx-cursor: pointer;
+    -fx-background-repeat: stretch;
     -fx-background-position: center center;
 }
 
@@ -93,4 +93,14 @@
 
 #button_fire:hover, #button_temps:hover, #button_menu:hover{
 	-fx-background-color: blue;
+}
+
+.InGameGUI_selected_cell {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+}
+
+.inGameGUI_selected_ship {
+    -fx-border-color: rgba(255, 100, 100, 0.75);
+    -fx-border-style: solid;
+    -fx-border-width: 3px;
 }

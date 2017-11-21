@@ -56,15 +56,19 @@ public class InGameGUIController {
     @FXML
     private Button buttonImage4;
     @FXML
+    private Button sendButton;
+
+
+    @FXML
     private Button buttonImage5;
 
+    @FXML
+    private Button fireButton;
     @FXML
     private Button menuButton;
 
     @FXML
     private GridPane opponentGrid;
-    @FXML
-    private Button btnFire;
 
     /**
      * The cell chosen to attack;
@@ -76,8 +80,25 @@ public class InGameGUIController {
      */
     private Pane clickedPane;
 
-    @FXML
-    private GridPane opponentGrid;
+    /**
+     * The button of the ship to be placed.
+     */
+    private Button clickedShip;
+
+    /**
+     * The selected ship to be placed.
+     */
+    private Ship shipToPlace;
+
+    /**
+     * First bound of the ship to place.
+     */
+    private Coordinate startPosition;
+
+    /**
+     * Second bound of the ship to place.
+     */
+    private Coordinate endPosition;
 
     @FXML
     public void buttonAction(ActionEvent event) throws IOException {
@@ -86,10 +107,8 @@ public class InGameGUIController {
     }
 
     @FXML
-    public void menuAction(ActionEvent event) throws IOException {
-        /*
-          cette fonction permet de modifier l'interface vers MenuInterface
-        */
+    public void fireAction(ActionEvent event) throws IOException {
+
     }
 
 
@@ -109,6 +128,11 @@ public class InGameGUIController {
                 opponentGrid.add(pane, col, row);
             }
         }
+
+        // Initialize the position of the ship to place.
+        shipToPlace = null;
+        startPosition = null;
+        endPosition = null;
     }
 
     /**
@@ -148,6 +172,30 @@ public class InGameGUIController {
     public void setFacade(IHMTableFacade facade) {
         this.facade = facade;
     }
+
+    /**
+     * Function for displaying new window with menu option (Save and leave)
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    public void onClickMenuButton(MouseEvent event) throws IOException {
+       System.out.println("Clic sur le bouton menu ");
+       FXMLLoader menuLoader = new FXMLLoader();
+       menuLoader.setLocation(getClass().getResource("/fxml/ihmtable/inGameGUIMenu.fxml"));
+       try {
+            Scene scene = new Scene((Parent) menuLoader.load(), 220, 300);
+            Stage stage = new Stage();
+            stage.setTitle("Pause");
+            stage.setScene(scene);
+            InGameGUIMenuController controller = menuLoader.<InGameGUIMenuController>getController();
+            controller.setFacade(facade);
+            stage.show();
+       } catch (IOException ex) {
+            Logger.getLogger(IHMTableFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 
     private class AttackEvent implements EventHandler {
 
@@ -211,4 +259,39 @@ public class InGameGUIController {
             Logger.getLogger(IHMTableFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+}
+
+    private class SelectShipEvent implements EventHandler {
+
+        /**
+         * The ship selected.
+         */
+        private Ship ship;
+
+        /**
+         * Constructor
+         * @param pShip : the ship clicked.
+         */
+        public SelectShipEvent(Ship pShip) {
+            ship = pShip;
+        }
+
+        @Override
+        public void handle(Event event) {
+            // Prevent to click if the game is already started.
+            if (!facade.isGameReady()) {
+                // Remove the higlight on the previous cell.
+                if (clickedShip != null) {
+                    clickedShip.getStyleClass().removeAll("inGameGUI_selected_ship");
+                }
+
+                // Save the ship to move.
+                shipToPlace = ship;
+                // Highlight the ship.
+                clickedShip = (Button)event.getSource();
+                clickedShip.getStyleClass().add("inGameGUI_selected_ship");
+            }
+        }
+    }
+
 }
