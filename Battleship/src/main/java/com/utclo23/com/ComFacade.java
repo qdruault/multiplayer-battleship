@@ -13,6 +13,7 @@ import com.utclo23.com.messages.*;
 import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.LightPublicUser;
 import java.net.Inet4Address;
+import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class ComFacade {
     private final DiscoveryController discoCtrl;
     private final KnownIPController kIpCtrl;
     private final Receiver receiver;
-    private NetworkInterface usedInterface;
+    private InterfaceAddress usedInterface;
     
     public ComFacade(IDataCom iDataCom) {
         System.out.println(this.getClass() + " Creation de la facade");
@@ -44,8 +45,8 @@ public class ComFacade {
         this.usedInterface = null;
     }
 
-    public void setUsedInterface(NetworkInterface uif){
-        this.usedInterface = uif;
+    public void setUsedInterface(InterfaceAddress uif){
+        kIpCtrl.setUsedInterface(uif);
     }
     
     // envoi au dest

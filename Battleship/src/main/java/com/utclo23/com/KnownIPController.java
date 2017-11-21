@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import com.utclo23.data.facade.IDataCom;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +25,7 @@ public class KnownIPController {
     // TODO: add a lock on this one
     private final HashMap<String, Inet4Address> knownIp;
     IDataCom iDataCom;
-
+    InterfaceAddress usedInterface;
     // private constructor
     private KnownIPController() {
         knownIp = new HashMap<>();
@@ -40,7 +42,16 @@ public class KnownIPController {
     public static KnownIPController getInstance() {
         return SingletonHolder.INSTANCE;
     }
+    
+    
+    public Inet4Address getMyInetAddress(){
+        return (Inet4Address)this.usedInterface.getAddress();
+    }
 
+    public void setUsedInterface(InterfaceAddress uif){
+        this.usedInterface = uif;
+    }
+    
     // used to put our own IP in the hashmap of IP
     public void initIpList(IDataCom iDataCom) {
         try {

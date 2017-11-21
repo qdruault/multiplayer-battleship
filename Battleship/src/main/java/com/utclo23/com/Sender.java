@@ -38,12 +38,13 @@ public class Sender implements Runnable {
     @Override
     public void run() {
         try {
+            KnownIPController kIpCtrl = KnownIPController.getInstance();
             socket = new Socket();
             socket.setSoTimeout(2000);
             socket.connect(new InetSocketAddress(ip, port), 2000);
             out = new ObjectOutputStream(socket.getOutputStream());
             //in = new ObjectInputStream(socket.getInputStream());
-            request.setIpSender((Inet4Address)Inet4Address.getLocalHost());
+            request.setIpSender(kIpCtrl.getMyInetAddress());
             out.writeObject(request);
             //in.close();
             out.close();
