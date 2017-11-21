@@ -228,42 +228,85 @@ public class UserMediator {
 
         }
     }
-
+ 
     /**
      * Update user
      *
-     * @param password
-     * @param firstName
-     * @param lastName
-     * @param birthDate
-     * @param fileImage
+     * @param playername
      * @throws DataException
      */
-    public void updateUser(String password, String firstName, String lastName, Date birthDate, String fileImage) throws DataException {
+    public void updatePlayername(String playername) throws DataException {
 
         if (this.owner != null) {
 
             //blank  password
-            if (password.isEmpty()) {
-                throw new DataException("Data : error due to empty playername or password");
+            if (playername.isEmpty()) {
+                throw new DataException("Data : error due to empty playername");
             }
+            playername = playername.toUpperCase();
 
-            //password = password.toUpperCase();
-            firstName = firstName.toUpperCase();
-            lastName = lastName.toUpperCase();
-
-            this.owner.setPassword(password);
             if (!this.getDataFacade().isTestMode()) {
-                if (fileImage.isEmpty()) {
-                    throw new DataException("Data : error due to empty image");
-                }
-                this.owner.getUserIdentity().setAvatar(this.extractBytes(fileImage));
-                this.owner.getUserIdentity().getLightPublicUser().setAvatarThumbnail(this.createThumbnail(fileImage));
-
+                this.owner.getUserIdentity().getLightPublicUser().setPlayerName(playername);
             }
-            
-            this.owner.getUserIdentity().setBirthDate(birthDate);
+            save();
+
+            //remove old profile and add new one
+            //to check by data module
+            ComFacade comFacade = this.dataFacade.getComfacade();
+            if (comFacade != null) {
+                if (this.owner != null) {
+                    comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
+                    comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+                }
+            }
+
+        } else {
+            throw new DataException("Data : error in updating");
+        }
+
+    }
+    
+    /**
+     *
+     * @param firstName
+     * @throws DataException
+     */
+    public void updateFirstname(String firstName) throws DataException {
+
+        if (this.owner != null) {
+
+            //blank  password
+            if (firstName.isEmpty()) {
+                throw new DataException("Data : error due to empty first name");
+            }
+            firstName = firstName.toUpperCase();          
             this.owner.getUserIdentity().setFirstName(firstName);
+
+            save();
+
+            //remove old profile and add new one
+            //to check by data module
+            ComFacade comFacade = this.dataFacade.getComfacade();
+            if (comFacade != null) {
+                if (this.owner != null) {
+                    comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
+                    comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+                }
+            }
+        } else {
+            throw new DataException("Data : error in updating");
+        }
+
+    }
+
+    public void updateLastname(String lastName) throws DataException {
+        if (this.owner != null) {
+
+            if (lastName.isEmpty()) {
+                throw new DataException("Data : error due to empty lastName");
+            }
+
+            lastName = lastName.toUpperCase();
             this.owner.getUserIdentity().setLastName(lastName);
 
             save();
@@ -283,7 +326,98 @@ public class UserMediator {
         }
 
     }
+    
+    /**
+     *
+     * @param birthDate
+     * @throws DataException
+     */
+    public void updateBirthdate(Date birthDate) throws DataException {
 
+        if (this.owner != null) {     
+            this.owner.getUserIdentity().setBirthDate(birthDate);
+            save();
+
+            ComFacade comFacade = this.dataFacade.getComfacade();
+            if (comFacade != null) {
+                if (this.owner != null) {
+                    comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
+                    comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+                }
+            }
+
+        } else {
+            throw new DataException("Data : error in updating");
+        }
+
+    }
+    
+    /**
+     *
+     * @param fileImage
+     * @throws DataException
+     */
+    public void updateFileImage(String fileImage) throws DataException {
+
+        if (this.owner != null) {
+            if (!this.getDataFacade().isTestMode()) {
+                if (fileImage.isEmpty()) {
+                    throw new DataException("Data : error due to empty image");
+                }
+                this.owner.getUserIdentity().setAvatar(this.extractBytes(fileImage));
+                this.owner.getUserIdentity().getLightPublicUser().setAvatarThumbnail(this.createThumbnail(fileImage));
+
+            }      
+            save();
+
+            //remove old profile and add new one
+            //to check by data module
+            ComFacade comFacade = this.dataFacade.getComfacade();
+            if (comFacade != null) {
+                if (this.owner != null) {
+                    comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
+                    comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+                }
+            }
+
+        } else {
+            throw new DataException("Data : error in updating");
+        }
+
+    }
+    
+    /**
+     *
+     * @param password
+     * @throws DataException
+     */
+    public void updatePassword(String password) throws DataException {
+
+        if (this.owner != null) {
+
+            //blank  password
+            if (password.isEmpty()) {
+                throw new DataException("Data : error due to empty playername or password");
+            }
+
+            this.owner.setPassword(password);
+            save();
+
+            //remove old profile and add new one
+            //to check by data module
+            ComFacade comFacade = this.dataFacade.getComfacade();
+            if (comFacade != null) {
+                if (this.owner != null) {
+                    comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
+                    comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+                }
+            }
+
+        } else {
+            throw new DataException("Data : error in updating");
+        }
+
+    }
     /**
      * get user profile
      *
@@ -532,5 +666,9 @@ public class UserMediator {
         } else {
             throw new DataException("Data : error in setting discovery nodes");
         }
+    }
+
+    public void updateBirthdate(String lastName) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

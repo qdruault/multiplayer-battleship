@@ -49,7 +49,7 @@ public class PlayerProfileController extends AbstractController{
     public void start(){
         try{
             me = facade.iDataIHMMain.getMyPublicUserProfile();
-            userID.setText(me.getId());
+            userID.setText(me.getLightPublicUser().getPlayerName());
             firstName.setText(me.getFirstName());
             lastName.setText(me.getLastName());
             birthday.setText(me.getBirthDate().toString());
@@ -93,6 +93,9 @@ public class PlayerProfileController extends AbstractController{
         String path = "/fxml/ihmmain/popup.fxml";
         FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
         Parent sceneLoader = loader.load();
+        AbstractController controller=loader.getController();
+        controller.setFacade(facade);
+        controller.setIhmmain(ihmmain);
         Scene newScene;
         newScene = new Scene(sceneLoader);
         Stage popup = new Stage();

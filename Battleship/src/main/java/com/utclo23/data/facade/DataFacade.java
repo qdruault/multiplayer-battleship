@@ -394,20 +394,70 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         this.userMediator.createUser(playerName, password, firstName, lastName, birthDate, fileImage);
     }
 
-
-   /**
-    * Update user information
-    * @param password the new password
-    * @param firstName the new first name
-    * @param lastName the new last name
-    * @param birthDate the new birthdate
-    * @param fileImage the new avatar
+    /**
+    * Update user playername
+    * @param playername playname
     * @throws DataException if there is an error in updating
     */
-     @Override
-    public void updateUser(String password, String firstName, String lastName, Date birthDate, String fileImage) throws DataException {
+    @Override
+    public void updatePlayername(String playername) throws DataException {
 
-        this.userMediator.updateUser(password, firstName, lastName, birthDate, fileImage);
+        this.userMediator.updatePlayername(playername);
+    }
+
+    /**
+     *
+     * @param firstName
+     * @throws DataException
+     */
+    @Override
+    public void updateFirstname(String firstName) throws DataException {
+
+        this.userMediator.updateFirstname(firstName);
+    }
+
+    /**
+     *
+     * @param lastName
+     * @throws DataException
+     */
+    @Override
+    public void updateLastname(String lastName) throws DataException {
+
+        this.userMediator.updateLastname(lastName);
+    }
+    
+    /**
+     *
+     * @param birthdate
+     * @throws DataException
+     */
+    @Override
+    public void updateBirthdate(Date birthdate) throws DataException {
+
+        this.userMediator.updateBirthdate(birthdate);
+    }
+    
+    /**
+     *
+     * @param fileImage
+     * @throws DataException
+     */
+    @Override
+    public void updateFileImage(String fileImage) throws DataException {
+
+        this.userMediator.updateFileImage(fileImage);
+    }
+    
+    /**
+     *
+     * @param password
+     * @throws DataException
+     */
+    @Override
+    public void updatePassword(String password) throws DataException {
+
+        this.userMediator.updatePassword(password);
     }
 
     /**

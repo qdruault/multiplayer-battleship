@@ -1,5 +1,6 @@
 package com.utclo23.ihmmain.controller;
 
+import com.utclo23.data.module.DataException;
 import javafx.fxml.FXML;
 import java.io.IOException;
 import javafx.event.ActionEvent;
@@ -21,9 +22,13 @@ public class PopupController extends AbstractController{
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }
     @FXML
-    private void updateID(ActionEvent event) throws IOException{
+    private void updateID(ActionEvent event) throws IOException, DataException{
         String text;
         text = field.getText();
+        if(facade!=null){facade.iDataIHMMain.updatePlayername(text);}
+        else{
+        System.out.println("null");
+        }
         //System.out.println(profile.testUserID);
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }

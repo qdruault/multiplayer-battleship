@@ -163,13 +163,13 @@ public class UserProfileTest {
         }
 
         Owner owner = df.getMyOwnerProfile();
-        df.updateUser("", owner.getUserIdentity().getFirstName(), owner.getUserIdentity().getLastName(), owner.getUserIdentity().getBirthDate(), "");
+        df.updatePassword("");
 
         if (!owner.getUserIdentity().getFirstName().equals(NEW_FIRSTNAME)) {
             fail();
         }
 
-        df.updateUser(owner.getPassword(), "", owner.getUserIdentity().getLastName(), owner.getUserIdentity().getBirthDate(), "");
+        df.updatePassword(owner.getPassword());
 
         df.signOut();
 
@@ -193,13 +193,13 @@ public class UserProfileTest {
             }
 
             Owner owner = df.getMyOwnerProfile();
-            df.updateUser(owner.getPassword(), NEW_FIRSTNAME, owner.getUserIdentity().getLastName(), owner.getUserIdentity().getBirthDate(), "");
+            df.updateFirstname(NEW_FIRSTNAME);
 
             if (!owner.getUserIdentity().getFirstName().equals(NEW_FIRSTNAME)) {
                 fail();
             }
 
-            df.updateUser(owner.getPassword(), "", owner.getUserIdentity().getLastName(), owner.getUserIdentity().getBirthDate(), "");
+            df.updateFirstname("");
 
             df.signOut();
 
