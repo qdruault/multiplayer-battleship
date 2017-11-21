@@ -15,7 +15,7 @@ import java.util.List;
  * @author Davy
  */
 public interface IDataCom {
-    public void setNetworkInterface(NetworkInterface net_interface);
+   
     public void addNewGame(StatGame game);
     public void setEnnemyShips(List<Ship> ships);
     public void forwardCoordinates(Mine mine);
