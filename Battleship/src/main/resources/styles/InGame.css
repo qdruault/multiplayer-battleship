@@ -72,19 +72,25 @@
 }
 
 
-
-#inGameGUI_button_fire{
-	-fx-background-image: url("../images/fire.png");
-    -fx-background-repeat: stretch;   
-    -fx-background-size: 74 69;
+#button_fire, #button_temps, #button_menu{
+    -fx-background-color: none;
+	-fx-cursor: pointer;
+    -fx-background-repeat: stretch; 
     -fx-background-position: center center;
-	-fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
 }
 
-#inGameGUI_button_menu{
+#button_fire{
+	-fx-background-image: url("../images/fire.png");
+}
+
+#button_temps{
+	-fx-background-image: url("../images/temps.png");
+}
+
+#button_menu{
 	-fx-background-image: url("../images/menu.png");
-    -fx-background-repeat: stretch;   
-    -fx-background-size: 102 98;
-    -fx-background-position: center center;
-	-fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+#button_fire:hover, #button_temps:hover, #button_menu:hover{
+	-fx-background-color: blue;
 }
