@@ -281,7 +281,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
      */
     @Override
-    public List<Ship> getShips() throws DataException{
+    public List<Ship> getTemplateShips() throws DataException{
         if(this.gameMediator.getCurrentGame()!=null)
         {
             return this.gameMediator.getCurrentGame().getTemplateShips();
