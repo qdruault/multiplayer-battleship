@@ -72,7 +72,7 @@ public class PlayerListController extends AbstractController{
      */
     @Override
     public void refresh(){
-        if(isIsRunning()){
+        if(isRunning()){
             getConnectedUsers();
         }
     }
