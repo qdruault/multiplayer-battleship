@@ -34,6 +34,7 @@ public class LightPublicUser extends SerializableEntity{
         this.avatarThumbnail = null;
     }
     
+    
     /**
      * get id 
      * @return uniq id 

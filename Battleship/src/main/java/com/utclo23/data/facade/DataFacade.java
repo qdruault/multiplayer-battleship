@@ -26,6 +26,7 @@ import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.ihmtable.IIHMTableToData;
 
 import java.io.File;
+import java.net.UnknownHostException;
 
 import java.util.List;
 import java.util.Date;
@@ -513,6 +514,10 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void setIPDiscovery(List<String> discoveryNodes) throws DataException {
-        this.userMediator.setIPDiscovery(discoveryNodes);
+        try {
+            this.userMediator.setIPDiscovery(discoveryNodes);
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
