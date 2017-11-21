@@ -32,7 +32,6 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="User ID" />
                         <Label fx:id="userID" text="Player1" GridPane.columnIndex="1" />
                         <Label text="First Name" GridPane.rowIndex="1" />
                         <Label fx:id="firstName" text="--" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -46,6 +45,8 @@
                         <Button mnemonicParsing="false" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                         <Button mnemonicParsing="false" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                         <Button mnemonicParsing="false" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <Label />
+                        <Label text="Nickname" />
                      </children>
                   </GridPane>
                   <Label layoutX="558.0" layoutY="55.0" text="Descriptions" />

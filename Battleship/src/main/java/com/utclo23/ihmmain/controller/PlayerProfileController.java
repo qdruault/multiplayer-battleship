@@ -49,7 +49,7 @@ public class PlayerProfileController extends AbstractController{
     public void start(){
         try{
             me = facade.iDataIHMMain.getMyPublicUserProfile();
-            userID.setText(me.getId());
+            userID.setText(me.getLightPublicUser().getPlayerName());
             firstName.setText(me.getFirstName());
             lastName.setText(me.getLastName());
             birthday.setText(me.getBirthDate().toString());

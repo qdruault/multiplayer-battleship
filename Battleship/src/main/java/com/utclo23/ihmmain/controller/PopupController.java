@@ -24,6 +24,7 @@ public class PopupController extends AbstractController{
     private void updateID(ActionEvent event) throws IOException{
         String text;
         text = field.getText();
+        //facade.iDataIHMMain.updateUser(text, text, text, birthDate, text);
         //System.out.println(profile.testUserID);
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }

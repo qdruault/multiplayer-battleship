@@ -27,6 +27,8 @@ import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.ihmtable.IIHMTableToData;
 
 import java.io.File;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
 
 
 import java.util.List;
@@ -279,7 +281,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
      */
     @Override
-    public List<Ship> getShips() throws DataException{
+    public List<Ship> getTemplateShips() throws DataException{
         if(this.gameMediator.getCurrentGame()!=null)
         {
             return this.gameMediator.getCurrentGame().getTemplateShips();
@@ -520,5 +522,14 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     public void gameConnectionRequestGame(String id, String role) {
         
         this.gameMediator.gameConnectionRequestGame(id, role);
+    }
+
+    @Override
+    public void setNetworkInterface(InterfaceAddress net_interface) {
+        
+        if(this.getComfacade()!=null)
+        {
+            this.getComfacade().setUsedInterface(net_interface);
+        }
     }
 }

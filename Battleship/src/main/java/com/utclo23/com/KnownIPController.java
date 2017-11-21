@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import com.utclo23.data.facade.IDataCom;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +25,7 @@ public class KnownIPController {
     // TODO: add a lock on this one
     private final HashMap<String, Inet4Address> knownIp;
     IDataCom iDataCom;
-
+    InterfaceAddress usedInterface;
     // private constructor
     private KnownIPController() {
         knownIp = new HashMap<>();
@@ -40,15 +42,23 @@ public class KnownIPController {
     public static KnownIPController getInstance() {
         return SingletonHolder.INSTANCE;
     }
+    
+    
+    public Inet4Address getMyInetAddress(){
+        return (Inet4Address)this.usedInterface.getAddress();
+    }
 
+    public void setUsedInterface(InterfaceAddress uif){
+        this.usedInterface = uif;
+    }
+    
     // used to put our own IP in the hashmap of IP
     public void initIpList(IDataCom iDataCom) {
-        try {
-            this.iDataCom = iDataCom;
-            knownIp.put(
-                    iDataCom.getMyPublicUserProfile().getId(),
-                    (Inet4Address) Inet4Address.getLocalHost());
-        } catch (UnknownHostException e) {}
+        this.iDataCom = iDataCom;
+        knownIp.put(
+                iDataCom.getMyPublicUserProfile().getId(),
+                getMyInetAddress());
+        
     }
 
     public String getKeyFromValue(
@@ -65,34 +75,24 @@ public class KnownIPController {
     }
 
     public HashMap<String, Inet4Address> getHashMap() {
-        try {
-            Inet4Address ourIpAddress = (Inet4Address) Inet4Address.getLocalHost();
-            HashMap<String, Inet4Address> tmphash = knownIp;
-            tmphash.remove(iDataCom.getMyPublicUserProfile().getLightPublicUser().getId());	// to avoid sending back our own Ip adress (cuz it already got it).
-            return tmphash;
-        } catch (UnknownHostException e) {
-            // No good
-            return null;
-        }
+        HashMap<String, Inet4Address> tmphash = knownIp;
+        tmphash.remove(iDataCom.getMyPublicUserProfile().getLightPublicUser().getId());	// to avoid sending back our own Ip adress (cuz it already got it).
+        return tmphash;
+
     }
 
     public HashMap<String, Inet4Address> getNewIpHashMap() {
         DiscoveryController discoCtrl = DiscoveryController.getInstance();
-        try {
-            Inet4Address ourIpAddress = (Inet4Address) Inet4Address.getLocalHost();
-            HashMap<String, Inet4Address> tmphash = knownIp;
-            tmphash.remove(iDataCom.getMyPublicUserProfile().getLightPublicUser().getId());	// to avoid sending back our own Ip adress (cuz it already got it).
-            List<Inet4Address> getIpIssuedList = discoCtrl.getGetIpIssuedList();
-            String key;
-            for (int i = 0; i < getIpIssuedList.size(); i++) {
-                key = getKeyFromValue(tmphash, getIpIssuedList.get(i));
-                tmphash.remove(key);
-            }
-            return tmphash;
-        } catch (UnknownHostException e) {
-            // No good
-            return null;
+        HashMap<String, Inet4Address> tmphash = knownIp;
+        tmphash.remove(iDataCom.getMyPublicUserProfile().getLightPublicUser().getId());	// to avoid sending back our own Ip adress (cuz it already got it).
+        List<Inet4Address> getIpIssuedList = discoCtrl.getGetIpIssuedList();
+        String key;
+        for (int i = 0; i < getIpIssuedList.size(); i++) {
+            key = getKeyFromValue(tmphash, getIpIssuedList.get(i));
+            tmphash.remove(key);
         }
+        return tmphash;
+
     }
 
     public void addNode(String id, Inet4Address ip) {
