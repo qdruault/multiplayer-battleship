@@ -14,8 +14,8 @@
         <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
     </columnConstraints>        
     <rowConstraints>
-        <RowConstraints percentHeight="35.0" vgrow="SOMETIMES" />
-        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+        <RowConstraints percentHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
         <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
         <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
         <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
@@ -24,14 +24,14 @@
         <RowConstraints percentHeight="35.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children> 
-        <Label text="BATTLESHIPS" GridPane.columnIndex="1" GridPane.rowIndex="1" />               
-        <Label text="Username" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Label id="pageTitleLabel" text="BATTLESHIPS" GridPane.columnIndex="1" GridPane.rowIndex="1" />               
+        <Label id="formLabel" text="Username" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <TextField fx:id="usernameField" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-        <Label text="Password" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <Label id="formLabel" text="Password" GridPane.columnIndex="1" GridPane.rowIndex="3" />
         <PasswordField fx:id="passwordField" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-        <Label text="Don't have an account?" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-        <Button fx:id="createButton" mnemonicParsing="false" onAction="#createUserAction" text="Create one now!" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-        <Button fx:id="exitButton" mnemonicParsing="false" onAction="#exitAction" text="Exit" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-        <Button fx:id="loginButton" mnemonicParsing="false" defaultButton="true" onAction="#loginAction" text="Login" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+        <Label text="Don't have an account yet?" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        <Button fx:id="createButton" onAction="#createUserAction" text="Create one now!" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.halignment="CENTER" maxWidth="Infinity" />
+        <Button fx:id="exitButton" onAction="#exitAction" text="Exit" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.halignment="CENTER" maxWidth="Infinity" />
+        <Button fx:id="loginButton" defaultButton="true" onAction="#loginAction" text="Login" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.halignment="CENTER" maxWidth="Infinity" />
     </children>            
 </GridPane>
