@@ -17,4 +17,7 @@ public class ComputerPlayer extends Player{
         super(LightPublicUser.generateComputerProfile());
     }
     
+    
+    
+    
 }
