@@ -5,11 +5,13 @@
  */
 package com.utclo23.data.module;
 
+import com.utclo23.battleship.GameException;
+
 /**
  *
  * @author Davy
  */
-public class DataException extends RuntimeException 
+public class DataException extends GameException 
 {
 
     public DataException(String message) {

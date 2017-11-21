@@ -12,6 +12,7 @@ package com.utclo23.data.structure;
 public class Mine extends Event {
     private Player owner;
     private Coordinate coord;
+    private MineResult result;
     
     /**
      * constructor
@@ -22,7 +23,15 @@ public class Mine extends Event {
     {
         this.owner = owner;
         this.coord = coord;
-        
+        this.result = MineResult.UNKNOWN;        
+    }
+
+    public MineResult getResult() {
+        return result;
+    }
+
+    public void setResult(MineResult result) {
+        this.result = result;
     }
 
     /**

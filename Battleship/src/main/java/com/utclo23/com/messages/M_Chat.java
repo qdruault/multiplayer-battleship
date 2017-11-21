@@ -5,6 +5,7 @@
  */
 package com.utclo23.com.messages;
 import com.utclo23.data.facade.IDataCom;
+import com.utclo23.data.structure.PublicUser;
 import java.util.Date;
 /**
  *
@@ -14,7 +15,8 @@ public class M_Chat extends Message {
     private com.utclo23.data.structure.Message message;
     private Date timeStamp; 
     
-    public M_Chat(com.utclo23.data.structure.Message m, Date t){
+    public M_Chat(PublicUser user, com.utclo23.data.structure.Message m, Date t){
+        super(user);
         message = m;
         timeStamp = t;
     }

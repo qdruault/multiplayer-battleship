@@ -5,12 +5,16 @@
  */
 package com.utclo23.com;
 
+import com.utclo23.com.messages.M_Connexion;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import com.utclo23.com.messages.Message;
+import com.utclo23.data.structure.PublicUser;
+import java.net.Inet4Address;
+import java.net.InetSocketAddress;
 
 /**
  *
@@ -23,26 +27,28 @@ public class Sender implements Runnable {
     String ip;
     Message request;
     ObjectOutputStream out;
-    ObjectInputStream in;
+    //ObjectInputStream in;
 
     public Sender(String ip, int port, Message request) {
-        ip = ip;
-        port = port;
-        request = request;
+        this.ip = ip;
+        this.port = port;
+        this.request = request;
     }
 
+    @Override
     public void run() {
         try {
-            socket = new Socket(ip, port);
+            KnownIPController kIpCtrl = KnownIPController.getInstance();
+            socket = new Socket();
+            socket.setSoTimeout(2000);
+            socket.connect(new InetSocketAddress(ip, port), 2000);
             out = new ObjectOutputStream(socket.getOutputStream());
-            in = new ObjectInputStream(socket.getInputStream());
-
+            //in = new ObjectInputStream(socket.getInputStream());
+            request.setIpSender(kIpCtrl.getMyInetAddress());
             out.writeObject(request);
-
-            in.close();
+            //in.close();
             out.close();
             socket.close();
-
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {

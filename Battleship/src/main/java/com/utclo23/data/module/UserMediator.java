@@ -6,21 +6,35 @@ import com.utclo23.com.ComFacade;
 import com.utclo23.data.configuration.Configuration;
 import com.utclo23.data.facade.DataFacade;
 import com.utclo23.data.structure.*;
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import java.rmi.server.UID;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
+
+import java.net.Inet4Address;
 
 /**
  * User mediator related to user features
@@ -102,21 +116,42 @@ public class UserMediator {
      * extract bytes from a file
      *
      * @param imageName
-     * @return
-     * @throws DataException
+     * @return Byte array
+     * @throws IOException
      */
     private byte[] extractBytes(String imageName) throws DataException {
-        try { // open image
-            File imgPath = new File(imageName);
-            BufferedImage bufferedImage = ImageIO.read(imgPath);
+        String format = "jpg"; //jpg by default
+        byte[] imageInByte = null;
 
-            // get DataBufferBytes from Raster
-            WritableRaster raster = bufferedImage.getRaster();
-            DataBufferByte data = (DataBufferByte) raster.getDataBuffer();
-            return (data.getData());
-        } catch (Exception e) {
-            throw new DataException("Data : error in image process");
+        // open image
+        File imgPath = new File(imageName);
+        BufferedImage bufferedImage;
+        try {
+            bufferedImage = ImageIO.read(imgPath);
+
+            //Get image format
+            ImageInputStream iis = ImageIO.createImageInputStream(imgPath);
+
+            Iterator<ImageReader> imageReaders = ImageIO.getImageReaders(iis);
+
+            while (imageReaders.hasNext()) {
+                ImageReader reader = (ImageReader) imageReaders.next();
+                format = reader.getFormatName();
+            }
+
+            //Get the array of bytes
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, format, baos);
+            imageInByte = baos.toByteArray();
+
+            //BufferedImage imgbck = ImageIO.read(new ByteArrayInputStream(imageInByte));
+            //File outputfile = new File("D:\\Fabien Boucaud\\Pictures\\markertest.PNG");
+            //ImageIO.write(imgbck, format, outputfile);
+        } catch (IOException ex) {
+            Logger.getLogger(UserMediator.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        return imageInByte;
     }
 
     /**
@@ -129,7 +164,6 @@ public class UserMediator {
         if (this.owner != null) {
             publicUser = this.owner.getUserIdentity();
         }
-
         return publicUser;
     }
 
@@ -155,8 +189,8 @@ public class UserMediator {
         String path = Configuration.SAVE_DIR + File.separator + playerName + ".json";
 
         //all uppercase
-        playerName = playerName.toUpperCase();
-        password = password.toUpperCase();
+        //playerName = playerName.toUpperCase();
+        // password = password.toUpperCase();
         firstName = firstName.toUpperCase();
         lastName = lastName.toUpperCase();
 
@@ -170,7 +204,7 @@ public class UserMediator {
             //create user 
             String id = new UID().toString();
             LightPublicUser lightPublicUser = new LightPublicUser(id, playerName);
-            //TODO thumbnail
+
             PublicUser publicUser = new PublicUser(lightPublicUser, lastName, firstName, birthDate);
 
             //for unit test
@@ -182,6 +216,7 @@ public class UserMediator {
                 }
 
                 publicUser.setAvatar(this.extractBytes(fileImage));
+                publicUser.getLightPublicUser().setAvatarThumbnail(this.createThumbnail(fileImage));
             }
 
             this.owner = new Owner();
@@ -213,7 +248,7 @@ public class UserMediator {
                 throw new DataException("Data : error due to empty playername or password");
             }
 
-            password = password.toUpperCase();
+            //password = password.toUpperCase();
             firstName = firstName.toUpperCase();
             lastName = lastName.toUpperCase();
 
@@ -223,8 +258,10 @@ public class UserMediator {
                     throw new DataException("Data : error due to empty image");
                 }
                 this.owner.getUserIdentity().setAvatar(this.extractBytes(fileImage));
+                this.owner.getUserIdentity().getLightPublicUser().setAvatarThumbnail(this.createThumbnail(fileImage));
+
             }
-            //TODO update thumbnail
+
             this.owner.getUserIdentity().setBirthDate(birthDate);
             this.owner.getUserIdentity().setFirstName(firstName);
             this.owner.getUserIdentity().setLastName(lastName);
@@ -273,9 +310,8 @@ public class UserMediator {
     public void signIn(String username, String password) throws DataException {
 
         //uppercase
-        username = username.toUpperCase();
-        password = password.toUpperCase();
-
+        //username = username.toUpperCase();
+        //password = password.toUpperCase();
         //already connected
         if (this.owner != null) {
             throw new DataException("Data : already connected"); //throw related error
@@ -311,6 +347,19 @@ public class UserMediator {
             if (comFacade != null) {
                 if (this.owner != null) {
                     comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+
+                    Inet4Address ip;
+
+                    List<Inet4Address> listIpTarget = new ArrayList<>();
+                    for (String ipString : owner.getDiscoveryNodes()) {
+                        try {
+                            ip = (Inet4Address) Inet4Address.getByName(ipString);
+                            listIpTarget.add(ip);
+                        } catch (Exception e) {
+                            throw new DataException("Data : IP not valid");
+                        }
+                    }
+                    comFacade.sendDiscovery(owner.getUserIdentity(), listIpTarget);
                 }
             }
 
@@ -320,7 +369,7 @@ public class UserMediator {
     /**
      * disconnection
      */
-    public void singOut() throws DataException {
+    public void signOut() throws DataException {
         if (this.owner != null) {
 
             this.save(); //Save the file
@@ -386,6 +435,131 @@ public class UserMediator {
             this.mapConnectedUser.remove(usr.getId());
         } else {
             throw new RuntimeException("There is no such user to remove form the list of connected users.");
+        }
+    }
+
+    /**
+     * get the discovery nodes
+     *
+     * @return
+     */
+    public List<String> getIPDiscovery() {
+        return this.owner.getDiscoveryNodes();
+    }
+
+    /**
+     * Resize the avatar to get a thumbnail
+     *
+     * @param ImageName
+     * @return Bytes array of the thumbnail
+     * @throws IOException
+     */
+    private byte[] createThumbnail(String ImageName) throws DataException {
+        try {
+            String format = "jpg"; //jpg by default
+            int thumbnailWidth = 100;
+            File imgPath = new File(ImageName);
+            BufferedImage originalBufferedImage = ImageIO.read(imgPath);
+
+            //Get image format
+            ImageInputStream iis = ImageIO.createImageInputStream(imgPath);
+
+            Iterator<ImageReader> imageReaders = ImageIO.getImageReaders(iis);
+
+            while (imageReaders.hasNext()) {
+                ImageReader reader = (ImageReader) imageReaders.next();
+                format = reader.getFormatName();
+            }
+
+            //Resize the image and calculate the scaling depending on width and height
+            int widthToScale, heightToScale;
+            if (originalBufferedImage.getWidth() > originalBufferedImage.getHeight()) {
+
+                heightToScale = (int) (1.1 * thumbnailWidth);
+                widthToScale = (int) ((heightToScale * 1.0) / originalBufferedImage.getHeight()
+                        * originalBufferedImage.getWidth());
+
+            } else {
+                widthToScale = (int) (1.1 * thumbnailWidth);
+                heightToScale = (int) ((widthToScale * 1.0) / originalBufferedImage.getWidth()
+                        * originalBufferedImage.getHeight());
+            }
+
+            BufferedImage resizedImage = new BufferedImage(widthToScale,
+                    heightToScale, originalBufferedImage.getType());
+            Graphics2D g = resizedImage.createGraphics();
+
+            //Interpolation to avoid loss in quality
+            g.setComposite(AlphaComposite.Src);
+            g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            g.drawImage(originalBufferedImage, 0, 0, widthToScale, heightToScale, null);
+            g.dispose();
+
+            int x = (resizedImage.getWidth() - thumbnailWidth) / 2;
+            int y = (resizedImage.getHeight() - thumbnailWidth) / 2;
+
+            if (x < 0 || y < 0) {
+                throw new IllegalArgumentException("Width of new thumbnail is bigger than original image");
+            }
+
+            //Get the array of bytes of the image (serialization)
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(resizedImage, format, baos);
+            byte[] imageInByte = baos.toByteArray();
+
+            //BufferedImage imgbck = ImageIO.read(new ByteArrayInputStream(imageInByte));
+            //File outputfile = new File("D:\\Fabien Boucaud\\Pictures\\markerthumbnail.PNG");
+            //ImageIO.write(imgbck, format, outputfile);
+            return (imageInByte);
+        } catch (Exception e) {
+            throw new DataException("Error while trying to resize the thumbnail:" + e.getMessage());
+        }
+    }
+
+    /**
+     * set the discovery nodes
+     *
+     * @param discoveryNodes
+     * @throws com.utclo23.data.module.DataException
+     */
+    public void setIPDiscovery(List<String> discoveryNodes) throws DataException {
+        try {
+            if (this.owner != null) {
+                this.owner.setDiscoveryNodes(discoveryNodes);
+                save();
+
+                // Create the Inet4Address list
+                List<Inet4Address> ips = new ArrayList<Inet4Address>();
+                for (String stringIp : discoveryNodes) {
+
+                    Inet4Address inetIp = (Inet4Address) InetAddress.getByName(stringIp);
+                    ips.add(inetIp);
+                }
+                if (!this.dataFacade.isTestMode() && this.getDataFacade().getComfacade() != null) {
+                    this.getDataFacade().getComfacade().sendDiscovery(this.owner.getUserIdentity(), ips);
+                }
+            } else {
+ 
+                throw new DataException("Data : error in setting discovery nodes");
+            }
+        } catch (Exception e) {
+            
+            throw new DataException("Data : error in setting discovery nodes");
+        }
+
+    }
+
+    public void saveGame(Game game) throws DataException {
+        if (this.owner != null) {
+            game.prepareToBeSaved();
+            owner.getSavedGamesList().add(game);
+
+            //Save 
+            this.save();
+
         }
     }
 }

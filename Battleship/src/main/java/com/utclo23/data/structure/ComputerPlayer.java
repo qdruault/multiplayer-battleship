@@ -13,8 +13,8 @@ import java.rmi.server.UID;
  */
 public class ComputerPlayer extends Player{
     
-    public ComputerPlayer(String id, String playerName) {
-        super(id, playerName);
+    public ComputerPlayer() {
+        super(LightPublicUser.generateComputerProfile());
     }
     
 }
