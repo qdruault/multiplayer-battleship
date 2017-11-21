@@ -60,11 +60,18 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
     private IHMMainToIhmTable facadeIHMMain;
 
     /**
+     * True if the 2 players are ready.
+     * /!\ Reset to false when the game ends.
+     */
+    private boolean gameReady;
+
+    /**
      * Constructor
      * @param iDataIHMtable Interface Data IHMTable
      */
     public IHMTableFacade(IDataIHMTable iDataIHMtable) {
         this.facadeData = iDataIHMtable;
+        this.gameReady = false;
     }
 
     /**
@@ -132,7 +139,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void notifyGameReady() {
-        throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
+        this.gameReady = true;
     }
 
     /**
@@ -177,6 +184,20 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
     @Override
     public void connectionLostWithOpponent() {
         throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
+    }
+
+    /**
+     * @return the gameReady
+     */
+    public boolean isGameReady() {
+        return gameReady;
+    }
+
+    /**
+     * @param gameReady the gameReady to set
+     */
+    public void setGameReady(boolean gameReady) {
+        this.gameReady = gameReady;
     }
 
 }
