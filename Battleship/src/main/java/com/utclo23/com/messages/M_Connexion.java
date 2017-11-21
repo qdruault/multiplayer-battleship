@@ -7,10 +7,11 @@ package com.utclo23.com.messages;
 import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.PublicUser;
 /**
- *
- * @author thibault
+ * M_Connexion is a Message generated when user connects, sent to all connected user.
+ * @author Thibault Chiche
  */
 public class M_Connexion extends Message{
+    
     
     public M_Connexion(PublicUser user){
         super(user);
