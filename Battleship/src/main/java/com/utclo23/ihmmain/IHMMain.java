@@ -71,6 +71,10 @@ public class IHMMain {
         toScene(SceneName.IpList);
     }
     
+    public void toCreateGame() throws IOException{
+        toScene(SceneName.CreateGame);
+    }
+    
     /**
      * use this carefully,  it throws a IOException if scene no found!
      * @param scenename

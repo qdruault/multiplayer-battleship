@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.CreateGameController">
+   <children>
+      <Button layoutX="129.0" layoutY="302.0" mnemonicParsing="false" onAction="#validateCreateGame" text="Create" />
+      <Button layoutX="411.0" layoutY="302.0" mnemonicParsing="false" onAction="#back" text="Return" />
+      <Label alignment="CENTER_RIGHT" layoutX="131.0" layoutY="72.0" text="Mode" />
+      <Label alignment="CENTER_RIGHT" layoutX="129.0" layoutY="124.0" text="Enemy" />
+      <TextField fx:id="gameNameField" layoutX="250.0" layoutY="175.0" prefHeight="25.0" prefWidth="166.0" />
+      <Label alignment="CENTER_RIGHT" layoutX="131.0" layoutY="179.0" text="Name" />
+      <CheckBox fx:id="radioButtonAudience" layoutX="173.0" layoutY="242.0" mnemonicParsing="false" text="Audience" />
+      <CheckBox fx:id="radioButtonChat" layoutX="363.0" layoutY="242.0" mnemonicParsing="false" text="Chat" />
+      <Label layoutX="262.0" layoutY="14.0" text="Create a game" textAlignment="CENTER" />
+      <RadioButton fx:id="radioButtonClassical" alignment="CENTER_RIGHT" layoutX="250.0" layoutY="72.0" mnemonicParsing="false" text="Classical" />
+      <RadioButton fx:id="radioButtonBelge" alignment="CENTER_RIGHT" layoutX="364.0" layoutY="72.0" mnemonicParsing="false" text="Belge" />
+      <RadioButton fx:id="radioButtonComputer" alignment="CENTER_RIGHT" layoutX="250.0" layoutY="125.0" mnemonicParsing="false" text="Computer" />
+      <RadioButton fx:id="radioButtonPlayer" alignment="CENTER_RIGHT" layoutX="363.0" layoutY="125.0" mnemonicParsing="false" text="Player" />
+   </children>
+</Pane>
