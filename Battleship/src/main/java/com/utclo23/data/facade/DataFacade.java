@@ -27,6 +27,7 @@ import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.ihmtable.IIHMTableToData;
 
 import java.io.File;
+import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 
 
@@ -524,7 +525,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     @Override
-    public void setNetworkInterface(NetworkInterface net_interface) {
+    public void setNetworkInterface(InterfaceAddress net_interface) {
         
         if(this.getComfacade()!=null)
         {
