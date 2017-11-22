@@ -9,6 +9,7 @@ import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.ShipType;
+import com.utclo23.ihmtable.structure.InGameStats;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +32,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.paint.Color;
@@ -70,6 +72,7 @@ public class InGameGUIController {
     // Boards.
     @FXML
     private GridPane opponentGrid;
+
     @FXML
     private GridPane playerGrid;
     
@@ -100,6 +103,24 @@ public class InGameGUIController {
     String labelTime = "";
 
 
+    @FXML
+    private Text labelDeadShipCounter1;
+
+    @FXML
+    private Text labelDeadShipCounter2;
+
+    @FXML
+    private Text labelImpactCounter1;
+    
+    @FXML
+    private Text labelImpactCounter2;
+    
+    @FXML
+    private Text labelMineTotalCounter1;
+    
+    @FXML
+    private Text labelMineTotalCounter2;
+    
     /**
      * The cell chosen to attack;
      */
@@ -169,6 +190,16 @@ public class InGameGUIController {
      * Number of turns where the player didn't play.
      */
     private int nbPassedTurns;
+    
+    /**
+     * Current player's stats
+     */
+    private InGameStats currentPlayerStats;
+
+    /**
+     * Opponent's stats
+     */
+    private InGameStats opponentStats;
     
     /**
      * Set the IHM Table facade.
@@ -310,9 +341,16 @@ public class InGameGUIController {
 
         // Start chrono.
         chronoTimeInit();
-        
+
         // Init the number of turns passed.
         nbPassedTurns = 0;
+        
+        // Init current player's stats of the match
+        currentPlayerStats = new InGameStats();
+        // Init opponent's stats of the match
+        opponentStats = new InGameStats();
+        // Init pannel with values
+        updateStatsPannel();
     }
     
     /**
@@ -377,6 +415,20 @@ public class InGameGUIController {
             //Pour une raison obscure, les types apparaissent par moments en francais quand un merge est fait avec DATA
             System.out.println("The shipType key isn't found in the map");
         }
+        buttonImage1.setOnMouseClicked(new SelectShipEvent(ShipType.CARRIER));
+        buttonImage2.setOnMouseClicked(new SelectShipEvent(ShipType.CRUISER));
+    }
+
+    /**
+     * Update stats of the current player and the opponent in the bottom left pannel
+     */
+    void updateStatsPannel() {
+        labelDeadShipCounter1.setText(currentPlayerStats.getDeadShipCounter());
+        labelImpactCounter1.setText(currentPlayerStats.getImpactCounter());
+        labelMineTotalCounter1.setText(currentPlayerStats.getMineTotalCounter());
+        labelDeadShipCounter2.setText(opponentStats.getDeadShipCounter());
+        labelImpactCounter2.setText(opponentStats.getImpactCounter());
+        labelMineTotalCounter2.setText(opponentStats.getMineTotalCounter());
     }
     
     /**
