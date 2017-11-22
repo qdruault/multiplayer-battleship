@@ -13,30 +13,51 @@ public enum SceneName {
     /**
      * name of login scene
      */
-    Login,
+    LOGIN("Login"),
     /**
      * name of create user scene
      */
-    CreateUser,
+    CREATE_USER("CreateUser"),
     /**
      * name of menu scene
      */
-    Menu,
+    MENU("Menu"),
     /**
      * name of player list scene
      */
-    PlayerList,
+    PLAYER_LIST("PlayerList"),
     /**
      * name of player profile scene
      */
-    PlayerProfile,
+    PLAYER_PROFILE("PlayerProfile"),
     /**
      * name of list of ip scene
      */
-    IpList,
+    IP_LIST("IpList"),
+    /**
+
+     * name of create game scene
+     */
+    CREATE_GAME("CreateGame"),
+
+     /* name of play a game scene
+     */
+    GAME_LIST("GameList"),
+    
     /**
      * name of the network interface choice scene
      */
-    NetworkInterface
+    NETWORK_INTERFACE("NetworkInterface");
+
+
     
+    private String name;
+    SceneName(String name){
+        this.name = name;
+    }
+    
+    @Override
+    public String toString(){
+        return name;
+    }
 }

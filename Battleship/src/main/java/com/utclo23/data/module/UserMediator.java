@@ -273,8 +273,8 @@ public class UserMediator {
             ComFacade comFacade = this.dataFacade.getComfacade();
             if (comFacade != null) {
                 if (this.owner != null) {
-                    comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
-                    comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+                    comFacade.notifyUserSignedOut();
+                    comFacade.notifyUserSignedIn();
                 }
             }
 
@@ -346,7 +346,7 @@ public class UserMediator {
             ComFacade comFacade = this.dataFacade.getComfacade();
             if (comFacade != null) {
                 if (this.owner != null) {
-                    comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+                    comFacade.notifyUserSignedIn();
 
                     Inet4Address ip;
 
@@ -359,7 +359,7 @@ public class UserMediator {
                             throw new DataException("Data : IP not valid");
                         }
                     }
-                    comFacade.sendDiscovery(owner.getUserIdentity(), listIpTarget);
+                    comFacade.sendDiscovery(listIpTarget);
                 }
             }
 
@@ -378,7 +378,7 @@ public class UserMediator {
             ComFacade comFacade = this.dataFacade.getComfacade();
             if (comFacade != null) {
                 if (this.owner != null) {
-                    comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
+                    comFacade.notifyUserSignedOut();
                 }
             }
 
@@ -535,7 +535,7 @@ public class UserMediator {
                     ips.add(inetIp);
                 }
                 if (!this.dataFacade.isTestMode() && this.getDataFacade().getComfacade() != null) {
-                    this.getDataFacade().getComfacade().sendDiscovery(this.owner.getUserIdentity(), ips);
+                    this.getDataFacade().getComfacade().sendDiscovery(ips);
                 }
             } else {
  

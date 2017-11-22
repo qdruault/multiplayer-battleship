@@ -38,4 +38,3 @@ public interface IDataIHMMain {
      public void setNetworkInterface(InterfaceAddress net_interface) ;
 
 }
-
