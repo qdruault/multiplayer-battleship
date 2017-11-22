@@ -37,6 +37,8 @@ public class IpListController extends AbstractController{
     public void initialize(){
         TableColumn ipColumn = new TableColumn("IP");
         ipColumn.setCellValueFactory(new PropertyValueFactory<ObservableIp, String>("ipAdress"));
+        ipColumn.getStyleClass().add("cell-center");
+        ipColumn.getStyleClass().add("label");
         
         ipList.getColumns().addAll(ipColumn);
                
@@ -70,6 +72,7 @@ public class IpListController extends AbstractController{
         } catch (DataException ex) {
             Logger.getLogger(IpListController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
+            ipAdressField.setText("");
             ihmmain.toMenu();
         }
     }
@@ -106,6 +109,8 @@ public class IpListController extends AbstractController{
                 // remove an ip adress
                 data.remove(index);
             }
+            
+            ipAdressField.setText("");
 
             // Update the list in the GUI
             ipList.setItems(data);
