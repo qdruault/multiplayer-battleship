@@ -31,7 +31,7 @@
             <Button fx:id="returnButton" mnemonicParsing="false" onAction="#returnMenu" text="RETURN" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
-      <TableView fx:id="listPlayers" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+      <TableView fx:id="listPlayers" onMouseClicked="#clickItem" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
         <!--<columns>
           <TableColumn prefWidth="75.0" text="NAME" />
           <TableColumn prefWidth="75.0" text="NATIONALITY" />

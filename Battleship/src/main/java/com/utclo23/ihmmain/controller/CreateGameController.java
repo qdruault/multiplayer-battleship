@@ -5,7 +5,11 @@
  */
 package com.utclo23.ihmmain.controller;
 
+<<<<<<< HEAD
 import com.utclo23.data.module.DataException;
+=======
+import com.utclo23.data.structure.GameType;
+>>>>>>> 362f70dc37a6c4762f3ebd735f80940ebaf976c5
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -80,10 +84,10 @@ public class CreateGameController extends AbstractController{
             String enemys = ((RadioButton) enemy.getSelectedToggle()).getText();
             boolean chats = radioButtonChat.isSelected();
             boolean audiences = radioButtonAudience.isSelected();
-            /*try{
-                facade.iDataIHMMain.createGame(names, audiences, chats, modes, enemys);
+            //try{
+                facade.iDataIHMMain.createGame(names, true, audiences, chats, GameType.CLASSIC);
                 msg.showMessageDialog(null, "Game created", "Information", JOptionPane.INFORMATION_MESSAGE);
-            }catch (DataException e){
+            /*}catch (DataException e){
                 showErrorPopup(
                     "Game not created.");
             }*/

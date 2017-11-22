@@ -5,6 +5,7 @@
  */
 package com.utclo23.data.structure;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,13 +15,23 @@ import java.util.List;
 public class Ship extends SerializableEntity{
     private ShipType type;
     private Player owner;
+    private int size;
     private List<Coordinate> listCoord;
+    
 
-    public Ship(ShipType type, Player owner, List<Coordinate> listCoord) {
+    public Ship(ShipType type, Player owner, List<Coordinate> listCoord, int size) {
         this.type = type;
         this.owner = owner;
         this.listCoord = listCoord;
-    }    
+        this.size = size;
+    }   
+    
+     public Ship(ShipType type, int size) {
+        this.type = type;
+        this.size = size;
+        this.owner = null;
+        this.listCoord = new ArrayList<>();
+    }   
     
     public ShipType getType() {
         return type;
@@ -45,6 +56,15 @@ public class Ship extends SerializableEntity{
     public void setListCoord(List<Coordinate> listCoord) {
         this.listCoord = listCoord;
     }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+    
     
     
 }

@@ -11,10 +11,9 @@ import com.utclo23.data.structure.PublicUser;
  * @author thibault
  */
 public class M_Connexion extends Message{
-    public PublicUser user;
     
-    public M_Connexion(PublicUser u){
-        user = u;
+    public M_Connexion(PublicUser user){
+        super(user);
     }
     
     @Override

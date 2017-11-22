@@ -6,9 +6,11 @@
 package com.utclo23.data.structure;
 
 /**
- * Enum that shows different types of game
- * @author lucillefargeau
+ *
+ * @author Davy
  */
-public enum GameType {
-    CLASSIC, BELGIAN
+public enum MineResult {
+   
+    SUCCESS, FAILURE, UNKNOWN
+    
 }

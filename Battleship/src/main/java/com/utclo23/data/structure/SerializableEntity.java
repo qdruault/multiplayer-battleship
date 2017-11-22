@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import java.io.Serializable;
 
 /**
  * Class that allows serialization by Jackson (Json)
@@ -18,7 +19,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 include = JsonTypeInfo.As.EXISTING_PROPERTY,
 property = "className")
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property="@obj-id")
-public abstract class SerializableEntity {
+public abstract class SerializableEntity implements Serializable {
     
     /**
      * get a string that contains the class name (useful for jackson when we need to restore an object from a json file)

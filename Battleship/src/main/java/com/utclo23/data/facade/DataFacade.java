@@ -13,6 +13,7 @@ import com.utclo23.data.module.UserMediator;
 import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.Event;
 import com.utclo23.data.structure.Game;
+import com.utclo23.data.structure.GameType;
 import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.data.structure.Message;
 import com.utclo23.data.structure.Mine;
@@ -22,11 +23,11 @@ import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.ihmmain.facade.IHMMainFacade;
 
-import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.ihmtable.IIHMTableToData;
 
 import java.io.File;
-import java.net.UnknownHostException;
+import java.net.InterfaceAddress;
+
 
 import java.util.List;
 import java.util.Date;
@@ -118,7 +119,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
 
     
-    // TODO: implement that
+   
     public void setFacadeLinks(
             ComFacade comFacade,
             IIHMTableToData ihmTableToData,
@@ -153,17 +154,16 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void addNewGame(StatGame game) {
-        try {
+      
             this.gameMediator.addNewGame(game);
-        } catch (RuntimeException e) {
-            Logger.getLogger(DataFacade.class.getName()).log(Level.WARNING, e.getMessage());
-        }
+     
     }
 
     /**
      * Set the ennemy ships
      * @param ships the ships to set as a list
     */
+
     @Override
     public void setEnnemyShips(List<Ship> ships) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -202,11 +202,9 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void addConnectedUser(LightPublicUser user) {
-        try {
+     
             this.userMediator.addConnectedUser(user);
-        } catch (RuntimeException e) {
-            Logger.getLogger(DataFacade.class.getName()).log(Level.WARNING, e.getMessage());
-        }
+        
     }
 
     /**
@@ -237,11 +235,9 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @return my owner profile
      */
     public Owner getMyOwnerProfile() {
-        try {
+        
             return this.userMediator.getMyOwnerProfile();
-        } catch (Exception e) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
+       
     }
 
     /**
@@ -275,8 +271,15 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
      */
     @Override
-    public List<Ship> getShips() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Ship> getTemplateShips() throws DataException{
+        if(this.gameMediator.getCurrentGame()!=null)
+        {
+            return this.gameMediator.getCurrentGame().getTemplateShips();
+        }
+        else
+        {
+            throw new DataException("Data : no current game");
+        }
     }
 
     /**
@@ -286,7 +289,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
      */
     @Override
-    public void setShip(Ship ship) {
+    public void setShip(Ship ship) throws DataException{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -402,8 +405,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
      */
     @Override
-    public PublicUser getPublicUserProfile(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void askPublicUserProfile(String id) {
+        this.comfacade.getPublicUserProfile(id);
     }
 
 
@@ -426,16 +429,18 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @param spectatorChat are spectators allowed to chat or not
      * @param type type of the game created
      */
-    @Override
-    public void createGame(String name, boolean spectator, boolean spectatorChat, String type) {
+    @Override     
+    public Game createGame(String name, boolean computerMode, boolean spectator, boolean spectatorChat, GameType type) {
      
-        this.gameMediator.createGame(name, spectator, spectatorChat, type);
+        return this.createGame(name, computerMode, spectator, spectatorChat, type);
         
     }
 
     
     
     
+
+
 
     /**
      * Sign in the application
@@ -491,10 +496,25 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void setIPDiscovery(List<String> discoveryNodes) throws DataException {
-        try {
             this.userMediator.setIPDiscovery(discoveryNodes);
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    
+    public void receivePublicUserProfile(PublicUser profile) {
+        //this.ihmMainFacade.receivePublicUserProfile(profile);
+    }
+
+    @Override
+    public void gameConnectionRequestGame(String id, String role) {
+        
+        this.gameMediator.gameConnectionRequestGame(id, role);
+    }
+
+    @Override
+    public void setNetworkInterface(InterfaceAddress net_interface) {
+        
+        if(this.getComfacade()!=null)
+        {
+            this.getComfacade().setUsedInterface(net_interface);
         }
     }
 }

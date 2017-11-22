@@ -5,6 +5,7 @@
  */
 package com.utclo23.com.messages;
 import com.utclo23.data.facade.IDataCom;
+import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.Ship;
 import java.util.List;
 /**
@@ -14,7 +15,8 @@ import java.util.List;
 public class M_PlaceShip extends Message {
     private List<Ship> ships;
     
-    public M_PlaceShip(List<Ship> s){
+    public M_PlaceShip(PublicUser user, List<Ship> s){
+        super(user);
         ships = s;
     }
     @Override

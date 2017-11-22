@@ -156,15 +156,7 @@ public class GameListController extends AbstractController{
                 e.printStackTrace();
             }
             if(gameList == null || newGameList.size() == 0){//if getGameList() is not implemented or not working as excepted
-                System.out.println("iDataIHMMain.getGameList() is not working well or not implemented");
-                System.out.println("So i am displaying a fake game list");
-                
                 newGameList = new ArrayList<StatGame>();
-                List<Player> fakePlayers = new ArrayList<Player>();
-                LightPublicUser fakeWinner = facade.iDataIHMMain.getMyPublicUserProfile().getLightPublicUser();
-                Game fakeGame = null;
-                StatGame fake = new StatGame(GameType.CLASSIQUE, "fake", fakePlayers, true, true, fakeWinner, fakeWinner, fakeGame, false);
-                newGameList.add(fake);
             }
             ObservableList<StatGame> data = FXCollections.observableArrayList(newGameList);
             // Update the list in the GUI

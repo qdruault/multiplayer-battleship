@@ -7,6 +7,7 @@ package com.utclo23.ihmmain;
 
 import com.utclo23.ihmmain.constants.SceneName;
 import com.utclo23.ihmmain.controller.AbstractController;
+import com.utclo23.ihmmain.controller.PlayerProfileController;
 import com.utclo23.ihmmain.facade.IHMMainFacade;
 import java.io.IOException;
 import java.util.HashMap;
@@ -43,8 +44,12 @@ public class IHMMain {
             sceneMap.put(scenenameString,scene);
         }
         
-        toLogin();
+        toNetworkInterfaceChoice();
         stage.show();
+    }
+    
+    public void toNetworkInterfaceChoice() throws IOException{
+        toScene(SceneName.NETWORK_INTERFACE);
     }
     
     public void toLogin() throws IOException{
@@ -57,6 +62,14 @@ public class IHMMain {
     
     public void toPlayerProfile() throws IOException{
         toScene(SceneName.PLAYER_PROFILE);
+
+    }
+    
+    public void toOthersPlayerProfile() throws IOException{
+        PlayerProfileController controller;   
+        controller = (PlayerProfileController) controllerMap.get(SceneName.PLAYER_PROFILE.toString());
+        controller.loading();
+        //toScene(SceneName.PLAYER_PROFILE);
     }
     
     public void toPlayerList() throws IOException{
@@ -78,7 +91,6 @@ public class IHMMain {
 
     public void toGameList() throws IOException{
         toScene(SceneName.GAME_LIST);
-
     }
     
     /**
