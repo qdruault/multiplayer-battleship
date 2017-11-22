@@ -16,12 +16,9 @@ import com.utclo23.ihmtable.controller.InGameGUIController;
 import java.io.IOException;
 
 import java.rmi.server.UID;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -66,14 +63,19 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      * /!\ Reset to false when the game ends.
      */
     private boolean gameReady;
+    
+    /**
+     * The controller of the main scene.
+     */
+    private InGameGUIController controller;
 
     /**
      * Constructor
      * @param iDataIHMtable Interface Data IHMTable
      */
     public IHMTableFacade(IDataIHMTable iDataIHMtable) {
-        this.facadeData = iDataIHMtable;
-        this.gameReady = false;
+        facadeData = iDataIHMtable;
+        gameReady = false;
     }
 
     /**
@@ -81,7 +83,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      * @param iHMMainTOIhmTable : interface of the facade of ihm main for ihm table.
      */
     public void setIhmMainLink(IHMMainToIhmTable iHMMainTOIhmTable) {
-        this.facadeIHMMain = iHMMainTOIhmTable;
+        facadeIHMMain = iHMMainTOIhmTable;
     }
 
     /**
@@ -107,7 +109,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
         FXMLLoader paneLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
         Parent pane;
         try {
-            InGameGUIController controller = new InGameGUIController();
+            controller = new InGameGUIController();
             controller.setFacade(this);
             paneLoader.setController(controller);
             pane = paneLoader.load();
@@ -171,7 +173,9 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void notifyGameReady() {
-        this.gameReady = true;
+        gameReady = true;
+        // Notify the controller the game has started.
+        controller.startGame();
     }
 
     /**
@@ -228,8 +232,8 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
     /**
      * @param gameReady the gameReady to set
      */
-    public void setGameReady(boolean gameReady) {
-        this.gameReady = gameReady;
+    public void setGameReady(boolean pGameReady) {
+        gameReady = pGameReady;
     }
 
 }

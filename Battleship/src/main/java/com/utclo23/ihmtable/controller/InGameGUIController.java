@@ -67,6 +67,16 @@ public class InGameGUIController {
     private GridPane opponentGrid;
     @FXML
     private GridPane playerGrid;
+    
+    /**
+     * List of all the panes of the grid.
+     */
+    private List<Pane> playerPanes;
+    
+    /**
+     * List of all the panes of the grid.
+     */
+    private List<Pane> opponentPanes;
 
     @FXML
     private Label chronoLabel;
@@ -134,6 +144,11 @@ public class InGameGUIController {
      * The player ships.
      */
     private List<Ship> ships;
+    
+    /**
+     * True if the two players are ready to play.
+     */
+    private boolean gameStarted;
 
     /**
      * Set the IHM Table facade.
@@ -170,11 +185,14 @@ public class InGameGUIController {
     @FXML
     public void initialize() {
         // Fill in the opponent grid.
+        opponentPanes = new ArrayList<>();
         for (int col = 0; col < opponentGrid.getColumnConstraints().size(); col++) {
             for (int row = 0; row < opponentGrid.getRowConstraints().size(); row++) {
                 // Create an empty pane.
                 Pane pane = new Pane();
 
+                // Add it to the list to store it.
+                opponentPanes.add(pane);
                 // Add a onClick event on it.
                 pane.setOnMouseClicked(new AttackEvent(row, col));
                 opponentGrid.add(pane, col, row);
@@ -182,13 +200,16 @@ public class InGameGUIController {
         }
 
         // Fill in the player grid.
+        playerPanes = new ArrayList<>();
         for (int col = 0; col < playerGrid.getColumnConstraints().size(); col++) {
             for (int row = 0; row < playerGrid.getRowConstraints().size(); row++) {
                 // Create an empty pane.
                 Pane pane = new Pane();
 
+                // Add it to the list to store it.
+                playerPanes.add(pane);
                 // Add a CSS class to handle the hover effect.
-                pane.getStyleClass().add("inGameGUI_player_cell");
+                pane.getStyleClass().add("inGameGUI_hover_cell");
                 // Add the click event on it.
                 pane.setOnMouseClicked(new ChooseCellEvent(row, col));
                 playerGrid.add(pane, col, row);
@@ -214,6 +235,23 @@ public class InGameGUIController {
         // Start chrono.
         chronoTimeInit();
     }
+    
+    /**
+     * Method called when notifyGameReady() is called.
+     */
+    public void startGame() {
+        // To know that the game is started.
+        gameStarted = true;
+        // We can no longer hover the player panes.
+        for (Pane playerPane : playerPanes) {
+            playerPane.getStyleClass().removeAll("inGameGUI_hover_cell");
+        }
+        
+        // We can now hover the opponent panes.
+        for (Pane opponentPane : opponentPanes) {
+            opponentPane.getStyleClass().add("inGameGUI_hover_cell");
+        }
+    }
 
     /**
      * Click on the "Fire" button.
@@ -222,7 +260,7 @@ public class InGameGUIController {
     @FXML
     void onClickFire(MouseEvent event) {
         // Prevent to click if the game is not started.
-        if (facade.isGameReady()) {
+        if (gameStarted) {
             // Only if a cell has been aimed.
             if (cellToAttack != null) {
                 // Remove the highlight on the cell.
@@ -294,7 +332,7 @@ public class InGameGUIController {
         @Override
         public void handle(Event event) {
             // Prevent to click if the game is not started.
-            if (facade.isGameReady()) {
+            if (gameStarted) {
                 // Remove the higlight on the previous cell.
                 if (clickedPane != null) {
                     clickedPane.getStyleClass().removeAll("inGameGUI_selected_cell");
@@ -414,7 +452,7 @@ public class InGameGUIController {
         @Override
         public void handle(Event event) {
             // Prevent to click if the game is already started.
-            if (!facade.isGameReady()) {
+            if (!gameStarted) {
                 // Remove the higlight on the previous cell.
                 if (clickedShip != null) {
                     clickedShip.getStyleClass().removeAll("inGameGUI_selected_ship");
@@ -454,7 +492,7 @@ public class InGameGUIController {
         @Override
         public void handle(Event event) {
             // Prevent to click if the game is not started and no ship is selected.
-            if (!facade.isGameReady() && shipToPlace != null) {
+            if (!gameStarted && shipToPlace != null) {
                 // First click.
                 if (startPosition == null) {
                     startPosition = new Coordinate(column, row);
