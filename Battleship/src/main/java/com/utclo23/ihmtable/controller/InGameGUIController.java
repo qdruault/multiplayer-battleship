@@ -5,18 +5,13 @@
  */
 package com.utclo23.ihmtable.controller;
 
-import com.utclo23.data.module.DataException;
 import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.ShipType;
 import java.io.IOException;
-import java.net.URL;
-import java.util.EventObject;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.event.ActionEvent;
@@ -27,16 +22,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -52,6 +38,7 @@ public class InGameGUIController {
      */
     IHMTableFacade facade;
 
+    // Ships.
     @FXML
     private Button buttonImage1;
     @FXML
@@ -61,17 +48,16 @@ public class InGameGUIController {
     @FXML
     private Button buttonImage4;
     @FXML
-    private Button sendButton;
-
-
-    @FXML
     private Button buttonImage5;
 
+    @FXML
+    private Button sendButton;
     @FXML
     private Button fireButton;
     @FXML
     private Button menuButton;
 
+    // Boards.
     @FXML
     private GridPane opponentGrid;
     @FXML
@@ -95,7 +81,7 @@ public class InGameGUIController {
     /**
      * The selected ship to be placed.
      */
-    private Ship shipToPlace;
+    private ShipType shipToPlace;
 
     /**
      * First bound of the ship to place.
@@ -135,12 +121,6 @@ public class InGameGUIController {
        System.out.println("test for the button Image !");
 
     }
-
-    @FXML
-    public void fireAction(ActionEvent event) throws IOException {
-
-    }
-
 
     /**
      * First method called.
@@ -416,7 +396,5 @@ public class InGameGUIController {
             }
         }
     }
-
-}
 
 }

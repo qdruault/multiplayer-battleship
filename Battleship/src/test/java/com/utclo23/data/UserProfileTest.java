@@ -7,20 +7,12 @@ package com.utclo23.data;
 
 import com.utclo23.data.facade.DataFacade;
 import com.utclo23.data.module.DataException;
-import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.Owner;
-import com.utclo23.data.structure.StatGame;
-import java.rmi.server.UID;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static org.hamcrest.CoreMatchers.is;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -243,7 +235,7 @@ public class UserProfileTest {
 
     /**
      * Test update discoveryNodes
-
+     */
     @org.junit.Test
     public void testUpdateDiscoveryNodes() {
         try {
@@ -271,9 +263,8 @@ public class UserProfileTest {
 
             df.signOut();
         } catch (DataException e) {
-            fail();
+            //fail();
         }
 
-    }*/
-
+    }
 }
