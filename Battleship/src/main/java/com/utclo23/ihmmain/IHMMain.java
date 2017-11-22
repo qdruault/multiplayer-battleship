@@ -7,7 +7,6 @@ package com.utclo23.ihmmain;
 
 import com.utclo23.ihmmain.constants.SceneName;
 import com.utclo23.ihmmain.controller.AbstractController;
-import com.utclo23.ihmmain.controller.PlayerProfileController;
 import com.utclo23.ihmmain.facade.IHMMainFacade;
 import java.io.IOException;
 import java.util.HashMap;
@@ -49,48 +48,31 @@ public class IHMMain {
     }
     
     public void toNetworkInterfaceChoice() throws IOException{
-        toScene(SceneName.NETWORK_INTERFACE);
+        toScene(SceneName.NetworkInterface);
     }
     
     public void toLogin() throws IOException{
-        toScene(SceneName.LOGIN);
+        toScene(SceneName.Login);
     }
     
     public void toMenu() throws IOException{
-        toScene(SceneName.MENU);
+        toScene(SceneName.Menu);
     }
     
     public void toPlayerProfile() throws IOException{
-        toScene(SceneName.PLAYER_PROFILE);
-
-    }
-    
-    public void toOthersPlayerProfile() throws IOException{
-        PlayerProfileController controller;   
-        controller = (PlayerProfileController)controllerMap.get(SceneName.PLAYER_PROFILE.toString());
-        controller.loading();
-        toScene(SceneName.PLAYER_PROFILE);
+        toScene(SceneName.PlayerProfile);
     }
     
     public void toPlayerList() throws IOException{
-        toScene(SceneName.PLAYER_LIST);
+        toScene(SceneName.PlayerList);
     }
     
     public void toCreateUser() throws IOException{
-         toScene(SceneName.CREATE_USER);
+         toScene(SceneName.CreateUser);
     }
     
     public void toIpList() throws IOException{
-        toScene(SceneName.IP_LIST);
-    }
-    
-
-    public void toCreateGame() throws IOException{
-        toScene(SceneName.CREATE_GAME);
-    }
-
-    public void toGameList() throws IOException{
-        toScene(SceneName.GAME_LIST);
+        toScene(SceneName.IpList);
     }
     
     /**
@@ -116,7 +98,6 @@ public class IHMMain {
             primaryStage.setTitle(scenename);
             primaryStage.setScene(sceneMap.get(scenename));
             activeSceneName = scenename;
-            controllerMap.get(activeSceneName).run();
             controllerMap.get(activeSceneName).start();
             
         }else{
@@ -141,7 +122,7 @@ public class IHMMain {
         AbstractController controller = (AbstractController) paneLoader.getController();
         controller.setIhmmain(this);
         controller.setFacade(facade);
-        controller.stop();
+        controller.init();
         controllerMap.put(fxml, controller);
 
         return scene;

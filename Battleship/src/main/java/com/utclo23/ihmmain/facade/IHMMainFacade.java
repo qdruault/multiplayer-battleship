@@ -6,10 +6,8 @@
 package com.utclo23.ihmmain.facade;
 
 import com.utclo23.data.facade.IDataIHMMain;
-import com.utclo23.data.structure.PublicUser;
 import com.utclo23.ihmmain.IHMMain;
 import com.utclo23.ihmmain.constants.SceneName;
-import com.utclo23.ihmmain.controller.PlayerProfileController;
 import com.utclo23.ihmtable.IIHMTableToIHMMain;
 
 import java.io.IOException;
@@ -52,18 +50,12 @@ public class IHMMainFacade implements IHMMainToIhmTable, IHMMainToData{
     
     
     @Override
-    public void refreshUserList() throws IOException {
-        ihmmain.controllerMap.get(SceneName.PLAYER_LIST).refresh();
+    public void refreshPlayerList() throws IOException {
+        ihmmain.controllerMap.get(SceneName.PlayerList).refresh();
     }
 
     @Override
     public void refreshGameList() throws IOException {
-        ihmmain.controllerMap.get(SceneName.GAME_LIST).refresh();
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    @Override
-    public void recievePublicUserProfile(PublicUser player) throws IOException {
-       PlayerProfileController controller =(PlayerProfileController)ihmmain.controllerMap.get(SceneName.PLAYER_PROFILE.toString());
-       controller.recievePublicUser(player);
-    }
-
-}   
+}

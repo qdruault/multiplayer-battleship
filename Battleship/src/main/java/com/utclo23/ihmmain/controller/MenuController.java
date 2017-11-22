@@ -6,8 +6,6 @@
 package com.utclo23.ihmmain.controller;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -18,6 +16,7 @@ import javafx.scene.control.Label;
  * @author Linxuhao
  */
 public class MenuController extends AbstractController{
+    private Label label;
     @FXML
     private Button playButton;
     @FXML
@@ -25,7 +24,7 @@ public class MenuController extends AbstractController{
     @FXML
     private Button profileButton;
     @FXML
-    private Button playerListButton;
+    private Button PlayerListButton;
     @FXML
     private Button exitButton;
     @FXML
@@ -34,8 +33,8 @@ public class MenuController extends AbstractController{
     private Button disconnectButton;
 
     @FXML
-    private void play(ActionEvent event) throws IOException{
-        ihmmain.toGameList();
+    private void play(ActionEvent event) {
+        facade.iIHMTableToIHMMain.createInGameGUI(ihmmain.primaryStage);
     }
 
     @FXML
@@ -52,24 +51,19 @@ public class MenuController extends AbstractController{
     private void showIpList(ActionEvent event) throws IOException{
         ihmmain.toIpList();
     }
-    
+
     @FXML
-    private void showCreateGame(ActionEvent event) throws IOException{
-        ihmmain.toCreateGame();
+    private void exit(ActionEvent event) throws IOException{
+        ihmmain.toLogin();
     }
 
     @FXML
-    private void exit(ActionEvent event){
-        System.exit(0);
-    }
-
-    @FXML
-    private void disconnect(ActionEvent event)  throws IOException{
+    private void disconnect(ActionEvent event) {
         try{
             facade.iDataIHMMain.signOut();
-            ihmmain.toLogin();
         }catch(Exception e){
-            Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, e);
+            e.printStackTrace();
         }
+        
     }
 }
