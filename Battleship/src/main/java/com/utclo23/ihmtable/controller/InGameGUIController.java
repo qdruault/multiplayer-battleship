@@ -30,6 +30,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -72,6 +73,22 @@ public class InGameGUIController {
 
     @FXML
     private Button chronoButtonMenu;
+
+    /*
+        Starting value for chrono (like a constant)
+    */
+    private final int timePassed = 30;
+
+    /*
+        countdown value for chrono
+    */
+    private Integer countdown = timePassed;
+
+    /*
+        String that show in javafx
+    */
+    String labelTime = "";
+
 
     /**
      * The cell chosen to attack;
@@ -314,20 +331,20 @@ public class InGameGUIController {
      */
     public void chronoTimeInit() {
         chronoLabel.setText("00:30");
+        chronoLabel.setTextFill(Color.web("#FFFFFF"));
     }
 
     /**
      * Function for initialize chrono
      */
     public void restartChronoTime() {
+        chronoTimeInit();
         timePass();
     }
 
-    private final int timePassed = 30;
-    private Integer countdown = timePassed;
-    String labelTime = "";
-
-
+    /**
+     * Function for simulate chrono, using Timeline and KeyFrame import and set the label
+     */
     private void timePass() {
         final Timeline time = new Timeline();
         time.setCycleCount(Timeline.INDEFINITE);
@@ -335,8 +352,13 @@ public class InGameGUIController {
             @Override
             public void handle(ActionEvent event) {
                 countdown--;
-                if (countdown <= 1)
+                /*
+                TODO: Expiration of timer, add function of ending turn
+                */
+                if (countdown <= 1) {
                     time.stop();
+                    chronoLabel.setTextFill(Color.web("#c0392b"));
+                }
                 else {
                     if (countdown < 10) {
                         labelTime = "00:0" + countdown.toString();
