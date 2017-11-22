@@ -31,21 +31,21 @@ public class PlayerProfileController extends AbstractController{
     @FXML
     private Label lastName;
     @FXML
-    private Label birthday;
-            
+    private Label birthday;    
     @FXML
     private TextField description;
-    
+
     private PublicUser me;
-    private boolean isLoading = false; 
+    private PublicUser other;
+    private boolean isLoading = true; 
+    private boolean isOther = false; 
+    private String attribut;
     
     @FXML
     @Override
     public void start(){
        refresh();
-    }
-    
-     
+    } 
     @FXML
     private void back(ActionEvent event) throws IOException{
         ihmmain.toMenu();
@@ -70,18 +70,39 @@ public class PlayerProfileController extends AbstractController{
         }
     }
     @FXML
-    private void editID(ActionEvent event) throws IOException{
-        popup();
+    private void editPlayerName(ActionEvent event) throws IOException{
+        attribut="PlayerName";
+        popup(attribut);
     }
-    
-    private void popup() throws IOException{
+    @FXML
+    private void editFirstName(ActionEvent event) throws IOException{
+        attribut="FirstName";
+        popup(attribut);
+    }
+    @FXML
+    private void editLastName(ActionEvent event) throws IOException{
+        attribut="LastName";
+        popup(attribut);
+    }
+    @FXML
+    private void editBirthday(ActionEvent event) throws IOException{
+        attribut="Birthday";
+        popup(attribut);
+    }
+    @FXML
+    private void editPassword(ActionEvent event) throws IOException{
+        attribut="Password";
+        popup(attribut);
+    }
+    private void popup(String attribut) throws IOException{
         final Stage primaryStage = ihmmain.primaryStage;
         String path = "/fxml/ihmmain/popup.fxml";
         FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
         Parent sceneLoader = loader.load();
-        AbstractController controller=loader.getController();
+        PopupController controller=loader.getController();
         controller.setFacade(facade);
         controller.setIhmmain(ihmmain);
+        controller.setAttribut(attribut);
         Scene newScene;
         newScene = new Scene(sceneLoader);
         Stage popup = new Stage();
@@ -90,22 +111,42 @@ public class PlayerProfileController extends AbstractController{
         popup.show();
     }  
     public void recievePublicUser(PublicUser player) throws IOException{
-    
+        isLoading = false;
+        other = player;
     }
     public void loading() throws IOException{
-        
+        if (isLoading==true){
+            //todo 
+        }
+        else{
+            isOther = true;
+            ihmmain.toPlayerProfile();
+        }
     }
     @Override
     public void refresh(){
-        try{
-            me = facade.iDataIHMMain.getMyPublicUserProfile();
-            userID.setText(me.getLightPublicUser().getPlayerName());
-            firstName.setText(me.getFirstName());
-            lastName.setText(me.getLastName());
-            birthday.setText(me.getBirthDate().toString());
+        if (isOther==false){
+            try{
+                me = facade.iDataIHMMain.getMyPublicUserProfile();
+                userID.setText(me.getLightPublicUser().getPlayerName());
+                firstName.setText(me.getFirstName());
+                lastName.setText(me.getLastName());
+                birthday.setText(me.getBirthDate().toString());
+            }
+            catch(NullPointerException e){
+                System.out.println("[PlayerProfile] error - my profile is null");
+            }
         }
-        catch(NullPointerException e){
-            System.out.println("[PlayerProfile] - getMyPublicUserProfile() not supported yet");
+        else{
+            try{
+                userID.setText(other.getLightPublicUser().getPlayerName());
+                firstName.setText(other.getFirstName());
+                lastName.setText(other.getLastName());
+                birthday.setText(other.getBirthDate().toString());
+            }
+            catch(NullPointerException e){
+                System.out.println("[PlayerProfile] - error - other profile is null");
+            }
         }
     }
 }

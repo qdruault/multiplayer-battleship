@@ -27,6 +27,7 @@ public interface IHMMainToData {
     
      /**
      * obtain info of other player asked by user
+     * @param player
      * @throws IOException 
      */
     public abstract void recievePublicUserProfile(PublicUser player) throws IOException;

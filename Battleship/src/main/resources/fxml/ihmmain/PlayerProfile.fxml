@@ -33,7 +33,7 @@
                     </rowConstraints>
                      <children>
                         <Label text="Nickname" />
-                        <Label fx:id="userID" text="Player1" GridPane.columnIndex="1" />
+                        <Label fx:id="userID" text="--" GridPane.columnIndex="1" />
                         <Label text="First Name" GridPane.rowIndex="1" />
                         <Label fx:id="firstName" text="--" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="Last Name" GridPane.rowIndex="2" />
@@ -41,11 +41,11 @@
                         <Label text="Birthday" GridPane.rowIndex="3" />
                         <Label fx:id="birthday" text="--" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <Label text="Password" GridPane.rowIndex="4" />
-                        <Button mnemonicParsing="false" onAction="#editID" text="edit" GridPane.columnIndex="2" />
-                        <Button mnemonicParsing="false" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <Button mnemonicParsing="false" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                        <Button mnemonicParsing="false" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                        <Button mnemonicParsing="false" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <Button mnemonicParsing="false" onAction="#editPlayerName" text="edit" GridPane.columnIndex="2" />
+                        <Button mnemonicParsing="false" onAction="#editFirstName" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Button mnemonicParsing="false" onAction="#editLastName" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Button mnemonicParsing="false" onAction="#editBirthday" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <Button mnemonicParsing="false" onAction="#editPassword" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                         <Label />
                         <Label text="Nickname" />
                      </children>

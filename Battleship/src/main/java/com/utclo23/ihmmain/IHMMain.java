@@ -67,9 +67,9 @@ public class IHMMain {
     
     public void toOthersPlayerProfile() throws IOException{
         PlayerProfileController controller;   
-        controller = (PlayerProfileController)controllerMap.get(SceneName.PLAYER_PROFILE.toString());
+        controller = (PlayerProfileController) controllerMap.get(SceneName.PLAYER_PROFILE.toString());
         controller.loading();
-        toScene(SceneName.PLAYER_PROFILE);
+        //toScene(SceneName.PLAYER_PROFILE);
     }
     
     public void toPlayerList() throws IOException{
