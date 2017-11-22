@@ -14,6 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -22,10 +24,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  *
@@ -62,6 +66,12 @@ public class InGameGUIController {
     private GridPane opponentGrid;
     @FXML
     private GridPane playerGrid;
+
+    @FXML
+    private Label chronoLabel;
+
+    @FXML
+    private Button chronoButtonMenu;
 
     /**
      * The cell chosen to attack;
@@ -168,6 +178,9 @@ public class InGameGUIController {
         // Example ships.
         buttonImage1.setOnMouseClicked(new SelectShipEvent(ShipType.CARRIER));
         buttonImage2.setOnMouseClicked(new SelectShipEvent(ShipType.CRUISER));
+
+        // Start chrono.
+        chronoTimeInit();
     }
 
     /**
@@ -286,6 +299,58 @@ public class InGameGUIController {
         }
     }
 }
+
+
+    /**
+     * Temporary function for starting chrono at 5:00 to 0:00
+     * @param event
+     */
+    public void onClickChronoButton(MouseEvent event) {
+        restartChronoTime();
+    }
+
+    /**
+     * Function for initialize chrono
+     */
+    public void chronoTimeInit() {
+        chronoLabel.setText("00:30");
+    }
+
+    /**
+     * Function for initialize chrono
+     */
+    public void restartChronoTime() {
+        timePass();
+    }
+
+    private final int timePassed = 30;
+    private Integer countdown = timePassed;
+    String labelTime = "";
+
+
+    private void timePass() {
+        final Timeline time = new Timeline();
+        time.setCycleCount(Timeline.INDEFINITE);
+        KeyFrame frame = new KeyFrame(Duration.seconds(1.1), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                countdown--;
+                if (countdown <= 1)
+                    time.stop();
+                else {
+                    if (countdown < 10) {
+                        labelTime = "00:0" + countdown.toString();
+                    } else {
+                        labelTime = "00:" + countdown.toString();
+                    }
+                    chronoLabel.setText(labelTime);
+                }
+            }
+
+        });
+        time.getKeyFrames().add(frame);
+        time.playFromStart();
+    }
 
     private class SelectShipEvent implements EventHandler {
 
