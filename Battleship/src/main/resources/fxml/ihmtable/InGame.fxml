@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="inGameGUI" minHeight="700.0" minWidth="1200.0" stylesheets="@../../styles/InGame.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmtable.controller.InGameGUIController">
+<AnchorPane id="inGameGUI" minHeight="700.0" minWidth="1200.0" stylesheets="@../../styles/InGame.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox id="menu_header" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -85,7 +85,8 @@
                            <children>
                               <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <GridPane id="left_side_game" gridLinesVisible="true" prefHeight="500.0" prefWidth="435.0" HBox.hgrow="ALWAYS">
+                                    <GridPane
+                                        fx:id="playerGrid" id="left_side_game" gridLinesVisible="true" prefHeight="500.0" prefWidth="435.0" HBox.hgrow="ALWAYS">
                                        <columnConstraints>
                                           <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="-Infinity" />
                                           <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="-Infinity" />

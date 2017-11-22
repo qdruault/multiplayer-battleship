@@ -5,8 +5,11 @@
  */
 package com.utclo23.ihmtable.controller;
 
+import com.utclo23.data.module.DataException;
 import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.data.structure.Coordinate;
+import com.utclo23.data.structure.Ship;
+import com.utclo23.data.structure.ShipType;
 import java.io.IOException;
 import java.net.URL;
 import java.util.EventObject;
@@ -14,6 +17,8 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -69,6 +74,8 @@ public class InGameGUIController {
 
     @FXML
     private GridPane opponentGrid;
+    @FXML
+    private GridPane playerGrid;
 
     /**
      * The cell chosen to attack;
@@ -96,9 +103,32 @@ public class InGameGUIController {
     private Coordinate startPosition;
 
     /**
+     * The pane of the start position.
+     */
+    private Pane startPositionPane;
+
+    /**
      * Second bound of the ship to place.
      */
     private Coordinate endPosition;
+
+    /**
+     * The pane of the end position.
+     */
+    private Pane endPositionPane;
+
+    /**
+     * The player ships.
+     */
+    private List<Ship> ships;
+
+    /**
+     * Set the IHM Table facade.
+     * @param facade : IHM Table facade.
+     */
+    public void setFacade(IHMTableFacade facade) {
+        this.facade = facade;
+    }
 
     @FXML
     public void buttonAction(ActionEvent event) throws IOException {
@@ -117,7 +147,7 @@ public class InGameGUIController {
      */
     @FXML
     public void initialize() {
-        // Fill in the grid.
+        // Fill in the opponent grid.
         for (int col = 0; col < opponentGrid.getColumnConstraints().size(); col++) {
             for (int row = 0; row < opponentGrid.getRowConstraints().size(); row++) {
                 // Create an empty pane.
@@ -129,10 +159,35 @@ public class InGameGUIController {
             }
         }
 
+        // Fill in the player grid.
+        for (int col = 0; col < playerGrid.getColumnConstraints().size(); col++) {
+            for (int row = 0; row < playerGrid.getRowConstraints().size(); row++) {
+                // Create an empty pane.
+                Pane pane = new Pane();
+
+                // Add a CSS class to handle the hover effect.
+                pane.getStyleClass().add("inGameGUI_player_cell");
+                // Add the click event on it.
+                pane.setOnMouseClicked(new ChooseCellEvent(row, col));
+                playerGrid.add(pane, col, row);
+            }
+        }
+
         // Initialize the position of the ship to place.
         shipToPlace = null;
         startPosition = null;
         endPosition = null;
+
+        // Get the ships.
+        // TODO: ships = facade.getFacadeData().getShips();
+        ships = new ArrayList<>();
+        ships.add(new Ship(ShipType.BATTLESHIP, 2));
+        ships.add(new Ship(ShipType.BATTLESHIP, 2));
+        ships.add(new Ship(ShipType.CARRIER, 3));
+
+        // Example ships.
+        buttonImage1.setOnMouseClicked(new SelectShipEvent(ShipType.CARRIER));
+        buttonImage2.setOnMouseClicked(new SelectShipEvent(ShipType.CRUISER));
     }
 
     /**
@@ -146,7 +201,7 @@ public class InGameGUIController {
             // Only if a cell has been aimed.
             if (cellToAttack != null) {
                 // Remove the highlight on the cell.
-                clickedPane.getStyleClass().removeAll("InGameGUI_selected_cell");
+                clickedPane.getStyleClass().removeAll("inGameGUI_selected_cell");
                 // Attack!
                 try {
                     if (facade.getFacadeData().attack(cellToAttack)) {
@@ -162,15 +217,6 @@ public class InGameGUIController {
                 System.err.println("No cell is selected!");
             }
         }
-    }
-
-
-    /**
-     * Set the IHM Table facade.
-     * @param facade : IHM Table facade.
-     */
-    public void setFacade(IHMTableFacade facade) {
-        this.facade = facade;
     }
 
     /**
@@ -225,14 +271,14 @@ public class InGameGUIController {
             if (facade.isGameReady()) {
                 // Remove the higlight on the previous cell.
                 if (clickedPane != null) {
-                    clickedPane.getStyleClass().removeAll("InGameGUI_selected_cell");
+                    clickedPane.getStyleClass().removeAll("inGameGUI_selected_cell");
                 }
 
                 // Save the cell to attack.
                 cellToAttack = new Coordinate(column, row);
                 // Highlight the cell.
                 clickedPane = (Pane)event.getSource();
-                clickedPane.getStyleClass().add("InGameGUI_selected_cell");
+                clickedPane.getStyleClass().add("inGameGUI_selected_cell");
             }
         }
     }
@@ -266,14 +312,14 @@ public class InGameGUIController {
         /**
          * The ship selected.
          */
-        private Ship ship;
+        private ShipType shiptype;
 
         /**
          * Constructor
-         * @param pShip : the ship clicked.
+         * @param pShipType : the ship clicked.
          */
-        public SelectShipEvent(Ship pShip) {
-            ship = pShip;
+        public SelectShipEvent(ShipType pShipType) {
+            shiptype = pShipType;
         }
 
         @Override
@@ -286,12 +332,91 @@ public class InGameGUIController {
                 }
 
                 // Save the ship to move.
-                shipToPlace = ship;
+                shipToPlace = shiptype;
                 // Highlight the ship.
                 clickedShip = (Button)event.getSource();
                 clickedShip.getStyleClass().add("inGameGUI_selected_ship");
             }
         }
     }
+
+    private class ChooseCellEvent implements EventHandler {
+
+        /**
+         * The row to attack.
+         */
+        private int row;
+
+        /**
+         * The column to attack.
+         */
+        private int column;
+
+        /**
+         * Constructor
+         * @param pRow: the row
+         * @param pColumn: the column
+         */
+        public ChooseCellEvent(int pRow, int pColumn) {
+            row = pRow;
+            column = pColumn;
+        }
+
+        @Override
+        public void handle(Event event) {
+            // Prevent to click if the game is not started and no ship is selected.
+            if (!facade.isGameReady() && shipToPlace != null) {
+                // First click.
+                if (startPosition == null) {
+                    startPosition = new Coordinate(column, row);
+                    // Highlight the cell.
+                    startPositionPane = (Pane)event.getSource();
+                    startPositionPane.getStyleClass().add("inGameGUI_selected_cell");
+                } else {
+                    boolean suitableShip = false;
+                    // Last click.
+                    endPosition = new Coordinate(column, row);
+                    // Highlight the cell.
+                    endPositionPane = (Pane)event.getSource();
+                    endPositionPane.getStyleClass().add("inGameGUI_selected_cell");
+                    // Update the ship.
+                    for (Ship ship : ships) {
+                        // Search for the first ship of the right type not placed.
+                        if (ship.getType() == shipToPlace && ship.getListCoord().isEmpty()) {
+                            try {
+                                // Ship founded.
+                                suitableShip = true;
+                                // Add the coordinates.
+                                ship.getListCoord().add(startPosition);
+                                ship.getListCoord().add(endPosition);
+
+                                // Send the ship.
+                                facade.getFacadeData().setShip(ship);
+                                break;
+                            } catch (Exception ex) {
+                                Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
+                                // Wrong coordinates -> reset.
+                                ship.getListCoord().clear();
+                            }
+                        }
+                    }
+
+                    // If no ship suits.
+                    if (!suitableShip) {
+                        System.out.println("No suitable ship for this type!");
+                    }
+
+                    // Clear the previous positions.
+                    startPosition = null;
+                    endPosition = null;
+                    // Remove the highlight.
+                    startPositionPane.getStyleClass().removeAll("inGameGUI_selected_cell");
+                    endPositionPane.getStyleClass().removeAll("inGameGUI_selected_cell");
+                }
+            }
+        }
+    }
+
+}
 
 }

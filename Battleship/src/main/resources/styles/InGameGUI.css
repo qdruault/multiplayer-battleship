@@ -62,7 +62,7 @@
 	-fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
 }
 
-.InGameGUI_selected_cell {
+.inGameGUI_selected_cell {
     -fx-background-color: rgba(255, 255, 255, 0.15);
 }
 
@@ -70,4 +70,8 @@
     -fx-border-color: rgba(255, 100, 100, 0.75);
     -fx-border-style: solid;
     -fx-border-width: 3px;
+}
+
+.inGameGUI_player_cell:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
 }

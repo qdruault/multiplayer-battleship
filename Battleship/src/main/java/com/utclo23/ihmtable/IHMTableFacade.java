@@ -105,12 +105,13 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
         FXMLLoader paneLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
         Parent pane;
         try {
+            InGameGUIController controller = new InGameGUIController();
+            controller.setFacade(this);
+            paneLoader.setController(controller);
             pane = paneLoader.load();
             Scene scene = new Scene(pane);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Game");
-            InGameGUIController controller = paneLoader.<InGameGUIController>getController();
-            controller.setFacade(this);
             primaryStage.show();
         } catch (IOException ex) {
             Logger.getLogger(IHMTableFacade.class.getName()).log(Level.SEVERE, null, ex);
