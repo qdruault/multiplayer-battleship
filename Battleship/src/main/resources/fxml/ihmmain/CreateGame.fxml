@@ -14,12 +14,14 @@
 <?import javafx.scene.layout.*?>
 
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="800" minWidth="800" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.CreateGameController" stylesheets="@../../styles/ihmmain.css">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600" minWidth="800" prefHeight="768" prefWidth="1368" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.CreateGameController" stylesheets="@../../styles/ihmmain.css">
     
     <columnConstraints>
         <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
         <ColumnConstraints percentWidth="20.0" hgrow="SOMETIMES" />
         <ColumnConstraints percentWidth="20.0" hgrow="SOMETIMES" />
+        <ColumnConstraints percentWidth="20.0" hgrow="SOMETIMES" />
+        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
     </columnConstraints>   
          
     <rowConstraints>
@@ -32,16 +34,16 @@
     </rowConstraints>
 
     <children>
-        <Label GridPane.columnIndex="2" GridPane.rowIndex="1" text="Create a game" textAlignment="CENTER" />
+        <Label id="pageTitleLabel" GridPane.columnIndex="2" GridPane.rowIndex="1" text="Create a game" textAlignment="CENTER" />
         
-        <Label alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="2" text="Name" />
+        <Label id="formLabel" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="2" text="Name" />
         <TextField fx:id="gameNameField" GridPane.columnIndex="2" GridPane.rowIndex="2" prefHeight="25.0" prefWidth="166.0" />
         
-        <Label alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="3" text="Mode" />
+        <Label id="formLabel" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="3" text="Mode" />
         <RadioButton fx:id="radioButtonClassical" alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="3" mnemonicParsing="false" text="Classical" />
         <RadioButton fx:id="radioButtonBelge" alignment="CENTER_RIGHT" GridPane.columnIndex="3" GridPane.rowIndex="3" mnemonicParsing="false" text="Belge" />
         
-        <Label alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="4" text="Enemy" />
+        <Label id="formLabel" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="4" text="Enemy" />
         <RadioButton fx:id="radioButtonComputer" alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="4" mnemonicParsing="false" text="Computer" />
         <RadioButton fx:id="radioButtonPlayer" alignment="CENTER_RIGHT" GridPane.columnIndex="3" GridPane.rowIndex="4" mnemonicParsing="false" text="Player" />
         
