@@ -21,8 +21,6 @@ public class MenuController extends AbstractController{
     @FXML
     private Button playButton;
     @FXML
-    private Label title;
-    @FXML
     private Button profileButton;
     @FXML
     private Button playerListButton;

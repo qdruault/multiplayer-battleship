@@ -35,16 +35,6 @@ public class PlayerListController extends AbstractController{
         ihmmain.toMenu();
     }
     
-    @FXML
-    private void nextPage(ActionEvent event) throws IOException{
-        //TODO: implement it        
-    }
-    
-    @FXML
-    private void lastPage(ActionEvent event) throws IOException{
-        //TODO: implement it        
-    }
-    
      /* This function is called at the beginning of the application.
      * It loads the connected users and print them into the tableview.
      */
@@ -52,14 +42,17 @@ public class PlayerListController extends AbstractController{
     @Override
     public void start(){
         // The first display : we create the tableview
-        if(listPlayers.getColumns().isEmpty()){
+        if(listPlayers.getColumns().isEmpty()){            
             TableColumn idColumn = new TableColumn("ID");
             idColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("id"));
             idColumn.getStyleClass().add("cell-left");
+            idColumn.getStyleClass().add("label");
+            
 
             TableColumn nameColumn = new TableColumn("NAME");
             nameColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("playerName"));
             nameColumn.getStyleClass().add("cell-right");
+            nameColumn.getStyleClass().add("label");
 
             /* TODO Add this lines when data add avatar in LightPublicUser. Add avatarColum in listPlayers.getColumns().addAll(...);
             TableColumn avatarColumn = new TableColumn("AVATAR");
