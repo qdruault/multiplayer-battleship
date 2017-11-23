@@ -66,7 +66,16 @@
     -fx-shape:"M 0 0 L 1 -0.5 L 5 -0.5 L 6 0 L 5 0.5 L 1 0.5 z";
     -fx-border-color:#ffffff;
     -fx-background-color: #061f30;
+    -fx-opacity: 1.0;
     
+}
+
+/* The frame around the buttons in the main menu */
+#frameButton{
+    -fx-background-color: rgba(255, 255, 255, 0.08);
+    -fx-background-radius: 15px;
+    -fx-border-color: #ffffff;
+    -fx-border-radius: 15px;
 }
 
 /* Used for the title of each page (ex : 'Create User') */
@@ -95,29 +104,11 @@
     -fx-font-size: 11pt;
 }
 
-/*.table-view:focused .table-row-cell:filled:focused:selected {
-    -fx-background-color: -fx-focus-color;
-}
-
-.split-pane:horizontal > .split-pane-divider {
-    -fx-border-color: transparent #1d1d1d transparent #1d1d1d;
-    -fx-background-color: transparent, derive(#1d1d1d,20%);
-}
-
-.split-pane {
-    -fx-padding: 1 0 0 0;
-}
-
-.menu-bar {
-    -fx-background-color: derive(#1d1d1d,20%);
-
 /* About the line */
 .lineDesign{
     -fx-stroke: #0ce8f0;
     -fx-stroke-width: 2px;
 }
-
-/*************************************************************/
 
 /* Alert customization */
     .dialog-pane > .button-bar > .container {
@@ -144,10 +135,3 @@
 .table-row-cell:empty .table-cell {
     -fx-border-width: 0px;
 }
-
-/* About the line */
-.lineDesign{
-    -fx-stroke: #0ce8f0;
-    -fx-stroke-width: 2px;
-}
-

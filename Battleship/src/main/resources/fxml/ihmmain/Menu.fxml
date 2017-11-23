@@ -10,7 +10,7 @@
 
 <GridPane id="generalGrid" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../styles/ihmmain.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.MenuController">
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints percentWidth="100.0" hgrow="SOMETIMES" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
@@ -28,10 +28,10 @@
           <ColumnConstraints percentWidth="25.0" hgrow="SOMETIMES" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints percentHeight="100.0" vgrow="SOMETIMES" />
         </rowConstraints>
         <children>
-            <GridPane GridPane.columnIndex="1">
+            <GridPane id="frameButton" GridPane.columnIndex="1">
               <rowConstraints>
                 <RowConstraints percentHeight="16.6" vgrow="SOMETIMES" />
                 <RowConstraints percentHeight="16.6" vgrow="SOMETIMES" />
@@ -46,7 +46,7 @@
               <children>
                   <Button fx:id="playButton" onAction="#play" text="Play" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                   <Button fx:id="profileButton" onAction="#showProfile" text="Profile" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                  <Button fx:id="playerListButton" onAction="#showPlayerList" text="PlayerList" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <Button fx:id="playerListButton" onAction="#showPlayerList" text="List of players" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                   <Button fx:id="ipListButton" onAction="#showIpList" text="List of IP" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                   <Button fx:id="disconnectButton" onAction="#disconnect" text="Disconnect" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                   <Button fx:id="exitButton" onAction="#exit" text="Exit" GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
