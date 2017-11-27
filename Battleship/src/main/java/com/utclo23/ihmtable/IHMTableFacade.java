@@ -8,6 +8,8 @@ package com.utclo23.ihmtable;
 import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.data.facade.IDataIHMTable;
+import com.utclo23.data.structure.Game;
+import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.ihmmain.controller.AbstractController;
 import com.utclo23.ihmmain.facade.IHMMainToIhmTable;
 import com.utclo23.ihmtable.controller.InGameGUIController;
@@ -132,7 +134,36 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void showGame(UID guid) {
-        throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
+        //Créer la fenêtre
+        FXMLLoader paneLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
+        Parent pane;
+        InGameGUIController controller = null;
+        Stage primaryStage = facadeIHMMain.getPrimaryStage();
+        try {
+            controller = new InGameGUIController();
+            controller.setFacade(this);
+            paneLoader.setController(controller);
+            pane = paneLoader.load();
+            Scene scene = new Scene(pane);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("Game");
+            primaryStage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(IHMTableFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //Gérer les cas spectateur/utilisateur standard
+       /* boolean startSpectateur = false;
+        Game game = facadeData.getGame();
+        LightPublicUser user = facadeData.getUser();
+        for(int i=0;i<game.getSpectators().size() && !startSpectateur;++i)
+            if(game.getSpectators().get(i).getId() == user.getId())
+                startSpectateur = true;
+        if(startSpectateur && controller != null)
+           controller.refreshBoardForSpectator();*/
+
+            
+        throw new UnsupportedOperationException("En cours");
     }
 
     /**
