@@ -39,6 +39,11 @@
     -fx-border-color: #0ce8f0;
 }
 
+.table-row-cell:selected {
+   -fx-background-color: steelblue; 
+   -fx-text-background-color: red;
+}
+
 .table-view .column-header .label {
     -fx-font-size: 15pt;
     -fx-font: 20pt "Space Age";
@@ -57,6 +62,7 @@
 .table-row-cell:empty .table-cell {
     -fx-border-width: 0px;
 }
+
 
 /* Used to personalize the button */
 .button{

@@ -41,6 +41,10 @@ public class AbstractController {
         this.ihmmain = ihmmain;
     }
 
+    public void setRunning(Boolean state) {
+        isRunning = state;
+    }
+        
     public boolean isRunning() {
         return isRunning;
     }
