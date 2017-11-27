@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -92,8 +97,7 @@
                            <children>
                               <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <GridPane
-                                        fx:id="playerGrid" id="left_side_game" gridLinesVisible="true" prefHeight="500.0" prefWidth="435.0" HBox.hgrow="ALWAYS">
+                                    <GridPane id="left_side_game" fx:id="playerGrid" gridLinesVisible="true" prefHeight="500.0" prefWidth="435.0" HBox.hgrow="ALWAYS">
                                        <columnConstraints>
                                           <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="-Infinity" />
                                           <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="-Infinity" />
@@ -163,7 +167,7 @@
                                           <AnchorPane prefHeight="85.0" prefWidth="200.0">
                                              <children>
                                                 <TextArea prefHeight="50.0" prefWidth="494.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                                <Button mnemonicParsing="false" prefHeight="50.0" text="Send" textFill="#0f27f5" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <Button fx:id="sendButton" mnemonicParsing="false" prefHeight="50.0" text="Send" textFill="#0f27f5" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <font>
                                                       <Font name="System Bold Italic" size="15.0" />
                                                    </font>

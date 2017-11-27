@@ -149,6 +149,21 @@ public class InGameGUIController {
 
     }
 
+    public void refreshBoardForSpectator()
+    {
+        buttonImage1.setDisable(true);
+        buttonImage2.setDisable(true);
+        buttonImage3.setDisable(true);
+        buttonImage4.setDisable(true);
+        buttonImage5.setDisable(true);
+        sendButton.setDisable(false);
+        fireButton.setDisable(true);
+        menuButton.setDisable(false);
+        playerGrid.setDisable(false);
+        opponentGrid.setDisable(false);
+        
+    }
+    
     /**
      * First method called.
      */
