@@ -33,15 +33,13 @@ public class NetworkInterfaceChoiceController extends AbstractController {
     }
     
     private void lookForInterface(){
-        String ip;
         try {
             Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
             while (interfaces.hasMoreElements()) {
                 NetworkInterface iface = interfaces.nextElement();
-                //RadioButton rb = new RadioButton(iface.getDisplayName());
-                comboBox.getItems().add(iface);
-                //System.out.println(iface.getDisplayName());
-
+                if (isValid(iface)){
+                    comboBox.getItems().add(iface);
+                }
             }
         } catch (SocketException e) {
             throw new RuntimeException(e);
@@ -50,18 +48,20 @@ public class NetworkInterfaceChoiceController extends AbstractController {
     
     @FXML 
     private void handleButtonValidate(ActionEvent event) throws Exception{
-
+        ihmmain.toLogin();
+    }
+    
+    private boolean isValid(NetworkInterface networkInt){
         Inet4Address usedIf;
-        NetworkInterface chosenIf = (NetworkInterface)comboBox.getValue(); 
-        for(InterfaceAddress ifAddr : chosenIf.getInterfaceAddresses()){
+        Boolean isValid = false;
+        for(InterfaceAddress ifAddr : networkInt.getInterfaceAddresses()){
             try{
                 usedIf = (Inet4Address) ifAddr.getAddress();
                 facade.iDataIHMMain.setNetworkInterface(ifAddr);
                 System.out.println(usedIf.getHostAddress());
-                ihmmain.toLogin();
+                isValid = true;
             } catch (Exception e){}
-        }   
-    }
-    
-    
+        }
+        return isValid;
+    } 
 }
