@@ -13,11 +13,15 @@ import java.time.ZoneId;
 import java.util.Date;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 /**
  *
@@ -128,7 +132,13 @@ public class CreateUserController extends AbstractController{
      */
     private void createUser(String userName, String password, String firstName, String lastName, Date birthDate, String avatarPath) throws Exception{
         System.out.println("createUser method called");
-        facade.iDataIHMMain.createUser(userName, password, firstName, lastName, birthDate, avatarPath);
+        try{
+            facade.iDataIHMMain.createUser(userName, password, firstName, lastName, birthDate, avatarPath);
+            showErrorPopup("Success", "Your account was successfully created", "back to the login screen");
+            back();
+        } catch(Exception e){
+            showErrorPopup("Error", "We're sorry, but an error occured", e.getMessage());
+        }
     }     
         
     // UTILITY methods
