@@ -7,7 +7,6 @@ package com.utclo23.ihmmain.facade;
 
 import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.PublicUser;
-import com.utclo23.data.structure.StatGame;
 import java.io.IOException;
 
 /**
@@ -39,5 +38,7 @@ public interface IHMMainToData {
    * @param game 
    */
     public abstract void receptionGame(Game game);
+    
+    public abstract void connectionImpossible();
     
 }

@@ -10,16 +10,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.ScheduledService;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Duration;
 
 /**
  * The GUI that displays the list of connected users
@@ -85,7 +81,7 @@ public class PlayerListController extends AbstractController{
 
         if(facade != null){
             // Call data method in order to collect connected users
-            ArrayList<LightPublicUser> connectedUsers = new ArrayList<LightPublicUser>(facade.iDataIHMMain.getConnectedUsers());
+            ArrayList<LightPublicUser> connectedUsers = new ArrayList<>(facade.iDataIHMMain.getConnectedUsers());
             ObservableList<LightPublicUser> data = FXCollections.observableArrayList(connectedUsers);
         
             // Update the list in the GUI

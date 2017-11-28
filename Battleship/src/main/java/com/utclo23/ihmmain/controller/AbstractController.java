@@ -67,9 +67,8 @@ public class AbstractController {
     
     /**
      * Override this method to refresh the page when isRunning is true
-     * @throws IOException 
      */
-    public void refresh() throws IOException {
+    public void refresh(){
     }
 
     /**

@@ -235,8 +235,7 @@ public class GameListController extends AbstractController{
 
     @FXML
     private void watchSelectedGame(ActionEvent event) {
-        //TODO
-         System.out.println("Not supported yet");
+        showErrorPopup("Not Supported Yet","Not Supported Yet","Not Supported Yet");
     }
     
     /**
@@ -259,6 +258,7 @@ public class GameListController extends AbstractController{
                 try {
                     while(isLoading){
                         Thread.sleep(500);
+                        connectionImpossible();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -275,10 +275,11 @@ public class GameListController extends AbstractController{
         });
         //if loading failed
         wait.setOnFailed(new EventHandler<WorkerStateEvent>() {
-        @Override
-        public void handle(WorkerStateEvent t){
-            System.out.println("Loading task failed : " + t.toString());
-        }
+            @Override
+            public void handle(WorkerStateEvent t){
+                //this function handle fail case too, so calling it when fails will give a fail message
+                goIntoGame();
+            }
     });
         new Thread(wait).start();
     }
@@ -296,16 +297,18 @@ public class GameListController extends AbstractController{
         returnButton.setDisable(false);
     }
 
+    /**
+     * go into game or display a error message about connection impossible
+     */
     private void goIntoGame() {
         
         if(isRunning()){
             if(receivedGame != null){
                 //Finally Join the game
-                System.out.println("Finally Join the game : " +  receivedGame.getId()+ ", but since iIHMTableToIHMMain.showGame() accept a UID and i got only a String as game id, i can't use it lol");
+                showErrorPopup("Finally Join the game ","Game Id is : receivedGame.getId()","but since iIHMTableToIHMMain.showGame() accept a UID and i got only a String as game id, i can't use it lol");
                 //facade.iIHMTableToIHMMain.showGame(receivedGame.getId());
             }else{
-                System.out.println("Is hard to get there, but you know that you gave me a null game ?");
-                isLoading = false;
+                showErrorPopup("Connection Impossible","","Your Connection Request was failed ");
                 refresh();
             }
         }
@@ -318,6 +321,15 @@ public class GameListController extends AbstractController{
     public void receptionGame(Game game){
         if(isRunning()){
             receivedGame = game;
+            isLoading = false;
+        }
+    }
+    /**
+     * called by data when can't connect to a game
+     */
+    public void connectionImpossible(){
+        if(isRunning()){
+            receivedGame = null;
             isLoading = false;
         }
     }
@@ -340,5 +352,4 @@ public class GameListController extends AbstractController{
         isLoading = false;
         
     }
-    
 }
