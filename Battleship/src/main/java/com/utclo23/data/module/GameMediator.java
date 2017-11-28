@@ -318,4 +318,32 @@ public class GameMediator {
         }
         
     }
+    
+     /**
+     * foorwardCoordinates
+     * @param mine the mine placed
+     */
+    public void forwardCoordinates(Mine mine) {
+        List<Ship> ships = this.currentGame.getCurrentPlayer().getShips() ;
+        Ship shipDestroyed = null ;
+        boolean touched = false;
+        for (Ship s : ships) {
+            if (this.currentGame.isShipTouched(s, mine)){
+                touched = true ; 
+                if (this.currentGame.isShipDestroyed(s, this.currentGame.ennemyOf(this.currentGame.getCurrentPlayer()).getMines()))
+                    shipDestroyed = s ;
+            }
+        }
+        
+        if(this.dataFacade.getIhmTablefacade()!=null)
+        {
+            this.dataFacade.getIhmTablefacade().feedback(mine.getCoord(),touched,shipDestroyed) ;
+        }
+        
+        if (this.currentGame.isGameFinishedByEnnemy())
+        {
+            // a faire
+        }
+        
+    }
 }

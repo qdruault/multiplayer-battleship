@@ -286,7 +286,8 @@ public abstract class Game extends SerializableEntity {
         return shipDestroyed ;
     }
     
-    /**
+      
+   /**
      * test if a ship is touched
      * @param ship the ship to test
      * @param mine the mine to test
@@ -303,6 +304,7 @@ public abstract class Game extends SerializableEntity {
         }
         return shipTouched ;
     }
+
     
      /**
      * test if the game is finished
@@ -310,7 +312,7 @@ public abstract class Game extends SerializableEntity {
      */
     public boolean isGameFinishedByCurrentPlayer() {
         List<Mine> mines = this.currentPlayer.getMines() ;
-        List<Ship> ships = this.getEnnemyPlayer().getShips() ; 
+        List<Ship> ships = this.ennemyOf(this.currentPlayer).getShips() ; 
         boolean gameFinished = true ;
         for (Ship s : ships) {
             if (!isShipDestroyed(s,mines))
@@ -324,7 +326,7 @@ public abstract class Game extends SerializableEntity {
      * @return boolean true if game finished false otherwise
      */
     public boolean isGameFinishedByEnnemy() {
-        List<Mine> mines = this.getEnnemyPlayer().getMines() ;
+        List<Mine> mines = this.ennemyOf(this.currentPlayer).getMines() ;
         List<Ship> ships = this.currentPlayer.getShips() ; 
         boolean gameFinished = true ;
         for (Ship s : ships) {
@@ -332,26 +334,6 @@ public abstract class Game extends SerializableEntity {
                 gameFinished = false; 
         }
         return gameFinished; 
-    }
+    }        
     
-     /**
-     * get the ennemy player
-     * @return Player the ennemy player
-     */
-    public Player getEnnemyPlayer() {
-        Player ennemyPlayer = null; 
-        for (Player p : players) {
-            if (p != this.getCurrentPlayer())
-                ennemyPlayer = p ; 
-        }
-        return ennemyPlayer ; 
-    }
-    
-     /**
-     * foorwardCoordinates
-     * @param mine the mine placed
-     */
-    public void forwardCoordinates(Mine mine) {
-        
-    }
 }
