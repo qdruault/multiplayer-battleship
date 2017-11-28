@@ -473,29 +473,6 @@ public class InGameGUIController {
         }
     }
 
-    /**
-     * Function for displaying new window with menu option (Save and leave)
-     * @param event
-     * @throws IOException
-     */
-    @FXML
-    public void onClickMenuButton(MouseEvent event) throws IOException {
-       System.out.println("Clic sur le bouton menu ");
-       FXMLLoader menuLoader = new FXMLLoader();
-       menuLoader.setLocation(getClass().getResource("/fxml/ihmtable/inGameGUIMenu.fxml"));
-       try {
-            Scene scene = new Scene((Parent) menuLoader.load(), 220, 300);
-            Stage stage = new Stage();
-            stage.setTitle("Pause");
-            stage.setScene(scene);
-            InGameGUIMenuController controller = menuLoader.<InGameGUIMenuController>getController();
-            controller.setFacade(facade);
-            stage.show();
-       } catch (IOException ex) {
-            Logger.getLogger(IHMTableFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-}
 
 
     /**
