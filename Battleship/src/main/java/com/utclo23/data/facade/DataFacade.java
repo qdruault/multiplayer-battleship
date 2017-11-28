@@ -210,6 +210,16 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     public void connectionLostWithOpponent() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    /**
+     * Request for a connection to a specific game hosted by another player.
+     * 
+     * @param gameID ID of the game you want to connect to
+     * @param role role you want to play int this game (obs, player)
+     */
+    public void gameConnectionRequest(String gameID, String role) {
+        StatGame game = this.gameMediator.getGame(gameID);
+        this.comfacade.connectionToGame(game);
+    }
 
     /**
 
@@ -282,14 +292,16 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
     /**
 
-     * Update game list as a new user has joined a game
+     * Update game list as a new user has joined it.
+     * 
      * @param user the new user who has joined
      * @param id id of the stat game 
      * @param role role of the new user
      */
     @Override
-    public void updateGameList(LightPublicUser user, String id, String role) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateGameList(LightPublicUser user, String id, String role) throws DataException {
+        this.gameMediator.updateGameList(user, id, role);
+        this.gameMediator.getCurrentGame().addUser(user, role);
     }
 
     /**
@@ -334,9 +346,15 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
     /**
      * Notify that player leaves game
+     * Different behavior when a player and an observer leave a game and when
+     * the player who leaves is an host or not.
      */
     @Override
     public void leaveGame() {
+        PublicUser user = this.userMediator.getMyPublicUserProfile();
+        this.comfacade.leaveGame(user);
+        this.gameMediator.leaveGame();
+        //this.ihmMainFacade.backToMenu(); en attente d'IHM main.
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

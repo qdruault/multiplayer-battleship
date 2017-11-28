@@ -103,6 +103,17 @@ public class GameMediator {
             throw new RuntimeException("Game " + statgame.getName() + " was already in the list of game.");
         }
     }
+    
+    /**
+     * Get a game in gamesMap.
+     * 
+     * @param ID UID of the targeted game
+     * @return StatGame representing the targeted game
+     */
+    public StatGame getGame(String ID) {
+        StatGame game = this.gamesMap.get(ID);
+        return game;
+    }
 
     /* get list of games
      *
@@ -175,9 +186,26 @@ public class GameMediator {
             
             //save with caretaker
             this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
-      }
+        }
+    }
+    /**
+     * 
+     * Update current game's list as a new user has joined it.
+     * 
+     * @param user the new user who has joined
+     * @param id id of the stat game 
+     * @param role role of the new user
+     */
+    public void updateGameList(LightPublicUser user, String id, String role) throws DataException {
+        if(this.currentGame.getId().compareTo(id) == 0) {
+            this.getCurrentGame().addUser(user, role);
+        } else {
+            throw new DataException("The game whose list of players you want to"
+                    + " update is not the current game.");
+        }
     }
     
+
     
     public void gameConnectionRequestGame(String id, String role) {
         
@@ -221,5 +249,14 @@ public class GameMediator {
         if (ihmTablefacade != null) {
             ihmTablefacade.printMessage(msg.getContent());
         }
+    }
+
+    /**
+     * Exit current game.
+     */
+    public void leaveGame() {
+        
+           throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 }
