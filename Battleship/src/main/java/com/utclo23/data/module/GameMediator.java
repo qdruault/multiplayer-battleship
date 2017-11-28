@@ -13,6 +13,7 @@ import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.data.structure.Player;
 import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.Message;
+import com.utclo23.data.structure.Mine;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.ihmtable.IIHMTableToData;
 import java.io.File;
@@ -211,11 +212,26 @@ public class GameMediator {
             }
             
             ComputerPlayer computerPlayer = (ComputerPlayer) this.currentGame.ennemyOf(localPlayer);
-            //random mode
-            
+            //random mode, no focus on location
             if(computerPlayer.getFocus()==null)
             {
-                
+                //make a new shot
+                Coordinate coord = this.generateRandomPosition();
+                boolean alreadyDone = false;
+                do{
+                    for(Mine mine : computerPlayer.getMines())
+                    {
+                        if(mine.getCoord().getX() == coord.getX() && mine.getCoord().getY() == coord.getY())
+                        {
+                            alreadyDone = true;
+                            break;
+                        }
+                        
+                    }
+                    
+                    coord = this.generateRandomPosition();
+                    
+                }while(alreadyDone);
             }
                        
             //add mines
@@ -226,8 +242,14 @@ public class GameMediator {
         }
     }
     
-    public Coordinate generatePosition()
+    public Coordinate generateRandomPosition()
     {
+        //reduce possible locations
+        int x = (int) (Math.random()*(Configuration.WIDTH/2));
+        int y = (int) (Math.random()*(Configuration.HEIGHT/2));
+        
+        Coordinate coordinate = new Coordinate(x*2, y*2);
+        return coordinate;
         
     }
     

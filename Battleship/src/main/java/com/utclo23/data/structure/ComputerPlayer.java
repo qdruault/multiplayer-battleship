@@ -13,6 +13,8 @@ import java.rmi.server.UID;
  */
 public class ComputerPlayer extends Player{
     private Coordinate focus;
+    
+    
     public ComputerPlayer() {
         super(LightPublicUser.generateComputerProfile());
         this.focus = null;
