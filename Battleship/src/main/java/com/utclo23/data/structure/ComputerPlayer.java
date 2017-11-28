@@ -13,14 +13,12 @@ import java.rmi.server.UID;
  */
 public class ComputerPlayer extends Player{
     private Coordinate focus;
-    private int dx;
-    private int dy;
+
     
     public ComputerPlayer() {
         super(LightPublicUser.generateComputerProfile());
         this.focus = null;
-        this.dx = 0;
-        this.dy = 0;
+        
     }
 
     public Coordinate getFocus() {
@@ -31,21 +29,7 @@ public class ComputerPlayer extends Player{
         this.focus = focus;
     }
 
-    public int getDx() {
-        return dx;
-    }
 
-    public void setDx(int dx) {
-        this.dx = dx;
-    }
-
-    public int getDy() {
-        return dy;
-    }
-
-    public void setDy(int dy) {
-        this.dy = dy;
-    }
     
     
     

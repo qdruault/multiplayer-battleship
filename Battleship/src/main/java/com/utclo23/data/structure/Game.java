@@ -88,7 +88,7 @@ public abstract class Game extends SerializableEntity {
         } else {
                 
             this.currentPlayer = this.ennemyOf(currentPlayer);
-        }
+        }          
     }
 
     public Player ennemyOf(Player player) {

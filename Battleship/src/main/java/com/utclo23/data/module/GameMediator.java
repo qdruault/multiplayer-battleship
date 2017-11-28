@@ -192,23 +192,21 @@ public class GameMediator {
     }
 
     public void attackIA() throws DataException {
+        
+        //check if current game
         if (this.currentGame != null) {
-            String id = this.dataFacade.getMyPublicUserProfile().getId();
-            Player localPlayer = this.currentGame.getPlayer(id);
-            if (localPlayer == null) {
-                throw new DataException("Data : player not found");
-            }
-
+            
             
             int dx = 0;
             int dy = 0;
             
-            ComputerPlayer computerPlayer = (ComputerPlayer) this.currentGame.ennemyOf(localPlayer);
-            Coordinate coord = null;
+            ComputerPlayer computerPlayer = (ComputerPlayer) this.currentGame.getCurrentPlayer();
+            Coordinate coord = null; //location of shoot
 
             //random mode, no focus on location
-            if (computerPlayer.getFocus() == null) {
-                //make a new shot
+            if (true) {
+                
+                //make a new shot not already chosen
                 coord = this.generateRandomPosition();
                 boolean alreadyDone = false;
                 do {
@@ -217,15 +215,15 @@ public class GameMediator {
                             alreadyDone = true;
                             break;
                         }
-
                     }
 
                     coord = this.generateRandomPosition();
 
                 } while (alreadyDone);
 
-            } else {
-
+            } 
+            //hunt mode
+          /*  else {
                 int x = computerPlayer.getFocus().getX();
                 int y = computerPlayer.getFocus().getY();
 
@@ -233,7 +231,6 @@ public class GameMediator {
                 dy = -1;
 
                 boolean check = false;
-
                 while (dx <= 1 && !check) {
                     if (dx + x < 0 || dx + x > Configuration.HEIGHT) {
                         while (dy <= 1 && !check) {
@@ -264,24 +261,38 @@ public class GameMediator {
                     }
                     dx++;
                 }
-
             }
-
-            dx--;
+            
+              dx--;
             dy--;
+            */
+          
             
             Mine mine = new Mine(computerPlayer, coord);
             computerPlayer.getMines().add(mine);
 
             //check if shot
-            for (Ship ship : localPlayer.getShips()) {
+           /* boolean check = false;
+            for (Ship ship : this.currentGame.ennemyOf(computerPlayer).getShips()) {
                 for (Coordinate c : ship.getListCoord()) {
-
-                    computerPlayer.setFocus(c);
+                    
+                    if(c.getX() == coord.getX() && c.getY() == c.getY()){
+                        
+                        computerPlayer.setFocus(c);
+                        check = true;
+                        break;
+                    }
+                  
                 }
             }
+            
+            if(!check)
+            {
+                 computerPlayer.setFocus(null);
+            }
 
-            this.currentGame.nextTurn();
+            */
+            this.currentGame.nextTurn(); 
             //save with caretaker
             //this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
         }
@@ -289,10 +300,10 @@ public class GameMediator {
 
     public Coordinate generateRandomPosition() {
         //reduce possible locations
-        int x = (int) (Math.random() * (Configuration.WIDTH / 2));
-        int y = (int) (Math.random() * (Configuration.HEIGHT / 2));
+        int x = (int) (Math.random() * (Configuration.WIDTH ));
+        int y = (int) (Math.random() * (Configuration.HEIGHT));
 
-        Coordinate coordinate = new Coordinate(x * 2, y * 2);
+        Coordinate coordinate = new Coordinate(x , y );
         return coordinate;
 
     }
