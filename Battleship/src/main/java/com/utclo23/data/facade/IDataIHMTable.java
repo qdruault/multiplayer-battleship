@@ -24,5 +24,5 @@ public interface IDataIHMTable {
     public List<Event> getNextBoard();
     public void sendMessage(String text);
     public Game getGame();
-    
+    public PublicUser getMyPublicUserProfile();
 }
