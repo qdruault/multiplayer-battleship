@@ -30,5 +30,7 @@ public interface IDataCom {
     public void updateGameList(LightPublicUser user, String id, String role) throws DataException;
     public List<StatGame> getGameList();
     public List<LightPublicUser> getConnectedUsers();
+    public void connectionImpossible() throws DataException;
+    public void receptionGame(Game game) throws DataException;
 
 }
