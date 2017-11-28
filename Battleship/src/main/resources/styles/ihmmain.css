@@ -76,6 +76,20 @@
     
 }
 
+/* Used to personalize all TextFields */
+.text-field{
+    -fx-background-radius: 5 5 5 5;
+    -fx-border-radius: 5 5 5 5;
+    -fx-background-color: #0D2E45;
+    -fx-border-color: #ffffff;
+    -fx-font-family: "Arial";
+    -fx-text-fill: #ffffff;
+}
+
+.text-field:focused{
+    -fx-border-color: #0ce8f0;
+}
+
 /* The frame around the buttons in the main menu */
 #frameButton{
     -fx-background-color: rgba(255, 255, 255, 0.08);
