@@ -54,7 +54,5 @@ public class M_GetIP extends Message{
 		Sender os = new Sender(IP_sender.getHostAddress(), 80, returnIp);
 		Thread thread = new Thread(os);
 			thread.start();
-		
-		// WORK IN PROGRESS
     }
 }

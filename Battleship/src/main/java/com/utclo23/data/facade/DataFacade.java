@@ -549,7 +549,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     public void receivePublicUserProfile(PublicUser profile) {
-        this.ihmMainFacade.receivePublicUserProfile(profile);
+        //this.ihmMainFacade.receivePublicUserProfile(profile);
     }
 
     @Override
