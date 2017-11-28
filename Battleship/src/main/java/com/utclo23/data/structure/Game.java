@@ -156,17 +156,11 @@ public abstract class Game extends SerializableEntity {
         int succeedAtteck = 0;
         // The ship if the mine is in the place of it
         Ship shipTouch = null;
+        Ship shipReturn = null;
         
         //Get player opponent
-        List<Player> players = this.players;
         Player playerOpponent = null;
-        for(int i = 0; i < players.size(); i++){
-            Player a = players.get(i);
-            if(a != player){
-                playerOpponent = a;
-                break;
-            }
-        }
+        playerOpponent = ennemyOf(player);
         //Get opponent's ships
         if (playerOpponent == null) {
             throw new DataException("Data : player opponent doesn't exist");
@@ -198,7 +192,11 @@ public abstract class Game extends SerializableEntity {
         player.getMines().add(mine);
         
         //Return the ship. If is not in right place, shipReturn = null
-        return ;
+        if(isShipDestroyed(shipTouch, player.getMines()) ){
+            shipReturn = shipTouch;
+        }
+        nextTurn();
+        return shipReturn;
     }
     
     
