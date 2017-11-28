@@ -11,10 +11,9 @@ import com.utclo23.data.structure.PublicUser;
  * @author thibault
  */
 public class M_PlayerInfo extends Message {
-    private String id;
     
-    public M_PlayerInfo(String i){
-        id = i;
+    public M_PlayerInfo(PublicUser user){
+       super(user);
     }
     @Override
     public void callback(IDataCom iDataCom){

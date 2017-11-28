@@ -14,7 +14,9 @@
         <Label fx:id="title" layoutX="606.0" layoutY="32.0" minHeight="16" minWidth="69" text="Battleship" />
       <Button fx:id="profileButton" layoutX="611.0" layoutY="293.0" onAction="#showProfile" text="Profile" />
       <Button fx:id="PlayerListButton" layoutX="601.0" layoutY="369.0" onAction="#showPlayerList" text="PlayerList" />
-      <Button fx:id="exitButton" layoutX="621.0" layoutY="457.0" onAction="#exit" text="Exit" />
+      <Button fx:id="ipListButton" layoutX="612.0" layoutY="453.0" mnemonicParsing="false" onAction="#showIpList" text="IPList" />
+      <Button fx:id="exitButton" layoutX="618.0" layoutY="579.0" onAction="#exit" text="Exit" />
       <Line endX="100.0" fill="BLACK" layoutX="640.0" layoutY="67.0" startX="-100.0" stroke="#140dbf" />
+      <Button fx:id="disconnectButton" layoutX="593.0" layoutY="522.0" mnemonicParsing="false" onAction="#disconnect" text="Disconnect" />
     </children>
 </AnchorPane>

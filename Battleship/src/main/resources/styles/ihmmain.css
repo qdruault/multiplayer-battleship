@@ -1,0 +1,89 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 31 oct. 2017, 20:31:21
+    Author     : Loïc
+*/
+
+#generalGrid{
+    -fx-background-color: #061f30;
+}
+
+.table-view {
+    -fx-base: transparent;
+    -fx-control-inner-background: transparent;
+    /*-fx-table-cell-border-color: #0ce8f0;
+    -fx-table-header-border-color: #0ce8f0;
+    -fx-padding: 5;*/
+}
+
+.table-view .column-header {
+    /*-fx-border-width: 0 0 1 0;
+    -fx-background-color: transparent;*/
+    /*-fx-border-color: #0ce8f0;*/
+    -fx-border-color: #0ce8f0;
+}
+
+cell-right.table-row-cell {
+    -fx-border-radius: 10px 0px 0px 0px;
+}
+    
+.cell-left {
+    -fx-border-radius: 0px 10px 00px 0px;
+}
+
+.table-column {
+    -fx-border-color: #0ce8f0;
+}
+
+.table-view .column-header .label {
+    -fx-font-size: 15pt;
+    -fx-font-family: "Space Age";
+    -fx-text-fill: #ef8d00;
+    -fx-alignment: center;
+    /*-fx-opacity: 1;*/
+}
+
+.table-row-cell {
+    -fx-background-color: transparent;
+}
+
+/*.table-view:focused .table-row-cell:filled:focused:selected {
+    -fx-background-color: -fx-focus-color;
+}
+
+.split-pane:horizontal > .split-pane-divider {
+    -fx-border-color: transparent #1d1d1d transparent #1d1d1d;
+    -fx-background-color: transparent, derive(#1d1d1d,20%);
+}
+
+.split-pane {
+    -fx-padding: 1 0 0 0;
+}
+
+.menu-bar {
+    -fx-background-color: derive(#1d1d1d,20%);
+}
+
+.context-menu {
+    -fx-background-color: derive(#1d1d1d,50%);
+}
+
+.menu-bar .label {
+    -fx-font-size: 14pt;
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: white;
+    -fx-opacity: 0.9;
+}
+
+.menu .left-container {
+    -fx-background-color: black;
+}
+
+.text-field {
+    -fx-font-size: 12pt;
+    -fx-font-family: "Segoe UI Semibold";
+}*/

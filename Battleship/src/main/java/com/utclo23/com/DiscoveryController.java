@@ -6,6 +6,7 @@
 package com.utclo23.com;
 
 import java.net.Inet4Address;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,12 +19,12 @@ public class DiscoveryController {
     private List<Inet4Address> getIpIssuedList;
 
     private DiscoveryController() {
+        getIpIssuedList = new ArrayList<Inet4Address>();
     }
     // SINGLETON
     // Holder
 
     private static class SingletonHolder {
-
         private final static DiscoveryController instance = new DiscoveryController();
     }
 
@@ -43,4 +44,8 @@ public class DiscoveryController {
     public List<Inet4Address> getGetIpIssuedList() {
         return getIpIssuedList;
     }
+	
+	public void removeIpRetrieved(Inet4Address ip){
+		getIpIssuedList.remove(ip);
+	}
 }

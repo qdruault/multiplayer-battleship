@@ -5,6 +5,7 @@
  */
 package com.utclo23.data.module;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,8 +27,8 @@ public class Caretaker {
      * constructor
      * @param mementoList 
      */
-    public Caretaker(List<Memento> mementoList) {
-        this.mementoList = mementoList;
+    public Caretaker() {
+        this.mementoList = new ArrayList<>();
         this.current = 0;
     }
     
@@ -63,6 +64,14 @@ public class Caretaker {
     public void next()
     {
         this.current++;
+    }
+    
+    /**
+     * move to the next memento
+     */
+    public void prev()
+    {
+        this.current--;
     }
 }
 
