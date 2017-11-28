@@ -87,7 +87,9 @@ public class GameListController extends AbstractController{
             public void handle(MouseEvent event) {
                 Node node = ((Node) event.getTarget()).getParent();
                 TableRow row;
-                if (node instanceof TableRow) {
+                if(node instanceof TableView){
+                }else{
+                    if (node instanceof TableRow) {
                     row = (TableRow) node;
                 } else {
                     // clicking on text part, parent is cell or row, cell's parent is the row
@@ -100,6 +102,8 @@ public class GameListController extends AbstractController{
                 }
                 StatGame selected = (StatGame)row.getItem();
                 selectedGame = selected;
+                }
+
             }
         });
     }
@@ -108,11 +112,13 @@ public class GameListController extends AbstractController{
         //add columns
         TableColumn nameColumn = new TableColumn("NAME");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        //nameColumn.getStyleClass().add("cell-left");
+        nameColumn.getStyleClass().add("cell-left");
+        nameColumn.getStyleClass().add("label");
         
         TableColumn creatorColumn = new TableColumn("CREATOR");
         creatorColumn.setCellValueFactory(new PropertyValueFactory<>("creator"));
         //setting the cell factory for the creator.playerName column  
+        creatorColumn.getStyleClass().add("label");
         creatorColumn.setCellFactory(new Callback<TableColumn<StatGame, LightPublicUser>, TableCell<StatGame, LightPublicUser>>(){
 
             @Override
@@ -134,13 +140,17 @@ public class GameListController extends AbstractController{
         
         TableColumn modeColumn = new TableColumn("MODE");
         modeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        modeColumn.getStyleClass().add("label");
         
         TableColumn chatColumn = new TableColumn("CHAT");
         chatColumn.setCellValueFactory(new PropertyValueFactory<>("spectatorChat"));
+        chatColumn.getStyleClass().add("label");
         
         TableColumn playerNumberColumn = new TableColumn("NUMBER PLAYER");
         playerNumberColumn.setCellValueFactory(new PropertyValueFactory<>("LightPublicUser"));
         // ======== setting the cell factory for the creator.playerName column  
+        playerNumberColumn.getStyleClass().add("cell-right");
+        playerNumberColumn.getStyleClass().add("label");
         playerNumberColumn.setCellFactory(new Callback<TableColumn<StatGame, List<Player>>, TableCell<StatGame, List<Player>>>(){
 
             @Override
