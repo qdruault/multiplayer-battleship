@@ -8,7 +8,6 @@ package com.utclo23.ihmmain.facade;
 import com.utclo23.data.facade.IDataIHMMain;
 import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.PublicUser;
-import com.utclo23.data.structure.StatGame;
 import com.utclo23.ihmmain.IHMMain;
 import com.utclo23.ihmmain.constants.SceneName;
 import com.utclo23.ihmmain.controller.GameListController;
