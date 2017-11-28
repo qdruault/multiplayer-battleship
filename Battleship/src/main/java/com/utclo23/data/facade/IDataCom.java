@@ -33,4 +33,5 @@ public interface IDataCom {
     public void connectionImpossible() throws DataException;
     public void receptionGame(Game game) throws DataException;
     public void receivePublicUserProfile(PublicUser profile);
+
 }

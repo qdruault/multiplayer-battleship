@@ -34,29 +34,30 @@ public class M_GetIP extends Message {
     }
 
     @Override
-    public void callback(IDataCom iDataCom) {
-        System.out.println("GET IP Received");
-        // get the necessairy data from the Data module to send back to the requesting node
-        iDataCom.addConnectedUser(user.getLightPublicUser());
+    public void callback(IDataCom iDataCom){
+		System.out.println("GET IP Received");
+		// get the necessairy data from the Data module to send back to the requesting node
+		iDataCom.addConnectedUser(user.getLightPublicUser());
+		
+		// TODO: add fonction to get the data from DATA
+		List<LightPublicUser> listUsers = iDataCom.getConnectedUsers();
+                listUsers.add(iDataCom.getMyPublicUserProfile().getLightPublicUser());
+		List<StatGame>listGames = iDataCom.getGameList();
+		
+		kic = KnownIPController.getInstance();
+		// add new user to own knownIP hashmap. 
+		kic.addNode(user.getLightPublicUser().getId(), IP_sender);
+		
+		name = this.getClass().getName();
 
-        // TODO: add fonction to get the data from DATA
-        List<LightPublicUser> listUsers = iDataCom.getConnectedUsers();
-        List<StatGame> listGames = iDataCom.getGameList();
-
-        kic = KnownIPController.getInstance();
-        // add new user to own knownIP hashmap. 
-        kic.addNode(user.getLightPublicUser().getId(), IP_sender);
-
-        name = this.getClass().getName();
-
-        // get the hasmap of our IP to send it to the requesting node. 
-        HashMap<String, Inet4Address> IdToIp = kic.getHashMap();
-
-        // send back the data this node has about its known network.
-        M_ReturnIP returnIp = new M_ReturnIP(user, listGames, listUsers, IdToIp);
-
-        Sender os = new Sender(IP_sender.getHostAddress(), 80, returnIp);
-        Thread thread = new Thread(os);
-        thread.start();
+		// get the hasmap of our IP to send it to the requesting node. 
+		HashMap<String,Inet4Address> IdToIp = kic.getHashMap();
+		
+		// send back the data this node has about its known network.
+		M_ReturnIP	returnIp = new M_ReturnIP(user, listGames, listUsers, IdToIp);
+		
+		Sender os = new Sender(IP_sender.getHostAddress(), 80, returnIp);
+		Thread thread = new Thread(os);
+			thread.start();
     }
 }
