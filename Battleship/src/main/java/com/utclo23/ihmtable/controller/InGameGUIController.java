@@ -155,12 +155,19 @@ public class InGameGUIController {
      */
     private boolean gameStarted;
 
-
+    /**
+     * Map of the btn ship
+     */
     private Map<ShipType,Button> mapBtnType;
+    
+    /*
+       Map reccording the number of ships
+    */
+    private Map<ShipType,Integer> mapShipCount;
     /**
      * Set the IHM Table facade.
      * @param facade : IHM Table facade.
-     */
+     */ 
     public void setFacade(IHMTableFacade facade) {
         this.facade = facade;
     }
@@ -261,37 +268,35 @@ public class InGameGUIController {
         mapBtnType.put(ShipType.SUBMARINE, buttonImage5);
 
         //Map to count the number of ship / type
-        Map<ShipType,Integer> map = new HashMap<>();
-        map.put(ShipType.CARRIER,0);
-        map.put(ShipType.BATTLESHIP,0);
-        map.put(ShipType.CRUISER,0);
-        map.put(ShipType.DESTROYER,0);
-        map.put(ShipType.SUBMARINE,0);
+        mapShipCount = new HashMap<>();
+        mapShipCount.put(ShipType.CARRIER,0);
+        mapShipCount.put(ShipType.BATTLESHIP,0);
+        mapShipCount.put(ShipType.CRUISER,0);
+        mapShipCount.put(ShipType.DESTROYER,0);
+        mapShipCount.put(ShipType.SUBMARINE,0);
         
-        //Fill the map from the list of ships obtained from Data
+        //Fill the mapShipCount from the list of ships obtained from Data
         int count = 0;
         for(int i = 0; i<ships.size();i++)
         {
-            map.put(ships.get(i).getType(),map.get(ships.get(i).getType())+1);
+            mapShipCount.put(ships.get(i).getType(),mapShipCount.get(ships.get(i).getType())+1);
         }
         
         //Set the number of available ship in the label of the buttons
-        mapBtnType.get(ShipType.CARRIER).setText(map.get(ShipType.CARRIER).toString());
+        mapBtnType.get(ShipType.CARRIER).setText(mapShipCount.get(ShipType.CARRIER).toString());
         System.out.println("CARRIER : " + mapBtnType.get(ShipType.CARRIER).getText());
-        mapBtnType.get(ShipType.BATTLESHIP).setText(map.get(ShipType.BATTLESHIP).toString());
+        mapBtnType.get(ShipType.BATTLESHIP).setText(mapShipCount.get(ShipType.BATTLESHIP).toString());
         System.out.println("BATTLE : " + mapBtnType.get(ShipType.BATTLESHIP).getText());
-        mapBtnType.get(ShipType.CRUISER).setText(map.get(ShipType.CRUISER).toString());
+        mapBtnType.get(ShipType.CRUISER).setText(mapShipCount.get(ShipType.CRUISER).toString());
         System.out.println("CRUISER : " + mapBtnType.get(ShipType.CRUISER).getText());
-        mapBtnType.get(ShipType.DESTROYER).setText(map.get(ShipType.DESTROYER).toString());
+        mapBtnType.get(ShipType.DESTROYER).setText(mapShipCount.get(ShipType.DESTROYER).toString());
         System.out.println("DESTROYER : " + mapBtnType.get(ShipType.DESTROYER).getText());
-        mapBtnType.get(ShipType.SUBMARINE).setText(map.get(ShipType.SUBMARINE).toString());
+        mapBtnType.get(ShipType.SUBMARINE).setText(mapShipCount.get(ShipType.SUBMARINE).toString());
         System.out.println("SUBMARINE : " + mapBtnType.get(ShipType.SUBMARINE).getText());
         
         // Example ships.
         buttonImage1.setOnMouseClicked(new SelectShipEvent(ShipType.BATTLESHIP));
         buttonImage2.setOnMouseClicked(new SelectShipEvent(ShipType.CARRIER));
-        buttonImage1.setOnMouseClicked(new SelectShipEvent(ShipType.CARRIER));
-        buttonImage2.setOnMouseClicked(new SelectShipEvent(ShipType.BATTLESHIP));
         buttonImage3.setOnMouseClicked(new SelectShipEvent(ShipType.CRUISER));
         buttonImage4.setOnMouseClicked(new SelectShipEvent(ShipType.DESTROYER));
         buttonImage5.setOnMouseClicked(new SelectShipEvent(ShipType.SUBMARINE));
@@ -317,6 +322,21 @@ public class InGameGUIController {
         }
     }
 
+    /**
+     * Update the label on the ship button by adding the specified value
+     * Param ShipType
+     */
+    void updateShipButton(ShipType type, int value)
+    {
+        try {
+            mapShipCount.replace(type, mapShipCount.get(type) + value);
+            mapBtnType.get(type).setText(mapShipCount.get(type).toString());
+        } catch (Exception e) {
+            //Pour une raison obscure, les types apparaissent par moments en francais quand un merge est fait avec DATA
+            System.out.println("The shipType key isn't found in the map");
+        }
+    }
+    
     /**
      * Click on the "Fire" button.
      * @param event
@@ -605,12 +625,15 @@ public class InGameGUIController {
                                 }
                                 
                                 // ATTENTION! Grid size is out of control!
+                                // setShip didn't return any exception so the ship is correctly placed -> Update the label on the left panel
+                                updateShipButton(shipToPlace, -1);
                                 break;
                             } catch (Exception ex) {
                                 Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
                                 // Wrong coordinates -> reset.
                                 ship.getListCoord().clear();
                             }
+                            
                         }
                     }
 
