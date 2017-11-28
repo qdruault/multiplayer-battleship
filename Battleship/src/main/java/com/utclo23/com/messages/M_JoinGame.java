@@ -5,8 +5,11 @@
  */
 package com.utclo23.com.messages;
 import com.utclo23.data.facade.IDataCom;
+import com.utclo23.data.module.DataException;
 import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.StatGame;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author thibault
@@ -21,8 +24,12 @@ public class M_JoinGame extends Message {
     }
     @Override
     public void callback(IDataCom iDataCom) {
-        //Mettre à jour l'interface updateGameList()
-      // iDataCom.updateGameList(user.getLightPublicUser(), game.getId(), role);
+        try {
+            //Mettre à jour l'interface updateGameList()
+            iDataCom.updateGameList(user.getLightPublicUser(), game.getId(), role);
+        } catch (DataException ex) {
+            Logger.getLogger(M_JoinGame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     public void setRole(String r){
         role = r;
