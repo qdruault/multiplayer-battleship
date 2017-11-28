@@ -155,6 +155,8 @@ public class InGameGUIController {
      */
     private boolean gameStarted;
 
+
+    private Map<ShipType,Button> mapBtnType;
     /**
      * Set the IHM Table facade.
      * @param facade : IHM Table facade.
@@ -242,10 +244,54 @@ public class InGameGUIController {
         ships.add(new Ship(ShipType.CRUISER, 3));
         ships.add(new Ship(ShipType.DESTROYER, 2));
         ships.add(new Ship(ShipType.SUBMARINE, 2));
+        
+        ships.add(new Ship(ShipType.BATTLESHIP, 4));
+        ships.add(new Ship(ShipType.BATTLESHIP, 4));
+        ships.add(new Ship(ShipType.CARRIER, 4));
+        ships.add(new Ship(ShipType.CRUISER, 3));
+        ships.add(new Ship(ShipType.DESTROYER, 2));
+        ships.add(new Ship(ShipType.SUBMARINE, 2));
+        
+        //Add manually the button to set them up
+        mapBtnType = new HashMap<>();
+        mapBtnType.put(ShipType.CARRIER, buttonImage1);
+        mapBtnType.put(ShipType.BATTLESHIP, buttonImage2);
+        mapBtnType.put(ShipType.CRUISER, buttonImage3);
+        mapBtnType.put(ShipType.DESTROYER, buttonImage4);
+        mapBtnType.put(ShipType.SUBMARINE, buttonImage5);
 
+        //Map to count the number of ship / type
+        Map<ShipType,Integer> map = new HashMap<>();
+        map.put(ShipType.CARRIER,0);
+        map.put(ShipType.BATTLESHIP,0);
+        map.put(ShipType.CRUISER,0);
+        map.put(ShipType.DESTROYER,0);
+        map.put(ShipType.SUBMARINE,0);
+        
+        //Fill the map from the list of ships obtained from Data
+        int count = 0;
+        for(int i = 0; i<ships.size();i++)
+        {
+            map.put(ships.get(i).getType(),map.get(ships.get(i).getType())+1);
+        }
+        
+        //Set the number of available ship in the label of the buttons
+        mapBtnType.get(ShipType.CARRIER).setText(map.get(ShipType.CARRIER).toString());
+        System.out.println("CARRIER : " + mapBtnType.get(ShipType.CARRIER).getText());
+        mapBtnType.get(ShipType.BATTLESHIP).setText(map.get(ShipType.BATTLESHIP).toString());
+        System.out.println("BATTLE : " + mapBtnType.get(ShipType.BATTLESHIP).getText());
+        mapBtnType.get(ShipType.CRUISER).setText(map.get(ShipType.CRUISER).toString());
+        System.out.println("CRUISER : " + mapBtnType.get(ShipType.CRUISER).getText());
+        mapBtnType.get(ShipType.DESTROYER).setText(map.get(ShipType.DESTROYER).toString());
+        System.out.println("DESTROYER : " + mapBtnType.get(ShipType.DESTROYER).getText());
+        mapBtnType.get(ShipType.SUBMARINE).setText(map.get(ShipType.SUBMARINE).toString());
+        System.out.println("SUBMARINE : " + mapBtnType.get(ShipType.SUBMARINE).getText());
+        
         // Example ships.
         buttonImage1.setOnMouseClicked(new SelectShipEvent(ShipType.BATTLESHIP));
         buttonImage2.setOnMouseClicked(new SelectShipEvent(ShipType.CARRIER));
+        buttonImage1.setOnMouseClicked(new SelectShipEvent(ShipType.CARRIER));
+        buttonImage2.setOnMouseClicked(new SelectShipEvent(ShipType.BATTLESHIP));
         buttonImage3.setOnMouseClicked(new SelectShipEvent(ShipType.CRUISER));
         buttonImage4.setOnMouseClicked(new SelectShipEvent(ShipType.DESTROYER));
         buttonImage5.setOnMouseClicked(new SelectShipEvent(ShipType.SUBMARINE));
