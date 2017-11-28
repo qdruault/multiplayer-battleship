@@ -6,6 +6,7 @@
 package com.utclo23.data.structure;
 
 import com.utclo23.data.module.Caretaker;
+import com.utclo23.data.module.DataException;
 import com.utclo23.data.module.Memento;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,30 @@ public abstract class Game extends SerializableEntity {
         this.currentPlayer = null;
         /* creation of caretaker */
         this.caretaker = new Caretaker();
+    }
+    
+    /**
+     * Adding a user to the game, as spectator or player.
+     * 
+     * @param user
+     * @param role
+     * @throws DataException 
+     */
+    public void addUser(LightPublicUser user, String role) throws DataException {
+        if(role.compareTo("player") == 0) {
+            if(this.players.size() == 1) {
+                Player player = new Player(user);
+                this.players.add(player);
+            } else {
+                throw new DataException("Data : already two players in this "
+                        + "game, you can not add another one.");
+            }
+        } else if(role.compareTo("spectator") == 0) {
+            this.spectators.add(user);
+        } else {
+            throw new DataException("Data : given role is not known.");
+        }
+        
     }
 
     public List<Player> getPlayers() {
@@ -104,6 +129,10 @@ public abstract class Game extends SerializableEntity {
 
     public StatGame getStatGame() {
         return statGame;
+    }
+    
+    public String getId() {
+        return this.statGame.getId();
     }
 
     public void setStatGame(StatGame statGame) {
