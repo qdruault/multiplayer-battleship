@@ -5,32 +5,25 @@
  */
 package com.utclo23.ihmmain.controller;
 
-import com.utclo23.data.facade.DataFacade;
-import com.utclo23.ihmmain.IHMMain;
 import java.io.File;
 import java.io.IOException;
 import java.time.ZoneId;
 import java.util.Date;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 /**
- *
- * @author Louis Groisne
  * Controller class for the user creation view. 
  * This class allows a user to create a new user json file to log into the application.
  * This class get the values from the form's fields with FXML properties.
  * The associated view is defined in the FXML file CreateUser.fxml.
  * No field can be empty for the controller to authorize a new user creation.
+ *
+ * @author Louis Groisne
  *
  */
 
@@ -61,11 +54,11 @@ public class CreateUserController extends AbstractController{
     // BUTTON HANDLERS
     
     /**
-     * 
      * This method is the handler for the Create button.
      * It is called when a user click on the create button.
-     * This method checks the fields by calling @ref isAnyFieldEmpty()
-     * If every field is filled, the method calls @createUser()
+     * This method checks the fields by calling @ref isAnyFieldEmpty().
+     * If every field is filled, the method calls @createUser().
+     *
      * @param event the event parameter used by Java for buttons' handler.
      * @throws IOException throws a default Java exception in case if any failure.
      */
@@ -85,6 +78,7 @@ public class CreateUserController extends AbstractController{
      * This method is the handler for the Return button.
      * It is called when a user click on the return button.
      * Returns to the login screen by calling @ref back().
+     *
      * @param event the event parameter used by Java for buttons' handler.
      * @throws IOException throws a default Java exception in case if any failure.
      */
@@ -98,6 +92,7 @@ public class CreateUserController extends AbstractController{
      * This opens a windows file chooser to choose a file.
      * A File object is created with the path associated to the selected file.
      * If the File is successfully created, the avatarPath property is set.
+     *
      * @param event the event parameter used by Java for buttons' handler.
      * @throws IOException throws a default Java exception in case if any failure.
      */
@@ -115,6 +110,7 @@ public class CreateUserController extends AbstractController{
     /**
      * Returns to the login view.
      * Method called by @ref handleButtonReturn.
+     *
      * @throws IOException throws a default Java exception in case if any failure.
      */
     private void back() throws IOException{
@@ -122,6 +118,7 @@ public class CreateUserController extends AbstractController{
     }
     /**
      * This method calls Data's createUser() method to create a new user's JSON file.
+     *
      * @param userName: user's name
      * @param password: user's password
      * @param firstName user's first name
@@ -145,6 +142,7 @@ public class CreateUserController extends AbstractController{
     /**
      * This method is used internally to this class.
      * It checks if any field is empty, either by calling @ref isFieldEmpty or by checking against a null value.
+     *
      * @return true if any field is empty, false otherwise.
      */
     private boolean isAnyFieldEmpty(){
@@ -175,14 +173,11 @@ public class CreateUserController extends AbstractController{
     /**
      * This method is used internally to this class.
      * It checks if the given value is null or an empty string.
+     *
      * @param textField the TextField to check.
      * @return true if the given field is empty, false otherwise.
      */
     private boolean isFieldEmpty(TextField textField){
-        if (textField.getText() == null || textField.getText().trim().isEmpty() ){
-            return true;
-        } else {
-            return false;
-        }
+        return (textField.getText() == null || textField.getText().trim().isEmpty());
     }
 }
