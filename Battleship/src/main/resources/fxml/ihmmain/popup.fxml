@@ -9,7 +9,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="150.0" prefWidth="300.0" stylesheets="@../../styles/ihmmain.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.PopupController">
    <children>
-      <Pane layoutX="-1.0" layoutY="-1.0" prefHeight="150.0" prefWidth="400.0">
+      <Pane prefHeight="151.0" prefWidth="400.0">
          <children>
             <GridPane layoutX="51.0" layoutY="50.0" prefHeight="54.0" prefWidth="277.0">
               <columnConstraints>
@@ -24,6 +24,7 @@
             <Button layoutX="46.0" layoutY="91.0" mnemonicParsing="false" onAction="#close" prefHeight="27.0" prefWidth="97.0" text="Back" />
             <Button fx:id="submit" layoutX="231.0" layoutY="91.0" mnemonicParsing="false" onAction="#update" prefHeight="27.0" prefWidth="97.0" text="Submit" />
             <TextArea fx:id="field" layoutX="77.0" layoutY="35.0" prefHeight="28.0" prefWidth="229.0" />
-         </children></Pane>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

@@ -7,12 +7,18 @@ package com.utclo23.ihmmain.controller;
 
 import com.utclo23.data.structure.PublicUser;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -34,7 +40,7 @@ public class PlayerProfileController extends AbstractController{
     private Label birthday;    
     @FXML
     private TextField description;
-
+   
     private PublicUser me;
     private PublicUser other;
     private boolean isLoading = true; 
@@ -111,16 +117,53 @@ public class PlayerProfileController extends AbstractController{
         popup.show();
     }  
     public void recievePublicUser(PublicUser player) throws IOException{
-        isLoading = false;
-        other = player;
+        if(isRunning()){
+            isLoading = false;
+            other = player;
+        }
     }
     public void loading() throws IOException{
         if (isLoading==true){
-            //todo 
-        }
-        else{
-            isOther = true;
-            ihmmain.toPlayerProfile();
+            ProgressIndicator pin = new ProgressIndicator ();
+            pin.setProgress(-1);
+            //to do: display ProgressIndicator
+            
+            //create a wait task, check every 0.5s if the loading is finished
+            Task<Void> wait;
+            wait = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        while(isLoading){
+                            System.out.println("Waiting");
+                            Thread.sleep(500);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+            };
+            //if loading succed, call the refresh();
+            wait.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+                @Override
+                public void handle(WorkerStateEvent event) {
+                    isOther = true;
+                    try {
+                        ihmmain.toPlayerProfile();
+                    } catch (IOException ex) {
+                        Logger.getLogger(PlayerProfileController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            });
+            //if loading failed
+            wait.setOnFailed(new EventHandler<WorkerStateEvent>() {
+                @Override
+                public void handle(WorkerStateEvent t){
+                    System.out.println("Loading task failed : " + t.toString());
+                }
+            });
+            new Thread(wait).start();
         }
     }
     @Override
