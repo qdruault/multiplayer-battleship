@@ -34,6 +34,6 @@
             <Button fx:id="watchButton" mnemonicParsing="false" onAction="#watchSelectedGame" text="Watch" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
-      <ScrollPane fx:id="gameListPane" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+      <ScrollPane id="gameListPane" fx:id="gameListPane" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
    </children>
 </GridPane>
