@@ -63,8 +63,5 @@ public class Ship extends SerializableEntity{
 
     public void setSize(int size) {
         this.size = size;
-    }
-    
-    
-    
+    }    
 }
