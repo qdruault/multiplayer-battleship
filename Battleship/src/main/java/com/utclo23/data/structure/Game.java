@@ -238,6 +238,24 @@ public abstract class Game extends SerializableEntity {
         return shipDestroyed ;
     }
     
+    /**
+     * test if a ship is touched
+     * @param ship the ship to test
+     * @param mine the mine to test
+     * @return boolean true if ship touched false otherwise
+     */
+    public boolean isShipTouched(Ship ship, Mine mine) {
+        List<Coordinate> coord = ship.getListCoord() ;
+        boolean shipTouched = false ;
+        for (Coordinate c : coord) {
+            if (c == mine.getCoord()) {
+                shipTouched = true ; 
+                return shipTouched ; 
+            }
+        }
+        return shipTouched ;
+    }
+    
      /**
      * test if the game is finished
      * @return boolean true if game finished false otherwise
