@@ -8,7 +8,6 @@ package com.utclo23.ihmmain.facade;
 import com.utclo23.data.facade.IDataIHMMain;
 import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.PublicUser;
-import com.utclo23.data.structure.StatGame;
 import com.utclo23.ihmmain.IHMMain;
 import com.utclo23.ihmmain.constants.SceneName;
 import com.utclo23.ihmmain.controller.GameListController;
@@ -23,9 +22,9 @@ import javafx.stage.Stage;
  */
 public class IHMMainFacade implements IHMMainToIhmTable, IHMMainToData{
     
-    private IHMMain ihmmain;
-    public IDataIHMMain iDataIHMMain;
-    public IIHMTableToIHMMain iIHMTableToIHMMain;
+    final private IHMMain ihmmain;
+    final public IDataIHMMain iDataIHMMain;
+    final public IIHMTableToIHMMain iIHMTableToIHMMain;
     
     /**
      * create IHM Main facade and instanciate ihm main components
@@ -73,8 +72,10 @@ public class IHMMainFacade implements IHMMainToIhmTable, IHMMainToData{
        GameListController controller =(GameListController)ihmmain.controllerMap.get(SceneName.GAME_LIST.toString());
        controller.receptionGame(game);
     }
+    @Override
     public void connectionImpossible(){
-       System.out.println("Not supported yet");
+       GameListController controller =(GameListController)ihmmain.controllerMap.get(SceneName.GAME_LIST.toString());
+       controller.connectionImpossible();
     }
 
 }   
