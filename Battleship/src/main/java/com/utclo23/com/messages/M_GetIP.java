@@ -41,7 +41,7 @@ public class M_GetIP extends Message {
 		
 		// TODO: add fonction to get the data from DATA
 		List<LightPublicUser> listUsers = iDataCom.getConnectedUsers();
-        listUsers.add(iDataCom.getMyPublicUserProfile().getLightPublicUser());
+                listUsers.add(iDataCom.getMyPublicUserProfile().getLightPublicUser());
 		List<StatGame>listGames = iDataCom.getGameList();
 		
 		kic = KnownIPController.getInstance();
@@ -49,12 +49,9 @@ public class M_GetIP extends Message {
 		kic.addNode(user.getLightPublicUser().getId(), IP_sender);
 		
 		name = this.getClass().getName();
-
-		// get the hasmap of our IP to send it to the requesting node. 
-		HashMap<String,Inet4Address> IdToIp = kic.getHashMap();
 		
 		// send back the data this node has about its known network.
-		M_ReturnIP	returnIp = new M_ReturnIP(user, listGames, listUsers, IdToIp);
+		M_ReturnIP returnIp = new M_ReturnIP(iDataCom.getMyPublicUserProfile(), listGames, listUsers, kic.getHashMap());
 		
 		Sender os = new Sender(IP_sender.getHostAddress(), 80, returnIp);
 		Thread thread = new Thread(os);
