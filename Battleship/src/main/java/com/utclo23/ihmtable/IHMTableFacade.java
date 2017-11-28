@@ -194,7 +194,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void feedBack(Coordinate coord, boolean bool) {
-        throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
+        controller.timeToAttack();
     }
 
     /**

@@ -365,6 +365,10 @@ public class InGameGUIController {
                         // Ship missed!
                         clickedPane.getStyleClass().add("inGameGUI_missed_cell");
                     }
+                    // Reinitialize chrono for the next turn
+                    chronoTimeInit();
+                    // gameStarted to false
+                    gameStarted = false;
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                 }
@@ -372,8 +376,12 @@ public class InGameGUIController {
         }
     }
     
+    /**
+     * Function for set the attack after feedback call by Data
+     */
     public void timeToAttack() {
-        
+        restartChronoTime();
+        startGame();
     }
 
     /**
@@ -508,7 +516,7 @@ public class InGameGUIController {
                 /*
                 TODO: Expiration of timer, add function of ending turn
                 */
-                if (countdown <= 1) {
+                if (countdown <= 0) {
                     time.stop();
                     chronoLabel.setTextFill(Color.web("#c0392b"));
                 }
