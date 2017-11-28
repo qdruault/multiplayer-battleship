@@ -156,6 +156,7 @@ public class InGameGUIController {
     private boolean gameStarted;
     
     /**
+<<<<<<< HEAD
      * True if the two players are ready to play.
      */
     private boolean readyToAttack;
@@ -170,6 +171,8 @@ public class InGameGUIController {
     */
     private Map<ShipType,Integer> mapShipCount;
     /**
+=======
+>>>>>>> [Fire] Delete useless variable
      * Set the IHM Table facade.
      * @param facade : IHM Table facade.
      */ 
