@@ -156,13 +156,6 @@ public class InGameGUIController {
     private boolean gameStarted;
     
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * True if the two players are ready to play.
-     */
-    private boolean readyToAttack;
-
-    /**
      * Map of the btn ship
      */
     private Map<ShipType,Button> mapBtnType;
@@ -171,16 +164,13 @@ public class InGameGUIController {
        Map reccording the number of ships
     */
     private Map<ShipType,Integer> mapShipCount;
-    /**
-=======
->>>>>>> [Fire] Delete useless variable
-=======
-     * True if the player is ready to fire.
-     */
-    private boolean timeToAttackBool;
     
     /**
->>>>>>> [Opponent] modify function for turn by turn
+     * True if the player is ready to fire.
+     */
+    private boolean readyToAttack;
+    
+    /**
      * Set the IHM Table facade.
      * @param facade : IHM Table facade.
      */ 
@@ -222,7 +212,7 @@ public class InGameGUIController {
         shipsPictures.put(ShipType.SUBMARINE,  "images/ship5.png");
         
         // Player not avaible to fire
-        timeToAttackBool = false;
+        readyToAttack = false;
         // Fill in the opponent grid.
         opponentPanes = new ArrayList<>();
         for (int col = 0; col < opponentGrid.getColumnConstraints().size(); col++) {
@@ -279,8 +269,8 @@ public class InGameGUIController {
         
         //Add manually the button to set them up
         mapBtnType = new HashMap<>();
-        mapBtnType.put(ShipType.CARRIER, buttonImage1);
-        mapBtnType.put(ShipType.BATTLESHIP, buttonImage2);
+        mapBtnType.put(ShipType.BATTLESHIP, buttonImage1);
+        mapBtnType.put(ShipType.CARRIER, buttonImage2);
         mapBtnType.put(ShipType.CRUISER, buttonImage3);
         mapBtnType.put(ShipType.DESTROYER, buttonImage4);
         mapBtnType.put(ShipType.SUBMARINE, buttonImage5);
@@ -344,8 +334,8 @@ public class InGameGUIController {
      * Function for switch different pane in starting turn for the current player
      */
     public void switchOpponnentPane() {
-        timeToAttackBool = !timeToAttackBool;
-        if (timeToAttackBool) {
+        readyToAttack = !readyToAttack;
+        if (readyToAttack) {
             // We can now hover the opponent panes.
             for (Pane opponentPane : opponentPanes) {
                 opponentPane.getStyleClass().add("inGameGUI_hover_cell");
@@ -378,8 +368,8 @@ public class InGameGUIController {
      */
     @FXML
     void onClickFire(MouseEvent event) {
-        // Prevent to click if the game is not started.
-        if (gameStarted && timeToAttackBool) {
+        // Prevent to click if the game is not started and/or turn of the current player
+        if (gameStarted && readyToAttack) {
             // Only if a cell has been aimed.
             if (cellToAttack != null) {
                 // Remove the highlight on the cell.
