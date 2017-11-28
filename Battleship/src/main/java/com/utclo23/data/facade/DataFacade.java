@@ -27,6 +27,7 @@ import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.ihmtable.IIHMTableToData;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 
@@ -163,6 +164,12 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     public void addNewGame(StatGame game) {
       
             this.gameMediator.addNewGame(game);
+            
+            try {
+                this.ihmMainFacade.refreshGameList();
+            } catch (IOException ex) {
+                Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex.getMessage());
+            }
      
     }
 
@@ -214,6 +221,12 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     public void addConnectedUser(LightPublicUser user) {
      
             this.userMediator.addConnectedUser(user);
+            
+            try {
+                this.ihmMainFacade.refreshUserList();
+            } catch (Exception ex) {
+                Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex.getMessage());
+            }
         
     }
 
@@ -223,10 +236,14 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void removeConnectedUser(LightPublicUser user) {
-        try {
+      
             this.userMediator.removeConnectedUser(user);
-        } catch (RuntimeException e) {
-            Logger.getLogger(DataFacade.class.getName()).log(Level.WARNING, e.getMessage());
+           
+      
+        try {
+            this.ihmMainFacade.refreshUserList();
+        } catch (Exception ex) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex.getMessage());
         }
 
     }
@@ -237,7 +254,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void forwardMessage(Message msg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.gameMediator.forwardMessage(msg);
     }
 
     /**
@@ -355,14 +372,12 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-
      * Send a chat message 
      * @param text the message to send
-
      */
     @Override
     public void sendMessage(String text) {
-       
+        this.gameMediator.sendMessage(text) ;
     }
 
     /**
@@ -515,7 +530,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
     
     public void receivePublicUserProfile(PublicUser profile) {
-        //this.ihmMainFacade.receivePublicUserProfile(profile);
+        this.ihmMainFacade.receivePublicUserProfile(profile);
     }
 
     @Override
