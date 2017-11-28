@@ -218,21 +218,59 @@ public abstract class Game extends SerializableEntity {
         }
     }
     
+     /**
+     * test if a ship is destroyed 
+     * @param ship the ship to test
+     * @param mines list of the mines to compare with the coord of the ship
+     * @return boolean true if ship destroyed false otherwise
+     */
     public boolean isShipDestroyed(Ship ship, List<Mine> mines) {
         List<Coordinate> coord = ship.getListCoord() ;
-        boolean shipDestroyed = true;
-         for (int i = 0; i < coord.size() ; i++) {
-             for (int j = 0; j < mines.size (); j++) {
-                 if (mines.get(j).getCoord() == coord.get(i)) {
+        boolean shipDestroyed = true ;
+        for (int i = 0; i < coord.size() ; i++) {
+            for (int j = 0; j < mines.size (); j++) {
+                if (mines.get(j).getCoord() == coord.get(i)) {
                      shipDestroyed = false ;
                      return shipDestroyed ; 
-                 }                     
-             }
-         }
-         return shipDestroyed ;
+                }                     
+            }
+        }
+        return shipDestroyed ;
     }
     
-    public boolean isGameFinished () {
+     /**
+     * test if the game is finished
+     * @return boolean true if game finished false otherwise
+     */
+    public boolean isGameFinished() {
+        List<Mine> mines = this.currentPlayer.getMines() ;
+        List<Ship> ships = this.getEnnemyPlayer().getShips() ; 
+        boolean gameFinished = true ;
+        for (Ship s : ships) {
+            if (!isShipDestroyed(s,mines))
+                gameFinished = false; 
+        }
+        return gameFinished; 
+    }
+    
+     /**
+     * get the ennemy player
+     * @return Player the ennemy player
+     */
+    public Player getEnnemyPlayer() {
+        Player ennemyPlayer = null; 
+        for (Player p : players) {
+            if (p != this.getCurrentPlayer())
+                ennemyPlayer = p ; 
+        }
+        return ennemyPlayer ; 
+    }
+    
+     /**
+     * foorwardCoordinates
+     * @param mine the mine placed
+     */
+    public void forwardCoordinates(Mine mine) {
         
     }
 }
