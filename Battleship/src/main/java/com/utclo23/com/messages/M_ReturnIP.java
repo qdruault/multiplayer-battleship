@@ -40,7 +40,7 @@ public class M_ReturnIP extends Message {
 
 	@Override
 	public void callback(IDataCom iDataCom) {
-
+		System.out.println("RETURN IP Received");
 		// MAJ for Data
 		for (int i = 0; i < listUsers.size(); i++) {
 			iDataCom.addConnectedUser(listUsers.get(i));
@@ -56,6 +56,12 @@ public class M_ReturnIP extends Message {
 
 		discoCtrl = DiscoveryController.getInstance();
 
+		// remove IP from GetIpIssuedList
+		if (discoCtrl.isIn(IP_sender)){
+			discoCtrl.removeIpRetrieved(IP_sender);
+		}
+		
+		
 		List<LightPublicUser> listUsersMaj = iDataCom.getConnectedUsers();
 		List<StatGame> listGamesMaj = iDataCom.getGameList();
 
@@ -65,9 +71,20 @@ public class M_ReturnIP extends Message {
 		// send only our OWN data to all new IP
 		if (discoCtrl.isIn(IP_sender)) {
 
-			// get the hasmap of our IP to send it to the requesting node. 
+			// get the hasmap of our IP to send it to the requesting node. EXECT our own and the ones in getIPIssuedLIst
 			HashMap<String, Inet4Address> IdToIp = kic.getNewIpHashMap();
 
+			// improvement : do not send the games which the users in getIPIssuedList are in. 
+			
+			for (LightPublicUser usr : listUsersMaj){
+				for ( Inet4Address ip : discoCtrl.getGetIpIssuedList()){
+					String id = kic.getKeyFromValue(kic.getHashMap(), ip);
+					if(usr.getId().equals(id)){
+						listUsersMaj.remove(usr);
+					}
+				}
+			}
+			
 			// send back the data this node has about its known network.
 			M_ReturnIP returnIp = new M_ReturnIP(user, listGamesMaj, listUsersMaj, IdToIp);
 
@@ -97,7 +114,6 @@ public class M_ReturnIP extends Message {
 			Sender os = new Sender(IP_sender.getHostAddress(), 80, returnIp);
 			Thread thread = new Thread(os);
 			thread.start();
-
 		}
 
 	}

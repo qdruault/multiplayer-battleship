@@ -11,8 +11,9 @@ import com.utclo23.data.structure.GameType;
 import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.data.structure.Player;
 import com.utclo23.data.structure.Ship;
-
+import com.utclo23.data.structure.Message;
 import com.utclo23.data.structure.StatGame;
+import com.utclo23.ihmtable.IIHMTableToData;
 import java.io.File;
 import java.rmi.server.UID;
 
@@ -38,6 +39,8 @@ public class GameMediator {
     private GameFactory gameFactory;
 
     private Game currentGame;
+    
+
 
     /**
      * Constructor
@@ -48,8 +51,12 @@ public class GameMediator {
         this.dataFacade = dataFacade;
         this.gamesMap = new HashMap<>();
         this.currentGame = null;
+       
     }
 
+
+    
+    
     public Game getCurrentGame() {
         return currentGame;
     }
@@ -83,10 +90,14 @@ public class GameMediator {
 
         //to Com : notify a new game
         ComFacade comFacade = this.dataFacade.getComfacade();
-        if (comFacade != null) {
+        if (comFacade != null && game!=null) {
             comFacade.notifyNewGame(game.getStatGame());
         }
 
+        //set current game
+        System.out.println("Game created");
+        this.currentGame = game;
+        
         return game;
     }
 
@@ -101,6 +112,17 @@ public class GameMediator {
         } else {
             throw new RuntimeException("Game " + statgame.getName() + " was already in the list of game.");
         }
+    }
+    
+    /**
+     * Get a game in gamesMap.
+     * 
+     * @param ID UID of the targeted game
+     * @return StatGame representing the targeted game
+     */
+    public StatGame getGame(String ID) {
+        StatGame game = this.gamesMap.get(ID);
+        return game;
     }
 
     /* get list of games
@@ -146,8 +168,8 @@ public class GameMediator {
             {
                 if(this.dataFacade.getComfacade()!=null)
                 {
-                    //TODO notify network that the player is ready (all ships initialized
-                    //this.dataFacade.getComfacade().sendShipsToEnnemy(player.getShips(), player.getLightPublicUser());
+                  
+                    this.dataFacade.getComfacade().sendShipsToEnnemy(player.getShips(), this.currentGame.getRecipients());
                 }
             }
             
@@ -174,16 +196,112 @@ public class GameMediator {
             
             //save with caretaker
             this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
-      }
+        }
+    }
+    /**
+     * 
+     * Update current game's list as a new user has joined it.
+     * 
+     * @param user the new user who has joined
+     * @param id id of the stat game 
+     * @param role role of the new user
+     */
+    public void updateGameList(LightPublicUser user, String id, String role) throws DataException {
+        if(this.currentGame.getId().compareTo(id) == 0) {
+            this.getCurrentGame().addUser(user, role);
+            
+            if(this.dataFacade.getComfacade()!=null)
+            {
+                this.dataFacade.getComfacade().joinGameResponse(true, id, this.currentGame.getStatGame());
+            }
+            
+        } else {
+            
+            this.dataFacade.getComfacade().joinGameResponse(false, id, null);
+        }
     }
     
+
     
     public void gameConnectionRequestGame(String id, String role) {
         
            if(this.dataFacade.getComfacade()!=null)
            {
-               //this.dataFacade.getComfacade().connectionToGame(game);
+               StatGame game = null;
+               if(this.gamesMap.containsKey(id))
+               {
+                   game = this.gamesMap.get(id);
+                   //send game
+                   //TODO set spectator or player
+                   this.dataFacade.getComfacade().connectionToGame(game);
+               }
+              
            }
     }
     
+    /**
+     * send a chat message
+     *
+     * @param text the text message to send
+     */
+    public void sendMessage(String text) {
+        //get information of sender
+        LightPublicUser sender = this.dataFacade.getMyPublicUserProfile().getLightPublicUser();
+        
+        //check if sender is spectator and if chat is allowed for spectators
+        if (this.currentGame.getSpectators().contains(sender))        
+        {            
+            if (!this.currentGame.getStatGame().isSpectatorChat())
+            {
+                return;
+            }                
+        }
+        
+        Message msg = new Message(sender, text, this.currentGame.getRecipients()) ;        
+        ComFacade comFacade = this.dataFacade.getComfacade();
+        if (comFacade != null) {
+            comFacade.notifyNewMessage(msg);
+        }        
+    }
+    
+    /**
+     * Forward a message
+     * @param msg message to forward
+     */
+    public void forwardMessage (Message msg) {  
+        IIHMTableToData ihmTablefacade = this.dataFacade.getIhmTablefacade() ;
+        if (ihmTablefacade != null) {
+            ihmTablefacade.printMessage(msg.getContent());
+        }
+    }
+
+    /**
+     * Exit current game.
+     */
+    public void leaveGame() {
+        
+           throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+    }
+
+    public void receptionGame(Game game) {
+        
+        if(this.dataFacade.getIhmMainFacade()!=null)
+        {
+            
+            this.currentGame = game;
+           // this.dataFacade.getIhmMainFacade().receptionGame(game);
+        }
+        
+    }
+    
+    
+    public void connectionImpossible() {
+        
+        if(this.dataFacade.getIhmMainFacade()!=null)
+        {
+            //this.dataFacade.getIhmMainFacade().connectionImpossible();
+        }
+        
+    }
 }

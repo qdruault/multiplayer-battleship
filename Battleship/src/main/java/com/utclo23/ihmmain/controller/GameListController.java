@@ -5,6 +5,7 @@
  */
 package com.utclo23.ihmmain.controller;
 
+import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.data.structure.Player;
 import com.utclo23.data.structure.PublicUser;
@@ -57,7 +58,7 @@ public class GameListController extends AbstractController{
     private Boolean isLoading;
     
     //game received with asynchronous load
-    private StatGame receivedGame;
+    private Game receivedGame;
     
     /**
      * This function is called at the beginning of the application.
@@ -300,7 +301,7 @@ public class GameListController extends AbstractController{
         if(isRunning()){
             if(receivedGame != null){
                 //Finally Join the game
-                System.out.println("Finally Join the game : " +  receivedGame.getName()+ ", but since iIHMTableToIHMMain.showGame() accept a UID and i got only a String as game id, i can't use it lol");
+                System.out.println("Finally Join the game : " +  receivedGame.getId()+ ", but since iIHMTableToIHMMain.showGame() accept a UID and i got only a String as game id, i can't use it lol");
                 //facade.iIHMTableToIHMMain.showGame(receivedGame.getId());
             }else{
                 System.out.println("Is hard to get there, but you know that you gave me a null game ?");
@@ -314,7 +315,7 @@ public class GameListController extends AbstractController{
      * the function to asynchronousely load the game
      * @param game 
      */
-    public void receptionGame(StatGame game){
+    public void receptionGame(Game game){
         if(isRunning()){
             receivedGame = game;
             isLoading = false;

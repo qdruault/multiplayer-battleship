@@ -31,7 +31,7 @@ public class M_GetIP extends Message{
 	
     @Override
     public void callback(IDataCom iDataCom){
-		
+		System.out.println("GET IP Received");
 		// get the necessairy data from the Data module to send back to the requesting node
 		iDataCom.addConnectedUser(user.getLightPublicUser());
 		
@@ -54,7 +54,5 @@ public class M_GetIP extends Message{
 		Sender os = new Sender(IP_sender.getHostAddress(), 80, returnIp);
 		Thread thread = new Thread(os);
 			thread.start();
-		
-		// WORK IN PROGRESS
     }
 }

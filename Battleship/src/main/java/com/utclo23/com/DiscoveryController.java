@@ -25,7 +25,6 @@ public class DiscoveryController {
     // Holder
 
     private static class SingletonHolder {
-
         private final static DiscoveryController instance = new DiscoveryController();
     }
 
@@ -45,4 +44,8 @@ public class DiscoveryController {
     public List<Inet4Address> getGetIpIssuedList() {
         return getIpIssuedList;
     }
+	
+	public void removeIpRetrieved(Inet4Address ip){
+		getIpIssuedList.remove(ip);
+	}
 }
