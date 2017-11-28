@@ -177,7 +177,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void setEnnemyShips(List<Ship> ships) {
-        this.gameMediator.setEnnemyShips(ships);
+        //this.gameMediator.setEnnemyShips(ships);
     }
 
     /**
