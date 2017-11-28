@@ -217,4 +217,15 @@ public abstract class Game extends SerializableEntity {
             p.getMines().clear();
         }
     }
+    
+    public boolean isShipDestroyed (Ship ship, List<Mine> mines) {
+         List<Coordinate> coord = ship.getListCoord() ;
+         destroy = true ;
+         for (int i = 0; i < coord.size() ; i++) {
+             if (!mines.contains(coord.get(i))) {
+                 destroy = false;
+             }
+         }
+         return destroy ;
+    }
 }
