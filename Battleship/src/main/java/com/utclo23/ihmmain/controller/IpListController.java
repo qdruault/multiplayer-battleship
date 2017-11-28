@@ -34,6 +34,7 @@ public class IpListController extends AbstractController{
     private TableView<ObservableIp> ipList;
     
     @FXML
+    @Override
     public void start(){
         if(ipList.getColumns().isEmpty()){
             TableColumn ipColumn = new TableColumn("IP");
@@ -48,9 +49,7 @@ public class IpListController extends AbstractController{
             // Columns take all the width of the window
             ipList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         }
-        
         getKnownIp();
-        
     }
     
     /**

@@ -88,7 +88,9 @@ public class GameListController extends AbstractController{
             public void handle(MouseEvent event) {
                 Node node = ((Node) event.getTarget()).getParent();
                 TableRow row;
-                if (node instanceof TableRow) {
+                if(node instanceof TableView){
+                }else{
+                    if (node instanceof TableRow) {
                     row = (TableRow) node;
                 } else {
                     // clicking on text part, parent is cell or row, cell's parent is the row
@@ -101,6 +103,8 @@ public class GameListController extends AbstractController{
                 }
                 StatGame selected = (StatGame)row.getItem();
                 selectedGame = selected;
+                }
+
             }
         });
     }

@@ -7,6 +7,11 @@
     -fx-background-color: #061f30;
 }
 
+.scroll-pane {
+    -fx-base: transparent;
+    -fx-background-color: transparent;
+}
+
 /* About the table View */
 .table-view {
     -fx-base: transparent;
