@@ -154,6 +154,11 @@ public class InGameGUIController {
      * True if the two players are ready to play.
      */
     private boolean gameStarted;
+    
+    /**
+     * True if the two players are ready to play.
+     */
+    private boolean readyToAttack;
 
     /**
      * Map of the btn ship
@@ -365,6 +370,10 @@ public class InGameGUIController {
                 }
             }
         }
+    }
+    
+    public void timeToAttack() {
+        
     }
 
     /**

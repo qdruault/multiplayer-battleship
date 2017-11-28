@@ -29,9 +29,6 @@ public class InGameGUIMenuController {
     private Button inGameGUIContinue;
     
     @FXML
-    private Button inGameGUIReview;
-
-    @FXML
     private Button inGameGUIReturn;
     
     
@@ -54,18 +51,7 @@ public class InGameGUIMenuController {
         Stage stage = (Stage) inGameGUIContinue.getScene().getWindow();
         stage.close();
     }
-    
-    /**
-     * Function for saving the game, call data interface function
-     * @param event
-     * @throws IOException 
-     */
-    @FXML
-    private void onClickSave(MouseEvent event) throws IOException {
-        System.out.print("Fonction save dans data (TODO)");
         
-    }
-    
     /**
      * Function for leaving the game, call IHM Main interface function
      * @param event
