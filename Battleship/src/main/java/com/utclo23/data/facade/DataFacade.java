@@ -231,7 +231,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         this.userMediator.addConnectedUser(user);
 
         try {
-            this.ihmMainFacade.refreshPlayerList();
+            this.ihmMainFacade.refreshUserList();
         } catch (Exception ex) {
             Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex.getMessage());
         }
@@ -249,7 +249,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         this.userMediator.removeConnectedUser(user);
 
         try {
-            this.ihmMainFacade.refreshPlayerList();
+            this.ihmMainFacade.refreshUserList();
         } catch (Exception ex) {
             Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex.getMessage());
         }
@@ -549,7 +549,11 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     public void receivePublicUserProfile(PublicUser profile) {
-        this.ihmMainFacade.receivePublicUserProfile(profile);
+        try {
+            this.ihmMainFacade.recievePublicUserProfile(profile);
+        } catch (IOException ex) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
