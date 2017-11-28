@@ -1,8 +1,3 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
 /* 
     Created on : 31 oct. 2017, 20:31:21
     Author     : Loïc
@@ -12,78 +7,137 @@ and open the template in the editor.
     -fx-background-color: #061f30;
 }
 
+/* About the table View */
 .table-view {
     -fx-base: transparent;
+    -fx-background-color: transparent;
     -fx-control-inner-background: transparent;
-    /*-fx-table-cell-border-color: #0ce8f0;
-    -fx-table-header-border-color: #0ce8f0;
-    -fx-padding: 5;*/
 }
 
 .table-view .column-header {
-    /*-fx-border-width: 0 0 1 0;
-    -fx-background-color: transparent;*/
-    /*-fx-border-color: #0ce8f0;*/
     -fx-border-color: #0ce8f0;
+    -fx-background-color: transparent;
 }
 
-cell-right.table-row-cell {
+.table-view .cell-left.column-header{
     -fx-border-radius: 10px 0px 0px 0px;
 }
-    
-.cell-left {
-    -fx-border-radius: 0px 10px 00px 0px;
+
+.table-view .cell-right.column-header{
+    -fx-border-radius: 0px 10px 0px 0px;
+}
+
+.table-view .cell-center.column-header{
+    -fx-border-radius: 10px 10px 0px 0px;
+}
+
+.table-view{
+    -fx-padding: 20px;
 }
 
 .table-column {
     -fx-border-color: #0ce8f0;
 }
 
+.table-row-cell:selected {
+   -fx-background-color: steelblue; 
+   -fx-text-background-color: red;
+}
+
 .table-view .column-header .label {
     -fx-font-size: 15pt;
-    -fx-font-family: "Space Age";
+    -fx-font: 20pt "Space Age";
     -fx-text-fill: #ef8d00;
     -fx-alignment: center;
-    /*-fx-opacity: 1;*/
 }
 
 .table-row-cell {
     -fx-background-color: transparent;
 }
 
-/*.table-view:focused .table-row-cell:filled:focused:selected {
-    -fx-background-color: -fx-focus-color;
+.table-row-cell:empty {
+    -fx-background-color: transparent;
 }
 
-.split-pane:horizontal > .split-pane-divider {
-    -fx-border-color: transparent #1d1d1d transparent #1d1d1d;
-    -fx-background-color: transparent, derive(#1d1d1d,20%);
+.table-row-cell:empty .table-cell {
+    -fx-border-width: 0px;
 }
 
-.split-pane {
-    -fx-padding: 1 0 0 0;
+
+/* Used to personalize the button */
+.button{
+    -fx-font-family: "Space Age"; 
+    -fx-text-fill: #3DE6AF; 
+    /*svg path*/
+    -fx-shape:"M 0 0 L 1 -0.5 L 5 -0.5 L 6 0 L 5 0.5 L 1 0.5 z";
+    -fx-border-color:#ffffff;
+    -fx-background-color: #061f30;
+    -fx-opacity: 1.0;
+    
 }
 
-.menu-bar {
-    -fx-background-color: derive(#1d1d1d,20%);
+/* The frame around the buttons in the main menu */
+#frameButton{
+    -fx-background-color: rgba(255, 255, 255, 0.08);
+    -fx-background-radius: 15px;
+    -fx-border-color: #ffffff;
+    -fx-border-radius: 15px;
 }
 
-.context-menu {
-    -fx-background-color: derive(#1d1d1d,50%);
+/* Used for the title of each page (ex : 'Create User') */
+#pageTitleLabel{
+    -fx-font-family: "Space Age";
+    -fx-text-fill: #0ce8f0;
+    -fx-font-size: 18pt; 
+}
+/* Used for smaller titles (ex : 'all modes' in Player Profile) */
+#sectionTitleLabel{
+    -fx-font-family: "Space Age";
+    -fx-text-fill: #0ce8f0;
+    -fx-font-size: 15pt;
 }
 
-.menu-bar .label {
-    -fx-font-size: 14pt;
-    -fx-font-family: "Segoe UI Light";
+/* Used in forms (username, description, etc.) */
+#formLabel{
+    -fx-font-family: "Space Age";
+    -fx-text-fill: #ef8d00;
+    -fx-font-size: 13pt;
+}
+/* Used for all other labels (popup messages, etc.) */
+.label{
+    -fx-font-family: "Arial";
     -fx-text-fill: white;
-    -fx-opacity: 0.9;
+    -fx-font-size: 11pt;
 }
 
-.menu .left-container {
-    -fx-background-color: black;
+/* About the line */
+.lineDesign{
+    -fx-stroke: #0ce8f0;
+    -fx-stroke-width: 2px;
 }
 
-.text-field {
-    -fx-font-size: 12pt;
-    -fx-font-family: "Segoe UI Semibold";
-}*/
+/* Alert customization */
+    .dialog-pane > .button-bar > .container {
+      -fx-background-color:#061f30;
+    }
+    .dialog-pane > .content.label {
+       -fx-padding: 0.5em 0.5em 0.5em 0.5em;
+       -fx-background-color: #061f30;
+       -fx-text-fill:white;
+       -fx-font-size:15.0px;
+    }
+
+    .dialog-pane:header .header-panel {
+      -fx-background-color: #061f30;
+    }
+
+    .dialog-pane:header .header-panel .label{
+      -fx-background-color: #061f30;
+      -fx-background-radius:10px;
+      -fx-text-fill:white;
+      -fx-font-size:15.0px;
+    }
+
+.table-row-cell:empty .table-cell {
+    -fx-border-width: 0px;
+}

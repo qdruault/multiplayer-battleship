@@ -106,6 +106,7 @@ public class ComFacade {
 
     // envoi à la machine qui a crée la game
     public void connectionToGame(StatGame game){
+
         M_JoinGame m_joingame = new M_JoinGame(iDataCom.getMyPublicUserProfile(), game);
         Inet4Address adr = KnownIPController.getInstance().getHashMap().get(game.getCreator().getId());
         Sender os = new Sender(adr.getHostAddress(), 80, m_joingame);

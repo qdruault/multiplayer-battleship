@@ -46,6 +46,7 @@ public class Sender implements Runnable {
             //in = new ObjectInputStream(socket.getInputStream());
             request.setIpSender(kIpCtrl.getMyInetAddress());
             out.writeObject(request);
+			System.out.println("message sent" + request.getClass().toString());
             //in.close();
             out.close();
             socket.close();
