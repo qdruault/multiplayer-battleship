@@ -40,7 +40,7 @@ public class M_ReturnIP extends Message {
 
 	@Override
 	public void callback(IDataCom iDataCom) {
-
+		System.out.println("RETURN IP Received");
 		// MAJ for Data
 		for (int i = 0; i < listUsers.size(); i++) {
 			iDataCom.addConnectedUser(listUsers.get(i));
