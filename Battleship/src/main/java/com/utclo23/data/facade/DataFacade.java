@@ -153,7 +153,6 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     /**
      * Add new game <<<<<<< HEAD
      *
-     * @param game =======
      * @param game the game to add >>>>>>> Data/javadoc
      */
     @Override
@@ -177,7 +176,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void setEnnemyShips(List<Ship> ships) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //this.gameMediator.setEnnemyShips(ships);
     }
 
     /**
@@ -477,7 +476,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @param type type of the game created
      */
     @Override
-    public Game createGame(String name, boolean computerMode, boolean spectator, boolean spectatorChat, GameType type) {
+    public Game createGame(String name, boolean computerMode, boolean spectator, boolean spectatorChat, GameType type) throws DataException {
 
         return this.createGame(name, computerMode, spectator, spectatorChat, type);
 
