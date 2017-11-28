@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.util.Pair;
 
 /**
  * Game Mediator related to games features
@@ -181,7 +182,7 @@ public class GameMediator {
     }
     
     
-    public Ship attack(Coordinate coordinate) throws DataException
+    public Pair attack(Coordinate coordinate) throws DataException
     {
       if (this.currentGame != null) {
             String id = this.dataFacade.getMyPublicUserProfile().getId();
@@ -201,11 +202,11 @@ public class GameMediator {
             }
             
             //add mines
-            Ship shipReturn = this.currentGame.attack(player, coordinate);
+            Pair pairReturn = this.currentGame.attack(player, coordinate);
             
             //save with caretaker
             this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
-            return shipReturn;
+            return pairReturn;
       }
       else{
           throw new DataException("Data : player dosn't existe");

@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.util.Pair;
 
 /**
  * Facade for the data module
@@ -339,7 +340,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      *
      */
     @Override
-    public Ship attack(Coordinate coords) {
+    public Pair attack(Coordinate coords) {
         try {
             return this.gameMediator.attack(coords);
         } catch (DataException ex) {

@@ -10,6 +10,7 @@ import com.utclo23.data.module.DataException;
 import com.utclo23.data.module.Memento;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.util.Pair;
 
 /**
  *
@@ -146,12 +147,12 @@ public abstract class Game extends SerializableEntity {
     
     public abstract List<Ship> getTemplateShips();
 
-    public Ship attack(Player player, Coordinate coordinate)  throws DataException{
+    public Pair attack(Player player, Coordinate coordinate)  throws DataException{
         
         //Create mine
         Mine mine = new Mine(player, coordinate);
         
-        //For see if the mine is in the place of a ship(succeed at attatck)
+        //For see if the mine is in the place of a ship(succeed at attack)
         // 0=fail . 1=succeed
         int succeedAtteck = 0;
         // The ship if the mine is in the place of it
@@ -196,7 +197,9 @@ public abstract class Game extends SerializableEntity {
             shipReturn = shipTouch;
         }
         nextTurn();
-        return shipReturn;
+        Pair attackShip;
+        attackShip = new Pair(succeedAtteck, shipReturn);
+        return attackShip;
     }
     
     
