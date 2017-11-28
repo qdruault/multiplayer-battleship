@@ -5,6 +5,7 @@
  */
 package com.utclo23.data.facade;
 
+import com.utclo23.data.module.DataException;
 import com.utclo23.data.structure.*;
 import java.net.NetworkInterface;
 import java.rmi.server.UID;
@@ -26,8 +27,10 @@ public interface IDataCom {
     public void forwardMessage(Message msg);
     public PublicUser getMyPublicUserProfile();
 
-    public void updateGameList(LightPublicUser user, String id, String role);
+    public void updateGameList(LightPublicUser user, String id, String role) throws DataException;
     public List<StatGame> getGameList();
     public List<LightPublicUser> getConnectedUsers();
+    public void connectionImpossible() throws DataException;
+    public void receptionGame(Game game) throws DataException;
 
 }

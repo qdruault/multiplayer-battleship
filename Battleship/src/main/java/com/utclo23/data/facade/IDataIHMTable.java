@@ -15,7 +15,7 @@ import java.util.List;
  * @author Davy
  */
 public interface IDataIHMTable {
-    public List<Ship> getShips() throws DataException;
+    public List<Ship> getTemplateShips() throws DataException;
     public void setShip(Ship ship) throws DataException;
     public boolean attack(Coordinate coords);
     public void leaveGame();
