@@ -93,27 +93,25 @@ public class M_ReturnIP extends Message {
 
 		} else {
 
-			String myId = iDataCom.getMyPublicUserProfile().getLightPublicUser().getId();
-
-			List<LightPublicUser> listUsersToSend = null;
-			for (int i = 0; i < listUsersMaj.size(); i++) {
-				if (listUsersMaj.get(i).getId().contentEquals(myId)) {
-					listUsersToSend.add(listUsersMaj.get(i));
-				}
-			}
+            LightPublicUser myUser = iDataCom.getMyPublicUserProfile().getLightPublicUser();
+			List<LightPublicUser> listUsersToSend = null; 
+            listUsersToSend.add(myUser);
 			// get the hasmap of our IP to send it to the requesting node. 
 			HashMap<String, Inet4Address> IdToIp = null;
 
 			try {
-				IdToIp.put(myId, (Inet4Address) Inet4Address.getLocalHost());
+				IdToIp.put(myUser.getId(), (Inet4Address) Inet4Address.getLocalHost());
 			} catch (UnknownHostException ex) {
 				Logger.getLogger(M_ReturnIP.class.getName()).log(Level.SEVERE, null, ex);
 			}
-
+            
+            
 			M_ReturnIP returnIp = new M_ReturnIP(user, listGamesMaj, listUsersToSend, IdToIp);
-			Sender os = new Sender(IP_sender.getHostAddress(), 80, returnIp);
-			Thread thread = new Thread(os);
-			thread.start();
+            for(Inet4Address ip : kic.getHashMap().values()){
+                Sender os = new Sender(ip.getHostAddress(), 80, returnIp);
+                Thread thread = new Thread(os);
+                thread.start();
+            }
 		}
 
 	}

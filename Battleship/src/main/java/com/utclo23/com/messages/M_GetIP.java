@@ -37,7 +37,7 @@ public class M_GetIP extends Message{
 		
 		// TODO: add fonction to get the data from DATA
 		List<LightPublicUser> listUsers = iDataCom.getConnectedUsers();
-                listUsers.add(iDataCom.getMyPublicUserProfile().getLightPublicUser());
+        listUsers.add(iDataCom.getMyPublicUserProfile().getLightPublicUser());
 		List<StatGame>listGames = iDataCom.getGameList();
 		
 		kic = KnownIPController.getInstance();
