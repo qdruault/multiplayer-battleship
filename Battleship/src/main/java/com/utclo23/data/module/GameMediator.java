@@ -203,9 +203,20 @@ public class GameMediator {
     }
     
     /**
+     * Set the winner of the current game.
+     * 
+     * @param winner 
+     */
+    public void setWinner(LightPublicUser winner) {
+        this.currentGame.setWinner(winner);
+    }
+    
+    /**
      * Exit current game.
      */
     public void leaveGame() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //Sauvegarde à ajouter.
+        this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
+        this.currentGame = null;
     }
 }

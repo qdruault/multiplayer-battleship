@@ -568,4 +568,13 @@ public class UserMediator {
              
         }    
     }
+    
+    /**
+     * Add a played game to the owner's played games list.
+     * 
+     * @param game 
+     */
+    public void addPlayedGame(StatGame game) {
+        this.owner.addPlayedGame(game);
+    }
 }

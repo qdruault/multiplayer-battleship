@@ -199,7 +199,9 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void connectionLostWithOpponent() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.gameMediator.setWinner(null);
+        this.gameMediator.leaveGame();
+        this.ihmTablefacade.connectionLostWithOpponent();
     }
     /**
      * Request for a connection to a specific game hosted by another player.
@@ -209,7 +211,9 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     public void gameConnectionRequest(String gameID, String role) {
         StatGame game = this.gameMediator.getGame(gameID);
-        this.comfacade.connectionToGame(game);
+        if(!this.isTestMode()) {
+            this.comfacade.connectionToGame(game);
+        }
     }
 
     /**

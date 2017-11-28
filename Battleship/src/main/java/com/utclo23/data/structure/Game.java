@@ -213,4 +213,13 @@ public abstract class Game extends SerializableEntity {
             p.getMines().clear();
         }
     }
+    
+    /**
+     * Set the winner of this game's StatGame.
+     * 
+     * @param winner 
+     */
+    public void setWinner(LightPublicUser winner) {
+        this.statGame.setWinner(winner);
+    }
 }
