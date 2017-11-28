@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.utclo23.com.ComFacade;
 import com.utclo23.data.configuration.Configuration;
 import com.utclo23.data.facade.DataFacade;
+import com.utclo23.data.structure.ComputerPlayer;
 import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.GameType;
@@ -198,6 +199,38 @@ public class GameMediator {
             this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
         }
     }
+    
+    
+    public void attackIA() throws DataException
+    {
+      if (this.currentGame != null) {
+            String id = this.dataFacade.getMyPublicUserProfile().getId();
+            Player localPlayer = this.currentGame.getPlayer(id);
+            if (localPlayer == null) {
+                throw new DataException("Data : player not found");
+            }
+            
+            ComputerPlayer computerPlayer = (ComputerPlayer) this.currentGame.ennemyOf(localPlayer);
+            //random mode
+            
+            if(computerPlayer.getFocus()==null)
+            {
+                
+            }
+                       
+            //add mines
+            this.currentGame.attack(player, coordinate);
+            
+            //save with caretaker
+            //this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
+        }
+    }
+    
+    public Coordinate generatePosition()
+    {
+        
+    }
+    
     /**
      * 
      * Update current game's list as a new user has joined it.
