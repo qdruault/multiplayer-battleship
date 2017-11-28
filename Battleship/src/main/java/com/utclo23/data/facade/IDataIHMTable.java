@@ -10,6 +10,8 @@ import com.utclo23.data.structure.*;
 import java.rmi.server.UID;
 import java.util.List;
 
+import java.io.IOException;
+
 /**
  *
  * @author Davy
@@ -18,7 +20,7 @@ public interface IDataIHMTable {
     public List<Ship> getShips() throws DataException;
     public void setShip(Ship ship) throws DataException;
     public boolean attack(Coordinate coords);
-    public void leaveGame();
+    public void leaveGame() throws IOException;
     public List<Ship> getInitialBoardFromGameId(String gameid);
     public List<Event> getPreviousBoard();
     public List<Event> getNextBoard();

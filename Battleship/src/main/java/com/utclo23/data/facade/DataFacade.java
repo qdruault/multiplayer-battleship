@@ -26,6 +26,7 @@ import com.utclo23.ihmmain.facade.IHMMainFacade;
 import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.ihmtable.IIHMTableToData;
 
+import java.io.IOException;
 import java.io.File;
 
 
@@ -187,11 +188,33 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-     * Notify that opponent has left
+     * Notify that player leaves game
+     * Different behavior when a player and an observer leave a game and when
+     * the player who leaves is or isn't an host.
+     */
+    @Override
+    public void leaveGame() throws IOException {
+        PublicUser user = this.userMediator.getMyPublicUserProfile();
+        //LightPublicUser user = this.userMediator.getMyLightPublicUserProfile(); com doit prendre en argument un LightPublicUser
+        this.comfacade.leaveGame(user);
+        this.gameMediator.leaveGame();
+        this.ihmMainFacade.toMenu();
+    }
+
+    /**
+     * Notify that opponent has left the game and gives the owner the win 
      */
     @Override
     public void opponentHasLeftGame() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!this.gameMediator.isFinishedGame()) {
+            try {
+                this.gameMediator.defWin();
+            } catch (DataException e) {
+                //Rien a priori.
+            }
+            this.gameMediator.leaveGame();
+            this.ihmTablefacade.opponentHasLeftGame();
+        }
     }
 
     /**
@@ -326,20 +349,6 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public boolean attack(Coordinate coords) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    /**
-     * Notify that player leaves game
-     * Different behavior when a player and an observer leave a game and when
-     * the player who leaves is an host or not.
-     */
-    @Override
-    public void leaveGame() {
-        PublicUser user = this.userMediator.getMyPublicUserProfile();
-        this.comfacade.leaveGame(user);
-        this.gameMediator.leaveGame();
-        //this.ihmMainFacade.backToMenu(); en attente d'IHM main.
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
