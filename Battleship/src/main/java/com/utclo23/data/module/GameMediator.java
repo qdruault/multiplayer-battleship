@@ -168,8 +168,8 @@ public class GameMediator {
             {
                 if(this.dataFacade.getComfacade()!=null)
                 {
-                    //TODO notify network that the player is ready (all ships initialized
-                    //this.dataFacade.getComfacade().sendShipsToEnnemy(player.getShips(), player.getLightPublicUser());
+                  
+                    this.dataFacade.getComfacade().sendShipsToEnnemy(player.getShips(), this.currentGame.getRecipients());
                 }
             }
             
