@@ -5,8 +5,10 @@
  */
 package com.utclo23.ihmmain.facade;
 
+import com.utclo23.data.structure.Game;
+import com.utclo23.data.structure.PublicUser;
+import com.utclo23.data.structure.StatGame;
 import java.io.IOException;
-import javafx.stage.Stage;
 
 /**
  *
@@ -17,11 +19,25 @@ public interface IHMMainToData {
      * refreshes the player list if player list is currently displaying
      * @throws IOException 
      */
-    public abstract void refreshPlayerList() throws IOException;
+    public abstract void refreshUserList() throws IOException;
     
     /**
      * refreshes the game list if player list is currently displaying
      * @throws IOException 
      */
     public abstract void refreshGameList() throws IOException;
+    
+     /**
+     * obtain info of other player asked by user
+     * @param player
+     * @throws IOException 
+     */
+    public abstract void recievePublicUserProfile(PublicUser player) throws IOException;
+    
+   /**
+   * receive game i asked for !
+   * @param game 
+   */
+    public abstract void receptionGame(Game game);
+    
 }

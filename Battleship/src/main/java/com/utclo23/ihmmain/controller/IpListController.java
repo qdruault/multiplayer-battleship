@@ -7,6 +7,8 @@ package com.utclo23.ihmmain.controller;
 
 import com.utclo23.data.module.DataException;
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -15,7 +17,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -36,6 +37,8 @@ public class IpListController extends AbstractController{
     public void initialize(){
         TableColumn ipColumn = new TableColumn("IP");
         ipColumn.setCellValueFactory(new PropertyValueFactory<ObservableIp, String>("ipAdress"));
+        ipColumn.getStyleClass().add("cell-center");
+        ipColumn.getStyleClass().add("label");
         
         ipList.getColumns().addAll(ipColumn);
                
@@ -69,19 +72,9 @@ public class IpListController extends AbstractController{
         } catch (DataException ex) {
             Logger.getLogger(IpListController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
+            ipAdressField.setText("");
             ihmmain.toMenu();
         }
-    }
-    
-    /**
-     * Temporary function.
-     * This function is present until the new controller launch method is implemented. Remove the function and and the button when it's done.
-     * @param event
-     * @throws IOException 
-     */
-    @FXML
-    private void refreshList(ActionEvent event) throws IOException{
-        getKnownIp();
     }
     
     /**
@@ -94,32 +87,43 @@ public class IpListController extends AbstractController{
     @FXML
     private void addRemoveIpAdress(ActionEvent event) throws IOException{
         String ipAdress = ipAdressField.getText();
-        ObservableList<ObservableIp> data = ipList.getItems();
-        int index = -1;
+        
+        // test : ip adress is correct ?
+        try{
+            Inet4Address inet4address =  (Inet4Address) Inet4Address.getByName(ipAdress);
+            
+            ObservableList<ObservableIp> data = ipList.getItems();
+            int index = -1;
 
-        // we search the ip adress in the actual list. If the ip adress doesn't exist, index = -1; else, index = range of the ip adress in the list
-        for(int i = 0; i<data.size(); i++){
-            if(data.get(i).getIpAdress().equals(ipAdress)){
-                index = i;
+            // we search the ip adress in the actual list. If the ip adress doesn't exist, index = -1; else, index = range of the ip adress in the list
+            for(int i = 0; i<data.size(); i++){
+                if(data.get(i).getIpAdress().equals(ipAdress)){
+                    index = i;
+                }
             }
+
+            if(index == -1){
+                // add an ip adress
+                data.add(new ObservableIp(ipAdress));
+            }else{
+                // remove an ip adress
+                data.remove(index);
+            }
+            
+            ipAdressField.setText("");
+
+            // Update the list in the GUI
+            ipList.setItems(data);
+
+        } catch (UnknownHostException e){
+            // TODO : open a pop up with the message
         }
-        
-        if(index == -1){
-            // add an ip adress
-            data.add(new ObservableIp(ipAdress));
-        }else{
-            // remove an ip adress
-            data.remove(index);
-        }
-        
-        // Update the list in the GUI
-        ipList.setItems(data);
     }
     
     /**
      * This function allows to update the list in the GUI with the saved ip address
      */
-    private void getKnownIp(){
+    public void getKnownIp(){
         // Call data method in order to collect know ip
         if(facade != null){
             ArrayList<ObservableIp> knownIp = new ArrayList<ObservableIp>();
@@ -133,6 +137,8 @@ public class IpListController extends AbstractController{
 
             // Update the list in the GUI
             ipList.setItems(data);
+        } else {
+            Logger.getLogger(IpListController.class.getName()).log(Level.SEVERE, null, "facade is not instanciated");
         }
     }
     
