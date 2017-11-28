@@ -6,6 +6,7 @@
 package com.utclo23.ihmmain.facade;
 
 import com.utclo23.data.facade.IDataIHMMain;
+import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.ihmmain.IHMMain;
@@ -67,10 +68,13 @@ public class IHMMainFacade implements IHMMainToIhmTable, IHMMainToData{
        PlayerProfileController controller =(PlayerProfileController)ihmmain.controllerMap.get(SceneName.PLAYER_PROFILE.toString());
        controller.recievePublicUser(player);
     }
-     @Override
-    public void receptionGame(StatGame game){
+    @Override
+    public void receptionGame(Game game){
        GameListController controller =(GameListController)ihmmain.controllerMap.get(SceneName.GAME_LIST.toString());
        controller.receptionGame(game);
+    }
+    public void connectionImpossible(){
+       System.out.println("Not supported yet");
     }
 
 }   

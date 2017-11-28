@@ -5,6 +5,7 @@
  */
 package com.utclo23.ihmmain.controller;
 
+import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.data.structure.Player;
 import com.utclo23.data.structure.PublicUser;
@@ -57,7 +58,7 @@ public class GameListController extends AbstractController{
     private Boolean isLoading;
     
     //game received with asynchronous load
-    private StatGame receivedGame;
+    private Game receivedGame;
     
     /**
      * This function is called at the beginning of the application.
@@ -108,11 +109,13 @@ public class GameListController extends AbstractController{
         //add columns
         TableColumn nameColumn = new TableColumn("NAME");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        //nameColumn.getStyleClass().add("cell-left");
+        nameColumn.getStyleClass().add("cell-left");
+        nameColumn.getStyleClass().add("label");
         
         TableColumn creatorColumn = new TableColumn("CREATOR");
         creatorColumn.setCellValueFactory(new PropertyValueFactory<>("creator"));
         //setting the cell factory for the creator.playerName column  
+        creatorColumn.getStyleClass().add("label");
         creatorColumn.setCellFactory(new Callback<TableColumn<StatGame, LightPublicUser>, TableCell<StatGame, LightPublicUser>>(){
 
             @Override
@@ -134,13 +137,17 @@ public class GameListController extends AbstractController{
         
         TableColumn modeColumn = new TableColumn("MODE");
         modeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        modeColumn.getStyleClass().add("label");
         
         TableColumn chatColumn = new TableColumn("CHAT");
         chatColumn.setCellValueFactory(new PropertyValueFactory<>("spectatorChat"));
+        chatColumn.getStyleClass().add("label");
         
         TableColumn playerNumberColumn = new TableColumn("NUMBER PLAYER");
         playerNumberColumn.setCellValueFactory(new PropertyValueFactory<>("LightPublicUser"));
         // ======== setting the cell factory for the creator.playerName column  
+        playerNumberColumn.getStyleClass().add("cell-right");
+        playerNumberColumn.getStyleClass().add("label");
         playerNumberColumn.setCellFactory(new Callback<TableColumn<StatGame, List<Player>>, TableCell<StatGame, List<Player>>>(){
 
             @Override
@@ -290,7 +297,7 @@ public class GameListController extends AbstractController{
         if(isRunning()){
             if(receivedGame != null){
                 //Finally Join the game
-                System.out.println("Finally Join the game : " +  receivedGame.getName()+ ", but since iIHMTableToIHMMain.showGame() accept a UID and i got only a String as game id, i can't use it lol");
+                System.out.println("Finally Join the game : " +  receivedGame.getId()+ ", but since iIHMTableToIHMMain.showGame() accept a UID and i got only a String as game id, i can't use it lol");
                 //facade.iIHMTableToIHMMain.showGame(receivedGame.getId());
             }else{
                 System.out.println("Is hard to get there, but you know that you gave me a null game ?");
@@ -304,7 +311,7 @@ public class GameListController extends AbstractController{
      * the function to asynchronousely load the game
      * @param game 
      */
-    public void receptionGame(StatGame game){
+    public void receptionGame(Game game){
         if(isRunning()){
             receivedGame = game;
             isLoading = false;
