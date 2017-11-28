@@ -7,17 +7,18 @@ package com.utclo23.com;
 
 import java.util.HashMap;
 import java.net.Inet4Address;
-import java.net.UnknownHostException;
 import com.utclo23.data.facade.IDataCom;
 import java.net.InterfaceAddress;
-import java.net.NetworkInterface;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 /**
+ * Class containing a hashmap with UID and corresponding IP address of the known
+ * players. Singleton class,only one instance can be instantiate in the
+ * application.
  *
- * @author Thomas
+ * @author Thomas Michel
  */
 public class KnownIPController {
 
@@ -26,39 +27,51 @@ public class KnownIPController {
     private final HashMap<String, Inet4Address> knownIp;
     IDataCom iDataCom;
     InterfaceAddress usedInterface;
+
     // private constructor
     private KnownIPController() {
         knownIp = new HashMap<>();
     }
 
-    // SINGLETON
-    // Holder
+    /**
+     * Called to instantiate the unique instance of KnowIPController class in
+     * the application.
+     */
     private static class SingletonHolder {
 
         private final static KnownIPController INSTANCE = new KnownIPController();
     }
 
-    // Access point for unique INSTANCE of the singleton class
+    /**
+     * Called to return the unique INSTANCE of the singleton class
+     * KnownIPController.
+     *
+     * @return singleton instnce of KnowIPController
+     */
     public static KnownIPController getInstance() {
         return SingletonHolder.INSTANCE;
     }
-    
-    
-    public Inet4Address getMyInetAddress(){
-        return (Inet4Address)this.usedInterface.getAddress();
+
+    public Inet4Address getMyInetAddress() {
+        return (Inet4Address) this.usedInterface.getAddress();
     }
 
-    public void setUsedInterface(InterfaceAddress uif){
+    public void setUsedInterface(InterfaceAddress uif) {
         this.usedInterface = uif;
     }
-    
-    // used to put our own IP in the hashmap of IP
+
+    /**
+     * Called to put our own IP in attribute "knownIP" and initialize iDataCom
+     * attribute.
+     *
+     * @param iDataCom is the Value affected to attribute iDataCom of the class
+     */
     public void initIpList(IDataCom iDataCom) {
         this.iDataCom = iDataCom;
         knownIp.put(
                 iDataCom.getMyPublicUserProfile().getId(),
                 getMyInetAddress());
-        
+
     }
 
     public String getKeyFromValue(HashMap<String, Inet4Address> tmphash, Inet4Address value) {
@@ -71,6 +84,11 @@ public class KnownIPController {
         return null;
     }
 
+    /**
+     * Called to return attribute "knownIp" value without our own node.
+     *
+     * @return Hashmap value
+     */
     public HashMap<String, Inet4Address> getHashMap() {
         HashMap<String, Inet4Address> tmphash = knownIp;
         String id = iDataCom.getMyPublicUserProfile().getLightPublicUser().getId();
@@ -93,10 +111,23 @@ public class KnownIPController {
 
     }
 
+    /**
+     * Called to add a new node in the attribute "knownIP".
+     *
+     * @param id is the "id", of type string, of the new node
+     * @param ip is the Inet4address of the new node
+     */
     public void addNode(String id, Inet4Address ip) {
         knownIp.put(id, ip);
     }
 
+    /**
+     * Called to add non existing nodes in attribute "knownIp" from another
+     * hashmap.
+     *
+     * @param hashToCheck is the Hashmap containing ids of type String and
+     * Inet4Address
+     */
     public void addNonExistingNodes(HashMap<String, Inet4Address> hashToCheck) {
         Iterator it = hashToCheck.entrySet().iterator();
         while (it.hasNext()) {
@@ -107,5 +138,4 @@ public class KnownIPController {
             it.remove(); // avoids a ConcurrentModificationException
         }
     }
-
 }
