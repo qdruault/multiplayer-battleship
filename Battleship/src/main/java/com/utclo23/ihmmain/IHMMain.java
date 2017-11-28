@@ -51,6 +51,7 @@ public class IHMMain {
             sceneMap.put(scenenameString,scene);
         }
         
+        primaryStage.setTitle("Battle Ship");
         toNetworkInterfaceChoice();
         stage.show();
         
@@ -127,7 +128,6 @@ public class IHMMain {
             if(activeSceneName != null){
                 controllerMap.get(activeSceneName).stop();
             }
-            primaryStage.setTitle(scenename);
             primaryStage.setScene(sceneMap.get(scenename));
             activeSceneName = scenename;
             controllerMap.get(activeSceneName).run();

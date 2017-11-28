@@ -34,18 +34,22 @@ public class IpListController extends AbstractController{
     private TableView<ObservableIp> ipList;
     
     @FXML
-    public void initialize(){
-        TableColumn ipColumn = new TableColumn("IP");
-        ipColumn.setCellValueFactory(new PropertyValueFactory<ObservableIp, String>("ipAdress"));
-        ipColumn.getStyleClass().add("cell-center");
-        ipColumn.getStyleClass().add("label");
-        
-        ipList.getColumns().addAll(ipColumn);
-               
-        ipList.setEditable(true);
-        
-        // Columns take all the width of the window
-        ipList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    @Override
+    public void start(){
+        if(ipList.getColumns().isEmpty()){
+            TableColumn ipColumn = new TableColumn("IP");
+            ipColumn.setCellValueFactory(new PropertyValueFactory<ObservableIp, String>("ipAdress"));
+            ipColumn.getStyleClass().add("cell-center");
+            ipColumn.getStyleClass().add("label");
+
+            ipList.getColumns().addAll(ipColumn);
+
+            ipList.setEditable(true);
+
+            // Columns take all the width of the window
+            ipList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        }
+        getKnownIp();
     }
     
     /**
