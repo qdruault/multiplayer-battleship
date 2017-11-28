@@ -8,7 +8,6 @@ package com.utclo23.com;
 import java.net.Socket;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import com.utclo23.com.messages.Message;
 import com.utclo23.data.facade.IDataCom;

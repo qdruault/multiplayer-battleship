@@ -55,10 +55,7 @@ public class Sender implements Runnable {
             //in.close();
             out.close();
             socket.close();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (UnknownHostException e) {}
+        catch (IOException e) {}
     }
 }
