@@ -168,8 +168,8 @@ public class GameMediator {
             {
                 if(this.dataFacade.getComfacade()!=null)
                 {
-                    //TODO notify network that the player is ready (all ships initialized
-                    //this.dataFacade.getComfacade().sendShipsToEnnemy(player.getShips(), player.getLightPublicUser());
+                  
+                    this.dataFacade.getComfacade().sendShipsToEnnemy(player.getShips(), this.currentGame.getRecipients());
                 }
             }
             
@@ -212,7 +212,7 @@ public class GameMediator {
             
             if(this.dataFacade.getComfacade()!=null)
             {
-                this.dataFacade.getComfacade().joinGameResponse(true, id, this.currentGame);
+                this.dataFacade.getComfacade().joinGameResponse(true, id, this.currentGame.getStatGame());
             }
             
         } else {
@@ -290,7 +290,7 @@ public class GameMediator {
         {
             
             this.currentGame = game;
-            this.dataFacade.getIhmMainFacade().receptionGame(game);
+           // this.dataFacade.getIhmMainFacade().receptionGame(game);
         }
         
     }
@@ -300,7 +300,7 @@ public class GameMediator {
         
         if(this.dataFacade.getIhmMainFacade()!=null)
         {
-            this.dataFacade.getIhmMainFacade().connectionImpossible();
+            //this.dataFacade.getIhmMainFacade().connectionImpossible();
         }
         
     }
