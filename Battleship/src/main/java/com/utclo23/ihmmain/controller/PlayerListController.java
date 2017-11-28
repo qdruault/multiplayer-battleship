@@ -81,7 +81,7 @@ public class PlayerListController extends AbstractController{
 
         if(facade != null){
             // Call data method in order to collect connected users
-            ArrayList<LightPublicUser> connectedUsers = new ArrayList<LightPublicUser>(facade.iDataIHMMain.getConnectedUsers());
+            ArrayList<LightPublicUser> connectedUsers = new ArrayList<>(facade.iDataIHMMain.getConnectedUsers());
             ObservableList<LightPublicUser> data = FXCollections.observableArrayList(connectedUsers);
         
             // Update the list in the GUI
