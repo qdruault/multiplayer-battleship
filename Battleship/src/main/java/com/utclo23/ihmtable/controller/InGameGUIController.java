@@ -540,11 +540,24 @@ public class InGameGUIController {
                                 // No exception : Place the ship on the board.
                                 // Load the image.
                                 ImageView shipOnTheGrid = new ImageView(shipsPictures.get(ship.getType()));
-                                // Set the size.
-                                shipOnTheGrid.setFitWidth(playerGrid.getWidth()/10.0 * ship.getSize());
-                                shipOnTheGrid.setFitHeight(playerGrid.getHeight()/10.0);
-                                // Place on the grid.
-                                playerGrid.add(shipOnTheGrid, ship.getListCoord().get(0).getX(), ship.getListCoord().get(0).getY(), ship.getSize(), 1);
+                                if (ship.getListCoord().get(0).getY() == ship.getListCoord().get(1).getY()) {
+                                    // Horizontal.
+                                    // Set the size.
+                                    shipOnTheGrid.setFitWidth(playerGrid.getWidth()/10.0 * ship.getSize());
+                                    shipOnTheGrid.setFitHeight(playerGrid.getHeight()/10.0);
+                                    // Place on the grid.
+                                    playerGrid.add(shipOnTheGrid, ship.getListCoord().get(0).getX(), ship.getListCoord().get(0).getY(), ship.getSize(), 1);
+                                } else {
+                                    // Vertical
+                                    // Set the size.
+                                    shipOnTheGrid.setFitHeight(playerGrid.getWidth()/10.0);
+                                    shipOnTheGrid.setFitWidth(playerGrid.getHeight()/10.0 * ship.getSize());
+                                    // Rotate the image.
+                                    shipOnTheGrid.setRotate(90);
+                                    // Place on the grid.
+                                    playerGrid.add(shipOnTheGrid, ship.getListCoord().get(0).getX(), ship.getListCoord().get(0).getY(), 1, ship.getSize());
+                                }
+                                
                                 // ATTENTION! Grid size is out of control!
                                 break;
                             } catch (Exception ex) {
