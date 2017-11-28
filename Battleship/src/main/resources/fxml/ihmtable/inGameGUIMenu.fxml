@@ -26,11 +26,6 @@
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="inGameGUIReview" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#onClickSave" text="Sauvegarder la partie" textAlignment="CENTER" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0" />
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-               <children>
                   <Button fx:id="inGameGUIReturn" mnemonicParsing="false" onMouseClicked="#returnToMenu" text="Retour vers menu" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0" />
                </children>
             </AnchorPane>
