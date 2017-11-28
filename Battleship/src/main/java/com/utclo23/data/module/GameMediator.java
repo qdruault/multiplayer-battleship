@@ -290,7 +290,7 @@ public class GameMediator {
         {
             
             this.currentGame = game;
-            this.dataFacade.getIhmMainFacade().receptionGame(game);
+           // this.dataFacade.getIhmMainFacade().receptionGame(game);
         }
         
     }
