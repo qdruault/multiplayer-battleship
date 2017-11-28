@@ -8,15 +8,21 @@ import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.StatGame;
 /**
- *
- * @author thibault
+ * M_CreationGame is a Message generated when a game is created,
+ * sent to all connected users.
+ * @author Thibault CHICHE
  */
 public class M_CreationGame extends Message{
     public StatGame game;
     
-    public M_CreationGame(PublicUser user, StatGame g){
+    /**
+    * Constructor.
+    * @param user is the message's sender
+    * @param game is the created game
+    */
+    public M_CreationGame(PublicUser user, StatGame game){
         super(user);
-        game = g;
+        this.game = game;
     }
     
     @Override
