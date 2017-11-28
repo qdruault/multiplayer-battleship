@@ -273,14 +273,20 @@ public abstract class Game extends SerializableEntity {
      * @return boolean true if ship destroyed false otherwise
      */
     public boolean isShipDestroyed(Ship ship, List<Mine> mines) {
-        List<Coordinate> coord = ship.getListCoord() ;
+        List<Coordinate> shipCoord = ship.getListCoord() ;
         boolean shipDestroyed = true ;
-        for (int i = 0; i < coord.size() ; i++) {
-            for (int j = 0; j < mines.size (); j++) {
-                if (mines.get(j).getCoord() == coord.get(i)) {
-                     shipDestroyed = false ;
-                     return shipDestroyed ; 
-                }                     
+        for (int i = 0; i < shipCoord.size() ; i++) {
+            int j = 0;
+            for (j = 0; j < mines.size (); j++) {
+                // if the mine is in one case of ship, we skip the loop and to verify the next one
+                if (shipCoord.get(i) == mines.get(j).getCoord()) {
+                     break;
+                }
+            }
+            // when there isn't any mine in the place of a square of ship
+            if(j == mines.size ()){
+                shipDestroyed = false;
+                break;
             }
         }
         return shipDestroyed ;
