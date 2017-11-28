@@ -90,6 +90,6 @@ public class CreateGameController extends AbstractController{
             }*/
         }
         else
-            gameNameField.setStyle("-fx-border-color: red;"); 
+            gameNameField.setStyle("-fx-border-color: #ef8d00;"); 
     }
 }

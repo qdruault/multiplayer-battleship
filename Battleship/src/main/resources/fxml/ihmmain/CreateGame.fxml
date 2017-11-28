@@ -18,9 +18,9 @@
     
     <columnConstraints>
         <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
-        <ColumnConstraints percentWidth="20.0" hgrow="SOMETIMES" />
-        <ColumnConstraints percentWidth="20.0" hgrow="SOMETIMES" />
-        <ColumnConstraints percentWidth="20.0" hgrow="SOMETIMES" />
+        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
+        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
+        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
         <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
     </columnConstraints>   
          
