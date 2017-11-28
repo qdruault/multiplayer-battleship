@@ -11,8 +11,9 @@ import com.utclo23.data.structure.GameType;
 import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.data.structure.Player;
 import com.utclo23.data.structure.Ship;
-
+import com.utclo23.data.structure.Message;
 import com.utclo23.data.structure.StatGame;
+import com.utclo23.ihmtable.IIHMTableToData;
 import java.io.File;
 import java.rmi.server.UID;
 
@@ -186,4 +187,39 @@ public class GameMediator {
            }
     }
     
+    /**
+     * send a chat message
+     *
+     * @param text the text message to send
+     */
+    public void sendMessage(String text) {
+        //get information of sender
+        LightPublicUser sender = this.dataFacade.getMyPublicUserProfile().getLightPublicUser();
+        
+        //check if sender is spectator and if chat is allowed for spectators
+        if (this.currentGame.getSpectators().contains(sender))        
+        {            
+            if (!this.currentGame.getStatGame().isSpectatorChat())
+            {
+                return;
+            }                
+        }
+        
+        Message msg = new Message(sender, text, this.currentGame.getRecipients()) ;        
+        ComFacade comFacade = this.dataFacade.getComfacade();
+        if (comFacade != null) {
+            comFacade.notifyNewMessage(msg);
+        }        
+    }
+    
+    /**
+     * Forward a message
+     * @param msg message to forward
+     */
+    public void forwardMessage (Message msg) {  
+        IIHMTableToData ihmTablefacade = this.dataFacade.getIhmTablefacade() ;
+        if (ihmTablefacade != null) {
+            ihmTablefacade.printMessage(msg.getContent());
+        }
+    }
 }

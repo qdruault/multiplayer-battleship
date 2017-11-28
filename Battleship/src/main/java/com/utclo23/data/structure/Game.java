@@ -95,7 +95,11 @@ public abstract class Game extends SerializableEntity {
     }
   
     public List<LightPublicUser> getRecipients() {
-        return this.spectators;
+        List<LightPublicUser> listRecipients = new ArrayList<>();
+        for(int i = 0; i < this.getPlayers().size(); ++i)
+            listRecipients.add(this.getPlayers().get(i).getLightPublicUser());
+        listRecipients.addAll(this.getSpectators()) ;
+        return listRecipients;
     }
 
     public StatGame getStatGame() {

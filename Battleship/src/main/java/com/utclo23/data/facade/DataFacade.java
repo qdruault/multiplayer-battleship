@@ -254,7 +254,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void forwardMessage(Message msg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.gameMediator.forwardMessage(msg);
     }
 
     /**
@@ -372,14 +372,12 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-
      * Send a chat message 
      * @param text the message to send
-
      */
     @Override
     public void sendMessage(String text) {
-       
+        this.gameMediator.sendMessage(text) ;
     }
 
     /**
