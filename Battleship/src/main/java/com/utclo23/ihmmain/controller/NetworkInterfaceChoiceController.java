@@ -48,8 +48,18 @@ public class NetworkInterfaceChoiceController extends AbstractController {
     
     @FXML 
     private void handleButtonValidate(ActionEvent event) throws Exception{
-        ihmmain.toLogin();
+        Inet4Address usedIf;
+        NetworkInterface chosenIf = (NetworkInterface)comboBox.getValue(); 
+        for(InterfaceAddress ifAddr : chosenIf.getInterfaceAddresses()){
+            try{
+                usedIf = (Inet4Address) ifAddr.getAddress();
+                facade.iDataIHMMain.setNetworkInterface(ifAddr);
+                System.out.println(usedIf.getHostAddress());
+                ihmmain.toLogin();
+            } catch (Exception e){}
+        }   
     }
+
     
     private boolean isValid(NetworkInterface networkInt){
         Inet4Address usedIf;
