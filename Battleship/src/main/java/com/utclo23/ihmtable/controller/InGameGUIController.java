@@ -35,6 +35,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -367,6 +368,7 @@ public class InGameGUIController {
         updateStatsPannel();
         // Get the current player.
         currentPlayer = facade.getFacadeData().getGame().getCurrentPlayer();
+
     }
 
     /**
@@ -709,6 +711,46 @@ public class InGameGUIController {
         });
         time.getKeyFrames().add(frame);
         time.playFromStart();
+    }
+    
+    private void setAnchorEach(AnchorPane n, Button c) {
+        n.setTopAnchor(c, 0.0);
+        n.setLeftAnchor(c, 0.0);
+        n.setRightAnchor(c, 0.0);
+        n.setBottomAnchor(c, 0.0);
+        n.getChildren().add(c);
+    }
+    
+    /**
+     * Method for clearing the corner and put the right buttons (forward...)
+     */
+    private void prepareReviewGame() {
+        /**
+         * Create anchorPane for layout 
+         */
+        AnchorPane backWardPane = new AnchorPane();
+        AnchorPane playPane = new AnchorPane();
+        AnchorPane pausePane = new AnchorPane();
+        AnchorPane forwardPane = new AnchorPane();
+        
+        /**
+         * Create button in respective pane 
+         */
+        Button backWardButton = new Button("COUCOU");
+        Button playButton = new Button();
+        Button pauseButton = new Button();
+        Button forwardButton = new Button();
+        
+        setAnchorEach(backWardPane, backWardButton);
+        setAnchorEach(playPane, playButton);
+        setAnchorEach(pausePane, pauseButton);
+        setAnchorEach(forwardPane, forwardButton);
+        
+        actionPanel.getChildren().clear();
+        actionPanel.getChildren().add(backWardPane);
+        actionPanel.getChildren().add(playPane);
+        actionPanel.getChildren().add(pausePane);
+        actionPanel.getChildren().add(forwardPane);
     }
 
     private class SelectShipEvent implements EventHandler {
