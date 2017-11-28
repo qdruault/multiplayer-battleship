@@ -6,6 +6,7 @@
 package com.utclo23.ihmmain.facade;
 
 import com.utclo23.data.structure.PublicUser;
+import com.utclo23.data.structure.StatGame;
 import java.io.IOException;
 
 /**
@@ -31,5 +32,11 @@ public interface IHMMainToData {
      * @throws IOException 
      */
     public abstract void recievePublicUserProfile(PublicUser player) throws IOException;
+    
+   /**
+   * receive game i asked for !
+   * @param game 
+   */
+    public abstract void receptionGame(StatGame game);
     
 }

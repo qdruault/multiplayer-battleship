@@ -7,8 +7,10 @@ package com.utclo23.ihmmain.facade;
 
 import com.utclo23.data.facade.IDataIHMMain;
 import com.utclo23.data.structure.PublicUser;
+import com.utclo23.data.structure.StatGame;
 import com.utclo23.ihmmain.IHMMain;
 import com.utclo23.ihmmain.constants.SceneName;
+import com.utclo23.ihmmain.controller.GameListController;
 import com.utclo23.ihmmain.controller.PlayerProfileController;
 import com.utclo23.ihmtable.IIHMTableToIHMMain;
 
@@ -64,6 +66,11 @@ public class IHMMainFacade implements IHMMainToIhmTable, IHMMainToData{
     public void recievePublicUserProfile(PublicUser player) throws IOException {
        PlayerProfileController controller =(PlayerProfileController)ihmmain.controllerMap.get(SceneName.PLAYER_PROFILE.toString());
        controller.recievePublicUser(player);
+    }
+     @Override
+    public void receptionGame(StatGame game){
+       GameListController controller =(GameListController)ihmmain.controllerMap.get(SceneName.GAME_LIST.toString());
+       controller.receptionGame(game);
     }
 
 }   
