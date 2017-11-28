@@ -339,9 +339,15 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      *
      */
     @Override
-    public boolean attack(Coordinate coords) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Ship attack(Coordinate coords) {
+        try {
+            return this.gameMediator.attack(coords);
+        } catch (DataException ex) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.WARNING, ex.getMessage());
+            return null;
+        }
     }
+
 
     /**
      * Notify that player leaves game Different behavior when a player and an

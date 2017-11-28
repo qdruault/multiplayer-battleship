@@ -12,6 +12,7 @@ import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.data.structure.Player;
 import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.Message;
+import com.utclo23.data.structure.Mine;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.ihmtable.IIHMTableToData;
 import java.io.File;
@@ -180,7 +181,7 @@ public class GameMediator {
     }
     
     
-    public void attack(Coordinate coordinate) throws DataException
+    public Ship attack(Coordinate coordinate) throws DataException
     {
       if (this.currentGame != null) {
             String id = this.dataFacade.getMyPublicUserProfile().getId();
@@ -189,14 +190,26 @@ public class GameMediator {
                 throw new DataException("Data : player not found for set player ship");
             }
             
-            //TODO check if mine already used at current location
+            //check if mine already used at current location
+            List<Mine> mines = player.getMines();
+            for(int i = 0; i < mines.size(); i++){
+                Mine mine = mines.get(i);
+                if(mine.getCoord() == coordinate){
+                    Logger.getLogger(GameMediator.class.getName()).log(Level.WARNING, "Data : Mine places in the place where already has a mine");
+                    return null;
+                }
+            }
             
             //add mines
-            this.currentGame.attack(player, coordinate);
+            Ship shipReturn = this.currentGame.attack(player, coordinate);
             
             //save with caretaker
             this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
-        }
+            return shipReturn;
+      }
+      else{
+          throw new DataException("Data : player dosn't existe");
+      }
     }
     /**
      * 

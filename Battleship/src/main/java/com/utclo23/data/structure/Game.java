@@ -146,12 +146,59 @@ public abstract class Game extends SerializableEntity {
     
     public abstract List<Ship> getTemplateShips();
 
-    public void attack(Player player, Coordinate coordinate) {
+    public Ship attack(Player player, Coordinate coordinate)  throws DataException{
         
         //Create mine
         Mine mine = new Mine(player, coordinate);
+        
+        //For see if the mine is in the place of a ship(succeed at attatck)
+        // 0=fail . 1=succeed
+        int succeedAtteck = 0;
+        // The ship if the mine is in the place of it
+        Ship shipTouch = null;
+        
+        //Get player opponent
+        List<Player> players = this.players;
+        Player playerOpponent = null;
+        for(int i = 0; i < players.size(); i++){
+            Player a = players.get(i);
+            if(a != player){
+                playerOpponent = a;
+                break;
+            }
+        }
+        //Get opponent's ships
+        if (playerOpponent == null) {
+            throw new DataException("Data : player opponent doesn't exist");
+        }
+        List<Ship> shipsOpponent = playerOpponent.getShips();
+        for(int i = 0; i < shipsOpponent.size(); i++){
+            Ship shipA = shipsOpponent.get(i);
+            List<Coordinate> shipCoord = shipA.getListCoord();
+            //See if the mine is put in the place of a ship
+            for(int j = 0; j < shipCoord.size(); j++){
+                if(shipCoord.get(j) == coordinate){
+                    succeedAtteck = 1;
+                    shipTouch = shipA;
+                    break;
+                }
+            }
+            if(succeedAtteck == 1){
+                break;
+            }
+        }
+        //Change the state of MineResult according to value of succeedAtteck
+        if(succeedAtteck == 1){
+            mine.setResult(MineResult.SUCCESS);
+        }
+        else{
+            mine.setResult(MineResult.FAILURE);
+        }
+        //Add mine to player
         player.getMines().add(mine);
         
+        //Return the ship. If is not in right place, shipReturn = null
+        return ;
     }
     
     
