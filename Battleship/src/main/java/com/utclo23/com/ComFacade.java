@@ -185,15 +185,15 @@ public class ComFacade {
      * @param game is the game in question
      */
     public void joinGameResponse(boolean success, String id, StatGame game) {
-        /*M_JoinGameResponse m_joingameresponse = new M_JoinGameResponse(success);
-        if (success){
-            for(Inet4Address ip : kIpCtrl.getHashMap().values()){
+        M_JoinGameResponse m_joingameresponse = new M_JoinGameResponse(iDataCom.getMyPublicUserProfile(), success, game);
+        if (success) {
+            for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
                 Sender os = new Sender(ip.getHostAddress(), 80, m_joingameresponse);
                 new Thread(os).start();
             }
         } else {
             Sender os = new Sender(kIpCtrl.getHashMap().get(id).getHostAddress(), 80, m_joingameresponse);
             new Thread(os).start();
-        }*/
+        }
     }
 }
