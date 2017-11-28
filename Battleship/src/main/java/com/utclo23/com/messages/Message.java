@@ -9,16 +9,25 @@ import java.io.Serializable;
 import com.utclo23.data.structure.PublicUser;
 import java.net.Inet4Address;
 import com.utclo23.data.facade.IDataCom;
-import java.net.UnknownHostException;
+
 /**
- *
- * @author remid
+ * Message is the abstract base class that all Messages inherit from.
+ * @author Rémi DI VITA
  */
 public abstract class Message implements Serializable{
     protected PublicUser user;
     protected Inet4Address IP_sender;
+    
+    /**
+     * This function is called by the receptor when it receives a new Message
+     * @param iDataCom is the facade of the data module on the recipient
+     */
     public abstract void callback(IDataCom iDataCom);
     
+    /**
+     * Constructor.
+     * @param user is the message's sender
+     */
     public Message(PublicUser user){
         this.user = user;
     }
