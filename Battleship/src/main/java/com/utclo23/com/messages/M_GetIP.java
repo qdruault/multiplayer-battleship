@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.utclo23.com.messages;
+
 import com.utclo23.com.KnownIPController;
 import com.utclo23.com.Sender;
 import java.net.Inet4Address;
@@ -16,19 +17,22 @@ import java.util.List;
 
 /**
  *
- * @author thibault
+ * @author Thibault CHICHE
  */
-public class M_GetIP extends Message{
-	
-	KnownIPController kic;
-	String name;
-	
-	
-    public M_GetIP(PublicUser user){
+public class M_GetIP extends Message {
+
+    KnownIPController kic;
+    String name;
+
+    /**
+     * Constructor.
+     *
+     * @param user is the message's sender
+     */
+    public M_GetIP(PublicUser user) {
         super(user);
     }
-	
-	
+
     @Override
     public void callback(IDataCom iDataCom){
 		System.out.println("GET IP Received");
@@ -37,7 +41,7 @@ public class M_GetIP extends Message{
 		
 		// TODO: add fonction to get the data from DATA
 		List<LightPublicUser> listUsers = iDataCom.getConnectedUsers();
-                listUsers.add(iDataCom.getMyPublicUserProfile().getLightPublicUser());
+        listUsers.add(iDataCom.getMyPublicUserProfile().getLightPublicUser());
 		List<StatGame>listGames = iDataCom.getGameList();
 		
 		kic = KnownIPController.getInstance();

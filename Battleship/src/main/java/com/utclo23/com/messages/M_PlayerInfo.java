@@ -7,16 +7,20 @@ package com.utclo23.com.messages;
 import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.PublicUser;
 /**
- *
- * @author thibault
+ * M_PlayerInfo is a Message generated when a user sends his information.
+ * @author Thibault CHICHE
  */
 public class M_PlayerInfo extends Message {
     
+    /**
+     * Constructor.
+     * @param user is the message's sender
+     */
     public M_PlayerInfo(PublicUser user){
        super(user);
     }
     @Override
     public void callback(IDataCom iDataCom){
-        
+        iDataCom.receivePublicUserProfile(user);
     }
 }
