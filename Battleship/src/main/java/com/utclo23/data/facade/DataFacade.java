@@ -352,7 +352,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     @Override
     public void leaveGame() {
         PublicUser user = this.userMediator.getMyPublicUserProfile();
-        this.comfacade.leaveGame(user);
+        this.comfacade.leaveGame();
         this.gameMediator.leaveGame();
         //this.ihmMainFacade.backToMenu(); en attente d'IHM main.
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
