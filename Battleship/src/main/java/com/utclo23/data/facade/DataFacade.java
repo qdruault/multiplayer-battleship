@@ -477,7 +477,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @param type type of the game created
      */
     @Override
-    public Game createGame(String name, boolean computerMode, boolean spectator, boolean spectatorChat, GameType type) {
+    public Game createGame(String name, boolean computerMode, boolean spectator, boolean spectatorChat, GameType type) throws DataException {
 
         return this.createGame(name, computerMode, spectator, spectatorChat, type);
 
