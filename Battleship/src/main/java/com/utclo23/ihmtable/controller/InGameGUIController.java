@@ -13,7 +13,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -25,6 +27,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -38,7 +41,9 @@ import javafx.scene.paint.Color;
  */
 public class InGameGUIController {
 
-    /**
+    Map<ShipType, String> shipsPictures = new HashMap<ShipType, String>();
+    
+    /**1
      * IHMTable façade
      */
     IHMTableFacade facade;
@@ -184,6 +189,13 @@ public class InGameGUIController {
      */
     @FXML
     public void initialize() {
+        // Map of the ship pictures links.
+        shipsPictures.put(ShipType.BATTLESHIP, "images/ship1.png");
+        shipsPictures.put(ShipType.CARRIER,    "images/ship2.png");
+        shipsPictures.put(ShipType.CRUISER,    "images/ship3.png");
+        shipsPictures.put(ShipType.DESTROYER,  "images/ship4.png");
+        shipsPictures.put(ShipType.SUBMARINE,  "images/ship5.png");
+        
         // Fill in the opponent grid.
         opponentPanes = new ArrayList<>();
         for (int col = 0; col < opponentGrid.getColumnConstraints().size(); col++) {
@@ -224,13 +236,19 @@ public class InGameGUIController {
         // Get the ships.
         // TODO: ships = facade.getFacadeData().getShips();
         ships = new ArrayList<>();
-        ships.add(new Ship(ShipType.BATTLESHIP, 2));
-        ships.add(new Ship(ShipType.BATTLESHIP, 2));
-        ships.add(new Ship(ShipType.CARRIER, 3));
+        ships.add(new Ship(ShipType.BATTLESHIP, 4));
+        ships.add(new Ship(ShipType.BATTLESHIP, 4));
+        ships.add(new Ship(ShipType.CARRIER, 4));
+        ships.add(new Ship(ShipType.CRUISER, 3));
+        ships.add(new Ship(ShipType.DESTROYER, 2));
+        ships.add(new Ship(ShipType.SUBMARINE, 2));
 
         // Example ships.
-        buttonImage1.setOnMouseClicked(new SelectShipEvent(ShipType.CARRIER));
-        buttonImage2.setOnMouseClicked(new SelectShipEvent(ShipType.CRUISER));
+        buttonImage1.setOnMouseClicked(new SelectShipEvent(ShipType.BATTLESHIP));
+        buttonImage2.setOnMouseClicked(new SelectShipEvent(ShipType.CARRIER));
+        buttonImage3.setOnMouseClicked(new SelectShipEvent(ShipType.CRUISER));
+        buttonImage4.setOnMouseClicked(new SelectShipEvent(ShipType.DESTROYER));
+        buttonImage5.setOnMouseClicked(new SelectShipEvent(ShipType.SUBMARINE));
 
         // Start chrono.
         chronoTimeInit();
@@ -519,6 +537,15 @@ public class InGameGUIController {
 
                                 // Send the ship.
                                 facade.getFacadeData().setShip(ship);
+                                // No exception : Place the ship on the board.
+                                // Load the image.
+                                ImageView shipOnTheGrid = new ImageView(shipsPictures.get(ship.getType()));
+                                // Set the size.
+                                shipOnTheGrid.setFitWidth(playerGrid.getWidth()/10.0 * ship.getSize());
+                                shipOnTheGrid.setFitHeight(playerGrid.getHeight()/10.0);
+                                // Place on the grid.
+                                playerGrid.add(shipOnTheGrid, ship.getListCoord().get(0).getX(), ship.getListCoord().get(0).getY(), ship.getSize(), 1);
+                                // ATTENTION! Grid size is out of control!
                                 break;
                             } catch (Exception ex) {
                                 Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);

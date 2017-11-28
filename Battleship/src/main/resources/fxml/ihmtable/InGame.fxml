@@ -97,56 +97,56 @@
                            <children>
                               <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <GridPane id="left_side_game" fx:id="playerGrid" gridLinesVisible="true" prefHeight="500.0" prefWidth="435.0" HBox.hgrow="ALWAYS">
+                                    <GridPane id="left_side_game" fx:id="playerGrid" gridLinesVisible="true" HBox.hgrow="ALWAYS" minWidth="435">
                                        <columnConstraints>
-                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="-Infinity" />
-                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="-Infinity" />
-                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="-Infinity" />
-                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="-Infinity" />
-                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="-Infinity" />
-                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="-Infinity" />
-                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="-Infinity" />
-                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="-Infinity" />
-                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="-Infinity" />
-                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="-Infinity" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="10.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="10.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="10.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="10.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="10.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="10.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="10.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="10.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="10.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="10.0" />
                                        </columnConstraints>
                                        <rowConstraints>
-                                          <RowConstraints minHeight="-Infinity" vgrow="ALWAYS" />
-                                          <RowConstraints minHeight="-Infinity" vgrow="ALWAYS" />
-                                          <RowConstraints minHeight="-Infinity" vgrow="ALWAYS" />
-                                          <RowConstraints minHeight="-Infinity" vgrow="ALWAYS" />
-                                          <RowConstraints minHeight="-Infinity" vgrow="ALWAYS" />
-                                          <RowConstraints minHeight="-Infinity" vgrow="ALWAYS" />
-                                          <RowConstraints minHeight="-Infinity" vgrow="ALWAYS" />
-                                          <RowConstraints minHeight="-Infinity" vgrow="ALWAYS" />
-                                          <RowConstraints minHeight="-Infinity" vgrow="ALWAYS" />
-                                          <RowConstraints minHeight="-Infinity" vgrow="ALWAYS" />
+                                          <RowConstraints percentHeight="10.0" vgrow="ALWAYS" />
+                                          <RowConstraints percentHeight="10.0" vgrow="ALWAYS" />
+                                          <RowConstraints percentHeight="10.0" vgrow="ALWAYS" />
+                                          <RowConstraints percentHeight="10.0" vgrow="ALWAYS" />
+                                          <RowConstraints percentHeight="10.0" vgrow="ALWAYS" />
+                                          <RowConstraints percentHeight="10.0" vgrow="ALWAYS" />
+                                          <RowConstraints percentHeight="10.0" vgrow="ALWAYS" />
+                                          <RowConstraints percentHeight="10.0" vgrow="ALWAYS" />
+                                          <RowConstraints percentHeight="10.0" vgrow="ALWAYS" />
+                                          <RowConstraints percentHeight="10.0" vgrow="ALWAYS" />
                                        </rowConstraints>
                                     </GridPane>
-                                    <GridPane id="right_side_game" fx:id="opponentGrid" gridLinesVisible="true" prefHeight="500.0" prefWidth="435.0" HBox.hgrow="ALWAYS">
+                                    <GridPane id="right_side_game" fx:id="opponentGrid" gridLinesVisible="true" HBox.hgrow="ALWAYS" minWidth="435">
                                       <columnConstraints>
-                                          <ColumnConstraints hgrow="SOMETIMES" />
-                                          <ColumnConstraints hgrow="SOMETIMES" />
-                                          <ColumnConstraints hgrow="SOMETIMES" />
-                                          <ColumnConstraints hgrow="SOMETIMES" />
-                                          <ColumnConstraints hgrow="SOMETIMES" />
-                                          <ColumnConstraints hgrow="SOMETIMES" />
-                                          <ColumnConstraints hgrow="SOMETIMES" />
-                                          <ColumnConstraints hgrow="SOMETIMES" />
-                                        <ColumnConstraints hgrow="SOMETIMES" />
-                                        <ColumnConstraints hgrow="SOMETIMES" />
+                                          <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
                                       </columnConstraints>
                                       <rowConstraints>
-                                        <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
+                                        <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+                                        <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+                                        <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+                                          <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+                                          <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+                                          <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+                                          <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+                                          <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+                                          <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+                                          <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                     </GridPane>
                                  </children>
