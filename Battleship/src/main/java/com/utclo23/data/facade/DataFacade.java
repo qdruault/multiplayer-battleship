@@ -27,6 +27,7 @@ import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.ihmtable.IIHMTableToData;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 
@@ -223,7 +224,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
             
             try {
                 this.ihmMainFacade.refreshUserList();
-            } catch (IOException ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex.getMessage());
             }
         
@@ -235,15 +236,13 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void removeConnectedUser(LightPublicUser user) {
-        try {
+      
             this.userMediator.removeConnectedUser(user);
-        } catch (RuntimeException e) {
-            Logger.getLogger(DataFacade.class.getName()).log(Level.WARNING, e.getMessage());
-        }
-        
+           
+      
         try {
             this.ihmMainFacade.refreshUserList();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex.getMessage());
         }
 
