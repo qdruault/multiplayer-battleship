@@ -14,6 +14,7 @@ import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.StatGame;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -92,7 +93,7 @@ public class M_ReturnIP extends Message {
         } else {
 
             LightPublicUser myUser = iDataCom.getMyPublicUserProfile().getLightPublicUser();
-            List<LightPublicUser> listUsersToSend = null;
+            List<LightPublicUser> listUsersToSend = new ArrayList<>();
             listUsersToSend.add(myUser);
             // get the hasmap of our IP to send it to the requesting node. 
             HashMap<String, Inet4Address> IdToIp = null;
