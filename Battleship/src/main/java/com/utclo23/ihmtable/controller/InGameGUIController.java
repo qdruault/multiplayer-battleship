@@ -157,6 +157,7 @@ public class InGameGUIController {
     
     /**
 <<<<<<< HEAD
+<<<<<<< HEAD
      * True if the two players are ready to play.
      */
     private boolean readyToAttack;
@@ -173,6 +174,13 @@ public class InGameGUIController {
     /**
 =======
 >>>>>>> [Fire] Delete useless variable
+=======
+     * True if the player is ready to fire.
+     */
+    private boolean timeToAttackBool;
+    
+    /**
+>>>>>>> [Opponent] modify function for turn by turn
      * Set the IHM Table facade.
      * @param facade : IHM Table facade.
      */ 
@@ -213,6 +221,8 @@ public class InGameGUIController {
         shipsPictures.put(ShipType.DESTROYER,  "images/ship4.png");
         shipsPictures.put(ShipType.SUBMARINE,  "images/ship5.png");
         
+        // Player not avaible to fire
+        timeToAttackBool = false;
         // Fill in the opponent grid.
         opponentPanes = new ArrayList<>();
         for (int col = 0; col < opponentGrid.getColumnConstraints().size(); col++) {
@@ -329,6 +339,23 @@ public class InGameGUIController {
             opponentPane.getStyleClass().add("inGameGUI_hover_cell");
         }
     }
+    
+    /**
+     * Function for switch different pane in starting turn for the current player
+     */
+    public void switchOpponnentPane() {
+        timeToAttackBool = !timeToAttackBool;
+        if (timeToAttackBool) {
+            // We can now hover the opponent panes.
+            for (Pane opponentPane : opponentPanes) {
+                opponentPane.getStyleClass().add("inGameGUI_hover_cell");
+            }
+        } else {
+            for (Pane opponentPane : opponentPanes) {
+                opponentPane.getStyleClass().removeAll("inGameGUI_hover_cell");
+            }
+        }
+    }
 
     /**
      * Update the label on the ship button by adding the specified value
@@ -352,7 +379,7 @@ public class InGameGUIController {
     @FXML
     void onClickFire(MouseEvent event) {
         // Prevent to click if the game is not started.
-        if (gameStarted) {
+        if (gameStarted && timeToAttackBool) {
             // Only if a cell has been aimed.
             if (cellToAttack != null) {
                 // Remove the highlight on the cell.
@@ -370,8 +397,7 @@ public class InGameGUIController {
                     }
                     // Reinitialize chrono for the next turn
                     chronoTimeInit();
-                    // gameStarted to false
-                    gameStarted = false;
+                    switchOpponnentPane();
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                 }
@@ -383,8 +409,8 @@ public class InGameGUIController {
      * Function for set the attack after feedback call by Data
      */
     public void timeToAttack() {
+        switchOpponnentPane();
         restartChronoTime();
-        startGame();
     }
 
     /**
