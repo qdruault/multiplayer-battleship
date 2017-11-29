@@ -211,7 +211,7 @@ public class InGameGUIController {
         shipsPictures.put(ShipType.DESTROYER,  "images/ship4.png");
         shipsPictures.put(ShipType.SUBMARINE,  "images/ship5.png");
         
-        // Player not avaible to fire
+        // Player not able to fire
         readyToAttack = false;
         // Fill in the opponent grid.
         opponentPanes = new ArrayList<>();
@@ -319,6 +319,10 @@ public class InGameGUIController {
     public void startGame() {
         // To know that the game is started.
         gameStarted = true;
+        
+        // TODO: get the param through notifyGameReady ?
+        readyToAttack = true;
+        
         // We can no longer hover the player panes.
         for (Pane playerPane : playerPanes) {
             playerPane.getStyleClass().removeAll("inGameGUI_hover_cell");
@@ -327,6 +331,11 @@ public class InGameGUIController {
         // We can now hover the opponent panes.
         for (Pane opponentPane : opponentPanes) {
             opponentPane.getStyleClass().add("inGameGUI_hover_cell");
+        }
+        
+        // Start the timer if it is my turn.
+        if(readyToAttack) {
+            restartChronoTime();
         }
     }
     
@@ -471,16 +480,6 @@ public class InGameGUIController {
                 clickedPane.getStyleClass().add("inGameGUI_selected_cell");
             }
         }
-    }
-
-
-
-    /**
-     * Temporary function for starting chrono at 5:00 to 0:00
-     * @param event
-     */
-    public void onClickChronoButton(MouseEvent event) {
-        restartChronoTime();
     }
 
     /**

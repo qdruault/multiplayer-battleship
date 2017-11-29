@@ -230,7 +230,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
     }
 
     /**
-     * @param gameReady the gameReady to set
+     * @param pGameReady the gameReady to set
      */
     public void setGameReady(boolean pGameReady) {
         gameReady = pGameReady;
