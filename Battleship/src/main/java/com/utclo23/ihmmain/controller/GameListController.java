@@ -54,7 +54,7 @@ public class GameListController extends AbstractController{
     private StatGame selectedGame;
     
     private TableView<StatGame> gameList;
-    
+  
     private Boolean isLoading;
     
     //game received with asynchronous load
