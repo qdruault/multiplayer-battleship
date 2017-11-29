@@ -16,11 +16,15 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 
 /**
  *
@@ -39,10 +43,15 @@ public class IpListController extends AbstractController{
         if(ipList.getColumns().isEmpty()){
             TableColumn ipColumn = new TableColumn("IP");
             ipColumn.setCellValueFactory(new PropertyValueFactory<ObservableIp, String>("ipAdress"));
-            ipColumn.getStyleClass().add("cell-center");
+            ipColumn.getStyleClass().add("cell-left");
             ipColumn.getStyleClass().add("label");
+            
+            TableColumn deleteColumn = new TableColumn("REMOVE");
+            deleteColumn.setCellValueFactory(new PropertyValueFactory<ObservableIp, String>("remove"));
+            deleteColumn.getStyleClass().add("cell-right");
+            deleteColumn.getStyleClass().add("label");
 
-            ipList.getColumns().addAll(ipColumn);
+            ipList.getColumns().addAll(ipColumn, deleteColumn);
 
             ipList.setEditable(true);
 
@@ -141,8 +150,6 @@ public class IpListController extends AbstractController{
 
             // Update the list in the GUI
             ipList.setItems(data);
-        } else {
-            Logger.getLogger(IpListController.class.getName()).log(Level.SEVERE, null, "facade is not instanciated");
         }
     }
     
@@ -151,9 +158,12 @@ public class IpListController extends AbstractController{
      */
     public class ObservableIp {
         private String ipAdress;
+        private Button remove;
         
         public ObservableIp(String ipAdress){
             this.ipAdress = ipAdress;
+            this.remove = new Button("REMOVE");
+
         };
         
         public String getIpAdress(){

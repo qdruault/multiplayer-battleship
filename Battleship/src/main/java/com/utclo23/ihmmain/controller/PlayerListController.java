@@ -8,6 +8,8 @@ package com.utclo23.ihmmain.controller;
 import com.utclo23.data.structure.LightPublicUser;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -96,8 +98,17 @@ public class PlayerListController extends AbstractController{
      */
     @FXML
     public void clickItem(MouseEvent event){
-        // TODO Call PlayerProfile to show the profile of the user.
-        String id = listPlayers.getSelectionModel().getSelectedItem().getId();
+        if(event.getClickCount() == 2){
+            // Verify the list is not empty. If the list is empty, it's impossible to select an item
+            if(listPlayers.getSelectionModel().getSelectedItem() != null){
+                String id = listPlayers.getSelectionModel().getSelectedItem().getId();
+                try {
+                    ihmmain.toOthersPlayerProfile(id);
+                } catch (IOException ex) {
+                    Logger.getLogger(PlayerListController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
     }
     
 }
