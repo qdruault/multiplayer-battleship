@@ -328,7 +328,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void setShip(Ship ship) throws DataException{
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -484,16 +484,10 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-     * *
-     *
-     * @param username
-     * @param password
-     * @throws DataException ======= /** Sign in the application
      * @param username
      * @param password
      * @throws DataException if the user is already connected, there is a
      * problem in saving or reading file, or if the password is incorrect
-     * >>>>>>> Data/javadoc
      */
     @Override
     public void signin(String username, String password) throws DataException {

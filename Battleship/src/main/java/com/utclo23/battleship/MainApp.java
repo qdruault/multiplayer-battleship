@@ -56,7 +56,7 @@ public class MainApp extends Application {
         dataFacade.setFacadeLinks(comFacade, iIHMTableToData, ihmMainFacade);
         
         // Just for IHM-Table tests, comment for real integration.
-        ihmTableFacade.createInGameGUI(stage);
+        //ihmTableFacade.createInGameGUI(stage);
     }
 
     /**
