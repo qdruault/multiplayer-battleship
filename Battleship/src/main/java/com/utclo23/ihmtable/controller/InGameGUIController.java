@@ -625,7 +625,7 @@ public class InGameGUIController {
                                     shipOnTheGrid.setFitWidth(playerGrid.getWidth()/10.0 * ship.getSize());
                                     shipOnTheGrid.setFitHeight(playerGrid.getHeight()/10.0);
                                     // Place on the grid.
-                                    playerGrid.add(shipOnTheGrid, ship.getListCoord().get(0).getX(), ship.getListCoord().get(0).getY(), ship.getSize(), 1);
+                                    playerGrid.add(shipOnTheGrid, Math.min(ship.getListCoord().get(0).getX(), ship.getListCoord().get(1).getX()), ship.getListCoord().get(0).getY(), ship.getSize(), 1);
                                 } else {
                                     // Vertical
                                     // Set the size.
@@ -634,7 +634,7 @@ public class InGameGUIController {
                                     // Rotate the image.
                                     shipOnTheGrid.setRotate(90);
                                     // Place on the grid.
-                                    playerGrid.add(shipOnTheGrid, ship.getListCoord().get(0).getX(), ship.getListCoord().get(0).getY(), 1, ship.getSize());
+                                    playerGrid.add(shipOnTheGrid, ship.getListCoord().get(0).getX(), Math.min(ship.getListCoord().get(0).getY(), ship.getListCoord().get(1).getY()), 1, ship.getSize());
                                 }
                                 
                                 // ATTENTION! Grid size is out of control!
