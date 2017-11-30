@@ -533,18 +533,23 @@ public class InGameGUIController {
                         time.stop();
                         chronoLabel.setText("00:00");
 
-                        // Fake an attack.
-                        facade.getFacadeData().attack(new Coordinate(-1, -1));
-                        
-                        // Increase the number of turns passed.
-                        nbPassedTurns++;
-                        
-                        // Reinitialize chrono for the next turn
-                        chronoTimeInit();
-                        switchOpponnentPane();
-                        
-                        // TODO: Remove this line!
-                        timeToAttack();
+                        // Leave the game if te player has not played for the 3rd time.
+                        if (nbPassedTurns == 2) {
+                            facade.getFacadeData().leaveGame();
+                        } else {
+                            // Fake an attack.
+                            facade.getFacadeData().attack(new Coordinate(-1, -1));
+
+                            // Increase the number of turns passed.
+                            nbPassedTurns++;
+
+                            // Reinitialize chrono for the next turn
+                            chronoTimeInit();
+                            switchOpponnentPane();
+
+                            // TODO: Remove this line!
+                            timeToAttack();
+                        }
                     }
                     else {
                         if (countdown < 10) {
