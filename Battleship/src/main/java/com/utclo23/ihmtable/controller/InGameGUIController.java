@@ -171,6 +171,11 @@ public class InGameGUIController {
     private boolean readyToAttack;
     
     /**
+     * Number of turns where the player didn't play.
+     */
+    private int nbPassedTurns;
+    
+    /**
      * Set the IHM Table facade.
      * @param facade : IHM Table facade.
      */ 
@@ -284,7 +289,6 @@ public class InGameGUIController {
         mapShipCount.put(ShipType.SUBMARINE,0);
         
         //Fill the mapShipCount from the list of ships obtained from Data
-        int count = 0;
         for(int i = 0; i<ships.size();i++)
         {
             mapShipCount.put(ships.get(i).getType(),mapShipCount.get(ships.get(i).getType())+1);
@@ -311,6 +315,9 @@ public class InGameGUIController {
 
         // Start chrono.
         chronoTimeInit();
+        
+        // Init the number of turns passed.
+        nbPassedTurns = 0;
     }
     
     /**
@@ -508,12 +515,17 @@ public class InGameGUIController {
             @Override
             public void handle(ActionEvent event) {
                 countdown--;
-                /*
-                TODO: Expiration of timer, add function of ending turn
-                */
+                // Time's up!
                 if (countdown <= 0) {
                     time.stop();
+                    chronoLabel.setText("00:0");
                     chronoLabel.setTextFill(Color.web("#c0392b"));
+                    
+                    // Fake an attack.
+                    facade.getFacadeData().attack(new Coordinate(-1, -1));
+                    
+                    // Increase the number of turns passed.
+                    nbPassedTurns++;
                 }
                 else {
                     if (countdown < 10) {
