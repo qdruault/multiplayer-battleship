@@ -90,14 +90,9 @@ public class InGameGUIController {
     private Button chronoButtonMenu;
 
     /*
-        Starting value for chrono (like a constant)
-    */
-    private final int timePassed = 30;
-
-    /*
         countdown value for chrono
     */
-    private Integer countdown = timePassed;
+    private Integer countdown;
 
     /*
         String that show in javafx
@@ -397,6 +392,11 @@ public class InGameGUIController {
                         clickedPane.getStyleClass().add("inGameGUI_touched_cell");
                         // TODO: check if the ship is destroyed.
                         
+                        // Reset the number of turns passed.
+                        nbPassedTurns = 0;
+                        
+                        // TODO: Remove this line!
+                        timeToAttack();                        
                     } else {
                         // Ship missed!
                         clickedPane.getStyleClass().add("inGameGUI_missed_cell");
@@ -468,7 +468,7 @@ public class InGameGUIController {
         @Override
         public void handle(Event event) {
             // Prevent to click if the game is not started.
-            if (gameStarted) {
+            if (gameStarted && readyToAttack) {
                 // Remove the higlight on the previous cell.
                 if (clickedPane != null) {
                     clickedPane.getStyleClass().removeAll("inGameGUI_selected_cell");
@@ -492,15 +492,26 @@ public class InGameGUIController {
     /**
      * Function for initialize chrono
      */
-    public void chronoTimeInit() {
-        chronoLabel.setText("00:30");
-        chronoLabel.setTextFill(Color.web("#FFFFFF"));
+    private void chronoTimeInit() {
+        if (nbPassedTurns == 0) {
+            countdown = 30;
+            chronoLabel.setText("00:30");
+            chronoLabel.setTextFill(Color.web("#FFFFFF"));
+        } else if (nbPassedTurns == 1) {
+            countdown = 15;
+            chronoLabel.setText("00:15");
+            chronoLabel.setTextFill(Color.web("#FFFFFF"));            
+        } else {
+            countdown = 5;
+            chronoLabel.setText("00:05");
+            chronoLabel.setTextFill(Color.web("#c0392b"));
+        }
     }
 
     /**
      * Function for initialize chrono
      */
-    public void restartChronoTime() {
+    private void restartChronoTime() {
         chronoTimeInit();
         timePass();
     }
@@ -514,26 +525,36 @@ public class InGameGUIController {
         KeyFrame frame = new KeyFrame(Duration.seconds(1.1), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                countdown--;
-                // Time's up!
-                if (countdown <= 0) {
-                    time.stop();
-                    chronoLabel.setText("00:0");
-                    chronoLabel.setTextFill(Color.web("#c0392b"));
-                    
-                    // Fake an attack.
-                    facade.getFacadeData().attack(new Coordinate(-1, -1));
-                    
-                    // Increase the number of turns passed.
-                    nbPassedTurns++;
-                }
-                else {
-                    if (countdown < 10) {
-                        labelTime = "00:0" + countdown.toString();
-                    } else {
-                        labelTime = "00:" + countdown.toString();
+                // To prevent the timer when it'snot my turn.
+                if (readyToAttack) {
+                    countdown--;
+                    // Time's up!
+                    if (countdown <= 0) {
+                        time.stop();
+                        chronoLabel.setText("00:00");
+
+                        // Fake an attack.
+                        facade.getFacadeData().attack(new Coordinate(-1, -1));
+                        
+                        // Increase the number of turns passed.
+                        nbPassedTurns++;
+                        
+                        // Reinitialize chrono for the next turn
+                        chronoTimeInit();
+                        switchOpponnentPane();
+                        
+                        // TODO: Remove this line!
+                        timeToAttack();
                     }
-                    chronoLabel.setText(labelTime);
+                    else {
+                        if (countdown < 10) {
+                            chronoLabel.setTextFill(Color.web("#c0392b"));
+                            labelTime = "00:0" + countdown.toString();
+                        } else {
+                            labelTime = "00:" + countdown.toString();
+                        }
+                        chronoLabel.setText(labelTime);
+                    }
                 }
             }
 
