@@ -41,6 +41,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.paint.Color;
+import javafx.util.Pair;
 
 /**
 *
@@ -552,14 +553,21 @@ public class InGameGUIController {
 
         Node n = getNodeByRowColumnIndex(c.getX(), c.getY(), grid);
         n.setDisable(true);
+
+
+        Pair<Integer, Ship> attack_result = facade.getFacadeData().attack(c, false);
         //TODO: Voir si il faut demander à data une méthode "attack" neutralisée,
         // on a besoin de pouvoir tester si une mine placée à un endroit provoque
         // une explosion sans aucun autre effet (ou dire à data de tester si le joueur
         // en local est le currentPlayer)
-        if (facade.getFacadeData().attack(c, false)) {
+        if (attack_result.getKey() == 1) {
             // Ship Touched!
             n.getStyleClass().add("inGameGUI_touched_cell");
             // TODO: check if the ship is destroyed.
+            if(attack_result.getValue() != null) //ship destroyed here
+            {
+                Ship destroyedShip = attack_result.getValue();
+            }
 
             // Reset the number of turns passed.
             nbPassedTurns = 0;
