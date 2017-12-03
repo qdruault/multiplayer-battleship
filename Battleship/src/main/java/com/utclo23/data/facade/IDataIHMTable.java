@@ -18,7 +18,7 @@ import javafx.util.Pair;
 public interface IDataIHMTable {
     public List<Ship> getTemplateShips() throws DataException;
     public void setShip(Ship ship) throws DataException;
-    public Pair attack(Coordinate coords);
+    public Pair<Integer, Ship> attack(Coordinate coords, boolean isTrueAttack);
     public void leaveGame();
     public List<Ship> getInitialBoardFromGameId(String gameid);
     public List<Event> getPreviousBoard();

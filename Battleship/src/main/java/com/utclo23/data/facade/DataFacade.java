@@ -178,7 +178,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void setEnnemyShips(List<Ship> ships) {
-        this.gameMediator.setEnnemyShips(ships);
+        //this.gameMediator.setEnnemyShips(ships);
     }
 
     /**
@@ -336,15 +336,25 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * Attack a given location
      *
      * @param coords the location to attack
-     * @return success/failure of the attack
+     * @param isTrueAttack true = this is a true attack ; false = this is just a test
+     * @return Pair<Integer, Ship> 
+     *              Integer = 0 if the mine is not in a right place ; 
+     *              Integer = 1 if the mine is in the place of a ship.
+     *              Ship = null if the ship isn't destroyed ; ship is a ship if this ship is destroyed
      *
      */
     @Override
-    public Pair attack(Coordinate coords) {
+    public Pair<Integer, Ship> attack(Coordinate coords, boolean isTrueAttack) {
         try {
-            return this.gameMediator.attack(coords);
+            return this.gameMediator.attack(coords, isTrueAttack);
         } catch (DataException ex) {
             Logger.getLogger(DataFacade.class.getName()).log(Level.WARNING, ex.getMessage());
+            return null;
+        } catch (IOException ex) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -486,7 +496,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     @Override
     public Game createGame(String name, boolean computerMode, boolean spectator, boolean spectatorChat, GameType type) throws DataException {
 
-        return this.createGame(name, computerMode, spectator, spectatorChat, type);
+        return this.gameMediator.createGame(name, computerMode, spectator, spectatorChat, type);
 
     }
 

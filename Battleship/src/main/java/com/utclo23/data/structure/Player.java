@@ -6,6 +6,7 @@
 package com.utclo23.data.structure;
 
 import java.rmi.server.UID;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +21,8 @@ public class Player extends SerializableEntity{
     public Player(LightPublicUser lightPublicUser) {
         super();
         this.lightPublicUser = lightPublicUser;
+        this.mines = new ArrayList<>();
+        this.ships = new ArrayList<>();
     }
 
     public List<Ship> getShips() {

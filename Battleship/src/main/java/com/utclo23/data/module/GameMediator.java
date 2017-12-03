@@ -16,6 +16,7 @@ import com.utclo23.data.structure.Mine;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.ihmtable.IIHMTableToData;
 import java.io.File;
+import java.io.IOException;
 import java.rmi.server.UID;
 
 import java.util.ArrayList;
@@ -53,10 +54,11 @@ public class GameMediator {
         this.dataFacade = dataFacade;
         this.gamesMap = new HashMap<>();
         this.currentGame = null;
+        this.gameFactory = new GameFactory();
        
     }
 
-
+    
     
     
     public Game getCurrentGame() {
@@ -97,7 +99,7 @@ public class GameMediator {
         }
 
         //set current game
-        System.out.println("Game created");
+        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Création d'un Game");
         this.currentGame = game;
         
         return game;
@@ -181,32 +183,53 @@ public class GameMediator {
 
     }
     
-    
-    public Pair attack(Coordinate coordinate) throws DataException
+    /**
+     *
+     * @param coordinate
+     * @param isTrueAttack
+     * @return
+     * @throws DataException
+     */
+    public Pair<Integer, Ship> attack(Coordinate coordinate, boolean isTrueAttack) throws DataException, IOException, ClassNotFoundException
     {
       if (this.currentGame != null) {
-            String id = this.dataFacade.getMyPublicUserProfile().getId();
-            Player player = this.currentGame.getPlayer(id);
+            Player player = this.currentGame.getCurrentPlayer();
+            Pair<Integer, Ship> pairReturn;
             if (player == null) {
                 throw new DataException("Data : player not found for set player ship");
             }
             
             //check if mine already used at current location
             List<Mine> mines = player.getMines();
-            for(int i = 0; i < mines.size(); i++){
-                Mine mine = mines.get(i);
-                if(mine.getCoord() == coordinate){
-                    Logger.getLogger(GameMediator.class.getName()).log(Level.WARNING, "Data : Mine places in the place where already has a mine");
-                    return null;
+            if(mines.size() > 0){
+                for(int i = 0; i < mines.size(); i++){
+                    Mine mine = mines.get(i);
+                    if(mine.getCoord().getX() == coordinate.getX() && mine.getCoord().getY() == coordinate.getY()){
+                        Logger.getLogger(GameMediator.class.getName()).log(Level.WARNING, "Data : Mine places in the place where already has a mine");
+                        return null;
+                    }
                 }
             }
             
-            //add mines
-            Pair pairReturn = this.currentGame.attack(player, coordinate);
+            //return the result of the attack
+            //if isTrueAttack=1, then add mine to player ; otherwise, that is just a test, no stat of mine
+            if(isTrueAttack == true){
+                pairReturn = this.currentGame.attack(player, coordinate, isTrueAttack);
             
-            //save with caretaker
-            this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
-            return pairReturn;
+                //save with caretaker
+                this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
+                return pairReturn;
+            }
+            else{
+                // In the case of a test, that's possible that the current player is not
+                // the right player to test the mine (that means the enemy of the player 
+                // is the right person to test the mine)
+                pairReturn = this.currentGame.attack(player, coordinate, isTrueAttack);
+                if(pairReturn.getKey()==0 && pairReturn.getValue()== null){
+                    pairReturn = this.currentGame.attack(this.currentGame.ennemyOf(player), coordinate, isTrueAttack);
+                }
+                return pairReturn;
+            }
       }
       else{
           throw new DataException("Data : player dosn't existe");
@@ -337,7 +360,7 @@ public class GameMediator {
         
         if(this.dataFacade.getIhmTablefacade()!=null)
         {
-            this.dataFacade.getIhmTablefacade().feedback(mine.getCoord(),touched,shipDestroyed) ;
+            //this.dataFacade.getIhmTablefacade().feedback(mine.getCoord(),touched,shipDestroyed) ;
         }
         
         if (this.currentGame.isGameFinishedByEnnemy())
