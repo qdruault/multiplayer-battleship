@@ -21,7 +21,7 @@ public class InGameStats {
     }
 
     /**
-     * Number of ships from the current player that have been killed
+     * Number of ships of the current player that have been killed
      */
     private int deadShipCounter;
    
@@ -36,6 +36,7 @@ public class InGameStats {
     private int mineTotalCounter;
 
     /**
+     * Number of ships of the current player that have been killed
      * @return the deadShipCounter
      */
     public String getDeadShipCounter() {
@@ -43,6 +44,7 @@ public class InGameStats {
     }
 
     /**
+     * Number of mines sent by the current player that have touched an opponent ship
      * @return the impactCounter
      */
     public String getImpactCounter() {
@@ -50,6 +52,7 @@ public class InGameStats {
     }
 
     /**
+     * Number of mines sent by the current player
      * @return the mineTotalCounter
      */
     public String getMineTotalCounter() {
@@ -57,13 +60,17 @@ public class InGameStats {
     }
     
     /**
-     * 
+     * Method called after each play.
      * @param impactedShip true if a ship was touched
      * @param killedShip  true if a ship was killed
      */
     public void turnPlayed(boolean impactedShip, boolean killedShip) {
         mineTotalCounter++;
-        if (impactedShip) impactCounter++;
-        if (killedShip) deadShipCounter++;
+        if (impactedShip) { 
+            impactCounter++;
+        }
+        if (killedShip) { 
+            deadShipCounter++;
+        }
     }
 }
