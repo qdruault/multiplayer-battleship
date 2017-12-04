@@ -23,6 +23,8 @@ import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -39,6 +41,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.paint.Color;
@@ -713,6 +716,11 @@ public class InGameGUIController {
         time.playFromStart();
     }
     
+    /**
+     * Generic private method for setting anchor pane in right place
+     * @param n anchorPane selected
+     * @param c button in the anchor selected
+     */
     private void setAnchorEach(AnchorPane n, Button c) {
         n.setTopAnchor(c, 0.0);
         n.setLeftAnchor(c, 0.0);
@@ -720,6 +728,23 @@ public class InGameGUIController {
         n.setBottomAnchor(c, 0.0);
         n.getChildren().add(c);
     }
+    
+    /**
+     * Method for binding button, for hover style or none
+     * @param node 
+     */
+    private void changeBackgroundOnHoverUsingBinding(Node node) {
+    node.styleProperty().bind(
+      Bindings
+        .when(node.hoverProperty())
+          .then(
+            new SimpleStringProperty("-fx-background-color: blue;")
+          )
+          .otherwise(
+            new SimpleStringProperty("-fx-background-color: none;")
+          )
+    );
+  }
     
     /**
      * Method for clearing the corner and put the right buttons (forward...)
@@ -734,23 +759,86 @@ public class InGameGUIController {
         AnchorPane forwardPane = new AnchorPane();
         
         /**
-         * Create button in respective pane 
+         * Prepare image in each button 
          */
-        Button backWardButton = new Button("COUCOU");
-        Button playButton = new Button();
-        Button pauseButton = new Button();
-        Button forwardButton = new Button();
+        final ImageView backwardImage = new ImageView("images/fleche_backward.png");
+        final ImageView playImage = new ImageView("images/play_button.png");
+        final ImageView pauseImage = new ImageView("images/pause_button.png");
+        final ImageView forwardImage = new ImageView("images/fleche_forward.png");
         
+        /**
+         * Style on each button
+         */
+        String styleNoHover = ("-fx-background-color: none;" +
+            "    -fx-cursor: pointer;" +
+            "    -fx-background-repeat: stretch;" +
+            "    -fx-background-position: center center;");
+        
+        /**
+         * Backward button preparation : set image + style + binding + onAction
+         */
+        Button backWardButton = new Button();
+        backWardButton.setGraphic(backwardImage);
+        backWardButton.setStyle(styleNoHover);
+        changeBackgroundOnHoverUsingBinding(backWardButton);
+        backWardButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                facade.getFacadeData().getPreviousBoard();
+            }
+        });
+        
+        Button playButton = new Button();
+        playButton.setGraphic(playImage);
+        playButton.setStyle(styleNoHover);
+        changeBackgroundOnHoverUsingBinding(playButton);
+        playButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                facade.getFacadeData().getNextBoard();
+            }
+        });
+        
+        Button pauseButton = new Button();
+        pauseButton.setGraphic(pauseImage);
+        pauseButton.setStyle(styleNoHover);
+        changeBackgroundOnHoverUsingBinding(pauseButton);
+        backWardButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                /*
+                TODO: Pause
+                */
+            }
+        });
+        
+        Button forwardButton = new Button();
+        forwardButton.setGraphic(forwardImage);
+        forwardButton.setStyle(styleNoHover);
+        changeBackgroundOnHoverUsingBinding(forwardButton);
+        backWardButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                facade.getFacadeData().getNextBoard();
+            }
+        });
+        
+        /**
+         * Create the right pane with their button for each
+         */
         setAnchorEach(backWardPane, backWardButton);
         setAnchorEach(playPane, playButton);
         setAnchorEach(pausePane, pauseButton);
         setAnchorEach(forwardPane, forwardButton);
         
+        /**
+         * Create the right general pane, clearing "playing" option
+         */
         actionPanel.getChildren().clear();
         actionPanel.getChildren().add(backWardPane);
+        actionPanel.setHgrow(backWardPane, Priority.ALWAYS);
         actionPanel.getChildren().add(playPane);
+        actionPanel.setHgrow(playPane, Priority.ALWAYS);
         actionPanel.getChildren().add(pausePane);
+        actionPanel.setHgrow(pausePane, Priority.ALWAYS);
         actionPanel.getChildren().add(forwardPane);
+        actionPanel.setHgrow(forwardPane, Priority.ALWAYS);
     }
 
     private class SelectShipEvent implements EventHandler {
