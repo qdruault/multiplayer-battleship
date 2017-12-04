@@ -123,7 +123,7 @@ public class PlayerProfileController extends AbstractController{
         }
     }
     public void loading() throws IOException{
-        if (isLoading==true){
+        if (isLoading){
             ProgressIndicator pin = new ProgressIndicator ();
             pin.setProgress(-1);
             //to do: display ProgressIndicator
@@ -135,7 +135,10 @@ public class PlayerProfileController extends AbstractController{
                 protected Void call() throws Exception {
                     try {
                         while(isLoading){
-                            System.out.println("Waiting");
+                            Logger.getLogger(
+                                    PlayerProfileController.class.getName()).log(
+                                            Level.INFO, "Waiting."
+                                    );
                             Thread.sleep(500);
                         }
                     } catch (Exception e) {
@@ -152,7 +155,9 @@ public class PlayerProfileController extends AbstractController{
                     try {
                         getIhmmain().toPlayerProfile();
                     } catch (IOException ex) {
-                        Logger.getLogger(PlayerProfileController.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(
+                                PlayerProfileController.class.getName()).log(
+                                        Level.SEVERE, null, ex);
                     }
                 }
             });
@@ -160,7 +165,11 @@ public class PlayerProfileController extends AbstractController{
             wait.setOnFailed(new EventHandler<WorkerStateEvent>() {
                 @Override
                 public void handle(WorkerStateEvent t){
-                    System.out.println("Loading task failed : " + t.toString());
+                    Logger.getLogger(
+                            PlayerProfileController.class.getName()).log(
+                                    Level.INFO,
+                                    "Loading task failed : {0}", t.toString()
+                            );
                 }
             });
             new Thread(wait).start();
@@ -168,7 +177,7 @@ public class PlayerProfileController extends AbstractController{
     }
     @Override
     public void refresh(){
-        if (isOther==false){
+        if (!isOther){
             try{
                 me = getFacade().iDataIHMMain.getMyPublicUserProfile();
                 userID.setText(me.getLightPublicUser().getPlayerName());
@@ -177,7 +186,11 @@ public class PlayerProfileController extends AbstractController{
                 birthday.setText(me.getBirthDate().toString());
             }
             catch(NullPointerException e){
-                System.out.println("[PlayerProfile] error - my profile is null");
+                Logger.getLogger(
+                        PlayerProfileController.class.getName()).log(
+                                Level.INFO,
+                                "[PlayerProfile] error - my profile is null."
+                        );
             }
         }
         else{
@@ -188,7 +201,10 @@ public class PlayerProfileController extends AbstractController{
                 birthday.setText(other.getBirthDate().toString());
             }
             catch(NullPointerException e){
-                System.out.println("[PlayerProfile] - error - other profile is null");
+                Logger.getLogger(
+                        PlayerProfileController.class.getName()).log(Level.INFO,
+                        "[PlayerProfile] - error - other profile is null."
+                        );
             }
         }
     }
