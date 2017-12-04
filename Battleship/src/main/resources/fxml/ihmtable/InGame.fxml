@@ -223,7 +223,7 @@
                               </AnchorPane>
                               <AnchorPane HBox.hgrow="ALWAYS">
                                  <children>
-                                    <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <HBox id="actionPanel" fx:id="actionPanel" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
                                           <AnchorPane prefHeight="170.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                                              <children>
