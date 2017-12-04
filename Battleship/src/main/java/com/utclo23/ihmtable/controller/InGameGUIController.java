@@ -39,6 +39,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.layout.Priority;
@@ -136,6 +137,11 @@ public class InGameGUIController {
     */
     private Coordinate cellToAttack;
 
+    // Box in bottom right corner
+    @FXML
+    private HBox actionPanel;
+
+    
     /**
     * The pane of the previous attack.
     */
@@ -207,6 +213,7 @@ public class InGameGUIController {
     private InGameStats currentPlayerStats;
 
     /**
+<<<<<<< HEAD
     * Opponent's stats
     */
     private InGameStats opponentStats;
