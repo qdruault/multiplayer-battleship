@@ -68,6 +68,9 @@
     -fx-border-width: 0px;
 }
 
+.center{
+    -fx-alignment: center;
+}
 
 /* Used to personalize the button */
 .button{

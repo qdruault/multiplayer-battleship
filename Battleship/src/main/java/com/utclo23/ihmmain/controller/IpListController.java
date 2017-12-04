@@ -32,7 +32,7 @@ import javafx.scene.input.MouseEvent;
  */
 public class IpListController extends AbstractController{
     @FXML
-    private TextField ipAdressField;
+    private TextField ipAddressField;
     
     @FXML
     private TableView<ObservableIp> ipList;
@@ -42,14 +42,14 @@ public class IpListController extends AbstractController{
     public void start(){
         if(ipList.getColumns().isEmpty()){
             TableColumn ipColumn = new TableColumn("IP");
-            ipColumn.setCellValueFactory(new PropertyValueFactory<ObservableIp, String>("ipAdress"));
+            ipColumn.setCellValueFactory(new PropertyValueFactory<ObservableIp, String>("ipAddress"));
             ipColumn.getStyleClass().add("cell-left");
             ipColumn.getStyleClass().add("label");
             
             TableColumn deleteColumn = new TableColumn("REMOVE");
-            deleteColumn.setCellValueFactory(new PropertyValueFactory<ObservableIp, String>("remove"));
+            deleteColumn.setCellValueFactory(new PropertyValueFactory<ObservableIp, Button>("remove"));
             deleteColumn.getStyleClass().add("cell-right");
-            deleteColumn.getStyleClass().add("label");
+            deleteColumn.getStyleClass().add("center");
 
             ipList.getColumns().addAll(ipColumn, deleteColumn);
 
@@ -76,7 +76,7 @@ public class IpListController extends AbstractController{
         
         // we convert our ObservableIp in String for data
         for (int i = 0; i<data.size(); i++){
-            discoveryNodes.add(data.get(i).getIpAdress());
+            discoveryNodes.add(data.get(i).getIpAddress());
         }
 
         try {
@@ -85,52 +85,74 @@ public class IpListController extends AbstractController{
         } catch (DataException ex) {
             Logger.getLogger(IpListController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            ipAdressField.setText("");
+            ipAddressField.setText("");
             ihmmain.toMenu();
         }
     }
     
     /**
-     * This function is call when the player click on the button "ADD/REMOVE ADDRESS".
-     * If the address is in the list, the address is removed.
+     * This function is call when the player click on the button "ADD ADDRESS".
      * If the address is NOT in the list, the address is added.
      * @param event
      * @throws IOException 
      */
     @FXML
-    private void addRemoveIpAdress(ActionEvent event) throws IOException{
-        String ipAdress = ipAdressField.getText();
+    private void addIpAddress(ActionEvent event) throws IOException{
+        String ipAddress = ipAddressField.getText();
         
-        // test : ip adress is correct ?
+        // Test : ip address is correct ?
         try{
-            Inet4Address inet4address =  (Inet4Address) Inet4Address.getByName(ipAdress);
+            Inet4Address inet4address =  (Inet4Address) Inet4Address.getByName(ipAddress);
             
             ObservableList<ObservableIp> data = ipList.getItems();
             int index = -1;
 
-            // we search the ip adress in the actual list. If the ip adress doesn't exist, index = -1; else, index = range of the ip adress in the list
+            // We search the ip address in the actual list. If the ip address doesn't exist, index = -1; else, index = range of the ip address in the list
             for(int i = 0; i<data.size(); i++){
-                if(data.get(i).getIpAdress().equals(ipAdress)){
+                if(data.get(i).getIpAddress().equals(ipAddress)){
                     index = i;
                 }
             }
 
             if(index == -1){
-                // add an ip adress
-                data.add(new ObservableIp(ipAdress));
+                // add an ip address
+                data.add(new ObservableIp(ipAddress));
+                
+                // Clean the textfield
+                ipAddressField.setText("");
+                
+                // Update the list in the GUI
+                ipList.setItems(data);
             }else{
-                // remove an ip adress
-                data.remove(index);
+                // TODO : open a pop up with the message : "This IP address already exists"
             }
-            
-            ipAdressField.setText("");
-
-            // Update the list in the GUI
-            ipList.setItems(data);
 
         } catch (UnknownHostException e){
-            // TODO : open a pop up with the message
+            // TODO : open a pop up with the message : "This IP address have a wrong format"
         }
+    }
+    
+    /**
+     * This function is called when the players clic on the button "REMOVE".
+     * The ip address is removed from the list of ip
+     * @param ipAddress the ip address which is deleted
+     */
+    private void removeIpAddress(String ipAddress){
+        ObservableList<ObservableIp> data = ipList.getItems();
+        
+        int index = -1;
+
+        // we search the ip address in the actual list.
+        for(int i = 0; i<data.size(); i++){
+            if(data.get(i).getIpAddress().equals(ipAddress)){
+                index = i;
+            }
+        }
+        
+        data.remove(index);
+        
+        // Update the list in the GUI
+        ipList.setItems(data);
     }
     
     /**
@@ -157,17 +179,28 @@ public class IpListController extends AbstractController{
      * This class is mandatory for the tableview.
      */
     public class ObservableIp {
-        private String ipAdress;
+        private String ipAddress;
         private Button remove;
         
-        public ObservableIp(String ipAdress){
-            this.ipAdress = ipAdress;
+        public ObservableIp(String ipAddress){
+            this.ipAddress = ipAddress;
             this.remove = new Button("REMOVE");
+            
+            this.remove.setOnAction(new EventHandler<ActionEvent>(){
+                @Override
+                public void handle(ActionEvent event){
+                    removeIpAddress(getIpAddress());
+                }
+            });
 
         };
         
-        public String getIpAdress(){
-            return ipAdress;
+        public String getIpAddress(){
+            return ipAddress;
+        }
+        
+        public Button getRemove(){
+            return remove;
         }
     }
     
