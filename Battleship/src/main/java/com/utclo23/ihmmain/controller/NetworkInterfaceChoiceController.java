@@ -52,7 +52,7 @@ public class NetworkInterfaceChoiceController extends AbstractController {
             try{
                 usedIf = (Inet4Address) ifAddr.getAddress();
                 getFacade().iDataIHMMain.setNetworkInterface(ifAddr);
-                Logger.getLogger(MenuController.class.getName()).log(Level.INFO, usedIf.getHostAddress());
+                Logger.getLogger(NetworkInterfaceChoiceController.class.getName()).log(Level.INFO, usedIf.getHostAddress());
                 getIhmmain().toLogin();
             } catch (Exception e){}
         }   
@@ -65,7 +65,7 @@ public class NetworkInterfaceChoiceController extends AbstractController {
             try{
                 usedIf = (Inet4Address) ifAddr.getAddress();
                 getFacade().iDataIHMMain.setNetworkInterface(ifAddr);
-                Logger.getLogger(MenuController.class.getName()).log(Level.INFO, usedIf.getHostAddress());
+                Logger.getLogger(NetworkInterfaceChoiceController.class.getName()).log(Level.INFO, usedIf.getHostAddress());
                 isValid = true;
             } catch (Exception e){}
         }
