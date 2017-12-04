@@ -54,11 +54,11 @@ public class PlayerProfileController extends AbstractController{
     } 
     @FXML
     private void back(ActionEvent event) throws IOException{
-        ihmmain.toMenu();
+        getIhmmain().toMenu();
     }
     @FXML
     private void toPlayerList(ActionEvent event) throws IOException{
-        ihmmain.toPlayerList();
+        getIhmmain().toPlayerList();
     }
     
     @FXML
@@ -101,13 +101,13 @@ public class PlayerProfileController extends AbstractController{
         popup(attribut);
     }
     private void popup(String attribut) throws IOException{
-        final Stage primaryStage = ihmmain.primaryStage;
+        final Stage primaryStage = getIhmmain().primaryStage;
         String path = "/fxml/ihmmain/popup.fxml";
         FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
         Parent sceneLoader = loader.load();
         PopupController controller=loader.getController();
-        controller.setFacade(facade);
-        controller.setIhmmain(ihmmain);
+        controller.setFacade(getFacade());
+        controller.setIhmmain(getIhmmain());
         controller.setAttribut(attribut);
         Scene newScene;
         newScene = new Scene(sceneLoader);
@@ -150,7 +150,7 @@ public class PlayerProfileController extends AbstractController{
                 public void handle(WorkerStateEvent event) {
                     isOther = true;
                     try {
-                        ihmmain.toPlayerProfile();
+                        getIhmmain().toPlayerProfile();
                     } catch (IOException ex) {
                         Logger.getLogger(PlayerProfileController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -170,7 +170,7 @@ public class PlayerProfileController extends AbstractController{
     public void refresh(){
         if (isOther==false){
             try{
-                me = facade.iDataIHMMain.getMyPublicUserProfile();
+                me = getFacade().iDataIHMMain.getMyPublicUserProfile();
                 userID.setText(me.getLightPublicUser().getPlayerName());
                 firstName.setText(me.getFirstName());
                 lastName.setText(me.getLastName());

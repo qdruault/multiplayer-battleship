@@ -7,23 +7,19 @@ package com.utclo23.ihmmain.controller;
 
 import com.utclo23.ihmmain.IHMMain;
 import com.utclo23.ihmmain.facade.IHMMainFacade;
-import java.io.IOException;
-/*import javafx.scene.control.Alert;
 import javafx.scene.control.Alert;
-import javafx.scene.control.DialogPane;*/
+import javafx.scene.control.DialogPane;
 
 /**
- * upper class of all ihm-main controller class, contain IHMMain class
+ * Upper class of all IHMMain controllers, contains IHMMain class.
  * @author Linxuhao
  */
 public class AbstractController {
     /**
-     * the reference of ihmmain, to jump between scenes
+     * The reference of IHMMain used to jump between scenes.
      */
-    public IHMMain ihmmain;
-    
-    public IHMMainFacade facade;
-    
+    private IHMMain ihmmain;
+    private IHMMainFacade facade;
     private boolean isRunning;
 
     public IHMMainFacade getFacade() {
@@ -51,10 +47,9 @@ public class AbstractController {
     }
     
     /**
-     * Override this to init your controller when you arrived on it
+     * Override this to initialize your controller.
      */
-    public void start(){
-        
+    public void start(){   
     }
     
     public void run(){
@@ -66,7 +61,7 @@ public class AbstractController {
     }
     
     /**
-     * Override this method to refresh the page when isRunning is true
+     * Override this method to refresh the page when isRunning is true.
      */
     public void refresh(){
     }
@@ -79,13 +74,13 @@ public class AbstractController {
      * @param message
      */
     public void showErrorPopup(String title, String header, String message){
-        /*Alert alert = new Alert(Alert.AlertType.ERROR);
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(message);
         alert.setResizable(false);
-        javafx.scene.control.DialogPane dialogPane = alert.getDialogPane();
+        DialogPane dialogPane = alert.getDialogPane();
         dialogPane.getStylesheets().add(getClass().getResource("/styles/ihmmain.css").toExternalForm());
-        alert.showAndWait();*/
+        alert.showAndWait();
     }
 }

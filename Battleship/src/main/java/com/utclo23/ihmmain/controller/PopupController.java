@@ -46,7 +46,7 @@ public class PopupController extends AbstractController{
             default:
                 System.out.println("[PlayerProfile] - error update profile, attribut not found");
         }
-        ihmmain.controllerMap.get(SceneName.PLAYER_PROFILE.toString()).refresh();
+        getIhmmain().controllerMap.get(SceneName.PLAYER_PROFILE.toString()).refresh();
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }
     public void setAttribut(String Attribut){

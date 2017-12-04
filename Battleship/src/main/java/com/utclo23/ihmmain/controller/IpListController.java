@@ -81,12 +81,12 @@ public class IpListController extends AbstractController{
 
         try {
             // save the ip address
-            facade.iDataIHMMain.setIPDiscovery(discoveryNodes);
+            getFacade().iDataIHMMain.setIPDiscovery(discoveryNodes);
         } catch (DataException ex) {
             Logger.getLogger(IpListController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             ipAddressField.setText("");
-            ihmmain.toMenu();
+            getIhmmain().toMenu();
         }
     }
     
@@ -160,9 +160,9 @@ public class IpListController extends AbstractController{
      */
     public void getKnownIp(){
         // Call data method in order to collect know ip
-        if(facade != null){
+        if(getFacade() != null){
             ArrayList<ObservableIp> knownIp = new ArrayList<ObservableIp>();
-            List<String> ipDiscovery = facade.iDataIHMMain.getIPDiscovery();
+            List<String> ipDiscovery = getFacade().iDataIHMMain.getIPDiscovery();
             
             for(int i = 0; i<ipDiscovery.size(); i++){
                 knownIp.add(new ObservableIp((ipDiscovery.get(i))));

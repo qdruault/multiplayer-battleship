@@ -30,7 +30,7 @@ public class PlayerListController extends AbstractController{
 
     @FXML
     private void returnMenu(ActionEvent event) throws IOException{
-        ihmmain.toMenu();
+        getIhmmain().toMenu();
     }
     
      /* This function is called at the beginning of the application.
@@ -81,9 +81,9 @@ public class PlayerListController extends AbstractController{
      */
     private void getConnectedUsers(){
 
-        if(facade != null){
+        if(getFacade() != null){
             // Call data method in order to collect connected users
-            ArrayList<LightPublicUser> connectedUsers = new ArrayList<>(facade.iDataIHMMain.getConnectedUsers());
+            ArrayList<LightPublicUser> connectedUsers = new ArrayList<>(getFacade().iDataIHMMain.getConnectedUsers());
             ObservableList<LightPublicUser> data = FXCollections.observableArrayList(connectedUsers);
         
             // Update the list in the GUI
@@ -103,7 +103,7 @@ public class PlayerListController extends AbstractController{
             if(listPlayers.getSelectionModel().getSelectedItem() != null){
                 String id = listPlayers.getSelectionModel().getSelectedItem().getId();
                 try {
-                    ihmmain.toOthersPlayerProfile(id);
+                    getIhmmain().toOthersPlayerProfile(id);
                 } catch (IOException ex) {
                     Logger.getLogger(PlayerListController.class.getName()).log(Level.SEVERE, null, ex);
                 }

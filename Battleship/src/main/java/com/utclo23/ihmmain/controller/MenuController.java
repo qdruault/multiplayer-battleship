@@ -33,27 +33,27 @@ public class MenuController extends AbstractController{
 
     @FXML
     private void play(ActionEvent event) throws IOException{
-        ihmmain.toGameList();
+        getIhmmain().toGameList();
     }
 
     @FXML
     private void showProfile(ActionEvent event) throws IOException{
-        ihmmain.toPlayerProfile();
+        getIhmmain().toPlayerProfile();
     }
 
     @FXML
     private void showPlayerList(ActionEvent event) throws IOException{
-        ihmmain.toPlayerList();
+        getIhmmain().toPlayerList();
     }
     
     @FXML
     private void showIpList(ActionEvent event) throws IOException{
-        ihmmain.toIpList();
+        getIhmmain().toIpList();
     }
     
     @FXML
     private void showCreateGame(ActionEvent event) throws IOException{
-        ihmmain.toCreateGame();
+        getIhmmain().toCreateGame();
     }
 
     @FXML
@@ -64,8 +64,8 @@ public class MenuController extends AbstractController{
     @FXML
     private void disconnect(ActionEvent event)  throws IOException{
         try{
-            facade.iDataIHMMain.signOut();
-            ihmmain.toLogin();
+            getFacade().iDataIHMMain.signOut();
+            getIhmmain().toLogin();
         }catch(Exception e){
             Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, e);
         }
