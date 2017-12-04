@@ -80,9 +80,10 @@ public class IHMMain {
 
     }
     
-    public void toOthersPlayerProfile() throws IOException{
-        PlayerProfileController controller;   
+    public void toOthersPlayerProfile(String playerId) throws IOException{
+        PlayerProfileController controller;
         controller = (PlayerProfileController) controllerMap.get(SceneName.PLAYER_PROFILE.toString());
+        facade.iDataIHMMain.askPublicUserProfile(playerId);
         controller.loading();
         //toScene(SceneName.PLAYER_PROFILE);
     }

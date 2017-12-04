@@ -8,8 +8,8 @@ package com.utclo23.ihmmain.controller;
 import com.utclo23.ihmmain.IHMMain;
 import com.utclo23.ihmmain.facade.IHMMainFacade;
 import java.io.IOException;
-import javafx.scene.control.Alert;
 /*import javafx.scene.control.Alert;
+import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;*/
 
 /**
@@ -79,13 +79,13 @@ public class AbstractController {
      * @param message
      */
     public void showErrorPopup(String title, String header, String message){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        /*Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(message);
         alert.setResizable(false);
         javafx.scene.control.DialogPane dialogPane = alert.getDialogPane();
         dialogPane.getStylesheets().add(getClass().getResource("/styles/ihmmain.css").toExternalForm());
-        alert.showAndWait();
+        alert.showAndWait();*/
     }
 }
