@@ -195,6 +195,7 @@ public class GameMediator {
                 throw new DataException("Data : player not found for set player ship");
             }
 
+          if (isTrueAttack == true) {
             //check if mine already used at current location
             List<Mine> mines = player.getMines();
             if (mines.size() > 0) {
@@ -209,7 +210,7 @@ public class GameMediator {
 
             //return the result of the attack
             //if isTrueAttack=1, then add mine to player ; otherwise, that is just a test, no stat of mine
-            if (isTrueAttack == true) {
+           
                 pairReturn = this.currentGame.attack(player, coordinate, isTrueAttack);
 
                 //save with caretaker
