@@ -401,18 +401,21 @@ public class GameMediator {
 
         if (this.currentGame.isGameFinishedByEnnemy()) {
             // a faire
-        }
-
-
-        //Sauvegarde à ajouter, que l'owner soit joueur ou pas.
-        String status = this.getOwnerStatus();
-        if(status == "player") {
-            if(this.currentGame.getStatGame().getWinner() == null) {
-                this.giveUp();
+             //Sauvegarde à ajouter, que l'owner soit joueur ou pas.
+            String status = this.getOwnerStatus();
+            if(status == "player") {
+                if(this.currentGame.getStatGame().getWinner() == null) {
+                    this.giveUp();
+                }
+                this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
+                
+                 this.currentGame = null;
             }
-            this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
         }
-        this.currentGame = null;
+
+
+       
+       
     }
     
     /**
