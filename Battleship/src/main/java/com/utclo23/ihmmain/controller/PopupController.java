@@ -4,6 +4,8 @@ import com.utclo23.data.module.DataException;
 import com.utclo23.ihmmain.constants.SceneName;
 import javafx.fxml.FXML;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
@@ -44,12 +46,16 @@ public class PopupController extends AbstractController{
                 //facade.iDataIHMMain.updatePassword(text);
                 break;
             default:
-                System.out.println("[PlayerProfile] - error update profile, attribut not found");
+                Logger.getLogger(
+                        PopupController.class.getName()).log(
+                                Level.INFO,
+                                "[PlayerProfile] - error update profile, attribut not found."
+                        );
         }
-        ihmmain.controllerMap.get(SceneName.PLAYER_PROFILE.toString()).refresh();
+        getIhmmain().controllerMap.get(SceneName.PLAYER_PROFILE.toString()).refresh();
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }
-    public void setAttribut(String Attribut){
-        label = Attribut; 
+    public void setAttribut(String attribut){
+        label = attribut; 
     }
 }

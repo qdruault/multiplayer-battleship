@@ -68,6 +68,9 @@
     -fx-border-width: 0px;
 }
 
+.center{
+    -fx-alignment: center;
+}
 
 /* Used to personalize the button */
 .button{
@@ -128,7 +131,9 @@
     -fx-text-fill: white;
     -fx-font-size: 11pt;
 }
-
+.tooltip{
+    -fx-font-family: "Arial"; 
+}
 /* About the line */
 .lineDesign{
     -fx-stroke: #0ce8f0;
@@ -159,4 +164,26 @@
 
 .table-row-cell:empty .table-cell {
     -fx-border-width: 0px;
+}
+
+.radio-button {
+    -fx-font-family: "Space Age";
+    -fx-focus-color: #0ce8f0;
+}
+
+.radio-button .radio{
+    -fx-background-color: #0D2E45;
+    -fx-mark-color: #ef8d00;
+}
+
+.check-box {
+    -fx-font-family: "Space Age";
+    -fx-focus-color: #0ce8f0;
+}
+
+.check-box .box{
+    -fx-background-color: #0D2E45;
+}
+.check-box:selected .mark{
+    -fx-background-color: #ef8d00;
 }

@@ -57,11 +57,6 @@ public class M_ReturnIP extends Message {
 
         discoCtrl = DiscoveryController.getInstance();
 
-        // remove IP from GetIpIssuedList
-        if (discoCtrl.isIn(IP_sender)) {
-            discoCtrl.removeIpRetrieved(IP_sender);
-        }
-
         List<LightPublicUser> listUsersMaj = iDataCom.getConnectedUsers();
         List<StatGame> listGamesMaj = iDataCom.getGameList();
 
@@ -70,7 +65,7 @@ public class M_ReturnIP extends Message {
         // else (we got this returnIp from a newly updated node
         // send only our OWN data to all new IP
         if (discoCtrl.isIn(IP_sender)) {
-
+            discoCtrl.removeIpRetrieved(IP_sender);
             // get the hasmap of our IP to send it to the requesting node. EXECT our own and the ones in getIPIssuedLIst
             HashMap<String, Inet4Address> IdToIp = kic.getNewIpHashMap();
 

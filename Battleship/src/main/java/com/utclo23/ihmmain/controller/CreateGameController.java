@@ -4,17 +4,14 @@
  * and open the template in the editor.
  */
 package com.utclo23.ihmmain.controller;
-
 import com.utclo23.data.structure.GameType;
+import com.utclo23.data.module.DataException;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javax.swing.JOptionPane;
 
@@ -48,25 +45,26 @@ public class CreateGameController extends AbstractController{
     
     @FXML
     public void initialize(){
-        //
+        // Toggle Group
         mode = new ToggleGroup();
         enemy = new ToggleGroup();
         
-        //
         radioButtonClassical.setToggleGroup(mode);
         radioButtonBelge.setToggleGroup(mode);
         radioButtonComputer.setToggleGroup(enemy);
         radioButtonPlayer.setToggleGroup(enemy);
         
-        // Affectation des valeurs par défaut
+        // Default values
         radioButtonClassical.setSelected(true);
         radioButtonComputer.setSelected(true);
+        
+        //avatar
                 
     }
     
     @FXML
     private void back(ActionEvent event) throws IOException{
-        ihmmain.toMenu();
+        getIhmmain().toGameList();
     }
     
     @FXML
@@ -79,15 +77,15 @@ public class CreateGameController extends AbstractController{
             String enemys = ((RadioButton) enemy.getSelectedToggle()).getText();
             boolean chats = radioButtonChat.isSelected();
             boolean audiences = radioButtonAudience.isSelected();
-            try{
-                facade.iDataIHMMain.createGame(names, true, audiences, chats, GameType.CLASSIC);
+            /*try{
+                facade.iDataIHMMain.createGame(names, audiences, chats, modes, enemys);
                 msg.showMessageDialog(null, "Game created", "Information", JOptionPane.INFORMATION_MESSAGE);
-               
-            }catch (Exception e){
-                //TODO : show pop up
-            }
+            }catch (DataException e){
+                showErrorPopup(
+                    "Game not created.");
+            }*/
         }
         else
-            gameNameField.setStyle("-fx-border-color: red;"); 
+            gameNameField.setStyle("-fx-border-color: #ef8d00;"); 
     }
 }

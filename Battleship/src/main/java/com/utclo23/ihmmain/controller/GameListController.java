@@ -54,7 +54,7 @@ public class GameListController extends AbstractController{
     private StatGame selectedGame;
     
     private TableView<StatGame> gameList;
-    
+  
     private Boolean isLoading;
     
     //game received with asynchronous load
@@ -185,13 +185,13 @@ public class GameListController extends AbstractController{
         if(isRunning() && !isLoading){
             List<StatGame> newGameList = null;
             try{
-                newGameList = facade.iDataIHMMain.getGameList();
+                newGameList = getFacade().iDataIHMMain.getGameList();
             }catch(Exception e){
                 e.printStackTrace();
             }
             if(gameList == null || newGameList.isEmpty()){//if getGameList() is not implemented or not working as excepted
                 newGameList = new ArrayList<>();
-                PublicUser me = facade.iDataIHMMain.getMyPublicUserProfile();
+                PublicUser me = getFacade().iDataIHMMain.getMyPublicUserProfile();
                 StatGame fake = new StatGame();
                 fake.setCreator(me.getLightPublicUser());
                 fake.setName("Fake");
@@ -215,14 +215,14 @@ public class GameListController extends AbstractController{
     
     @FXML
     private void returnMenu(ActionEvent event) throws IOException{
-        ihmmain.toMenu();
+        getIhmmain().toMenu();
     }
 
     @FXML
     private void joinSelectedGame(ActionEvent event) {
         if(selectedGame != null){
             //send connection request and open a loading screen while waitting
-            facade.iDataIHMMain.gameConnectionRequestGame(selectedGame.getId(), "Player");
+            getFacade().iDataIHMMain.gameConnectionRequestGame(selectedGame.getId(), "Player");
             loadingScreen();
         }
        
@@ -230,7 +230,7 @@ public class GameListController extends AbstractController{
 
     @FXML
     private void createNewGame(ActionEvent event) throws IOException{
-        ihmmain.toCreateGame();
+        getIhmmain().toCreateGame();
     }
 
     @FXML
