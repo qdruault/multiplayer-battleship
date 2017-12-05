@@ -176,7 +176,11 @@ public class SavedGameListController extends AbstractController{
         if(isRunning()){
             List<StatGame> newGameList = null;
             try{
-                newGameList = getFacade().iDataIHMMain
+                List<Game> savedGameList = getFacade().iDataIHMMain.getMyOwnerProfile().getSavedGamesList();
+                for(Game game : savedGameList){
+                    StatGame stat = game.getStatGame(); 
+                    newGameList.add(stat);
+                }
             }catch(Exception e){
                 e.printStackTrace();
             }
