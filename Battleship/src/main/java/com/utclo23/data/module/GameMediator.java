@@ -271,13 +271,12 @@ public class GameMediator {
 
         Coordinate coordinate = new Coordinate(x, y);
         return coordinate;
-
     }
+    
 
     /**
      *
      * Update current game's list as a new user has joined it.
-     *
      * @param user the new user who has joined
      * @param id id of the stat game
      * @param role role of the new user
@@ -290,7 +289,6 @@ public class GameMediator {
                 this.dataFacade.getComfacade().joinGameResponse(true, id, this.currentGame.getStatGame());
 
             }
-
         } else {
 
             this.dataFacade.getComfacade().joinGameResponse(false, id, null);

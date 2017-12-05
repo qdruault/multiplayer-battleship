@@ -298,6 +298,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     @Override
     public void forwardMessage(Message msg) {
         this.gameMediator.forwardMessage(msg);
+        
+        
     }
 
     /**
@@ -362,7 +364,9 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void setShip(Ship ship) throws DataException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        this.gameMediator.setPlayerShip(ship);
+             
     }
 
     /**
