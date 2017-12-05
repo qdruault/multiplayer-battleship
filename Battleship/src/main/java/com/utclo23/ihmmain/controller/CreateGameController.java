@@ -64,7 +64,7 @@ public class CreateGameController extends AbstractController{
     
     @FXML
     private void back(ActionEvent event) throws IOException{
-        ihmmain.toGameList();
+        getIhmmain().toGameList();
     }
     
     @FXML

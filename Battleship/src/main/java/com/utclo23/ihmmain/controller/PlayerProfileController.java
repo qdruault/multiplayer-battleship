@@ -54,11 +54,11 @@ public class PlayerProfileController extends AbstractController{
     } 
     @FXML
     private void back(ActionEvent event) throws IOException{
-        ihmmain.toMenu();
+        getIhmmain().toMenu();
     }
     @FXML
     private void toPlayerList(ActionEvent event) throws IOException{
-        ihmmain.toPlayerList();
+        getIhmmain().toPlayerList();
     }
     
     @FXML
@@ -101,13 +101,13 @@ public class PlayerProfileController extends AbstractController{
         popup(attribut);
     }
     private void popup(String attribut) throws IOException{
-        final Stage primaryStage = ihmmain.primaryStage;
+        final Stage primaryStage = getIhmmain().primaryStage;
         String path = "/fxml/ihmmain/popup.fxml";
         FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
         Parent sceneLoader = loader.load();
         PopupController controller=loader.getController();
-        controller.setFacade(facade);
-        controller.setIhmmain(ihmmain);
+        controller.setFacade(getFacade());
+        controller.setIhmmain(getIhmmain());
         controller.setAttribut(attribut);
         Scene newScene;
         newScene = new Scene(sceneLoader);
@@ -123,7 +123,7 @@ public class PlayerProfileController extends AbstractController{
         }
     }
     public void loading() throws IOException{
-        if (isLoading==true){
+        if (isLoading){
             ProgressIndicator pin = new ProgressIndicator ();
             pin.setProgress(-1);
             //to do: display ProgressIndicator
@@ -135,7 +135,10 @@ public class PlayerProfileController extends AbstractController{
                 protected Void call() throws Exception {
                     try {
                         while(isLoading){
-                            System.out.println("Waiting");
+                            Logger.getLogger(
+                                    PlayerProfileController.class.getName()).log(
+                                            Level.INFO, "Waiting."
+                                    );
                             Thread.sleep(500);
                         }
                     } catch (Exception e) {
@@ -150,9 +153,11 @@ public class PlayerProfileController extends AbstractController{
                 public void handle(WorkerStateEvent event) {
                     isOther = true;
                     try {
-                        ihmmain.toPlayerProfile();
+                        getIhmmain().toPlayerProfile();
                     } catch (IOException ex) {
-                        Logger.getLogger(PlayerProfileController.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(
+                                PlayerProfileController.class.getName()).log(
+                                        Level.SEVERE, null, ex);
                     }
                 }
             });
@@ -160,7 +165,11 @@ public class PlayerProfileController extends AbstractController{
             wait.setOnFailed(new EventHandler<WorkerStateEvent>() {
                 @Override
                 public void handle(WorkerStateEvent t){
-                    System.out.println("Loading task failed : " + t.toString());
+                    Logger.getLogger(
+                            PlayerProfileController.class.getName()).log(
+                                    Level.INFO,
+                                    "Loading task failed : {0}", t.toString()
+                            );
                 }
             });
             new Thread(wait).start();
@@ -168,16 +177,20 @@ public class PlayerProfileController extends AbstractController{
     }
     @Override
     public void refresh(){
-        if (isOther==false){
+        if (!isOther){
             try{
-                me = facade.iDataIHMMain.getMyPublicUserProfile();
+                me = getFacade().iDataIHMMain.getMyPublicUserProfile();
                 userID.setText(me.getLightPublicUser().getPlayerName());
                 firstName.setText(me.getFirstName());
                 lastName.setText(me.getLastName());
                 birthday.setText(me.getBirthDate().toString());
             }
             catch(NullPointerException e){
-                System.out.println("[PlayerProfile] error - my profile is null");
+                Logger.getLogger(
+                        PlayerProfileController.class.getName()).log(
+                                Level.INFO,
+                                "[PlayerProfile] error - my profile is null."
+                        );
             }
         }
         else{
@@ -188,7 +201,10 @@ public class PlayerProfileController extends AbstractController{
                 birthday.setText(other.getBirthDate().toString());
             }
             catch(NullPointerException e){
-                System.out.println("[PlayerProfile] - error - other profile is null");
+                Logger.getLogger(
+                        PlayerProfileController.class.getName()).log(Level.INFO,
+                        "[PlayerProfile] - error - other profile is null."
+                        );
             }
         }
     }
