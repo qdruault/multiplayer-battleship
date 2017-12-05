@@ -130,15 +130,18 @@ public class KnownIPController {
      * @param hashToCheck is the Hashmap containing ids of type String and
      * Inet4Address
      */
-    public void addNonExistingNodes(HashMap<String, Inet4Address> hashToCheck) {
+    public HashMap<String, Inet4Address> addNonExistingNodes(HashMap<String, Inet4Address> hashToCheck) {
         Iterator it = hashToCheck.entrySet().iterator();
+        HashMap<String, Inet4Address> tmpHash = new HashMap<>();
         while (it.hasNext()) {
             HashMap.Entry pair = (HashMap.Entry) it.next();
             if (!knownIp.containsKey(pair.getKey())) {
                 knownIp.put((String) pair.getKey(), (Inet4Address) pair.getValue());
+                tmpHash.put((String) pair.getKey(), (Inet4Address) pair.getValue());
             }
             it.remove(); // avoids a ConcurrentModificationException
         }
+        return tmpHash;
     }
     
     public int getPort(){
