@@ -1,5 +1,5 @@
 #inGameGUI{
-    -fx-background-image: url("../images/inGameGUI2.png");
+    -fx-background-image: url("../images/inGameGUI.png");
     -fx-background-repeat: stretch;
     -fx-background-size: 1283 721;
     -fx-background-position: center center;
@@ -7,39 +7,7 @@
 }
 
 #inGameGUI_button1{
-	-fx-background-image: url("../images/bateau1.png");
-    -fx-background-repeat: stretch;
-    -fx-background-size: 236 75;
-    -fx-background-position: center center;
-	-fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
-}
-
-#inGameGUI_button2{
-	-fx-background-image: url("../images/bateau2.png");
-    -fx-background-repeat: stretch;
-    -fx-background-size: 184 71;
-    -fx-background-position: center center;
-	-fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
-}
-
-#inGameGUI_button3{
-	-fx-background-image: url("../images/bateau3.png");
-    -fx-background-repeat: stretch;
-    -fx-background-size: 115 47;
-    -fx-background-position: center center;
-	-fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
-}
-
-#inGameGUI_button4{
-	-fx-background-image: url("../images/bateau4.png");
-    -fx-background-repeat: stretch;
-    -fx-background-size: 214 77;
-    -fx-background-position: center center;
-	-fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
-}
-
-#inGameGUI_button1{
-	-fx-background-image: url("../images/b1.png");
+	-fx-background-image: url("../images/ship1.png");
     -fx-background-repeat: stretch;
     -fx-background-size: 228 62;
     -fx-background-position: center center;
@@ -47,7 +15,7 @@
 }
 
 #inGameGUI_button2{
-	-fx-background-image: url("../images/b2.png");
+	-fx-background-image: url("../images/ship2.png");
     -fx-background-repeat: stretch;
     -fx-background-size: 207 62;
     -fx-background-position: center center;
@@ -55,7 +23,7 @@
 }
 
 #inGameGUI_button3{
-	-fx-background-image: url("../images/b3.png");
+	-fx-background-image: url("../images/ship3.png");
     -fx-background-repeat: stretch;
     -fx-background-size: 175 69;
     -fx-background-position: center center;
@@ -63,7 +31,7 @@
 }
 
 #inGameGUI_button4{
-	-fx-background-image: url("../images/b4.png");
+	-fx-background-image: url("../images/ship4.png");
     -fx-background-repeat: stretch;
     -fx-background-size: 185 69;
     -fx-background-position: center center;
@@ -71,7 +39,7 @@
 }
 
 #inGameGUI_button5{
-	-fx-background-image: url("../images/b5.png");
+	-fx-background-image: url("../images/ship5.png");
     -fx-background-repeat: stretch;
     -fx-background-size: 126 54;
     -fx-background-position: center center;
@@ -92,4 +60,18 @@
     -fx-background-size: 102 98;
     -fx-background-position: center center;
 	-fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+.inGameGUI_selected_cell {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+}
+
+.inGameGUI_selected_ship {
+    -fx-border-color: rgba(255, 100, 100, 0.75);
+    -fx-border-style: solid;
+    -fx-border-width: 3px;
+}
+
+.inGameGUI_player_cell:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
 }

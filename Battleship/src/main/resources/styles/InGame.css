@@ -1,0 +1,129 @@
+#menu_header{
+	-fx-background-image: url("../images/background_left_menu.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 100% 100%;
+}
+
+#menu_titre{
+	-fx-background-image: url("../images/ships_header.png");
+    -fx-background-repeat: stretch;
+	-fx-background-position: center center;
+}
+
+#inGameGUI_button1,#inGameGUI_button2,#inGameGUI_button3,#inGameGUI_button4,#inGameGUI_button5{
+	-fx-background-color: none;
+	-fx-cursor: pointer;
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+}
+
+#inGameGUI_button1{
+	-fx-background-image: url("../images/ship1.png");
+}
+
+#inGameGUI_button2{
+	-fx-background-image: url("../images/ship2.png");
+}
+
+#inGameGUI_button3{
+	-fx-background-image: url("../images/ship3.png");
+}
+
+#inGameGUI_button4{
+	-fx-background-image: url("../images/ship4.png");
+}
+
+#inGameGUI_button5{
+	-fx-background-image: url("../images/ship5.png");
+}
+
+#inGameGUI_button1:hover, #inGameGUI_button2:hover, #inGameGUI_button3:hover, #inGameGUI_button4:hover, #inGameGUI_button5:hover{
+	-fx-background-color: red;
+}
+
+#menu_bottom1, #menu_bottom2, #menu_bottom3{
+    -fx-background-repeat: stretch;
+	-fx-background-size: 40% 60%;
+	-fx-background-position: center center;
+}
+
+#menu_bottom1{
+	-fx-background-image: url("../images/icon_bottom_left_menu_skull.png");
+}
+
+#menu_bottom2{
+	-fx-background-image: url("../images/icon_bottom_left_menu_target.png");
+}
+
+#menu_bottom3{
+	-fx-background-image: url("../images/icon_bottom_left_menu_bullet.png");
+}
+
+#left_side_game{
+	-fx-background-image: url("../images/background_left_side_game.png");
+	-fx-background-repeat: stretch;
+	-fx-background-size: 100% 100%;
+}
+
+#right_side_game{
+	-fx-background-image: url("../images/background_right_side_game.png");
+	-fx-background-repeat: stretch;
+	-fx-background-size: 100% 100%;
+}
+
+
+#button_fire, #button_temps, #button_menu{
+    -fx-background-color: none;
+    -fx-cursor: pointer;
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+}
+
+#button_fire{
+	-fx-background-image: url("../images/fire.png");
+}
+
+#button_temps{
+	-fx-background-image: url("../images/temps.png");
+}
+
+#button_menu{
+	-fx-background-image: url("../images/menu.png");
+}
+
+#button_fire:hover, #button_temps:hover, #button_menu:hover{
+	-fx-background-color: blue;
+}
+
+.inGameGUI_selected_cell {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+}
+
+.inGameGUI_selected_ship {
+    -fx-border-color: rgba(255, 100, 100, 0.75);
+    -fx-border-style: solid;
+    -fx-border-width: 3px;
+}
+
+.inGameGUI_hover_cell:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+}
+
+
+.inGameGUI_touched_cell {
+    -fx-background-image: url("../images/mine_fired_ship_touched.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 100% 100%;
+}
+
+.inGameGUI_missed_cell {
+    -fx-background-image: url("../images/cross_ship_missed.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 100% 100%;
+}
+
+.inGameGUI_destroyed_cell {
+    -fx-background-image: url("../images/mine_fired_ship_destroyed.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 100% 100%;
+}
