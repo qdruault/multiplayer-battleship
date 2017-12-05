@@ -41,8 +41,8 @@
         <TextField fx:id="gameNameField" GridPane.columnIndex="2" GridPane.rowIndex="2" prefHeight="25.0" prefWidth="166.0" />
         
         <Label id="formLabel" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="3" text="Mode" />
-        <RadioButton fx:id="radioButtonClassical" alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="3" mnemonicParsing="false" text="Classical" />
-        <RadioButton fx:id="radioButtonBelge" alignment="CENTER_RIGHT" GridPane.columnIndex="3" GridPane.rowIndex="3" mnemonicParsing="false" text="Belge" />
+        <RadioButton fx:id="radioButtonClassical" alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="3" mnemonicParsing="false" text="CLASSIC" />
+        <RadioButton fx:id="radioButtonBelge" alignment="CENTER_RIGHT" GridPane.columnIndex="3" GridPane.rowIndex="3" mnemonicParsing="false" text="BELGIAN" />
         
         <Label id="formLabel" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="4" text="Enemy" />
         <RadioButton fx:id="radioButtonComputer" alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="4" mnemonicParsing="false" text="Computer" />

@@ -44,6 +44,8 @@ public class IHMMain {
         controllerMap = new HashMap<String,AbstractController>();
         activeSceneName = null;
         primaryStage = stage;
+        primaryStage.setWidth(1300);
+        primaryStage.setHeight(800);
         //load all scenes when app starts
         for(SceneName scenename : SceneName.values()){
             String scenenameString = scenename.toString();
