@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
@@ -100,11 +102,11 @@ public class CreateUserController extends AbstractController{
     private void handleButtonChooseFile(ActionEvent event) throws IOException{
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open avatar file");
-        File selectedFile = fileChooser.showOpenDialog(ihmmain.primaryStage);
+        File selectedFile = fileChooser.showOpenDialog(getIhmmain().primaryStage);
         if (selectedFile != null){
             avatarPath = selectedFile.getPath();
             fileSelected.setText("file selected: " + avatarPath);
-            System.out.println("The chosen file is : " + avatarPath);
+            Logger.getLogger(CreateUserController.class.getName()).log(Level.INFO, "The chosen file is : " + avatarPath);
         }        
     }
     /**
@@ -114,7 +116,7 @@ public class CreateUserController extends AbstractController{
      * @throws IOException throws a default Java exception in case if any failure.
      */
     private void back() throws IOException{
-        ihmmain.toLogin();
+        getIhmmain().toLogin();
     }
     /**
      * This method calls Data's createUser() method to create a new user's JSON file.
@@ -128,10 +130,10 @@ public class CreateUserController extends AbstractController{
      * @throws Exception throws a default Java exception if any failure occurs.
      */
     private void createUser(String userName, String password, String firstName, String lastName, Date birthDate, String avatarPath) throws Exception{
-        System.out.println("createUser method called");
+        Logger.getLogger(CreateUserController.class.getName()).log(Level.INFO,  "createUser method called.");
         try{
-            facade.iDataIHMMain.createUser(userName, password, firstName, lastName, birthDate, avatarPath);
-            showErrorPopup("Success", "Your account was successfully created", "back to the login screen");
+            getFacade().iDataIHMMain.createUser(userName, password, firstName, lastName, birthDate, avatarPath);
+            showErrorPopup("Success", "Your account was successfully created", "Back to the login screen.");
             back();
         } catch(Exception e){
             showErrorPopup("Error", "We're sorry, but an error occured", e.getMessage());

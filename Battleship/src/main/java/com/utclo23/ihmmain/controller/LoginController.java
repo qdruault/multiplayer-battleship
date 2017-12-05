@@ -33,8 +33,8 @@ public class LoginController extends AbstractController{
         
         if(fieldsAreNotEmpty(username, password)){
             try{
-                facade.iDataIHMMain.signin(username, password);
-                ihmmain.toMenu();
+                getFacade().iDataIHMMain.signin(username, password);
+                getIhmmain().toMenu();
             }catch (DataException e){
                 showErrorPopup(
                         "This user doesn't exist.",
@@ -53,7 +53,7 @@ public class LoginController extends AbstractController{
      */
     @FXML
     private void createUserAction(ActionEvent event) throws IOException{
-        ihmmain.toCreateUser();
+        getIhmmain().toCreateUser();
     }
     
     /**

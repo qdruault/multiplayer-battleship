@@ -17,17 +17,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 
 /**
- *
+ * Controller of the IP address list.
  * @author Loïc
  */
 public class IpListController extends AbstractController{
@@ -78,15 +76,14 @@ public class IpListController extends AbstractController{
         for (int i = 0; i<data.size(); i++){
             discoveryNodes.add(data.get(i).getIpAddress());
         }
-
         try {
             // save the ip address
-            facade.iDataIHMMain.setIPDiscovery(discoveryNodes);
+            getFacade().iDataIHMMain.setIPDiscovery(discoveryNodes);
         } catch (DataException ex) {
             Logger.getLogger(IpListController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             ipAddressField.setText("");
-            ihmmain.toMenu();
+            getIhmmain().toMenu();
         }
     }
     
@@ -113,7 +110,6 @@ public class IpListController extends AbstractController{
                     index = i;
                 }
             }
-
             if(index == -1){
                 // add an ip address
                 data.add(new ObservableIp(ipAddress));
@@ -156,13 +152,13 @@ public class IpListController extends AbstractController{
     }
     
     /**
-     * This function allows to update the list in the GUI with the saved ip address
+     * This function allows to update the list in the GUI with the saved ip address.
      */
     public void getKnownIp(){
         // Call data method in order to collect know ip
-        if(facade != null){
+        if(getFacade() != null){
             ArrayList<ObservableIp> knownIp = new ArrayList<ObservableIp>();
-            List<String> ipDiscovery = facade.iDataIHMMain.getIPDiscovery();
+            List<String> ipDiscovery = getFacade().iDataIHMMain.getIPDiscovery();
             
             for(int i = 0; i<ipDiscovery.size(); i++){
                 knownIp.add(new ObservableIp((ipDiscovery.get(i))));
@@ -192,8 +188,7 @@ public class IpListController extends AbstractController{
                     removeIpAddress(getIpAddress());
                 }
             });
-
-        };
+        }
         
         public String getIpAddress(){
             return ipAddress;

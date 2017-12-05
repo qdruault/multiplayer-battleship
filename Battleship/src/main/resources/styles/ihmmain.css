@@ -131,7 +131,9 @@
     -fx-text-fill: white;
     -fx-font-size: 11pt;
 }
-
+.tooltip{
+    -fx-font-family: "Arial"; 
+}
 /* About the line */
 .lineDesign{
     -fx-stroke: #0ce8f0;
