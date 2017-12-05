@@ -5,6 +5,7 @@
  */
 package com.utclo23.com.messages;
 
+import com.utclo23.com.KnownIPController;
 import com.utclo23.com.Sender;
 import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.PublicUser;
@@ -27,7 +28,7 @@ public class M_GetPlayerInfo extends Message {
     public void callback(IDataCom iDataCom){
         PublicUser receiver = iDataCom.getMyPublicUserProfile();
         M_PlayerInfo m_PlayerInfo = new M_PlayerInfo(receiver);
-        Sender os = new Sender(IP_sender.getHostAddress(), 80, m_PlayerInfo);
+        Sender os = new Sender(IP_sender.getHostAddress(), KnownIPController.getInstance().getPort(), m_PlayerInfo);
         new Thread(os).start();
     }
 }
