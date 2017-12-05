@@ -26,6 +26,7 @@ import com.utclo23.ihmmain.facade.IHMMainFacade;
 import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.ihmtable.IIHMTableToData;
 
+import java.io.IOException;
 import java.io.File;
 import java.io.IOException;
 import java.net.InterfaceAddress;
@@ -193,11 +194,37 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-     * Notify that opponent has left
+     * Notify that player leaves game
+     * Different behavior when a player and an observer leave a game and when
+     * the player who leaves is or isn't an host.
+     */
+    @Override
+    public void leaveGame()  {
+        PublicUser user = this.userMediator.getMyPublicUserProfile();
+        //LightPublicUser user = this.userMediator.getMyLightPublicUserProfile(); com doit prendre en argument un LightPublicUser
+        this.comfacade.leaveGame();
+        this.gameMediator.leaveGame();
+        try {
+            this.ihmMainFacade.toMenu();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Notify that opponent has left the game and gives the owner the win 
      */
     @Override
     public void opponentHasLeftGame() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!this.gameMediator.isFinishedGame()) {
+            try {
+                this.gameMediator.defWin();
+            } catch (DataException e) {
+                //Rien a priori.
+            }
+            this.gameMediator.leaveGame();
+            this.ihmTablefacade.opponentHasLeftGame();
+        }
     }
 
     /**
@@ -205,7 +232,9 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void connectionLostWithOpponent() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.gameMediator.setWinner(null);
+        this.gameMediator.leaveGame();
+        this.ihmTablefacade.connectionLostWithOpponent();
     }
 
     /**
@@ -216,7 +245,9 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     public void gameConnectionRequest(String gameID, String role) {
         StatGame game = this.gameMediator.getGame(gameID);
-        this.comfacade.connectionToGame(game);
+        if(!this.isTestMode()) {
+            this.comfacade.connectionToGame(game);
+        }
     }
 
     /**
@@ -234,7 +265,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         try {
             this.ihmMainFacade.refreshUserList();
         } catch (Exception ex) {
-            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex.getMessage());
+           ex.printStackTrace();
+        // Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex.getMessage());
         }
 
     }
@@ -252,7 +284,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         try {
             this.ihmMainFacade.refreshUserList();
         } catch (Exception ex) {
-            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex.getMessage());
+                ex.printStackTrace();
+            //Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex.getMessage());
         }
 
     }
@@ -347,43 +380,15 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     public Pair<Integer, Ship> attack(Coordinate coords, boolean isAttack) {
         try {
             return this.gameMediator.attack(coords, isAttack);
-        } catch (DataException ex) {
-            Logger.getLogger(DataFacade.class.getName()).log(Level.WARNING, ex.getMessage());
-            return null;
-        } catch (IOException ex) {
-            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            //Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
 
 
-    /**
-     * Notify that player leaves game Different behavior when a player and an
-     * observer leave a game and when the player who leaves is an host or not.
-     */
-    @Override
-    public void leaveGame() {
-        PublicUser user = this.userMediator.getMyPublicUserProfile();
-        this.comfacade.leaveGame();
-        this.gameMediator.leaveGame();
-        //this.ihmMainFacade.backToMenu(); en attente d'IHM main.
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    /**
-     *
-     * Get the initial board of a game
-     *
-     * @param gameid the game from which we want the initial board
-     * @return the initial board as a list of ships
-     */
-    @Override
-    public List<Ship> getInitialBoardFromGameId(String gameid) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     /**
      *
@@ -569,7 +574,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         try {
             this.ihmMainFacade.recievePublicUserProfile(profile);
         } catch (IOException ex) {
-            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+        ex.printStackTrace();
+//Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -602,5 +608,10 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     @Override
     public void connectionImpossible() throws DataException {
         this.gameMediator.connectionImpossible();
+    }
+
+    @Override
+    public List<Ship> getInitialBoardFromGameId(String gameid) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

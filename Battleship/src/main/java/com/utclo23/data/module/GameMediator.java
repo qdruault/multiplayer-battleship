@@ -3,6 +3,7 @@ package com.utclo23.data.module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.utclo23.com.ComFacade;
+import com.utclo23.data.module.DataException;
 import com.utclo23.data.configuration.Configuration;
 import com.utclo23.data.facade.DataFacade;
 import com.utclo23.data.structure.ComputerPlayer;
@@ -345,12 +346,19 @@ public class GameMediator {
     }
 
     /**
+     * Set the winner of the current game.
+     * 
+     * @param winner 
+     */
+    public void setWinner(LightPublicUser winner) {
+        this.currentGame.setWinner(winner);
+    }
+    
+    /**
      * Exit current game.
      */
     public void leaveGame() {
-
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void receptionGame(Game game) {
@@ -395,6 +403,83 @@ public class GameMediator {
         if (this.currentGame.isGameFinishedByEnnemy()) {
             // a faire
         }
+
+
+        //Sauvegarde à ajouter, que l'owner soit joueur ou pas.
+        String status = this.getOwnerStatus();
+        if(status == "player") {
+            if(this.currentGame.getStatGame().getWinner() == null) {
+                this.giveUp();
+            }
+            this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
+        }
+        this.currentGame = null;
+    }
+    
+    /**
+     * Set the opponent as the winner of the current game.
+     */
+    private void giveUp() {
+        String ownerID = this.dataFacade.getUserMediator().getMyPublicUserProfile().getId();
+        Player opponent = this.currentGame.ennemyOf(this.currentGame.getPlayer(ownerID));
+        this.currentGame.getStatGame().setWinner(opponent.getLightPublicUser());
+    }
+    
+    /**
+     * Win if the game has no winner yet.
+     */
+    public void defWin() throws DataException {
+        if(this.currentGame == null) {
+            throw new DataException("Pas de partie en cours.");
+        }
+        if(this.getCurrentGame().getWinner() == null) {
+            this.win();
+        }
+    }
+    /**
+     * Check if there is no current game or there is one but it already has a winner.
+     * 
+     * @return 
+     */
+    public boolean isFinishedGame() {
+        boolean finished = true;
+        if((this.currentGame != null) && (this.currentGame.getWinner() == null)) {
+            finished = false;
+        }
+        return finished;
+    }
+    
+    /**
+     * Set the owner as the winner of the current game.
+     */
+    private void win() {
+        this.currentGame.getStatGame().setWinner(this.dataFacade.getUserMediator().getMyLightPublicUserProfile());
+    }
+    
+    /**
+     * Return the status of the owner in the current game (player, spectator or null).
+     * 
+     * @return 
+     */
+    public String getOwnerStatus() {
+        LightPublicUser owner = this.dataFacade.getUserMediator().getMyLightPublicUserProfile();
+        return getUserStatus(owner);
+    }
+    
+    /**
+     * Return the status of user in the current game (player, spectator or null).
+     * 
+     * @param user
+     * @return 
+     */
+    public String getUserStatus(LightPublicUser user) {
+        String status = null;
+        if(this.currentGame.isPlayer(user)) {
+            status = "player";
+        } else if (this.currentGame.isSpectator(user)) {
+            status = "spectator";
+        }
+        return status;
 
     }
 }

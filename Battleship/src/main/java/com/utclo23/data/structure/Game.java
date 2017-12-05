@@ -15,7 +15,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
 import javafx.util.Pair;
+
+import java.util.Iterator;
+
 
 /**
  *
@@ -310,6 +314,7 @@ public abstract class Game extends SerializableEntity {
         }
     }
     
+
      /**
      * test if a ship is destroyed 
      * @param ship the ship to test
@@ -385,5 +390,62 @@ public abstract class Game extends SerializableEntity {
         }
         return gameFinished; 
     }        
+
+    /**
+     * Get the winner of this game's StatGame.
+     * 
+     * @return 
+     */
+    public LightPublicUser getWinner() {
+        return this.statGame.getWinner();
+    }
+    
+    /**
+     * Set the winner of this game's StatGame.
+     * 
+     * @param winner 
+     */
+    public void setWinner(LightPublicUser winner) {
+        this.statGame.setWinner(winner);
+    }
+    
+    /**
+     * Check if user is a player of the game.
+     * 
+     * @param user
+     * @return 
+     */
+    public boolean isPlayer(LightPublicUser user) {
+        String userID = user.getId();
+        Iterator<Player> i = this.players.iterator();
+        boolean isPlayer = false;
+        while(i.hasNext() && !isPlayer) {
+            String playerID = i.next().getLightPublicUser().getId();
+            if(playerID == userID) {
+                isPlayer = true;
+            }
+        }
+        return isPlayer;
+    }
+    
+    /**
+     * Check if user is a spectator of the game.
+     * 
+     * @param user
+     * @return 
+     */
+    public boolean isSpectator(LightPublicUser user) {
+        String userID = user.getId();
+        Iterator<LightPublicUser> i = this.spectators.iterator();
+        boolean isSpectator = false;
+        while(i.hasNext() && !isSpectator) {
+            String specID = i.next().getId();
+            if(specID == userID) {
+                isSpectator = true;
+            }
+        }
+        return isSpectator;
+    }
+
     
 }

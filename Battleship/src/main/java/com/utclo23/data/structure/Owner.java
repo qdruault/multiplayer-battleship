@@ -162,6 +162,9 @@ public class Owner extends SerializableEntity{
         this.contactList = contactList;
     }
 
+    public void addPlayedGame(StatGame game) {
+        this.playedGamesList.add(game);
+    }
 
     
     
