@@ -445,40 +445,41 @@ public class InGameGUIController {
             }
         }
     }
-
+    /**
+     * Function to place a ship on the grid with its corresponding image
+     * @param ship 
+     */
     void putShipOnBoard(Ship ship)
     {
         // We assume the ship has the right coordinates.
         // Moreover, this function won't update the shipboard!
-        
-        if (!gameStarted && !ship.getListCoord().isEmpty()) {
-            try {
-    
-                // Load the image.
-                ImageView shipOnTheGrid = new ImageView(shipsPictures.get(ship.getType()));
-                if (ship.getListCoord().get(0).getY() == ship.getListCoord().get(1).getY()) {
-                    // Horizontal.
-                    // Set the size.
-                    shipOnTheGrid.setFitWidth(playerGrid.getWidth()/10.0 * ship.getSize());
-                    shipOnTheGrid.setFitHeight(playerGrid.getHeight()/10.0);
-                    // Place on the grid.
-                    playerGrid.add(shipOnTheGrid, ship.getListCoord().get(0).getX(), ship.getListCoord().get(0).getY(), ship.getSize(), 1);
-                } else {
-                    // Vertical
-                    // Set the size.
-                    shipOnTheGrid.setFitHeight(playerGrid.getWidth()/10.0);
-                    shipOnTheGrid.setFitWidth(playerGrid.getHeight()/10.0 * ship.getSize());
-                    // Rotate the image.
-                    shipOnTheGrid.setRotate(90);
-                    // Place on the grid.
-                    playerGrid.add(shipOnTheGrid, ship.getListCoord().get(0).getX(), ship.getListCoord().get(0).getY(), 1, ship.getSize());
-                }
+        try {
 
-            } catch (Exception ex) {
-                Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
+            // Load the image.
+            ImageView shipOnTheGrid = new ImageView(shipsPictures.get(ship.getType()));
+            if (ship.getListCoord().get(0).getY() == ship.getListCoord().get(1).getY()) {
+                // Horizontal.
+                // Set the size.
+                shipOnTheGrid.setFitWidth(playerGrid.getWidth()/10.0 * ship.getSize());
+                shipOnTheGrid.setFitHeight(playerGrid.getHeight()/10.0);
+                // Place on the grid.
+                playerGrid.add(shipOnTheGrid, Math.min(ship.getListCoord().get(0).getX(), ship.getListCoord().get(1).getX()), ship.getListCoord().get(0).getY(), ship.getSize(), 1);
+            } else {
+                // Vertical
+                // Set the size.
+                shipOnTheGrid.setFitHeight(playerGrid.getWidth()/10.0);
+                shipOnTheGrid.setFitWidth(playerGrid.getHeight()/10.0 * ship.getSize());
+                // Rotate the image.
+                shipOnTheGrid.setRotate(90);
+                // Place on the grid.
+                playerGrid.add(shipOnTheGrid, ship.getListCoord().get(0).getX(), Math.min(ship.getListCoord().get(0).getY(), ship.getListCoord().get(1).getY()), 1, ship.getSize());
             }
 
+        } catch (Exception ex) {
+            Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        
     }
     /**
     * Update the label on the ship button by adding the specified value
@@ -956,28 +957,15 @@ public class InGameGUIController {
 
                                 // Send the ship.
                                 facade.getFacadeData().setShip(ship);
+
                                 // No exception : Place the ship on the board.
                                 // Load the image.
                                 ImageView shipOnTheGrid = new ImageView(shipsPictures.get(ship.getType()));
                                 //associate ship with its image on the grid
                                 listOfShipsOnTheGrid.put(ship, shipOnTheGrid);
-                                if (ship.getListCoord().get(0).getY() == ship.getListCoord().get(1).getY()) {
-                                    // Horizontal.
-                                    // Set the size.
-                                    shipOnTheGrid.setFitWidth(playerGrid.getWidth()/10.0 * ship.getSize());
-                                    shipOnTheGrid.setFitHeight(playerGrid.getHeight()/10.0);
-                                    // Place on the grid.
-                                    playerGrid.add(shipOnTheGrid, Math.min(ship.getListCoord().get(0).getX(), ship.getListCoord().get(1).getX()), ship.getListCoord().get(0).getY(), ship.getSize(), 1);
-                                } else {
-                                    // Vertical
-                                    // Set the size.
-                                    shipOnTheGrid.setFitHeight(playerGrid.getWidth()/10.0);
-                                    shipOnTheGrid.setFitWidth(playerGrid.getHeight()/10.0 * ship.getSize());
-                                    // Rotate the image.
-                                    shipOnTheGrid.setRotate(90);
-                                    // Place on the grid.
-                                    playerGrid.add(shipOnTheGrid, ship.getListCoord().get(0).getX(), Math.min(ship.getListCoord().get(0).getY(), ship.getListCoord().get(1).getY()), 1, ship.getSize());
-                                }
+                                
+                                // Put the image on the board
+                                putShipOnBoard(ship);
 
                                 // ATTENTION! Grid size is out of control!
                                 // setShip didn't return any exception so the ship is correctly placed -> Update the label on the left panel
