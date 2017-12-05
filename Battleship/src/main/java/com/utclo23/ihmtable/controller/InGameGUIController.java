@@ -380,6 +380,17 @@ public class InGameGUIController {
         currentPlayer = facade.getFacadeData().getGame().getCurrentPlayer();
 
     }
+    
+    /**
+     * Method called when player want reviewing game
+     * Start right function for board
+     * @param idGame 
+     */
+    public void startReviewingGame(int idGame) {
+        // Get list of ships
+        facade.getFacadeData().getInitialBoardFromGameId(Integer.toString(idGame));
+        prepareReviewGame();
+    }
 
     /**
     * Method called when notifyGameReady() is called.
