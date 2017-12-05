@@ -82,7 +82,7 @@ public class M_ReturnIP extends Message {
             // send back the data this node has about its known network.
             M_ReturnIP returnIp = new M_ReturnIP(user, listGamesMaj, listUsersMaj, IdToIp);
 
-            Sender os = new Sender(IP_sender.getHostAddress(), 80, returnIp);
+            Sender os = new Sender(IP_sender.getHostAddress(), kic.getPort(), returnIp);
             new Thread(os).start();
 
         } else {
@@ -101,7 +101,7 @@ public class M_ReturnIP extends Message {
 
             M_ReturnIP returnIp = new M_ReturnIP(user, listGamesMaj, listUsersToSend, IdToIp);
             for (Inet4Address ip : kic.getHashMap().values()) {
-                Sender os = new Sender(ip.getHostAddress(), 80, returnIp);
+                Sender os = new Sender(ip.getHostAddress(), kic.getPort(), returnIp);
                 Thread thread = new Thread(os);
                 thread.start();
             }

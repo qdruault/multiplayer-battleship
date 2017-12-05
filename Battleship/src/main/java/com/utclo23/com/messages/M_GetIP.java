@@ -7,8 +7,6 @@ package com.utclo23.com.messages;
 
 import com.utclo23.com.KnownIPController;
 import com.utclo23.com.Sender;
-import java.net.Inet4Address;
-import java.util.HashMap;
 import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.data.structure.PublicUser;
@@ -53,7 +51,7 @@ public class M_GetIP extends Message {
 		// send back the data this node has about its known network.
 		M_ReturnIP returnIp = new M_ReturnIP(iDataCom.getMyPublicUserProfile(), listGames, listUsers, kic.getHashMap());
 		
-		Sender os = new Sender(IP_sender.getHostAddress(), 80, returnIp);
+		Sender os = new Sender(IP_sender.getHostAddress(), kic.getPort(), returnIp);
 		Thread thread = new Thread(os);
 			thread.start();
     }

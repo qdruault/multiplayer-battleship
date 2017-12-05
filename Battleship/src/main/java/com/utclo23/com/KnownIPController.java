@@ -27,6 +27,8 @@ public class KnownIPController {
     private final HashMap<String, Inet4Address> knownIp;
     IDataCom iDataCom;
     InterfaceAddress usedInterface;
+    
+    private final int PORT = 25000;
 
     // private constructor
     private KnownIPController() {
@@ -137,5 +139,9 @@ public class KnownIPController {
             }
             it.remove(); // avoids a ConcurrentModificationException
         }
+    }
+    
+    public int getPort(){
+        return PORT;
     }
 }

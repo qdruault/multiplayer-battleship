@@ -37,7 +37,7 @@ public class ComFacade {
         discoCtrl = DiscoveryController.getInstance();
         kIpCtrl = KnownIPController.getInstance(); // creation of KnownIPController
         // TODO: Instanciate receiver
-        receiver = new Receiver(80, iDataCom);
+        receiver = new Receiver(25000, iDataCom);
         new Thread(receiver).start();
     }
 
@@ -56,7 +56,7 @@ public class ComFacade {
     public void sendShipsToEnnemy(List<Ship> listShips, List<LightPublicUser> recipients) {
         M_PlaceShip m_placeship = new M_PlaceShip(iDataCom.getMyPublicUserProfile(), listShips);
         for (LightPublicUser recipient : recipients) {
-            Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), 80, m_placeship);
+            Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), m_placeship);
             new Thread(os).start();
         }
     }
@@ -69,7 +69,7 @@ public class ComFacade {
 
         /*M_Connexion m_connexion = new M_Connexion(user);
         for(Inet4Address ip : kIpCtrl.getHashMap().values()){
-            Sender os = new Sender(ip.getHostAddress(), 80, m_connexion);
+            Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), m_connexion);
             new Thread(os).start();
         }*/
     }
@@ -80,7 +80,7 @@ public class ComFacade {
     public void notifyUserSignedOut() {
         M_Deconnection m_deconnection = new M_Deconnection(iDataCom.getMyPublicUserProfile());
         for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
-            Sender os = new Sender(ip.getHostAddress(), 80, m_deconnection);
+            Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), m_deconnection);
             new Thread(os).start();
         }
     }
@@ -93,7 +93,7 @@ public class ComFacade {
     public void notifyNewMessage(com.utclo23.data.structure.Message message) {
         M_Chat m_chat = new M_Chat(iDataCom.getMyPublicUserProfile(), message, message.getTimestamp());
         for (LightPublicUser recipient : message.getRecipients()) {
-            Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), 80, m_chat);
+            Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), m_chat);
             new Thread(os).start();
         }
     }
@@ -107,7 +107,7 @@ public class ComFacade {
     public void notifyNewCoordinates(Mine mine, List<LightPublicUser> recipients) {
         M_PlaceMine m_placemine = new M_PlaceMine(iDataCom.getMyPublicUserProfile(), mine);
         for (LightPublicUser recipient : recipients) {
-            Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), 80, m_placemine);
+            Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), m_placemine);
             new Thread(os).start();
         }
     }
@@ -121,7 +121,7 @@ public class ComFacade {
     public void notifyNewGame(StatGame game) {
         M_CreationGame m_creationgame = new M_CreationGame(iDataCom.getMyPublicUserProfile(), game);
         for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
-            Sender os = new Sender(ip.getHostAddress(), 80, m_creationgame);
+            Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), m_creationgame);
             new Thread(os).start();
         }
     }
@@ -135,7 +135,7 @@ public class ComFacade {
 
         M_JoinGame m_joingame = new M_JoinGame(iDataCom.getMyPublicUserProfile(), game);
         Inet4Address adr = KnownIPController.getInstance().getHashMap().get(game.getCreator().getId());
-        Sender os = new Sender(adr.getHostAddress(), 80, m_joingame);
+        Sender os = new Sender(adr.getHostAddress(), kIpCtrl.getPort(), m_joingame);
         new Thread(os).start();
     }
 
@@ -145,7 +145,7 @@ public class ComFacade {
     public void leaveGame() {
         M_LeaveGame m_leavegame = new M_LeaveGame(iDataCom.getMyPublicUserProfile());
         for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
-            Sender os = new Sender(ip.getHostAddress(), 80, m_leavegame);
+            Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), m_leavegame);
             new Thread(os).start();
         }
     }
@@ -158,7 +158,7 @@ public class ComFacade {
     public void sendDiscovery(List<Inet4Address> listIpTarget) {
         for (int i = 0; i < listIpTarget.size(); i++) {
             M_GetIP m_getIp = new M_GetIP(iDataCom.getMyPublicUserProfile());
-            Sender os = new Sender(listIpTarget.get(i).getHostAddress(), 80, m_getIp);
+            Sender os = new Sender(listIpTarget.get(i).getHostAddress(), kIpCtrl.getPort(), m_getIp);
             new Thread(os).start();
             discoCtrl.addIP(listIpTarget.get(i));
         }
@@ -171,7 +171,7 @@ public class ComFacade {
      */
     public void getPublicUserProfile(String id) {
         M_GetPlayerInfo m_getplayerinfo = new M_GetPlayerInfo(iDataCom.getMyPublicUserProfile());
-        Sender os = new Sender(kIpCtrl.getHashMap().get(id).getHostAddress(), 80, m_getplayerinfo);
+        Sender os = new Sender(kIpCtrl.getHashMap().get(id).getHostAddress(), kIpCtrl.getPort(), m_getplayerinfo);
         new Thread(os).start();
     }
 
@@ -188,11 +188,11 @@ public class ComFacade {
         M_JoinGameResponse m_joingameresponse = new M_JoinGameResponse(iDataCom.getMyPublicUserProfile(), success, game);
         if (success) {
             for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
-                Sender os = new Sender(ip.getHostAddress(), 80, m_joingameresponse);
+                Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), m_joingameresponse);
                 new Thread(os).start();
             }
         } else {
-            Sender os = new Sender(kIpCtrl.getHashMap().get(id).getHostAddress(), 80, m_joingameresponse);
+            Sender os = new Sender(kIpCtrl.getHashMap().get(id).getHostAddress(), kIpCtrl.getPort(), m_joingameresponse);
             new Thread(os).start();
         }
     }
