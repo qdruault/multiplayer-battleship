@@ -91,7 +91,7 @@ public class M_ReturnIP extends Message {
             List<LightPublicUser> listUsersToSend = new ArrayList<>();
             listUsersToSend.add(myUser);
             // get the hasmap of our IP to send it to the requesting node. 
-            HashMap<String, Inet4Address> IdToIp = null;
+            HashMap<String, Inet4Address> IdToIp = new HashMap<>();
 
             try {
                 IdToIp.put(myUser.getId(), (Inet4Address) Inet4Address.getLocalHost());
