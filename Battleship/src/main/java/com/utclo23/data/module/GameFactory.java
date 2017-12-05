@@ -40,7 +40,9 @@ public class GameFactory {
         {
             //add second player
             Player j2 = new Player(LightPublicUser.generateComputerProfile());
+            j2.setComputer(true);
             players.add(j2);
+            
         }
         
         List<LightPublicUser> spectators = new ArrayList<>();

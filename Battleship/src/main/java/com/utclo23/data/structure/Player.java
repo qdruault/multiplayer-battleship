@@ -16,10 +16,12 @@ public class Player extends SerializableEntity{
     private List<Ship> ships;
     private List<Mine> mines;
     private LightPublicUser lightPublicUser;
+    private boolean computer;
 
     public Player(LightPublicUser lightPublicUser) {
         super();
         this.lightPublicUser = lightPublicUser;
+        this.computer = false;
     }
 
     public List<Ship> getShips() {
@@ -40,6 +42,14 @@ public class Player extends SerializableEntity{
 
     public LightPublicUser getLightPublicUser() {
         return lightPublicUser;
+    }
+
+    public boolean isComputer() {
+        return computer;
+    }
+
+    public void setComputer(boolean computer) {
+        this.computer = computer;
     }
     
     
