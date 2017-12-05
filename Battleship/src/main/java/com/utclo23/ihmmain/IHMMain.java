@@ -44,6 +44,8 @@ public class IHMMain {
         controllerMap = new HashMap<String,AbstractController>();
         activeSceneName = null;
         primaryStage = stage;
+        primaryStage.setWidth(1300);
+        primaryStage.setHeight(800);
         //load all scenes when app starts
         for(SceneName scenename : SceneName.values()){
             String scenenameString = scenename.toString();
@@ -51,6 +53,7 @@ public class IHMMain {
             sceneMap.put(scenenameString,scene);
         }
         
+        primaryStage.setTitle("Battle Ship");
         toNetworkInterfaceChoice();
         stage.show();
         
@@ -79,9 +82,10 @@ public class IHMMain {
 
     }
     
-    public void toOthersPlayerProfile() throws IOException{
-        PlayerProfileController controller;   
+    public void toOthersPlayerProfile(String playerId) throws IOException{
+        PlayerProfileController controller;
         controller = (PlayerProfileController) controllerMap.get(SceneName.PLAYER_PROFILE.toString());
+        facade.iDataIHMMain.askPublicUserProfile(playerId);
         controller.loading();
         //toScene(SceneName.PLAYER_PROFILE);
     }
@@ -127,7 +131,6 @@ public class IHMMain {
             if(activeSceneName != null){
                 controllerMap.get(activeSceneName).stop();
             }
-            primaryStage.setTitle(scenename);
             primaryStage.setScene(sceneMap.get(scenename));
             activeSceneName = scenename;
             controllerMap.get(activeSceneName).run();

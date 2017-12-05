@@ -4,10 +4,9 @@
  * and open the template in the editor.
  */
 package com.utclo23.com.messages;
+
 import com.utclo23.com.KnownIPController;
 import com.utclo23.com.Sender;
-import java.net.Inet4Address;
-import java.util.HashMap;
 import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.data.structure.PublicUser;
@@ -16,19 +15,22 @@ import java.util.List;
 
 /**
  *
- * @author thibault
+ * @author Thibault CHICHE
  */
-public class M_GetIP extends Message{
-	
-	KnownIPController kic;
-	String name;
-	
-	
-    public M_GetIP(PublicUser user){
+public class M_GetIP extends Message {
+
+    KnownIPController kic;
+    String name;
+
+    /**
+     * Constructor.
+     *
+     * @param user is the message's sender
+     */
+    public M_GetIP(PublicUser user) {
         super(user);
     }
-	
-	
+
     @Override
     public void callback(IDataCom iDataCom){
 		System.out.println("GET IP Received");
@@ -45,14 +47,11 @@ public class M_GetIP extends Message{
 		kic.addNode(user.getLightPublicUser().getId(), IP_sender);
 		
 		name = this.getClass().getName();
-
-		// get the hasmap of our IP to send it to the requesting node. 
-		HashMap<String,Inet4Address> IdToIp = kic.getHashMap();
 		
 		// send back the data this node has about its known network.
-		M_ReturnIP	returnIp = new M_ReturnIP(user, listGames, listUsers, IdToIp);
+		M_ReturnIP returnIp = new M_ReturnIP(iDataCom.getMyPublicUserProfile(), listGames, listUsers, kic.getHashMap());
 		
-		Sender os = new Sender(IP_sender.getHostAddress(), 80, returnIp);
+		Sender os = new Sender(IP_sender.getHostAddress(), kic.getPort(), returnIp);
 		Thread thread = new Thread(os);
 			thread.start();
     }

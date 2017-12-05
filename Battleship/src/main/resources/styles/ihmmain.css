@@ -7,6 +7,11 @@
     -fx-background-color: #061f30;
 }
 
+.scroll-pane {
+    -fx-base: transparent;
+    -fx-background-color: transparent;
+}
+
 /* About the table View */
 .table-view {
     -fx-base: transparent;
@@ -63,6 +68,9 @@
     -fx-border-width: 0px;
 }
 
+.center{
+    -fx-alignment: center;
+}
 
 /* Used to personalize the button */
 .button{
@@ -74,6 +82,20 @@
     -fx-background-color: #061f30;
     -fx-opacity: 1.0;
     
+}
+
+/* Used to personalize all TextFields */
+.text-field{
+    -fx-background-radius: 5 5 5 5;
+    -fx-border-radius: 5 5 5 5;
+    -fx-background-color: #0D2E45;
+    -fx-border-color: #ffffff;
+    -fx-font-family: "Arial";
+    -fx-text-fill: #ffffff;
+}
+
+.text-field:focused{
+    -fx-border-color: #0ce8f0;
 }
 
 /* The frame around the buttons in the main menu */
@@ -109,7 +131,9 @@
     -fx-text-fill: white;
     -fx-font-size: 11pt;
 }
-
+.tooltip{
+    -fx-font-family: "Arial"; 
+}
 /* About the line */
 .lineDesign{
     -fx-stroke: #0ce8f0;
@@ -140,4 +164,27 @@
 
 .table-row-cell:empty .table-cell {
     -fx-border-width: 0px;
+}
+
+.radio-button{
+    -fx-font-family: "Space Age";
+    -fx-focus-color: #0ce8f0;
+}
+.radio-button .radio{
+    -fx-background-color: #0D2E45;
+    -fx-mark-color: #ef8d00;
+    -fx-focus-color: #0ce8f0;
+}
+.check-box {
+    -fx-font-family: "Space Age";
+    -fx-focus-color: #0ce8f0;
+}
+
+.check-box .box{
+    -fx-background-color: #0D2E45;
+    -fx-focus-color: #0ce8f0;
+}
+
+.check-box:selected .mark{
+    -fx-background-color: #ef8d00;
 }

@@ -54,7 +54,7 @@ public class GameListController extends AbstractController{
     private StatGame selectedGame;
     
     private TableView<StatGame> gameList;
-    
+  
     private Boolean isLoading;
     
     //game received with asynchronous load
@@ -88,7 +88,9 @@ public class GameListController extends AbstractController{
             public void handle(MouseEvent event) {
                 Node node = ((Node) event.getTarget()).getParent();
                 TableRow row;
-                if (node instanceof TableRow) {
+                if(node instanceof TableView){
+                }else{
+                    if (node instanceof TableRow) {
                     row = (TableRow) node;
                 } else {
                     // clicking on text part, parent is cell or row, cell's parent is the row
@@ -101,6 +103,8 @@ public class GameListController extends AbstractController{
                 }
                 StatGame selected = (StatGame)row.getItem();
                 selectedGame = selected;
+                }
+
             }
         });
     }
@@ -181,13 +185,13 @@ public class GameListController extends AbstractController{
         if(isRunning() && !isLoading){
             List<StatGame> newGameList = null;
             try{
-                newGameList = facade.iDataIHMMain.getGameList();
+                newGameList = getFacade().iDataIHMMain.getGameList();
             }catch(Exception e){
                 e.printStackTrace();
             }
             if(gameList == null || newGameList.isEmpty()){//if getGameList() is not implemented or not working as excepted
                 newGameList = new ArrayList<>();
-                PublicUser me = facade.iDataIHMMain.getMyPublicUserProfile();
+                PublicUser me = getFacade().iDataIHMMain.getMyPublicUserProfile();
                 StatGame fake = new StatGame();
                 fake.setCreator(me.getLightPublicUser());
                 fake.setName("Fake");
@@ -211,14 +215,14 @@ public class GameListController extends AbstractController{
     
     @FXML
     private void returnMenu(ActionEvent event) throws IOException{
-        ihmmain.toMenu();
+        getIhmmain().toMenu();
     }
 
     @FXML
     private void joinSelectedGame(ActionEvent event) {
         if(selectedGame != null){
             //send connection request and open a loading screen while waitting
-            facade.iDataIHMMain.gameConnectionRequestGame(selectedGame.getId(), "Player");
+            getFacade().iDataIHMMain.gameConnectionRequestGame(selectedGame.getId(), "Player");
             loadingScreen();
         }
        
@@ -226,13 +230,12 @@ public class GameListController extends AbstractController{
 
     @FXML
     private void createNewGame(ActionEvent event) throws IOException{
-        ihmmain.toCreateGame();
+        getIhmmain().toCreateGame();
     }
 
     @FXML
     private void watchSelectedGame(ActionEvent event) {
-        //TODO
-         System.out.println("Not supported yet");
+        showErrorPopup("Not Supported Yet","Not Supported Yet","Not Supported Yet");
     }
     
     /**
@@ -255,6 +258,7 @@ public class GameListController extends AbstractController{
                 try {
                     while(isLoading){
                         Thread.sleep(500);
+                        connectionImpossible();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -271,10 +275,11 @@ public class GameListController extends AbstractController{
         });
         //if loading failed
         wait.setOnFailed(new EventHandler<WorkerStateEvent>() {
-        @Override
-        public void handle(WorkerStateEvent t){
-            System.out.println("Loading task failed : " + t.toString());
-        }
+            @Override
+            public void handle(WorkerStateEvent t){
+                //this function handle fail case too, so calling it when fails will give a fail message
+                goIntoGame();
+            }
     });
         new Thread(wait).start();
     }
@@ -292,17 +297,20 @@ public class GameListController extends AbstractController{
         returnButton.setDisable(false);
     }
 
+    /**
+     * go into game or display a error message about connection impossible
+     */
     private void goIntoGame() {
         
         if(isRunning()){
             if(receivedGame != null){
                 //Finally Join the game
-                System.out.println("Finally Join the game : " +  receivedGame.getId()+ ", but since iIHMTableToIHMMain.showGame() accept a UID and i got only a String as game id, i can't use it lol");
-                //facade.iIHMTableToIHMMain.showGame(receivedGame.getId());
+                showErrorPopup("Finally Join the game ","Game Id is : receivedGame.getId()","but the line is commented !");
+                //facade.iIHMTableToIHMMain.showGame(receivedGame);
             }else{
-                System.out.println("Is hard to get there, but you know that you gave me a null game ?");
-                isLoading = false;
+                showErrorPopup("Connection Impossible","","Your Connection Request was failed ");
                 refresh();
+                enableAllButtons();
             }
         }
     }
@@ -314,6 +322,15 @@ public class GameListController extends AbstractController{
     public void receptionGame(Game game){
         if(isRunning()){
             receivedGame = game;
+            isLoading = false;
+        }
+    }
+    /**
+     * called by data when can't connect to a game
+     */
+    public void connectionImpossible(){
+        if(isRunning()){
+            receivedGame = null;
             isLoading = false;
         }
     }
@@ -336,5 +353,4 @@ public class GameListController extends AbstractController{
         isLoading = false;
         
     }
-    
 }

@@ -7,21 +7,52 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.CreateGameController">
-   <children>
-      <Button layoutX="129.0" layoutY="302.0" mnemonicParsing="false" onAction="#validateCreateGame" text="Create" />
-      <Button layoutX="411.0" layoutY="302.0" mnemonicParsing="false" onAction="#back" text="Return" />
-      <Label alignment="CENTER_RIGHT" layoutX="131.0" layoutY="72.0" text="Mode" />
-      <Label alignment="CENTER_RIGHT" layoutX="129.0" layoutY="124.0" text="Enemy" />
-      <TextField fx:id="gameNameField" layoutX="250.0" layoutY="175.0" prefHeight="25.0" prefWidth="166.0" />
-      <Label alignment="CENTER_RIGHT" layoutX="131.0" layoutY="179.0" text="Name" />
-      <CheckBox fx:id="radioButtonAudience" layoutX="173.0" layoutY="242.0" mnemonicParsing="false" text="Audience" />
-      <CheckBox fx:id="radioButtonChat" layoutX="363.0" layoutY="242.0" mnemonicParsing="false" text="Chat" />
-      <Label layoutX="262.0" layoutY="14.0" text="Create a game" textAlignment="CENTER" />
-      <RadioButton fx:id="radioButtonClassical" alignment="CENTER_RIGHT" layoutX="250.0" layoutY="72.0" mnemonicParsing="false" text="Classical" />
-      <RadioButton fx:id="radioButtonBelge" alignment="CENTER_RIGHT" layoutX="364.0" layoutY="72.0" mnemonicParsing="false" text="Belge" />
-      <RadioButton fx:id="radioButtonComputer" alignment="CENTER_RIGHT" layoutX="250.0" layoutY="125.0" mnemonicParsing="false" text="Computer" />
-      <RadioButton fx:id="radioButtonPlayer" alignment="CENTER_RIGHT" layoutX="363.0" layoutY="125.0" mnemonicParsing="false" text="Player" />
-   </children>
-</Pane>
+
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600" minWidth="800" prefHeight="768" prefWidth="1368" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.CreateGameController" stylesheets="@../../styles/ihmmain.css">
+    
+    <columnConstraints>
+        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
+        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
+        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
+        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
+        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
+    </columnConstraints>   
+         
+    <rowConstraints>
+        <RowConstraints percentHeight="35.0" vgrow="SOMETIMES" />
+        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+
+    <children>
+        <Label id="pageTitleLabel" GridPane.columnIndex="2" GridPane.rowIndex="1" text="Create a game" textAlignment="CENTER" />
+        
+        <Label id="formLabel" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="2" text="Name" />
+        <TextField fx:id="gameNameField" GridPane.columnIndex="2" GridPane.rowIndex="2" prefHeight="25.0" prefWidth="166.0" />
+        
+        <Label id="formLabel" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="3" text="Mode" />
+        <RadioButton fx:id="radioButtonClassical" alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="3" mnemonicParsing="false" text="CLASSIC" />
+        <RadioButton fx:id="radioButtonBelge" alignment="CENTER_RIGHT" GridPane.columnIndex="3" GridPane.rowIndex="3" mnemonicParsing="false" text="BELGIAN" />
+        
+        <Label id="formLabel" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="4" text="Enemy" />
+        <RadioButton fx:id="radioButtonComputer" alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="4" mnemonicParsing="false" text="Computer" />
+        <RadioButton fx:id="radioButtonPlayer" alignment="CENTER_RIGHT" GridPane.columnIndex="3" GridPane.rowIndex="4" mnemonicParsing="false" text="Player" />
+        
+        <CheckBox fx:id="radioButtonAudience" GridPane.columnIndex="2" GridPane.rowIndex="5" mnemonicParsing="false" text="Audience" />
+        <CheckBox fx:id="radioButtonChat" GridPane.columnIndex="3" GridPane.rowIndex="5" mnemonicParsing="false" text="Chat" />
+        
+        <Button GridPane.columnIndex="2" GridPane.rowIndex="6" mnemonicParsing="false" onAction="#validateCreateGame" text="Create" />
+        <Button GridPane.columnIndex="3" GridPane.rowIndex="6" mnemonicParsing="false" onAction="#back" text="Return" />
+    </children>
+
+</GridPane>

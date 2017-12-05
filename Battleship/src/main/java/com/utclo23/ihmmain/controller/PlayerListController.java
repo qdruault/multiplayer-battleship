@@ -8,18 +8,16 @@ package com.utclo23.ihmmain.controller;
 import com.utclo23.data.structure.LightPublicUser;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.ScheduledService;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Duration;
 
 /**
  * The GUI that displays the list of connected users
@@ -32,7 +30,7 @@ public class PlayerListController extends AbstractController{
 
     @FXML
     private void returnMenu(ActionEvent event) throws IOException{
-        ihmmain.toMenu();
+        getIhmmain().toMenu();
     }
     
      /* This function is called at the beginning of the application.
@@ -83,9 +81,9 @@ public class PlayerListController extends AbstractController{
      */
     private void getConnectedUsers(){
 
-        if(facade != null){
+        if(getFacade() != null){
             // Call data method in order to collect connected users
-            ArrayList<LightPublicUser> connectedUsers = new ArrayList<LightPublicUser>(facade.iDataIHMMain.getConnectedUsers());
+            ArrayList<LightPublicUser> connectedUsers = new ArrayList<>(getFacade().iDataIHMMain.getConnectedUsers());
             ObservableList<LightPublicUser> data = FXCollections.observableArrayList(connectedUsers);
         
             // Update the list in the GUI
@@ -100,8 +98,17 @@ public class PlayerListController extends AbstractController{
      */
     @FXML
     public void clickItem(MouseEvent event){
-        // TODO Call PlayerProfile to show the profile of the user.
-        String id = listPlayers.getSelectionModel().getSelectedItem().getId();
+        if(event.getClickCount() == 2){
+            // Verify the list is not empty. If the list is empty, it's impossible to select an item
+            if(listPlayers.getSelectionModel().getSelectedItem() != null){
+                String id = listPlayers.getSelectionModel().getSelectedItem().getId();
+                try {
+                    getIhmmain().toOthersPlayerProfile(id);
+                } catch (IOException ex) {
+                    Logger.getLogger(PlayerListController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
     }
     
 }

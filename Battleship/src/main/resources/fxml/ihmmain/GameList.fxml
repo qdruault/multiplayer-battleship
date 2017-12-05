@@ -17,6 +17,7 @@
   </rowConstraints>
    <children>
       <Label text="Games" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+      <ScrollPane id="gameListPane" fx:id="gameListPane" fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
       <GridPane id="ManageGrid" GridPane.rowIndex="2">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" percentWidth="33.0" />
@@ -34,6 +35,5 @@
             <Button fx:id="watchButton" mnemonicParsing="false" onAction="#watchSelectedGame" text="Watch" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
-      <ScrollPane id="gameListPane" fx:id="gameListPane" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
    </children>
 </GridPane>
