@@ -7,6 +7,7 @@ package com.utclo23.data.structure;
 
 
 import java.rmi.server.UID;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -134,7 +135,7 @@ public class StatGame extends SerializableEntity{
         this.name = name;
         this.spectator = spectator;
         this.spectatorChat = spectatorChat;
-        this.players = null;
+        this.players = new ArrayList<>();;
         this.winner = null;
         this.creator = creator;
        // this.realGame = game;

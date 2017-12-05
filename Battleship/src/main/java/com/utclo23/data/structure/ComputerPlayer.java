@@ -12,10 +12,26 @@ import java.rmi.server.UID;
  * @author lucillefargeau
  */
 public class ComputerPlayer extends Player{
+    private Coordinate focus;
+
     
     public ComputerPlayer() {
         super(LightPublicUser.generateComputerProfile());
+        this.focus = null;
+        
     }
+
+    public Coordinate getFocus() {
+        return focus;
+    }
+
+    public void setFocus(Coordinate focus) {
+        this.focus = focus;
+    }
+
+
+    
+    
     
     
     
