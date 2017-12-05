@@ -22,7 +22,11 @@
       <Label id="pageTitleLabel" text="LIST OF IP" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
       <Line fx:id="lineDesign" endX="100.0" startX="-100.0" styleClass="lineDesign" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
       <TableView fx:id="ipList"  prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-      <Button fx:id="validateButton" mnemonicParsing="false" onAction="#validateList" text="VALIDATE AND RETURN" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+      <Button fx:id="validateButton" mnemonicParsing="false" onAction="#validateList" text="VALIDATE AND RETURN" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+            <tooltip>
+                <Tooltip text="Click to validate the changes and go back to the menu."/>
+            </tooltip>
+      </Button>
       <GridPane GridPane.rowIndex="2">
         <columnConstraints>
           <ColumnConstraints percentWidth="10.0" hgrow="SOMETIMES" />
@@ -34,8 +38,16 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField fx:id="ipAddressField" GridPane.columnIndex="1" />
-            <Button fx:id="addRemoveButton" mnemonicParsing="false" onAction="#addIpAddress" prefHeight="25.0" text="ADD" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <TextField fx:id="ipAddressField" GridPane.columnIndex="1">
+                <tooltip>
+                    <Tooltip text="Enter the IP address you want to add."/>
+                </tooltip>
+            </TextField>
+            <Button fx:id="addRemoveButton" mnemonicParsing="false" onAction="#addIpAddress" prefHeight="25.0" text="ADD" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                <tooltip>
+                    <Tooltip text="Click to add the IP address."/>
+                </tooltip>
+            </Button>
          </children>
       </GridPane>
    </children>
