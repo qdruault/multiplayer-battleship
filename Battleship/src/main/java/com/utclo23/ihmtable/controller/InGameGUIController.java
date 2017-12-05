@@ -376,7 +376,7 @@ public class InGameGUIController {
         // Init pannel with values
         updateStatsPannel();
         // Get the current player.
-        currentPlayer = facade.getFacadeData().getGame().getCurrentPlayer();
+        // currentPlayer = facade.getFacadeData().getGame().getCurrentPlayer();
 
     }
     
