@@ -24,6 +24,9 @@ import java.util.ArrayList;
  * 
  */
 public class GameFactory {
+    public GameFactory(){
+        
+    }
     public Game createGame(String name, LightPublicUser creator,  boolean computerMode, boolean spectator, boolean spectatorChat, GameType type){
         //create stat game
         String id = new UID().toString();
@@ -40,7 +43,9 @@ public class GameFactory {
         {
             //add second player
             Player j2 = new Player(LightPublicUser.generateComputerProfile());
+            j2.setComputer(true);
             players.add(j2);
+            
         }
         
         List<LightPublicUser> spectators = new ArrayList<>();

@@ -6,6 +6,7 @@
 package com.utclo23.data.structure;
 
 import java.rmi.server.UID;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,10 +17,17 @@ public class Player extends SerializableEntity{
     private List<Ship> ships;
     private List<Mine> mines;
     private LightPublicUser lightPublicUser;
+    private boolean computer;
 
     public Player(LightPublicUser lightPublicUser) {
         super();
         this.lightPublicUser = lightPublicUser;
+
+        this.computer = false;
+
+        this.mines = new ArrayList<>();
+        this.ships = new ArrayList<>();
+
     }
 
     public List<Ship> getShips() {
@@ -40,6 +48,14 @@ public class Player extends SerializableEntity{
 
     public LightPublicUser getLightPublicUser() {
         return lightPublicUser;
+    }
+
+    public boolean isComputer() {
+        return computer;
+    }
+
+    public void setComputer(boolean computer) {
+        this.computer = computer;
     }
     
     
