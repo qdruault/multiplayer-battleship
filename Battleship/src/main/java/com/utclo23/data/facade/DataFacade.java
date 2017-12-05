@@ -434,7 +434,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public Game getGame() {
-        this.gameMediator.getCurrentGame();
+        return this.gameMediator.getCurrentGame();
     }
 
     /**
