@@ -310,6 +310,7 @@ public class GameListController extends AbstractController{
             }else{
                 showErrorPopup("Connection Impossible","","Your Connection Request was failed ");
                 refresh();
+                enableAllButtons();
             }
         }
     }
