@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 package com.utclo23.ihmmain.controller;
-import com.utclo23.data.structure.GameType;
 import com.utclo23.data.module.DataException;
+import com.utclo23.data.structure.Game;
+import com.utclo23.data.structure.GameType;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -73,19 +74,20 @@ public class CreateGameController extends AbstractController{
         gameNameField.setStyle("");
         JOptionPane msg = new JOptionPane();
         if (!names.isEmpty()){
-            String modes = ((RadioButton) mode.getSelectedToggle()).getText();
-            String enemys = ((RadioButton) enemy.getSelectedToggle()).getText();
+            GameType modes = (((RadioButton) mode.getSelectedToggle()).getText()).equals("CLASSIC") ? GameType.CLASSIC : GameType.BELGIAN;
+            boolean enemys = (((RadioButton) enemy.getSelectedToggle()).getText()).equals("Computer");
             boolean chats = radioButtonChat.isSelected();
             boolean audiences = radioButtonAudience.isSelected();
-            /*try{
-                facade.iDataIHMMain.createGame(names, audiences, chats, modes, enemys);
+            try{
+                Game newGame = facade.iDataIHMMain.createGame(names, enemys, audiences, chats, modes);
                 msg.showMessageDialog(null, "Game created", "Information", JOptionPane.INFORMATION_MESSAGE);
+                facade.iIHMTableToIHMMain.createInGameGUI();
             }catch (DataException e){
-                showErrorPopup(
-                    "Game not created.");
-            }*/
+                showErrorPopup("Error","Game not created",
+                    "Try again !");
+            }
         }
         else
-            gameNameField.setStyle("-fx-border-color: #ef8d00;"); 
+            gameNameField.setStyle("-fx-border-color: #ef8d00;");
     }
 }
