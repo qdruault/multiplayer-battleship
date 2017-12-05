@@ -81,7 +81,7 @@ public class CreateGameController extends AbstractController{
             try{
                 Game newGame = getFacade().iDataIHMMain.createGame(names, enemys, audiences, chats, modes);
                 msg.showMessageDialog(null, "Game created", "Information", JOptionPane.INFORMATION_MESSAGE);
-                getFacade().iIHMTableToIHMMain.createInGameGUI();
+                getFacade().iIHMTableToIHMMain.createInGameGUI(getIhmmain().primaryStage);
             }catch (DataException e){
                 showErrorPopup("Error","Game not created",
                     "Try again !");
