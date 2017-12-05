@@ -356,9 +356,22 @@ public class GameMediator {
     /**
      * Exit current game.
      */
-    public void leaveGame() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     
+   public void leaveGame() {
+        //Sauvegarde à ajouter.
+        this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
+        //Sauvegarde à ajouter, que l'owner soit joueur ou pas.
+        String status = this.getOwnerStatus();
+        if(status == "player") {
+            if(this.currentGame.getStatGame().getWinner() == null) {
+                this.giveUp();
+            }
+            this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
+        }
+        this.currentGame = null;
     }
+
+
 
     public void receptionGame(Game game) {
 
