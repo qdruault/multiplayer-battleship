@@ -305,11 +305,12 @@ public class GameListController extends AbstractController{
         if(isRunning()){
             if(receivedGame != null){
                 //Finally Join the game
-                showErrorPopup("Finally Join the game ","Game Id is : receivedGame.getId()","but since iIHMTableToIHMMain.showGame() accept a UID and i got only a String as game id, i can't use it lol");
-                //facade.iIHMTableToIHMMain.showGame(receivedGame.getId());
+                showErrorPopup("Finally Join the game ","Game Id is : receivedGame.getId()","but the line is commented !");
+                //facade.iIHMTableToIHMMain.showGame(receivedGame);
             }else{
                 showErrorPopup("Connection Impossible","","Your Connection Request was failed ");
                 refresh();
+                enableAllButtons();
             }
         }
     }
