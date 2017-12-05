@@ -154,15 +154,19 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
             Logger.getLogger(IHMTableFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        //Gérer les cas spectateur/utilisateur standard
+       //Gérer les cas spectateur/utilisateur standard
        /* boolean startSpectateur = false;
         Game game = facadeData.getGame();
-        LightPublicUser user = facadeData.getUser();
+        LightPublicUser user = facadeData.getMyPublicUserProfile().getLightPublicUser();
         for(int i=0;i<game.getSpectators().size() && !startSpectateur;++i)
             if(game.getSpectators().get(i).getId() == user.getId())
                 startSpectateur = true;
         if(startSpectateur && controller != null)
-           controller.refreshBoardForSpectator();*/
+        {
+           controller.refreshBoardForSpectator();
+           controller.loadGame(game);
+        }
+        */
 
             
         throw new UnsupportedOperationException("En cours");

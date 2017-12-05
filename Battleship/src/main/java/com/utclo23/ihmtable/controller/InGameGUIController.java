@@ -7,6 +7,9 @@ package com.utclo23.ihmtable.controller;
 
 import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.data.structure.Coordinate;
+import com.utclo23.data.structure.Game;
+import com.utclo23.data.structure.Mine;
+import com.utclo23.data.structure.Player;
 import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.ShipType;
 import com.utclo23.ihmtable.structure.InGameStats;
@@ -500,6 +503,10 @@ public class InGameGUIController {
         }
     }
 
+    private void PlaceMine(Mine m, Player p) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 
     private class AttackEvent implements EventHandler {
 
@@ -757,6 +764,23 @@ public class InGameGUIController {
                     startPositionPane.getStyleClass().removeAll("inGameGUI_selected_cell");
                     endPositionPane.getStyleClass().removeAll("inGameGUI_selected_cell");
                 }
+            }
+        }
+    }
+    
+    public void loadGame(Game game)
+    {
+        // Place ships.
+        for (Player player : game.getPlayers()) {
+            for (Ship ship : player.getShips()) {
+                //placeShip(ship, player);
+            }
+        }        
+        
+        // Place mines.
+        for (Player player : game.getPlayers()) {
+            for (Mine mine : player.getMines()) {
+                placeMine(mine, player);
             }
         }
     }
