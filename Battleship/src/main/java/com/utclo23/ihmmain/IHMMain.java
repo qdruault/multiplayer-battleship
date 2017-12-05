@@ -111,6 +111,10 @@ public class IHMMain {
         toScene(SceneName.GAME_LIST);
     }
     
+    public void toSavedGameList() throws IOException{
+        toScene(SceneName.SAVED_GAME_LIST);
+    }
+    
     /**
      * use this carefully,  it throws a IOException if scene no found!
      * @param scenename

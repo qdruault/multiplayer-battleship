@@ -34,18 +34,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
 /**
- * The GUI that displays the list of online games
+ * The GUI that displays the list of saved local games
  * @author calvezlo
  */
-public class GameListController extends AbstractController{
+public class SavedGameListController extends AbstractController{
     
     
     @FXML
     private Button returnButton;
-    @FXML
-    private Button joinButton;
-    @FXML
-    private Button createButton;
     @FXML
     private Button watchButton;
     @FXML
@@ -54,11 +50,6 @@ public class GameListController extends AbstractController{
     private StatGame selectedGame;
     
     private TableView<StatGame> gameList;
-  
-    private Boolean isLoading;
-    
-    //game received with asynchronous load
-    private Game receivedGame;
     
     /**
      * This function is called at the beginning of the application.
@@ -182,25 +173,12 @@ public class GameListController extends AbstractController{
      */
     @Override
     public void refresh(){
-        if(isRunning() && !isLoading){
+        if(isRunning()){
             List<StatGame> newGameList = null;
             try{
-                newGameList = getFacade().iDataIHMMain.getGameList();
+                newGameList = getFacade().iDataIHMMain
             }catch(Exception e){
                 e.printStackTrace();
-            }
-            if(gameList == null || (newGameList != null && newGameList.isEmpty())){//if getGameList() is not implemented or not working as excepted
-                newGameList = new ArrayList<>();
-                PublicUser me = getFacade().iDataIHMMain.getMyPublicUserProfile();
-                StatGame fake = new StatGame();
-                fake.setCreator(me.getLightPublicUser());
-                fake.setName("Fake");
-                newGameList.add(fake);
-                
-                StatGame fake2 = new StatGame();
-                fake.setCreator(me.getLightPublicUser());
-                fake.setName("Fake2");
-                newGameList.add(fake2);
             }
             ObservableList<StatGame> data = FXCollections.observableArrayList(newGameList);
             // Update the list in the GUI
@@ -217,140 +195,25 @@ public class GameListController extends AbstractController{
     private void returnMenu(ActionEvent event) throws IOException{
         getIhmmain().toMenu();
     }
-
-    @FXML
-    private void joinSelectedGame(ActionEvent event) {
-        if(selectedGame != null){
-            //send connection request and open a loading screen while waitting
-            getFacade().iDataIHMMain.gameConnectionRequestGame(selectedGame.getId(), "Player");
-            loadingScreen();
-        }
-       
-    }
-
-    @FXML
-    private void createNewGame(ActionEvent event) throws IOException{
-        getIhmmain().toCreateGame();
-    }
-
     @FXML
     private void watchSelectedGame(ActionEvent event) {
-        showErrorPopup("Not Supported Yet","Not Supported Yet","Not Supported Yet");
-    }
-    
-    /**
-     * display loading screen and a loop checking if loading is finished, if so, load the receivedGame
-     */
-    private void loadingScreen() {
-        //set isLoading to true
-        isLoading = true;
-        //disable buttons when loading (my buttons are still displayed when loading)
-        disableAllButtonsExceptReturn();
-        //create a progress indicator indicate that i am loading
-        ProgressIndicator pin = new ProgressIndicator ();
-        pin.setProgress(-1);
-        //replace the list pane display by the progress indicator
-        gameListPane.setContent(pin);
-        //create a wait task, check every 0.5s if the loading is finished
-        Task<Void> wait = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                try {
-                    while(isLoading){
-                        Thread.sleep(500);
-                        connectionImpossible();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        };
-        //if loading succed, call the goIntoGame();
-        wait.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-            @Override
-            public void handle(WorkerStateEvent event) {
-                goIntoGame();
-            }
-        });
-        //if loading failed
-        wait.setOnFailed(new EventHandler<WorkerStateEvent>() {
-            @Override
-            public void handle(WorkerStateEvent t){
-                //this function handle fail case too, so calling it when fails will give a fail message
-                goIntoGame();
-            }
-    });
-        new Thread(wait).start();
+        getFacade().iIHMTableToIHMMain.showSavedGameWithId(Integer.valueOf(selectedGame.getId()));
     }
 
     private void disableAllButtonsExceptReturn() {
-        joinButton.setDisable(true);
-        createButton.setDisable(true); 
         watchButton.setDisable(true);
     }
     
     private void enableAllButtons() {
-        joinButton.setDisable(false);
-        createButton.setDisable(false); 
         watchButton.setDisable(false);
         returnButton.setDisable(false);
-    }
-
-    /**
-     * go into game or display a error message about connection impossible
-     */
-    private void goIntoGame() {
-        
-        if(isRunning()){
-            if(receivedGame != null){
-                //Finally Join the game
-                showErrorPopup("Finally Join the game ","Game Id is : receivedGame.getId()","but the line is commented !");
-                //facade.iIHMTableToIHMMain.showGame(receivedGame);
-            }else{
-                showErrorPopup("Connection Impossible","","Your Connection Request was failed ");
-                refresh();
-                enableAllButtons();
-            }
-        }
-    }
-    
-    /**
-     * the function to asynchronousely load the game
-     * @param game 
-     */
-    public void receptionGame(Game game){
-        if(isRunning()){
-            receivedGame = game;
-            isLoading = false;
-        }
-    }
-    /**
-     * called by data when can't connect to a game
-     */
-    public void connectionImpossible(){
-        if(isRunning()){
-            receivedGame = null;
-            isLoading = false;
-        }
     }
 
     /**
      * in order to not be infected the last time's result
      */
     private void resetValues() {
-        isLoading = false;
         selectedGame = null;
-        receivedGame = null;
     }
-    
-    /**
-     * override stop() to set isLoading = false when leaving this controller, because stop() is called whenever i leave this controller
-     */
-    @Override
-    public void stop(){
-        setRunning(false);
-        isLoading = false;
-        
-    }
+
 }
