@@ -106,7 +106,8 @@ public class CreateUserController extends AbstractController{
         if (selectedFile != null){
             avatarPath = selectedFile.getPath();
             fileSelected.setText("file selected: " + avatarPath);
-            Logger.getLogger(CreateUserController.class.getName()).log(Level.INFO, "The chosen file is : " + avatarPath);
+            Logger.getLogger(CreateUserController.class.getName()).log(
+                    Level.INFO, "The chosen file is : {0}", avatarPath);
         }        
     }
     /**
@@ -130,7 +131,8 @@ public class CreateUserController extends AbstractController{
      * @throws Exception throws a default Java exception if any failure occurs.
      */
     private void createUser(String userName, String password, String firstName, String lastName, Date birthDate, String avatarPath) throws Exception{
-        Logger.getLogger(CreateUserController.class.getName()).log(Level.INFO,  "createUser method called.");
+        Logger.getLogger(CreateUserController.class.getName()).log(
+                Level.INFO,  "createUser method called.");
         try{
             getFacade().iDataIHMMain.createUser(userName, password, firstName, lastName, birthDate, avatarPath);
             showErrorPopup("Success", "Your account was successfully created", "Back to the login screen.");

@@ -59,7 +59,7 @@ public class IHMMain {
         
         // Load the font for the css
         try {
-            Font c = Font.loadFont(new FileInputStream(new File("./target/classes/styles/space_age.ttf")), 10);
+            Font.loadFont(new FileInputStream(new File("./target/classes/styles/space_age.ttf")), 10);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PlayerListController.class.getName()).log(Level.SEVERE, null, ex);
         }
