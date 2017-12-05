@@ -578,10 +578,9 @@ public class InGameGUIController {
             grid = opponentGrid;
         }
 
-
+        //Select the node in the grid and disable it when we lanch the attack
         Node n = getNodeByRowColumnIndex(c.getX(), c.getY(), grid);
         n.setDisable(true);
-
 
         Pair<Integer, Ship> attack_result = facade.getFacadeData().attack(c, false);
         //TODO: Voir si il faut demander à data une méthode "attack" neutralisée,
