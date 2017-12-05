@@ -322,8 +322,14 @@ public class InGameGUIController {
         // To know that the game is started.
         gameStarted = true;
         
-        // TODO: get the param through notifyGameReady ?
-        readyToAttack = true;
+        // To know whose turn it is.
+        if (facade.getFacadeData().getGame().getCurrentPlayer().getLightPublicUser() == facade.getFacadeData().getMyPublicUserProfile().getLightPublicUser()) {
+            // I'm the first player to play.
+            readyToAttack = true;
+        } else {
+            // I'm not the first player to play.
+            readyToAttack = false;
+        }
         
         // We can no longer hover the player panes.
         for (Pane playerPane : playerPanes) {
