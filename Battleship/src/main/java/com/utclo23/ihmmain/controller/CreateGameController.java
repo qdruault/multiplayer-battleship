@@ -79,9 +79,9 @@ public class CreateGameController extends AbstractController{
             boolean chats = radioButtonChat.isSelected();
             boolean audiences = radioButtonAudience.isSelected();
             try{
-                Game newGame = facade.iDataIHMMain.createGame(names, enemys, audiences, chats, modes);
+                Game newGame = getFacade().iDataIHMMain.createGame(names, enemys, audiences, chats, modes);
                 msg.showMessageDialog(null, "Game created", "Information", JOptionPane.INFORMATION_MESSAGE);
-                facade.iIHMTableToIHMMain.createInGameGUI();
+                getFacade().iIHMTableToIHMMain.createInGameGUI();
             }catch (DataException e){
                 showErrorPopup("Error","Game not created",
                     "Try again !");
