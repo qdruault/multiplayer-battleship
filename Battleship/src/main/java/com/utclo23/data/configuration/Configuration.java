@@ -21,7 +21,8 @@ public class Configuration {
      * directory of saved profiles
      */
     public final static String SAVE_DIR = System.getProperty("user.home")+File.separator+"MyData";
-   
+    public final static int WIDTH  = 10;
+    public final static int HEIGHT = 10;
     
     
 }

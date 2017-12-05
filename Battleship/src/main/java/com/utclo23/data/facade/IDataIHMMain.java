@@ -35,5 +35,6 @@ public interface IDataIHMMain {
     public void gameConnectionRequestGame(String id, String role);
     
      public void setNetworkInterface(InterfaceAddress net_interface) ;
+
 }
 
