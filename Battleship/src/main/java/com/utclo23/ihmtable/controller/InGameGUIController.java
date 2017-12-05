@@ -56,6 +56,9 @@ public class InGameGUIController {
 
     Map<ShipType, String> shipsPictures = new HashMap<ShipType, String>();
 
+    //association ship <=> image
+    Map<Ship, ImageView> listOfShipsOnTheGrid = new HashMap<Ship, ImageView>();
+
     /**1
     * IHMTable façade
     */
@@ -141,7 +144,7 @@ public class InGameGUIController {
     @FXML
     private HBox actionPanel;
 
-    
+
     /**
     * The pane of the previous attack.
     */
@@ -379,11 +382,11 @@ public class InGameGUIController {
         // currentPlayer = facade.getFacadeData().getGame().getCurrentPlayer();
 
     }
-    
+
     /**
      * Method called when player want reviewing game
      * Start right function for board
-     * @param idGame 
+     * @param idGame
      */
     public void startReviewingGame(int idGame) {
         // Get list of ships
@@ -591,7 +594,10 @@ public class InGameGUIController {
             // TODO: check if the ship is destroyed.
             if(attack_result.getValue() != null) //ship destroyed here
             {
+                //change opacity of the ship
                 Ship destroyedShip = attack_result.getValue();
+                ImageView img = listOfShipsOnTheGrid.get(destroyedShip);
+                img.setOpacity(0.5);
             }
 
             // Reset the number of turns passed.
@@ -735,7 +741,7 @@ public class InGameGUIController {
         time.getKeyFrames().add(frame);
         time.playFromStart();
     }
-    
+
     /**
      * Generic private method for setting anchor pane in right place
      * @param anchor anchorPane selected
@@ -748,27 +754,27 @@ public class InGameGUIController {
         anchor.setBottomAnchor(butt, 0.0);
         anchor.getChildren().add(butt);
     }
-    
+
     /**
      * Method for clearing the corner and put the right buttons (forward...)
      */
     private void prepareReviewGame() {
         /**
-         * Create anchorPane for layout 
+         * Create anchorPane for layout
          */
         AnchorPane backWardPane = new AnchorPane();
         AnchorPane playPane = new AnchorPane();
         AnchorPane pausePane = new AnchorPane();
         AnchorPane forwardPane = new AnchorPane();
-        
+
         /**
-         * Prepare image in each button 
+         * Prepare image in each button
          */
         final ImageView backwardImage = new ImageView("images/fleche_backward.png");
         final ImageView playImage = new ImageView("images/play_button.png");
         final ImageView pauseImage = new ImageView("images/pause_button.png");
         final ImageView forwardImage = new ImageView("images/fleche_forward.png");
-        
+
         /*
          * Backward button preparation : set image + style + binding + onAction
          */
@@ -780,7 +786,7 @@ public class InGameGUIController {
                 facade.getFacadeData().getPreviousBoard();
             }
         });
-        
+
         Button playButton = new Button();
         playButton.setGraphic(playImage);
         playButton.getStyleClass().add("reviews");
@@ -789,7 +795,7 @@ public class InGameGUIController {
                 facade.getFacadeData().getNextBoard();
             }
         });
-        
+
         Button pauseButton = new Button();
         pauseButton.setGraphic(pauseImage);
         pauseButton.getStyleClass().add("reviews");
@@ -800,7 +806,7 @@ public class InGameGUIController {
                 */
             }
         });
-        
+
         Button forwardButton = new Button();
         forwardButton.setGraphic(forwardImage);
         forwardButton.getStyleClass().add("reviews");
@@ -809,7 +815,7 @@ public class InGameGUIController {
                 facade.getFacadeData().getNextBoard();
             }
         });
-        
+
         /**
          * Create the right pane with their button for each
          */
@@ -817,7 +823,7 @@ public class InGameGUIController {
         setAnchorEach(playPane, playButton);
         setAnchorEach(pausePane, pauseButton);
         setAnchorEach(forwardPane, forwardButton);
-        
+
         /**
          * Create the right general pane, clearing "playing" option
          */
@@ -920,6 +926,8 @@ public class InGameGUIController {
                                 // No exception : Place the ship on the board.
                                 // Load the image.
                                 ImageView shipOnTheGrid = new ImageView(shipsPictures.get(ship.getType()));
+                                //associate ship with its image on the grid
+                                listOfShipsOnTheGrid.put(ship, shipOnTheGrid);
                                 if (ship.getListCoord().get(0).getY() == ship.getListCoord().get(1).getY()) {
                                     // Horizontal.
                                     // Set the size.
