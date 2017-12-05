@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -91,6 +92,38 @@
                                     <AnchorPane id="menu_bottom1" />
                                     <AnchorPane id="menu_bottom2" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
                                     <AnchorPane id="menu_bottom3" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" />
+                                    <Text id="text_menu_bottom" fx:id="labelDeadShipCounter1" fill="#2ce9f0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" textOrigin="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                                       <font>
+                                          <Font size="29.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin></Text>
+                                    <Text id="text_menu_bottom" fx:id="labelImpactCounter1" fill="#2ce9f0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" textOrigin="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font size="29.0" />
+                                       </font>
+                                    </Text>
+                                    <Text id="text_menu_bottom" fx:id="labelMineTotalCounter1" fill="#2ce9f0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" textOrigin="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font size="29.0" />
+                                       </font>
+                                    </Text>
+                                    <Text id="text_menu_bottom" fx:id="labelDeadShipCounter2" fill="#ee8d23" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" textOrigin="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                                       <font>
+                                          <Font size="29.0" />
+                                       </font>
+                                    </Text>
+                                    <Text id="text_menu_bottom" fx:id="labelImpactCounter2" fill="#ee8d23" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" textOrigin="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font size="29.0" />
+                                       </font>
+                                    </Text>
+                                    <Text id="text_menu_bottom" fx:id="labelMineTotalCounter2" fill="#ee8d23" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" textOrigin="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font size="29.0" />
+                                       </font>
+                                    </Text>
                                  </children>
                               </GridPane>
                            </children>
@@ -190,7 +223,7 @@
                               </AnchorPane>
                               <AnchorPane HBox.hgrow="ALWAYS">
                                  <children>
-                                    <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <HBox id="actionPanel" fx:id="actionPanel" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
                                           <AnchorPane prefHeight="170.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                                              <children>
@@ -199,7 +232,7 @@
                                           </AnchorPane>
                                           <AnchorPane HBox.hgrow="ALWAYS">
                                              <children>
-                                                <Button id="button_temps" fx:id="chronoButtonMenu" mnemonicParsing="false" onMouseClicked="#onClickChronoButton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <Button id="button_temps" fx:id="chronoButtonMenu" mnemonicParsing="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                 <Label id="LabelChronoMenu" fx:id="chronoLabel" alignment="CENTER" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" />
                                              </children>
                                           </AnchorPane>

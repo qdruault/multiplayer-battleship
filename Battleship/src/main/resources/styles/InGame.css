@@ -41,22 +41,30 @@
 	-fx-background-color: red;
 }
 
-#menu_bottom1, #menu_bottom2, #menu_bottom3{
-    -fx-background-repeat: stretch;
-	-fx-background-size: 40% 60%;
-	-fx-background-position: center center;
+#text_menu_bottom {
+  	-fx-color: #0ce8f0;
+    -fx-text-align: center;
 }
 
-#menu_bottom1{
-	-fx-background-image: url("../images/icon_bottom_left_menu_skull.png");
+#menu_bottom1 {
+    -fx-background-repeat: stretch;
+    -fx-background-size: 28% 45%;
+    -fx-background-position: center center;
+    -fx-background-image: url("../images/icon_bottom_left_menu_skull.png");
 }
 
 #menu_bottom2{
-	-fx-background-image: url("../images/icon_bottom_left_menu_target.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 40% 60%;
+    -fx-background-position: center center;
+    -fx-background-image: url("../images/icon_bottom_left_menu_target.png");
 }
 
-#menu_bottom3{
-	-fx-background-image: url("../images/icon_bottom_left_menu_bullet.png");
+#menu_bottom3 {
+    -fx-background-repeat: stretch;
+    -fx-background-size: 40% 23%;
+    -fx-background-position: center center;
+    -fx-background-image: url("../images/icon_bottom_left_menu_bullet.png");
 }
 
 #left_side_game{
@@ -77,6 +85,17 @@
     -fx-cursor: pointer;
     -fx-background-repeat: stretch;
     -fx-background-position: center center;
+}
+
+.reviews{
+    -fx-background-color: none;
+    -fx-cursor: pointer;
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+}
+
+.reviews:hover {
+    -fx-background-color: blue;
 }
 
 #button_fire{
