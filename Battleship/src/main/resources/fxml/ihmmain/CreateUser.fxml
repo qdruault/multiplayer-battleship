@@ -5,6 +5,7 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -48,25 +49,43 @@
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
+                     <tooltip>
+                        <Tooltip text="Your username is visible by the other players" />
+                     </tooltip>
                   </TextField>
                   <TextField fx:id="passwordField" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
+                     <tooltip>
+                        <Tooltip text="The password you use to log in to your account" />
+                     </tooltip>
                   </TextField>
                   <TextField fx:id="firstNameField" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
+                     <tooltip>
+                        <Tooltip text="Your first name" />
+                     </tooltip>
                   </TextField>
                   <TextField fx:id="lastNameField" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
+                     <tooltip>
+                        <Tooltip text="Your last name" />
+                     </tooltip>
                   </TextField>
-                  <DatePicker fx:id="birthDateField" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                  <DatePicker fx:id="birthDateField" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                     <tooltip>
+                        <Tooltip text="Your date of birth" />
+                     </tooltip></DatePicker>
                   <Label id="formLabel" text="Avatar path" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-                  <Button mnemonicParsing="false" onAction="#handleButtonChooseFile" text="Choose file" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                  <Button mnemonicParsing="false" onAction="#handleButtonChooseFile" text="Choose file" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                     <tooltip>
+                        <Tooltip text="Your profile picture, it is displayed next to your username" />
+                     </tooltip></Button>
                   <Label fx:id="fileSelected" text="file selected: no file selected yet" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
