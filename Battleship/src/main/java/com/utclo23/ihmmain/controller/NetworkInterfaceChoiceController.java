@@ -10,12 +10,14 @@ import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 
 /**
- *
+ * Controller of the network interface selection.
  * @author Louis
  */
 public class NetworkInterfaceChoiceController extends AbstractController {
@@ -49,13 +51,12 @@ public class NetworkInterfaceChoiceController extends AbstractController {
         for(InterfaceAddress ifAddr : chosenIf.getInterfaceAddresses()){
             try{
                 usedIf = (Inet4Address) ifAddr.getAddress();
-                facade.iDataIHMMain.setNetworkInterface(ifAddr);
-                System.out.println(usedIf.getHostAddress());
-                ihmmain.toLogin();
+                getFacade().iDataIHMMain.setNetworkInterface(ifAddr);
+                Logger.getLogger(NetworkInterfaceChoiceController.class.getName()).log(Level.INFO, usedIf.getHostAddress());
+                getIhmmain().toLogin();
             } catch (Exception e){}
         }   
     }
-
     
     private boolean isValid(NetworkInterface networkInt){
         Inet4Address usedIf;
@@ -63,8 +64,8 @@ public class NetworkInterfaceChoiceController extends AbstractController {
         for(InterfaceAddress ifAddr : networkInt.getInterfaceAddresses()){
             try{
                 usedIf = (Inet4Address) ifAddr.getAddress();
-                facade.iDataIHMMain.setNetworkInterface(ifAddr);
-                System.out.println(usedIf.getHostAddress());
+                getFacade().iDataIHMMain.setNetworkInterface(ifAddr);
+                Logger.getLogger(NetworkInterfaceChoiceController.class.getName()).log(Level.INFO, usedIf.getHostAddress());
                 isValid = true;
             } catch (Exception e){}
         }

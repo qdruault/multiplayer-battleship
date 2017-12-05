@@ -16,18 +16,19 @@ import com.utclo23.ihmtable.IIHMTableToIHMMain;
 
 import java.io.IOException;
 import javafx.stage.Stage;
+
 /**
  *IHM Facade, provide interfaces
  * @author Linxuhao
  */
 public class IHMMainFacade implements IHMMainToIhmTable, IHMMainToData{
-    
-    final private IHMMain ihmmain;
+
     final public IDataIHMMain iDataIHMMain;
     final public IIHMTableToIHMMain iIHMTableToIHMMain;
-    
+    final private IHMMain ihmmain;
+
     /**
-     * create IHM Main facade and instanciate ihm main components
+     * Create IHM Main facade and instanciate IHM Main components.
      * 
      * @param iDataIHMMain
      * @param iIHMTableToIHMMain
@@ -41,18 +42,17 @@ public class IHMMainFacade implements IHMMainToIhmTable, IHMMainToData{
         ihmmain = new IHMMain();
         ihmmain.start(this, stage);
     }
-    
+
     @Override
     public void toMenu() throws IOException{
         ihmmain.toMenu();
     }
-    
+
     @Override
     public Stage getPrimaryStage(){
         return ihmmain.primaryStage;
     }
-    
-    
+
     @Override
     public void refreshUserList() throws IOException {
         ihmmain.controllerMap.get(SceneName.PLAYER_LIST).refresh();
@@ -62,20 +62,22 @@ public class IHMMainFacade implements IHMMainToIhmTable, IHMMainToData{
     public void refreshGameList() throws IOException {
         ihmmain.controllerMap.get(SceneName.GAME_LIST).refresh();
     }
+
     @Override
     public void recievePublicUserProfile(PublicUser player) throws IOException {
        PlayerProfileController controller =(PlayerProfileController)ihmmain.controllerMap.get(SceneName.PLAYER_PROFILE.toString());
        controller.recievePublicUser(player);
     }
+
     @Override
     public void receptionGame(Game game){
        GameListController controller =(GameListController)ihmmain.controllerMap.get(SceneName.GAME_LIST.toString());
        controller.receptionGame(game);
     }
+
     @Override
     public void connectionImpossible(){
        GameListController controller =(GameListController)ihmmain.controllerMap.get(SceneName.GAME_LIST.toString());
        controller.connectionImpossible();
     }
-
 }   
