@@ -17,7 +17,11 @@
                <children>
                   <Label fx:id="pageTitleLabel" layoutX="280.0" prefHeight="27.0" prefWidth="268.0" text="User Profile" />
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fafbfc" height="135.0" layoutX="64.0" layoutY="59.0" stroke="BLACK" strokeType="INSIDE" width="132.0" />
-                  <Button layoutX="90.0" layoutY="200.0" mnemonicParsing="false" text="Modify" AnchorPane.topAnchor="200.0" />
+                  <Button layoutX="90.0" layoutY="200.0" mnemonicParsing="false" text="Modify" AnchorPane.topAnchor="200.0">
+                    <tooltip>
+                        <Tooltip text="Click to change your avatar."/>
+                    </tooltip>
+                  </Button>
                   <Line fx:id="lineDesign" styleClass="lineDesign" endX="100.0" layoutX="392.0" layoutY="31.0" startX="-100.0" stroke="#cde862" />
                   <GridPane layoutX="229.0" layoutY="47.0" prefHeight="187.0" prefWidth="303.0">
                     <columnConstraints>
@@ -42,18 +46,42 @@
                         <Label text="Birthday" GridPane.rowIndex="3" />
                         <Label fx:id="birthday" text="--" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <Label text="Password" GridPane.rowIndex="4" />
-                        <Button mnemonicParsing="false" onAction="#editPlayerName" text="edit" GridPane.columnIndex="2" />
-                        <Button mnemonicParsing="false" onAction="#editFirstName" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <Button mnemonicParsing="false" onAction="#editLastName" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                        <Button mnemonicParsing="false" onAction="#editBirthday" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                        <Button mnemonicParsing="false" onAction="#editPassword" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <Button mnemonicParsing="false" onAction="#editPlayerName" text="edit" GridPane.columnIndex="2">
+                            <tooltip>
+                                <Tooltip text="Click to edit your username."/>
+                            </tooltip>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#editFirstName" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                            <tooltip>
+                                <Tooltip text="Click to edit your first name."/>
+                            </tooltip>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#editLastName" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                            <tooltip>
+                                <Tooltip text="Click to edit your last name."/>
+                            </tooltip>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#editBirthday" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                            <tooltip>
+                                <Tooltip text="Click to edit your birthday."/>
+                            </tooltip>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#editPassword" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                            <tooltip>
+                                <Tooltip text="Click to edit your password."/>
+                            </tooltip>
+                        </Button>
                         <Label />
                         <Label text="Nickname" />
                      </children>
                   </GridPane>
                   <Label layoutX="558.0" layoutY="55.0" text="Descriptions" />
                   <TextField fx:id="description" editable="false" layoutX="558.0" layoutY="80.0" onKeyPressed="#closeEdit" prefHeight="113.0" prefWidth="219.0" text="Hello!" />
-                  <Button fx:id="editDesc" layoutX="561.0" layoutY="200.0" mnemonicParsing="false" onAction="#editDescription" text="edit" />
+                  <Button fx:id="editDesc" layoutX="561.0" layoutY="200.0" mnemonicParsing="false" onAction="#editDescription" text="edit">
+                        <tooltip>
+                            <Tooltip text="Click to edit your description."/>
+                        </tooltip>
+                  </Button>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
@@ -95,8 +123,16 @@
                         <Label text="0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
-                  <Button fx:id="backButton" layoutX="32.0" layoutY="195.0" mnemonicParsing="false" onAction="#back" text="Return" />
-                  <Button fx:id="playerList" layoutX="131.0" layoutY="195.0" mnemonicParsing="false" onAction="#toPlayerList" text="Other Player" />
+                  <Button fx:id="backButton" layoutX="32.0" layoutY="195.0" mnemonicParsing="false" onAction="#back" text="Return">
+                        <tooltip>
+                            <Tooltip text="Click to go back to the menu."/>
+                        </tooltip>
+                  </Button>
+                  <Button fx:id="playerList" layoutX="131.0" layoutY="195.0" mnemonicParsing="false" onAction="#toPlayerList" text="Other Player">
+                        <tooltip>
+                            <Tooltip text="Click to see the player list."/>
+                        </tooltip>
+                  </Button>
                   <PieChart layoutX="378.0" layoutY="67.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" title="All Mode" titleSide="BOTTOM" />
                   <PieChart layoutX="511.0" layoutY="67.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" title="Classical" titleSide="BOTTOM" />
                   <PieChart layoutX="645.0" layoutY="66.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" title="Belge" titleSide="BOTTOM" />
