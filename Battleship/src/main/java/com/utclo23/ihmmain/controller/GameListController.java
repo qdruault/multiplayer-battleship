@@ -189,7 +189,7 @@ public class GameListController extends AbstractController{
             }catch(Exception e){
                 e.printStackTrace();
             }
-            if(gameList == null || newGameList.isEmpty()){//if getGameList() is not implemented or not working as excepted
+            if(gameList == null || (newGameList != null && newGameList.isEmpty())){//if getGameList() is not implemented or not working as excepted
                 newGameList = new ArrayList<>();
                 PublicUser me = getFacade().iDataIHMMain.getMyPublicUserProfile();
                 StatGame fake = new StatGame();
