@@ -17,6 +17,7 @@ import com.utclo23.data.structure.Player;
 import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.ShipType;
 import com.utclo23.data.structure.StatGame;
+import com.utclo23.data.structure.Mine;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,17 +30,21 @@ import javafx.util.Pair;
  * @author wuxiaodan
  */
 public class AttackTest {
+    
     @org.junit.Test
     public void testCasePlayer() throws DataException {
-         /*DataFacade df = new DataFacade();
-         df.setTestMode(true);
-         try{
-         df.createUser("Xiaodan", "123", "", "", new Date(), "");
-         }
-         catch(Exception e)
-         {
-             e.printStackTrace();
-         }
+
+        DataFacade df = new DataFacade();
+        df.setTestMode(true);
+        try {
+            df.createUser("Xiaodan", "123", "", "", new Date(), "");
+             df.signin("Xiaodan", "123");
+        } catch (Exception e) {
+            e.printStackTrace();
+            df.signin("Xiaodan", "123");
+        }
+         
+
          df.createGame("TestAttack", false, true, true, GameType.CLASSIC);
          
          //Add another player
@@ -64,7 +69,7 @@ public class AttackTest {
          shipsA.add(shipA1);
          playerA.setShips(shipsA);
          
-         //Coordinate of A's ship
+         //Coordinate of B's ship
          Coordinate coorShipB11 = new Coordinate(11,2);
          Coordinate coorShipB12 = new Coordinate(12,2);
          Coordinate coorShipB13 = new Coordinate(13,2);
@@ -72,7 +77,7 @@ public class AttackTest {
          coordShipB1.add(coorShipB11);
          coordShipB1.add(coorShipB12);
          coordShipB1.add(coorShipB13);
-         //set A's ship
+         //set B's ship
          Ship shipB1 = new Ship(ShipType.SUBMARINE, playerB, coordShipB1, 3);
          List<Ship> shipsB = new ArrayList<>();
          shipsB.add(shipB1);
@@ -99,6 +104,64 @@ public class AttackTest {
          //When a mine is placed in a place where already has a mine
          //Pair<Integer, Ship> attackA4 = df.attack(coorTestA3, true);
 
-*/
+
+    }
+    
+    @org.junit.Test
+    public void testForwardCoordinates() throws DataException {
+        DataFacade df = new DataFacade();
+        df.setTestMode(true);
+        try {
+            df.createUser("Xiaodan", "123", "", "", new Date(), "");
+        } catch (Exception e) {
+            e.printStackTrace();
+            df.signin("Xiaodan", "123");
+        }
+         
+        df.createGame("TestAttack", false, true, true, GameType.CLASSIC);
+         
+        //Add another player
+        LightPublicUser lightPublicUserB = new LightPublicUser("456", "Toto");
+        df.getGameMediator().getCurrentGame().addUser(lightPublicUserB, "player");
+         
+         
+        //Coordinate of A's ship
+         Coordinate coorShipA11 = new Coordinate(1,1);
+         Coordinate coorShipA12 = new Coordinate(2,1);
+         Coordinate coorShipA13 = new Coordinate(3,1);
+         List<Coordinate> coordShipA1 = new ArrayList<>();
+         coordShipA1.add(coorShipA11);
+         coordShipA1.add(coorShipA12);
+         coordShipA1.add(coorShipA13);
+         //set A's ship
+         Player playerA = df.getGameMediator().getCurrentGame().getPlayer(df.getUserMediator().getMyPublicUserProfile().getId());
+         Player playerB = df.getGameMediator().getCurrentGame().ennemyOf(playerA);
+         
+         Ship shipA1 = new Ship(ShipType.SUBMARINE, playerA, coordShipA1, 3);
+         List<Ship> shipsA = new ArrayList<>();
+         shipsA.add(shipA1);
+         playerA.setShips(shipsA);
+         
+         //Coordinate of B's ship
+         Coordinate coorShipB11 = new Coordinate(11,2);
+         Coordinate coorShipB12 = new Coordinate(12,2);
+         Coordinate coorShipB13 = new Coordinate(13,2);
+         List<Coordinate> coordShipB1 = new ArrayList<>();
+         coordShipB1.add(coorShipB11);
+         coordShipB1.add(coorShipB12);
+         coordShipB1.add(coorShipB13);
+         //set B's ship
+         Ship shipB1 = new Ship(ShipType.SUBMARINE, playerB, coordShipB1, 3);
+         List<Ship> shipsB = new ArrayList<>();
+         shipsB.add(shipB1);
+         playerB.setShips(shipsB);
+         
+         //Coordinate of B's ship
+         Coordinate coorMineB1 = new Coordinate(2,1);
+         Mine mine = new Mine(playerB, coorMineB1); 
+         
+         df.forwardCoordinates(mine);
+         
+     
     }
 }
