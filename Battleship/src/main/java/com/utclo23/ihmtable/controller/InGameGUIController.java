@@ -681,7 +681,7 @@ public class InGameGUIController {
                             facade.getFacadeData().leaveGame();
                         } else {
                             // Fake an attack.
-                            facade.getFacadeData().attack(new Coordinate(-1, -1));
+                            placeMine(new Coordinate(-1, -1), currentPlayer);
 
                             // Increase the number of turns passed.
                             nbPassedTurns++;
