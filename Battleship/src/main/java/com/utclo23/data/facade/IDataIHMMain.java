@@ -30,11 +30,12 @@ public interface IDataIHMMain {
     public List<LightPublicUser> getConnectedUsers();
     public PublicUser getMyPublicUserProfile();
 
+    public Owner getMyOwnerProfile();
+    
     public List<String> getIPDiscovery();
     public void setIPDiscovery(List<String> discoveryNodes) throws DataException;
     
     public void gameConnectionRequestGame(String id, String role);
-    
-     public void setNetworkInterface(InterfaceAddress net_interface) ;
+    public void setNetworkInterface(InterfaceAddress net_interface) ;
 
 }
