@@ -87,6 +87,17 @@
     -fx-background-position: center center;
 }
 
+.reviews{
+    -fx-background-color: none;
+    -fx-cursor: pointer;
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+}
+
+.reviews:hover {
+    -fx-background-color: blue;
+}
+
 #button_fire{
 	-fx-background-image: url("../images/fire.png");
 }

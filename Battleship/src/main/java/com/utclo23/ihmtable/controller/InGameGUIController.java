@@ -728,30 +728,13 @@ public class InGameGUIController {
      * @param n anchorPane selected
      * @param c button in the anchor selected
      */
-    private void setAnchorEach(AnchorPane n, Button c) {
-        n.setTopAnchor(c, 0.0);
-        n.setLeftAnchor(c, 0.0);
-        n.setRightAnchor(c, 0.0);
-        n.setBottomAnchor(c, 0.0);
-        n.getChildren().add(c);
+    private void setAnchorEach(AnchorPane anchor, Button butt) {
+        anchor.setTopAnchor(butt, 0.0);
+        anchor.setLeftAnchor(butt, 0.0);
+        anchor.setRightAnchor(butt, 0.0);
+        anchor.setBottomAnchor(butt, 0.0);
+        anchor.getChildren().add(butt);
     }
-    
-    /**
-     * Method for binding button, for hover style or none
-     * @param node 
-     */
-    private void changeBackgroundOnHoverUsingBinding(Node node) {
-    node.styleProperty().bind(
-      Bindings
-        .when(node.hoverProperty())
-          .then(
-            new SimpleStringProperty("-fx-background-color: blue;")
-          )
-          .otherwise(
-            new SimpleStringProperty("-fx-background-color: none;")
-          )
-    );
-  }
     
     /**
      * Method for clearing the corner and put the right buttons (forward...)
@@ -786,8 +769,7 @@ public class InGameGUIController {
          */
         Button backWardButton = new Button();
         backWardButton.setGraphic(backwardImage);
-        backWardButton.setStyle(styleNoHover);
-        changeBackgroundOnHoverUsingBinding(backWardButton);
+        backWardButton.getStyleClass().add("reviews");
         backWardButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 facade.getFacadeData().getPreviousBoard();
@@ -796,8 +778,7 @@ public class InGameGUIController {
         
         Button playButton = new Button();
         playButton.setGraphic(playImage);
-        playButton.setStyle(styleNoHover);
-        changeBackgroundOnHoverUsingBinding(playButton);
+        playButton.getStyleClass().add("reviews");
         playButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 facade.getFacadeData().getNextBoard();
@@ -806,8 +787,7 @@ public class InGameGUIController {
         
         Button pauseButton = new Button();
         pauseButton.setGraphic(pauseImage);
-        pauseButton.setStyle(styleNoHover);
-        changeBackgroundOnHoverUsingBinding(pauseButton);
+        pauseButton.getStyleClass().add("reviews");
         backWardButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 /*
@@ -818,8 +798,7 @@ public class InGameGUIController {
         
         Button forwardButton = new Button();
         forwardButton.setGraphic(forwardImage);
-        forwardButton.setStyle(styleNoHover);
-        changeBackgroundOnHoverUsingBinding(forwardButton);
+        forwardButton.getStyleClass().add("reviews");
         backWardButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 facade.getFacadeData().getNextBoard();
