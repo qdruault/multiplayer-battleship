@@ -97,7 +97,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void showSavedGameWithId(int id) {
-        throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
+        controller.startReviewingGame(id);
     }
 
     /**

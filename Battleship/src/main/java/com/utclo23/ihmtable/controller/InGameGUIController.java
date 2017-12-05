@@ -213,7 +213,6 @@ public class InGameGUIController {
     private InGameStats currentPlayerStats;
 
     /**
-<<<<<<< HEAD
     * Opponent's stats
     */
     private InGameStats opponentStats;
@@ -388,6 +387,9 @@ public class InGameGUIController {
      */
     public void startReviewingGame(int idGame) {
         // Get list of ships
+        /**
+         * TODO: Right method for reviewing
+         */
         facade.getFacadeData().getInitialBoardFromGameId(Integer.toString(idGame));
         prepareReviewGame();
     }
@@ -736,8 +738,8 @@ public class InGameGUIController {
     
     /**
      * Generic private method for setting anchor pane in right place
-     * @param n anchorPane selected
-     * @param c button in the anchor selected
+     * @param anchor anchorPane selected
+     * @param butt button in the anchor selected
      */
     private void setAnchorEach(AnchorPane anchor, Button butt) {
         anchor.setTopAnchor(butt, 0.0);
@@ -767,15 +769,7 @@ public class InGameGUIController {
         final ImageView pauseImage = new ImageView("images/pause_button.png");
         final ImageView forwardImage = new ImageView("images/fleche_forward.png");
         
-        /**
-         * Style on each button
-         */
-        String styleNoHover = ("-fx-background-color: none;" +
-            "    -fx-cursor: pointer;" +
-            "    -fx-background-repeat: stretch;" +
-            "    -fx-background-position: center center;");
-        
-        /**
+        /*
          * Backward button preparation : set image + style + binding + onAction
          */
         Button backWardButton = new Button();
