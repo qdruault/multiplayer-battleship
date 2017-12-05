@@ -79,7 +79,7 @@ public class CreateUserController extends AbstractController{
             String lastName = lastNameField.getText();
             Date birthDate = Date.from(birthDateField.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
             createUser(userName, password, firstName, lastName, birthDate, avatarPath);
-        }   
+        }
     }
     /**
      * This method is the handler for the Return button.
