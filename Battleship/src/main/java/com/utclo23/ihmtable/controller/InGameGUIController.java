@@ -376,7 +376,7 @@ public class InGameGUIController {
                 clickedPane.getStyleClass().removeAll("inGameGUI_selected_cell");
                 // Attack!
                 try {
-                    if (facade.getFacadeData().attack(cellToAttack)) {
+                    /*if (facade.getFacadeData().attack(cellToAttack)) {
                         // Ship Touched!
                         clickedPane.getStyleClass().add("inGameGUI_touched_cell");
                         // TODO: check if the ship is destroyed.
@@ -387,7 +387,7 @@ public class InGameGUIController {
                     }
                     // Reinitialize chrono for the next turn
                     chronoTimeInit();
-                    switchOpponnentPane();
+                    switchOpponnentPane();*/
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                 }
