@@ -132,10 +132,9 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
 
     /**
      * Join a current game.
-     * @param guid : id of the game.
      */
     @Override
-    public void showGame(Game game) {
+    public void showGame() {
         //Créer la fenêtre
         FXMLLoader paneLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
         Parent pane;
