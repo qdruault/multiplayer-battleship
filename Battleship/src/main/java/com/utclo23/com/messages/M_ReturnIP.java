@@ -106,6 +106,5 @@ public class M_ReturnIP extends Message {
                 thread.start();
             }
         }
-
     }
 }
