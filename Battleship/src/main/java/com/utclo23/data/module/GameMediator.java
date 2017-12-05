@@ -17,6 +17,7 @@ import com.utclo23.data.structure.Mine;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.ihmtable.IIHMTableToData;
 import java.io.File;
+import java.io.IOException;
 import java.rmi.server.UID;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.util.Pair;
 
 /**
  * Game Mediator related to games features
@@ -51,6 +53,8 @@ public class GameMediator {
         this.dataFacade = dataFacade;
         this.gamesMap = new HashMap<>();
         this.currentGame = null;
+
+        this.gameFactory = new GameFactory();
 
     }
 
@@ -92,7 +96,7 @@ public class GameMediator {
         }
 
         //set current game
-        System.out.println("Game created");
+        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Création d'un Game");
         this.currentGame = game;
 
         return game;
@@ -174,38 +178,68 @@ public class GameMediator {
 
     }
 
-    public void attack(Coordinate coordinate) throws DataException {
+    /**
+     *
+     * @param coordinate
+     * @param isTrueAttack
+     * @return
+     * @throws DataException
+     */
+    public Pair<Integer, Ship> attack(Coordinate coordinate, boolean isTrueAttack) throws DataException, IOException, ClassNotFoundException {
+        
         if (this.currentGame != null) {
-            String id = this.dataFacade.getMyPublicUserProfile().getId();
-            Player player = this.currentGame.getPlayer(id);
+            Player player = this.currentGame.getCurrentPlayer();
+            Pair<Integer, Ship> pairReturn;
             if (player == null) {
                 throw new DataException("Data : player not found for set player ship");
             }
 
-            //TODO check if mine already used at current location
-            //add mines
-            this.currentGame.attack(player, coordinate);
+            //check if mine already used at current location
+            List<Mine> mines = player.getMines();
+            if (mines.size() > 0) {
+                for (int i = 0; i < mines.size(); i++) {
+                    Mine mine = mines.get(i);
+                    if (mine.getCoord().getX() == coordinate.getX() && mine.getCoord().getY() == coordinate.getY()) {
+                        Logger.getLogger(GameMediator.class.getName()).log(Level.WARNING, "Data : Mine places in the place where already has a mine");
+                        return null;
+                    }
+                }
+            }
 
-            //save with caretaker
-            this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
+            //return the result of the attack
+            //if isTrueAttack=1, then add mine to player ; otherwise, that is just a test, no stat of mine
+            if (isTrueAttack == true) {
+                pairReturn = this.currentGame.attack(player, coordinate, isTrueAttack);
+
+                //save with caretaker
+                this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
+                return pairReturn;
+            } else {
+                // In the case of a test, that's possible that the current player is not
+                // the right player to test the mine (that means the enemy of the player 
+                // is the right person to test the mine)
+                pairReturn = this.currentGame.attack(player, coordinate, isTrueAttack);
+                if (pairReturn.getKey() == 0 && pairReturn.getValue() == null) {
+                    pairReturn = this.currentGame.attack(this.currentGame.ennemyOf(player), coordinate, isTrueAttack);
+                }
+                return pairReturn;
+            }
+        } else {
+            throw new DataException("Data : player dosn't existe");
         }
     }
 
     public void attackIA() throws DataException {
-        
+
         //check if current game
         if (this.currentGame != null) {
-            
-            
-            int dx = 0;
-            int dy = 0;
-            
+
             ComputerPlayer computerPlayer = (ComputerPlayer) this.currentGame.getCurrentPlayer();
             Coordinate coord = null; //location of shoot
 
             //random mode, no focus on location
             if (true) {
-                
+
                 //make a new shot not already chosen
                 coord = this.generateRandomPosition();
                 boolean alreadyDone = false;
@@ -220,79 +254,9 @@ public class GameMediator {
                     coord = this.generateRandomPosition();
 
                 } while (alreadyDone);
-
-            } 
-            //hunt mode
-          /*  else {
-                int x = computerPlayer.getFocus().getX();
-                int y = computerPlayer.getFocus().getY();
-
-                dx = -1;
-                dy = -1;
-
-                boolean check = false;
-                while (dx <= 1 && !check) {
-                    if (dx + x < 0 || dx + x > Configuration.HEIGHT) {
-                        while (dy <= 1 && !check) {
-                            if (dy + y < 0 || dy + y > Configuration.WIDTH) {
-                                
-                                
-                                //possible shot x y
-                                //need to check if already done or not
-                                
-                                coord = new Coordinate(dx+x, dy+y);
-                                boolean control = true;
-                                for(Mine mine : computerPlayer.getMines())
-                                {
-                                    if(mine.getCoord().getX() == coord.getX() && mine.getCoord().getY() == coord.getY())
-                                    {
-                                        control = false;
-                                    }
-                                }
-                                
-                                if(control)
-                                {
-                                    check = true;
-                                    
-                                }
-                            }
-                            dy++;
-                        }
-                    }
-                    dx++;
-                }
-            }
-            
-              dx--;
-            dy--;
-            */
-          
-            
-            Mine mine = new Mine(computerPlayer, coord);
-            computerPlayer.getMines().add(mine);
-
-            //check if shot
-           /* boolean check = false;
-            for (Ship ship : this.currentGame.ennemyOf(computerPlayer).getShips()) {
-                for (Coordinate c : ship.getListCoord()) {
-                    
-                    if(c.getX() == coord.getX() && c.getY() == c.getY()){
-                        
-                        computerPlayer.setFocus(c);
-                        check = true;
-                        break;
-                    }
-                  
-                }
-            }
-            
-            if(!check)
-            {
-                 computerPlayer.setFocus(null);
             }
 
-            */
-            this.currentGame.nextTurn(); 
+            this.currentGame.nextTurn();
             //save with caretaker
             //this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
         }
@@ -300,10 +264,10 @@ public class GameMediator {
 
     public Coordinate generateRandomPosition() {
         //reduce possible locations
-        int x = (int) (Math.random() * (Configuration.WIDTH ));
+        int x = (int) (Math.random() * (Configuration.WIDTH));
         int y = (int) (Math.random() * (Configuration.HEIGHT));
 
-        Coordinate coordinate = new Coordinate(x , y );
+        Coordinate coordinate = new Coordinate(x, y);
         return coordinate;
 
     }
@@ -320,9 +284,7 @@ public class GameMediator {
         if (this.currentGame.getId().compareTo(id) == 0) {
             this.getCurrentGame().addUser(user, role);
 
-            
-            if(this.dataFacade.getComfacade()!=null)
-            {
+            if (this.dataFacade.getComfacade() != null) {
                 this.dataFacade.getComfacade().joinGameResponse(true, id, this.currentGame.getStatGame());
 
             }
@@ -396,7 +358,7 @@ public class GameMediator {
         if (this.dataFacade.getIhmMainFacade() != null) {
 
             this.currentGame = game;
-           // this.dataFacade.getIhmMainFacade().receptionGame(game);
+            // this.dataFacade.getIhmMainFacade().receptionGame(game);
         }
 
     }
@@ -406,5 +368,33 @@ public class GameMediator {
             this.dataFacade.getIhmMainFacade().connectionImpossible();
 
         }
+    }
+
+    /**
+     * foorwardCoordinates
+     *
+     * @param mine the mine placed
+     */
+    public void forwardCoordinates(Mine mine) {
+        List<Ship> ships = this.currentGame.getCurrentPlayer().getShips();
+        Ship shipDestroyed = null;
+        boolean touched = false;
+        for (Ship s : ships) {
+            if (this.currentGame.isShipTouched(s, mine)) {
+                touched = true;
+                if (this.currentGame.isShipDestroyed(s, this.currentGame.ennemyOf(this.currentGame.getCurrentPlayer()).getMines())) {
+                    shipDestroyed = s;
+                }
+            }
+        }
+
+        if (this.dataFacade.getIhmTablefacade() != null) {
+            //this.dataFacade.getIhmTablefacade().feedback(mine.getCoord(),touched,shipDestroyed) ;
+        }
+
+        if (this.currentGame.isGameFinishedByEnnemy()) {
+            // a faire
+        }
+
     }
 }

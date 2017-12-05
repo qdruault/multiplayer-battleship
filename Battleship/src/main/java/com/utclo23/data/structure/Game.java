@@ -8,8 +8,14 @@ package com.utclo23.data.structure;
 import com.utclo23.data.module.Caretaker;
 import com.utclo23.data.module.DataException;
 import com.utclo23.data.module.Memento;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.util.Pair;
 
 /**
  *
@@ -32,7 +38,7 @@ public abstract class Game extends SerializableEntity {
 
         this.messages = messages;
 
-        this.currentPlayer = null;
+        this.currentPlayer = players.get(0);
         /* creation of caretaker */
         this.caretaker = new Caretaker();
     }
@@ -145,13 +151,93 @@ public abstract class Game extends SerializableEntity {
      */
     
     public abstract List<Ship> getTemplateShips();
+    
+    // This is for deep copy of a List
+    public static <T> List<T> deepCopy(List<T> src) throws IOException, ClassNotFoundException {  
+        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();  
+        ObjectOutputStream out = new ObjectOutputStream(byteOut);  
+        out.writeObject(src);  
 
-    public void attack(Player player, Coordinate coordinate) {
+        ByteArrayInputStream byteIn = new ByteArrayInputStream(byteOut.toByteArray());  
+        ObjectInputStream in = new ObjectInputStream(byteIn);  
+        @SuppressWarnings("unchecked")  
+        List<T> dest = (List<T>) in.readObject();  
+        return dest;  
+    }
+    
+    public Pair<Integer, Ship> attack(Player player, Coordinate coordinate, boolean isTrueAttack)  throws DataException, IOException, ClassNotFoundException{
         
         //Create mine
         Mine mine = new Mine(player, coordinate);
-        player.getMines().add(mine);
         
+        //For see if the mine is in the place of a ship(succeed at attack)
+        // 0=fail . 1=succeed
+        int succeedAtteck = 0;
+        // The ship if the mine is in the place of it
+        Ship shipTouch = null;
+        Ship shipReturn = null;
+        
+        //Get player opponent
+        Player playerOpponent = null;
+        playerOpponent = ennemyOf(player);
+        //Get opponent's ships
+        if (playerOpponent == null) {
+            throw new DataException("Data : player opponent doesn't exist");
+        }
+        List<Ship> shipsOpponent = playerOpponent.getShips();
+        if(shipsOpponent.size()==0){
+            throw new DataException("Data : player opponent didn't set any ship");
+        }
+        for(int i = 0; i < shipsOpponent.size(); i++){
+            Ship shipA = shipsOpponent.get(i);
+            List<Coordinate> shipCoord = shipA.getListCoord();
+            //See if the mine is put in the place of a ship
+            for(int j = 0; j < shipCoord.size(); j++){
+                if(shipCoord.get(j).getX() == coordinate.getX() && shipCoord.get(j).getY() == coordinate.getY()){
+                    succeedAtteck = 1;
+                    shipTouch = shipA;
+                    break;
+                }
+            }
+            if(succeedAtteck == 1){
+                break;
+            }
+        }
+        
+        if(isTrueAttack == true){   //When this is a real attack
+            //Change the state of MineResult according to value of succeedAtteck
+            if(succeedAtteck == 1){
+                mine.setResult(MineResult.SUCCESS);
+                //Add mine to player
+                player.getMines().add(mine);
+                //If is not in right place, shipReturn = null
+                if(isShipDestroyed(shipTouch, player.getMines()) ){
+                    shipReturn = shipTouch;
+                }
+            }
+            else{
+                mine.setResult(MineResult.FAILURE);
+                //Add mine to player
+                player.getMines().add(mine);
+            }
+            
+            //Let opponent be the current player
+            nextTurn();
+        }
+        else{
+            //We creat a list of mines to test if one ship is destroyed 
+            //by adding the mine of test
+            List<Mine> minesAdd = deepCopy(player.getMines());
+            if(succeedAtteck == 1){
+                minesAdd.add(mine);
+                if( isShipDestroyed(shipTouch, minesAdd) ){
+                    shipReturn = shipTouch;
+                }
+            }
+        }
+        Pair attackShip;
+        attackShip = new Pair(succeedAtteck, shipReturn);
+        return attackShip;
     }
     
     
@@ -208,6 +294,9 @@ public abstract class Game extends SerializableEntity {
         this.caretaker = caretaker;
     }
     
+    public void setCurrentPlayer(Player player){
+        this.currentPlayer = player;
+    }
     /**
      * clear mines and messages (all moves are stored now in caretaker)
      * it enables player to have  a blank game at the beginning of the next review
@@ -220,4 +309,81 @@ public abstract class Game extends SerializableEntity {
             p.getMines().clear();
         }
     }
+    
+     /**
+     * test if a ship is destroyed 
+     * @param ship the ship to test
+     * @param mines list of the mines to compare with the coord of the ship
+     * @return boolean true if ship destroyed false otherwise
+     */
+    public boolean isShipDestroyed(Ship ship, List<Mine> mines) {
+        List<Coordinate> shipCoord = ship.getListCoord() ;
+        boolean shipDestroyed = true ;
+        for (int i = 0; i < shipCoord.size() ; i++) {
+            int j = 0;
+            for (j = 0; j < mines.size (); j++) {
+                // if the mine is in one case of ship, we skip the loop and to verify the next one
+                if (shipCoord.get(i).getX() == mines.get(j).getCoord().getX() && shipCoord.get(i).getY() == mines.get(j).getCoord().getY()) {
+                     break;
+                }
+            }
+            // when there isn't any mine in the place of a square of ship
+            if(j == mines.size ()){
+                shipDestroyed = false;
+                break;
+            }
+        }
+        return shipDestroyed ;
+    }
+    
+      
+   /**
+     * test if a ship is touched
+     * @param ship the ship to test
+     * @param mine the mine to test
+     * @return boolean true if ship touched false otherwise
+     */
+    public boolean isShipTouched(Ship ship, Mine mine) {
+        List<Coordinate> coord = ship.getListCoord() ;
+        boolean shipTouched = false ;
+        for (Coordinate c : coord) {
+            if (c == mine.getCoord()) {
+                shipTouched = true ; 
+                return shipTouched ; 
+            }
+        }
+        return shipTouched ;
+    }
+
+    
+     /**
+     * test if the game is finished
+     * @return boolean true if game finished false otherwise
+     */
+    public boolean isGameFinishedByCurrentPlayer() {
+        List<Mine> mines = this.currentPlayer.getMines() ;
+        List<Ship> ships = this.ennemyOf(this.currentPlayer).getShips() ; 
+        boolean gameFinished = true ;
+        for (Ship s : ships) {
+            if (!isShipDestroyed(s,mines))
+                gameFinished = false; 
+        }
+        return gameFinished; 
+    }
+    
+    /**
+     * test if the game is finished
+     * @return boolean true if game finished false otherwise
+     */
+    public boolean isGameFinishedByEnnemy() {
+        List<Mine> mines = this.ennemyOf(this.currentPlayer).getMines() ;
+        List<Ship> ships = this.currentPlayer.getShips() ; 
+        boolean gameFinished = true ;
+        for (Ship s : ships) {
+            if (!isShipDestroyed(s,mines))
+                gameFinished = false; 
+        }
+        return gameFinished; 
+    }        
+    
 }

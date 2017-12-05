@@ -9,6 +9,7 @@ import com.utclo23.data.module.DataException;
 import com.utclo23.data.structure.*;
 import java.rmi.server.UID;
 import java.util.List;
+import javafx.util.Pair;
 
 /**
  *
@@ -17,7 +18,7 @@ import java.util.List;
 public interface IDataIHMTable {
     public List<Ship> getTemplateShips() throws DataException;
     public void setShip(Ship ship) throws DataException;
-    public boolean attack(Coordinate coords);
+    public Pair<Integer, Ship> attack(Coordinate coords, boolean isAttack);
     public void leaveGame();
     public List<Ship> getInitialBoardFromGameId(String gameid);
     public List<Event> getPreviousBoard();

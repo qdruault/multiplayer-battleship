@@ -25,7 +25,7 @@ public class MainApp extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-
+        
         // DataFacade creation
         DataFacade dataFacade = new DataFacade();
         IDataCom iDataCom = dataFacade;

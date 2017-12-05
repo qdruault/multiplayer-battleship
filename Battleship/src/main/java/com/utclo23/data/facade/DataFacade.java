@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.util.Pair;
 
 /**
  * Facade for the data module
@@ -188,7 +189,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void forwardCoordinates(Mine mine) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.gameMediator.forwardCoordinates(mine);
     }
 
     /**
@@ -335,13 +336,29 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * Attack a given location
      *
      * @param coords the location to attack
-     * @return success/failure of the attack
+     * @param isTrueAttack true = this is a true attack ; false = this is just a test
+     * @return Pair<Integer, Ship> 
+     *              Integer = 0 if the mine is not in a right place ; 
+     *              Integer = 1 if the mine is in the place of a ship.
+     *              Ship = null if the ship isn't destroyed ; ship is a ship if this ship is destroyed
      *
      */
     @Override
-    public boolean attack(Coordinate coords) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Pair<Integer, Ship> attack(Coordinate coords, boolean isAttack) {
+        try {
+            return this.gameMediator.attack(coords, isAttack);
+        } catch (DataException ex) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.WARNING, ex.getMessage());
+            return null;
+        } catch (IOException ex) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
+
 
     /**
      * Notify that player leaves game Different behavior when a player and an
@@ -479,7 +496,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     @Override
     public Game createGame(String name, boolean computerMode, boolean spectator, boolean spectatorChat, GameType type) throws DataException {
 
-        return this.createGame(name, computerMode, spectator, spectatorChat, type);
+        return this.gameMediator.createGame(name, computerMode, spectator, spectatorChat, type);
 
     }
 

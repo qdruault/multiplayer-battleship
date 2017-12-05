@@ -24,6 +24,9 @@ import java.util.ArrayList;
  * 
  */
 public class GameFactory {
+    public GameFactory(){
+        
+    }
     public Game createGame(String name, LightPublicUser creator,  boolean computerMode, boolean spectator, boolean spectatorChat, GameType type){
         //create stat game
         String id = new UID().toString();
