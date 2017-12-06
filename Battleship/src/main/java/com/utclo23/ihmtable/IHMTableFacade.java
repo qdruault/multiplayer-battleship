@@ -10,6 +10,7 @@ import com.utclo23.data.structure.StatGame;
 import com.utclo23.data.facade.IDataIHMTable;
 import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.LightPublicUser;
+import com.utclo23.data.structure.Ship;
 import com.utclo23.ihmmain.controller.AbstractController;
 import com.utclo23.ihmmain.facade.IHMMainToIhmTable;
 import com.utclo23.ihmtable.controller.InGameGUIController;
@@ -193,10 +194,12 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
     /**
      * Show on the board if the shot has hit or not a ship.
      * @param coord : the coordinates of the hit.
-     * @param bool : true if a ship is hit.
+     * @param touched : true if a ship is hit.
+     * @param destroyedShip : destroyed ship or null.
      */
     @Override
-    public void feedBack(Coordinate coord, boolean bool) {
+    public void feedBack(Coordinate coord, boolean touched, Ship destroyedShip) {
+        controller.displayOpponentAttack(coord, touched, destroyedShip);
         controller.timeToAttack();
     }
 

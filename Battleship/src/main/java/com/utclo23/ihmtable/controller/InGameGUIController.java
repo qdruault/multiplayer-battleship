@@ -1017,4 +1017,35 @@ public class InGameGUIController {
             }
         }
     }
+    
+    /**
+     * Display the opponent attack on the player grid.
+     * @param coord : attacked cell
+     * @param touched : true if touched
+     * @param destroyedShip : the destroyed ship or null.
+     */
+    public void displayOpponentAttack(Coordinate coord, boolean touched, Ship destroyedShip) {
+        // Get the cell.
+        Node cell = getNodeByRowColumnIndex(coord.getX(), coord.getY(), playerGrid);        
+        // The opponent has touched my ship.
+        if (touched) {
+            // Add the CSS class.
+            cell.getStyleClass().add("inGameGUI_touched_cell");
+        } else {
+            // The opponent has missed.
+            cell.getStyleClass().add("inGameGUI_missed_cell");
+        }
+        
+        // Ship destroyed.
+        if (destroyedShip != null) {
+            // Change the opacity.
+            listOfShipsOnTheGrid.get(destroyedShip).setOpacity(0.5); 
+            // Change the CSS class of the cells.
+            for (Coordinate coordinate : destroyedShip.getListCoord()) {
+                Node node = getNodeByRowColumnIndex(coordinate.getY(), coordinate.getX(), playerGrid);
+                node.getStyleClass().removeAll("inGameGUI_touched_cell");
+                node.getStyleClass().add("inGameGUI_destroyed_cell");
+            }
+        }
+    }
 }
