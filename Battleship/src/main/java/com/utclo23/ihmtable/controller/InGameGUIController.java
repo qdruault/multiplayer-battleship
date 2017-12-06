@@ -447,9 +447,11 @@ public class InGameGUIController {
     }
     /**
      * Function to place a ship on the grid with its corresponding image
-     * @param ship 
+     * @param ship : the ship to place
+     * @param grid : the grid to place the ship on
+     * @return : the imageview of the ship placed
      */
-    void putShipOnBoard(Ship ship)
+    private ImageView putShipOnBoard(Ship ship, GridPane grid)
     {
         // We assume the ship has the right coordinates.
         // Moreover, this function won't update the shipboard!
@@ -460,26 +462,27 @@ public class InGameGUIController {
             if (ship.getListCoord().get(0).getY() == ship.getListCoord().get(1).getY()) {
                 // Horizontal.
                 // Set the size.
-                shipOnTheGrid.setFitWidth(playerGrid.getWidth()/10.0 * ship.getSize());
-                shipOnTheGrid.setFitHeight(playerGrid.getHeight()/10.0);
+                shipOnTheGrid.setFitWidth(grid.getWidth()/10.0 * ship.getSize());
+                shipOnTheGrid.setFitHeight(grid.getHeight()/10.0);
                 // Place on the grid.
-                playerGrid.add(shipOnTheGrid, Math.min(ship.getListCoord().get(0).getX(), ship.getListCoord().get(1).getX()), ship.getListCoord().get(0).getY(), ship.getSize(), 1);
+                grid.add(shipOnTheGrid, Math.min(ship.getListCoord().get(0).getX(), ship.getListCoord().get(1).getX()), ship.getListCoord().get(0).getY(), ship.getSize(), 1);
             } else {
                 // Vertical
                 // Set the size.
-                shipOnTheGrid.setFitHeight(playerGrid.getWidth()/10.0);
-                shipOnTheGrid.setFitWidth(playerGrid.getHeight()/10.0 * ship.getSize());
+                shipOnTheGrid.setFitHeight(grid.getWidth()/10.0);
+                shipOnTheGrid.setFitWidth(grid.getHeight()/10.0 * ship.getSize());
                 // Rotate the image.
                 shipOnTheGrid.setRotate(90);
                 // Place on the grid.
-                playerGrid.add(shipOnTheGrid, ship.getListCoord().get(0).getX(), Math.min(ship.getListCoord().get(0).getY(), ship.getListCoord().get(1).getY()), 1, ship.getSize());
+                grid.add(shipOnTheGrid, ship.getListCoord().get(0).getX(), Math.min(ship.getListCoord().get(0).getY(), ship.getListCoord().get(1).getY()), 1, ship.getSize());
             }
+
+            return shipOnTheGrid;
 
         } catch (Exception ex) {
             Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
-
-        
     }
     /**
     * Update the label on the ship button by adding the specified value
@@ -600,45 +603,49 @@ public class InGameGUIController {
 
     /**
      * Generic method for placing a mine on the grid just with the coordinates
-     * @param c
-     * @param p
+     * @param coord : where to place the mine
+     * @param player : who places the mine
      */
-    private void placeMine(Coordinate c, Player p)
+    private void placeMine(Coordinate coord, Player player)
     {
         // Select the right grid which depends on the player (TODO spectateur?)
         GridPane grid;
-        if(p.getLightPublicUser().getId().equals(facade.getFacadeData().getMyPublicUserProfile().getId())) {
+        if(player.getLightPublicUser().getId().equals(facade.getFacadeData().getMyPublicUserProfile().getId())) {
             grid = playerGrid;
         } else {
             grid = opponentGrid;
         }
 
-        //Select the node in the grid and disable it when we lanch the attack
-        Node n = getNodeByRowColumnIndex(c.getX(), c.getY(), grid);
-        n.setDisable(true);
+        // Select the node in the grid and disable it when we lanch the attack
+        Node hitCell = getNodeByRowColumnIndex(coord.getX(), coord.getY(), grid);
+        hitCell.setDisable(true);
 
-        Pair<Integer, Ship> attack_result = facade.getFacadeData().attack(c, false);
-        //TODO: Voir si il faut demander à data une méthode "attack" neutralisée,
+        Pair<Integer, Ship> attack_result = facade.getFacadeData().attack(coord, false);
+        // TODO: Voir si il faut demander à data une méthode "attack" neutralisée,
         // on a besoin de pouvoir tester si une mine placée à un endroit provoque
         // une explosion sans aucun autre effet (ou dire à data de tester si le joueur
         // en local est le currentPlayer)
         if (attack_result.getKey() == 1) {
             // Ship Touched!
-            n.getStyleClass().add("inGameGUI_touched_cell");
-            // TODO: check if the ship is destroyed.
-            if(attack_result.getValue() != null) //ship destroyed here
-            {
-                //change opacity of the ship
-                Ship destroyedShip = attack_result.getValue();
-                ImageView img = listOfShipsOnTheGrid.get(destroyedShip);
-                img.setOpacity(0.5);
+            hitCell.getStyleClass().add("inGameGUI_touched_cell");
+            // Check if the ship is destroyed.
+            Ship destroyedShip = attack_result.getValue();
+            if(destroyedShip != null) {
+                if (grid == opponentGrid) {
+                    // Add ship picture on the opponent grid.
+                    ImageView destroyedShipImage = putShipOnBoard(destroyedShip, opponentGrid);
+                    listOfShipsOnTheGrid.put(destroyedShip, destroyedShipImage);
+                }
+
+                // Change the CSS class of the cells.
+                destroyShip(destroyedShip, opponentGrid);
             }
 
             // Reset the number of turns passed.
             nbPassedTurns = 0;
         } else {
             // Ship missed!
-            n.getStyleClass().add("inGameGUI_missed_cell");
+            hitCell.getStyleClass().add("inGameGUI_missed_cell");
         }
     }
 
@@ -746,7 +753,7 @@ public class InGameGUIController {
                             facade.getFacadeData().leaveGame();
                         } else {
                             // Fake an attack.
-                            placeMine(new Coordinate(-1, -1), currentPlayer);
+                            facade.getFacadeData().attack(new Coordinate(-1, -1), true);
 
                             // Increase the number of turns passed.
                             nbPassedTurns++;
@@ -963,9 +970,9 @@ public class InGameGUIController {
                                 ImageView shipOnTheGrid = new ImageView(shipsPictures.get(ship.getType()));
                                 //associate ship with its image on the grid
                                 listOfShipsOnTheGrid.put(ship, shipOnTheGrid);
-                                
+
                                 // Put the image on the board
-                                putShipOnBoard(ship);
+                                putShipOnBoard(ship, playerGrid);
 
                                 // ATTENTION! Grid size is out of control!
                                 // setShip didn't return any exception so the ship is correctly placed -> Update the label on the left panel
@@ -1017,7 +1024,7 @@ public class InGameGUIController {
             }
         }
     }
-    
+
     /**
      * Display the opponent attack on the player grid.
      * @param coord : attacked cell
@@ -1026,7 +1033,7 @@ public class InGameGUIController {
      */
     public void displayOpponentAttack(Coordinate coord, boolean touched, Ship destroyedShip) {
         // Get the cell.
-        Node cell = getNodeByRowColumnIndex(coord.getX(), coord.getY(), playerGrid);        
+        Node cell = getNodeByRowColumnIndex(coord.getX(), coord.getY(), playerGrid);
         // The opponent has touched my ship.
         if (touched) {
             // Add the CSS class.
@@ -1035,17 +1042,29 @@ public class InGameGUIController {
             // The opponent has missed.
             cell.getStyleClass().add("inGameGUI_missed_cell");
         }
-        
+
         // Ship destroyed.
         if (destroyedShip != null) {
-            // Change the opacity.
-            listOfShipsOnTheGrid.get(destroyedShip).setOpacity(0.5); 
             // Change the CSS class of the cells.
-            for (Coordinate coordinate : destroyedShip.getListCoord()) {
-                Node node = getNodeByRowColumnIndex(coordinate.getY(), coordinate.getX(), playerGrid);
-                node.getStyleClass().removeAll("inGameGUI_touched_cell");
-                node.getStyleClass().add("inGameGUI_destroyed_cell");
-            }
+            destroyShip(destroyedShip, playerGrid);
+        }
+    }
+
+    /**
+     * Update the CSS of the cell where the destroyed ship is.
+     * @param ship : the destroyed ship
+     * @param grid : the player or opponent grid
+     */
+    private void destroyShip(Ship ship, GridPane grid)
+    {
+        // Change the opacity.
+        listOfShipsOnTheGrid.get(ship).setOpacity(0.5);
+
+        // Change the CSS class of the cells.
+        for (Coordinate coordinate : ship.getListCoord()) {
+            Node node = getNodeByRowColumnIndex(coordinate.getY(), coordinate.getX(), grid);
+            node.getStyleClass().removeAll("inGameGUI_touched_cell");
+            node.getStyleClass().add("inGameGUI_destroyed_cell");
         }
     }
 }
