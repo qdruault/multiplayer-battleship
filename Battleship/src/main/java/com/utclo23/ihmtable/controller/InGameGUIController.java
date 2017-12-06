@@ -23,8 +23,6 @@ import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -59,7 +57,7 @@ public class InGameGUIController {
     //association ship <=> image
     Map<Ship, ImageView> listOfShipsOnTheGrid = new HashMap<Ship, ImageView>();
 
-    /**1
+    /**
     * IHMTable façade
     */
     IHMTableFacade facade;
@@ -309,7 +307,7 @@ public class InGameGUIController {
         endPosition = null;
 
         // Get the ships.
-        // TODO: ships = facade.getFacadeData().getShips();
+        // TODO: ships = facade.getFacadeData().getTemplateShips();
         ships = new ArrayList<>();
         ships.add(new Ship(ShipType.BATTLESHIP, 4));
         ships.add(new Ship(ShipType.BATTLESHIP, 4));
@@ -485,10 +483,11 @@ public class InGameGUIController {
         }
     }
     /**
-    * Update the label on the ship button by adding the specified value
-    * Param ShipType
-    */
-    void updateShipButton(ShipType type, int value)
+     * Update the label on the ship button by adding the specified value
+     * @param type : the ship type
+     * @param value : the number of ships
+     */
+    private void updateShipButton(ShipType type, int value)
     {
         try {
             mapShipCount.replace(type, mapShipCount.get(type) + value);
@@ -497,14 +496,12 @@ public class InGameGUIController {
             //Pour une raison obscure, les types apparaissent par moments en francais quand un merge est fait avec DATA
             System.out.println("The shipType key isn't found in the map");
         }
-        buttonImage1.setOnMouseClicked(new SelectShipEvent(ShipType.CARRIER));
-        buttonImage2.setOnMouseClicked(new SelectShipEvent(ShipType.CRUISER));
     }
 
     /**
-    * Update stats of the current player and the opponent in the bottom left pannel
-    */
-    void updateStatsPannel() {
+     * Update stats of the current player and the opponent in the bottom left pannel.
+     */
+    private void updateStatsPannel() {
         labelDeadShipCounter1.setText(currentPlayerStats.getDeadShipCounter());
         labelImpactCounter1.setText(currentPlayerStats.getImpactCounter());
         labelMineTotalCounter1.setText(currentPlayerStats.getMineTotalCounter());
@@ -534,21 +531,19 @@ public class InGameGUIController {
                     facade.getFacadeData().attack(cellToAttack, true);
                     placeMine(cellToAttack,currentPlayer);
 
-                    // Reinitialize chrono for the next turn
+                    // Reinitialize chrono for the next turn.
                     chronoTimeInit();
+                    // End of my turn.
                     switchOpponnentPane();
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                 }
             }
-            System.out.println("onclickfire " + cellToAttack.getX() + " " + cellToAttack.getY());
         }
     }
 
-
-
     /**
-    * Function for set the attack after feedback call by Data
+    * Function for set the attack after feedback call by Data.
     */
     public void timeToAttack() {
         switchOpponnentPane();
@@ -562,7 +557,6 @@ public class InGameGUIController {
     */
     @FXML
     public void onClickMenuButton(MouseEvent event) throws IOException {
-        System.out.println("Clic sur le bouton menu ");
         FXMLLoader menuLoader = new FXMLLoader();
         menuLoader.setLocation(getClass().getResource("/fxml/ihmtable/inGameGUIMenu.fxml"));
         try {
@@ -591,11 +585,12 @@ public class InGameGUIController {
         ObservableList<Node> childrens = gridPane.getChildren();
 
         for (Node node : childrens) {
-            if(node.hasProperties())
-            if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
-                result = node;
-                break;
-            }
+            if(node.hasProperties()) {
+                if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
+                    result = node;
+                    break;
+                }
+            }            
         }
 
         return result;
@@ -652,6 +647,8 @@ public class InGameGUIController {
     /**
      * Generic method for placing a mine on the grid
      * Data gives us the mine object and the player
+     * @param m
+     * @param p 
      */
     private void placeMine(Mine m, Player p)
     {
@@ -694,12 +691,6 @@ public class InGameGUIController {
                 // Highlight the cell.
                 clickedPane = (Pane)event.getSource();
                 clickedPane.getStyleClass().add("inGameGUI_selected_cell");
-
-                // Save the cell to attack.
-                cellToAttack = new Coordinate(column, row);
-                // Highlight the cell.
-                clickedPane = (Pane)event.getSource();
-                clickedPane.getStyleClass().add("inGameGUI_selected_cell");
             }
         }
     }
@@ -708,18 +699,22 @@ public class InGameGUIController {
     * Function for initialize chrono
     */
     private void chronoTimeInit() {
-        if (nbPassedTurns == 0) {
-            countdown = 30;
-            chronoLabel.setText("00:30");
-            chronoLabel.setTextFill(Color.web("#FFFFFF"));
-        } else if (nbPassedTurns == 1) {
-            countdown = 15;
-            chronoLabel.setText("00:15");
-            chronoLabel.setTextFill(Color.web("#FFFFFF"));
-        } else {
-            countdown = 5;
-            chronoLabel.setText("00:05");
-            chronoLabel.setTextFill(Color.web("#c0392b"));
+        switch (nbPassedTurns) {
+            case 0:
+                countdown = 30;
+                chronoLabel.setText("00:30");
+                chronoLabel.setTextFill(Color.web("#FFFFFF"));
+                break;
+            case 1:
+                countdown = 15;
+                chronoLabel.setText("00:15");
+                chronoLabel.setTextFill(Color.web("#FFFFFF"));
+                break;
+            default:
+                countdown = 5;
+                chronoLabel.setText("00:05");
+                chronoLabel.setTextFill(Color.web("#c0392b"));
+                break;
         }
     }
 
@@ -789,10 +784,10 @@ public class InGameGUIController {
      * @param butt button in the anchor selected
      */
     private void setAnchorEach(AnchorPane anchor, Button butt) {
-        anchor.setTopAnchor(butt, 0.0);
-        anchor.setLeftAnchor(butt, 0.0);
-        anchor.setRightAnchor(butt, 0.0);
-        anchor.setBottomAnchor(butt, 0.0);
+        AnchorPane.setTopAnchor(butt, 0.0);
+        AnchorPane.setLeftAnchor(butt, 0.0);
+        AnchorPane.setRightAnchor(butt, 0.0);
+        AnchorPane.setBottomAnchor(butt, 0.0);
         anchor.getChildren().add(butt);
     }
 
@@ -870,13 +865,13 @@ public class InGameGUIController {
          */
         actionPanel.getChildren().clear();
         actionPanel.getChildren().add(backWardPane);
-        actionPanel.setHgrow(backWardPane, Priority.ALWAYS);
+        HBox.setHgrow(backWardPane, Priority.ALWAYS);
         actionPanel.getChildren().add(playPane);
-        actionPanel.setHgrow(playPane, Priority.ALWAYS);
+        HBox.setHgrow(playPane, Priority.ALWAYS);
         actionPanel.getChildren().add(pausePane);
-        actionPanel.setHgrow(pausePane, Priority.ALWAYS);
+        HBox.setHgrow(pausePane, Priority.ALWAYS);
         actionPanel.getChildren().add(forwardPane);
-        actionPanel.setHgrow(forwardPane, Priority.ALWAYS);
+        HBox.setHgrow(forwardPane, Priority.ALWAYS);
     }
 
     private class SelectShipEvent implements EventHandler {
@@ -1002,7 +997,6 @@ public class InGameGUIController {
             }
         }
     }
-
 
     /**
     * Method for loading a game
