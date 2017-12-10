@@ -34,20 +34,13 @@ public class M_Rouge extends Message {
     
         @Override
     public void callback(IDataCom iDataCom){
-        System.out.println("Message rouge reçu");
+        System.out.println("Message rouge reçu");      
+        List<String> my_users_id = new ArrayList(KnownIPController.getInstance().getHashMap().keySet());
+        List<LightPublicUser> my_users_profile = new ArrayList(iDataCom.getConnectedUsers());
         
-        List<String> my_users_id = new ArrayList<String>();
-        List<LightPublicUser> my_users_profile = new ArrayList<LightPublicUser>();
-        
-        HashMap<String, Inet4Address> new_pairs = new HashMap<String, Inet4Address>();
-        List<LightPublicUser> new_users_profile = new ArrayList<LightPublicUser>();
-        
-        for(String u : KnownIPController.getInstance().getHashMap().keySet())
-            my_users_id.add(u);
-        
-        for(LightPublicUser l : iDataCom.getConnectedUsers())
-            my_users_profile.add(l);
-        
+        HashMap<String, Inet4Address> new_pairs = new HashMap();
+        List<LightPublicUser> new_users_profile = new ArrayList();  
+             
         // envoi message rouge à ceux non déjà présents dans notre liste 
         for(String key : this.hashMap_received.keySet()){
             if(!my_users_id.contains(key)){
@@ -57,7 +50,7 @@ public class M_Rouge extends Message {
                     tmp.add(iDataCom.getMyPublicUserProfile().getLightPublicUser());
 
                     HashMap<String, Inet4Address> tmp_hash = 
-                            new HashMap<String, Inet4Address>(KnownIPController.getInstance().getHashMap());
+                            new HashMap<>(KnownIPController.getInstance().getHashMap());
                     
                     tmp_hash.put(iDataCom.getMyPublicUserProfile().getId(), KnownIPController.getInstance().getMyInetAddress());
 
@@ -76,6 +69,12 @@ public class M_Rouge extends Message {
             }
         }
         
+        // Maj de nos listes avec les nouvelles données reçues
+        // maj de la liste des games
+        for(StatGame game : this.listGames_received){
+            if(!iDataCom.getGameList().contains(game))
+                iDataCom.addNewGame(game);
+        }
         for(String key : new_pairs.keySet())
             KnownIPController.getInstance().getHashMap().put(key, new_pairs.get(key));
         for(LightPublicUser key : new_users_profile)
