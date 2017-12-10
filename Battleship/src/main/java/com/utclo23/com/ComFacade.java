@@ -13,6 +13,8 @@ import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.LightPublicUser;
 import java.net.Inet4Address;
 import java.net.InterfaceAddress;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -156,11 +158,22 @@ public class ComFacade {
      * @param listIpTarget is the list of known ip targets
      */
     public void sendDiscovery(List<Inet4Address> listIpTarget) {
+        HashMap<String, Inet4Address> tmp_hash = new HashMap<String, Inet4Address>(kIpCtrl.getHashMap());
+        tmp_hash.put(iDataCom.getMyPublicUserProfile().getId(), KnownIPController.getInstance().getMyInetAddress());
+
+        List<LightPublicUser> tmp = new ArrayList(iDataCom.getConnectedUsers());
+        tmp.add(iDataCom.getMyPublicUserProfile().getLightPublicUser());
+            
         for (int i = 0; i < listIpTarget.size(); i++) {
-            M_GetIP m_getIp = new M_GetIP(iDataCom.getMyPublicUserProfile());
+            /*M_GetIP m_getIp = new M_GetIP(iDataCom.getMyPublicUserProfile());
             Sender os = new Sender(listIpTarget.get(i).getHostAddress(), kIpCtrl.getPort(), m_getIp);
             new Thread(os).start();
-            discoCtrl.addIP(listIpTarget.get(i));
+            discoCtrl.addIP(listIpTarget.get(i));*/
+           
+            M_Bleu m_Bleu = new M_Bleu(iDataCom.getMyPublicUserProfile(), 
+                    tmp_hash, tmp, iDataCom.getGameList());
+            Sender os = new Sender(listIpTarget.get(i).getHostAddress(), kIpCtrl.getPort(), m_Bleu);
+            new Thread(os).start();
         }
     }
 
