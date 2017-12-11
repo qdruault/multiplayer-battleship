@@ -59,12 +59,14 @@ public class M_Rouge extends Message {
                     Thread thread = new Thread(os);
                     thread.start();                                     
                 }
-                new_pairs.put(key, this.hashMap_received.get(key));
+                if(!key.equals(iDataCom.getMyPublicUserProfile().getId()))
+                    new_pairs.put(key, this.hashMap_received.get(key));
             }
         }
         
         for(LightPublicUser key : this.users_received){
-            if(!my_users_profile.contains(key)){
+            if(!my_users_profile.contains(key) && 
+                    !key.equals(iDataCom.getMyPublicUserProfile().getLightPublicUser())){
                 new_users_profile.add(key);
             }
         }

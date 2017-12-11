@@ -78,7 +78,7 @@ public class M_Bleu extends Message {
         }
         
         for(LightPublicUser key : this.users_received){
-            if(key != iDataCom.getMyPublicUserProfile().getLightPublicUser() &&
+            if(!key.equals(iDataCom.getMyPublicUserProfile().getLightPublicUser()) &&
                     !my_users_profile.contains(key)){
                 new_users_profile.add(key);
             }
