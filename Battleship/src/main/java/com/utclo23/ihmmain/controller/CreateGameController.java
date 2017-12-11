@@ -17,6 +17,8 @@ import javafx.scene.control.ToggleGroup;
 import javax.swing.JOptionPane;
 
 /**
+ * Controll of the createGame page.
+ * 
  * @author Audrick
  */
 public class CreateGameController extends AbstractController{
@@ -45,6 +47,11 @@ public class CreateGameController extends AbstractController{
     TextField gameNameField;
     
     @FXML
+    
+    /**
+     * This function is called at the oppening of the page.
+     * It affects default values to Mode and Enemy and create the toggle groups
+     */
     public void initialize(){
         // Toggle Group
         mode = new ToggleGroup();
@@ -59,15 +66,25 @@ public class CreateGameController extends AbstractController{
         radioButtonClassical.setSelected(true);
         radioButtonComputer.setSelected(true);
         
-        //avatar
                 
     }
-    
+    /**
+     * Go to the previous page.
+     * Called when the return button is clicked.
+     * 
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void back(ActionEvent event) throws IOException{
         getIhmmain().toGameList();
     }
-    
+    /**
+     * Creation of a new game.
+     * Called when the Create button is clicked
+     * 
+     * @param event 
+     */
     @FXML
     private void validateCreateGame(ActionEvent event){
         String names = gameNameField.getText();
@@ -82,12 +99,13 @@ public class CreateGameController extends AbstractController{
                 Game newGame = getFacade().iDataIHMMain.createGame(names, enemys, audiences, chats, modes);
                 msg.showMessageDialog(null, "Game created", "Information", JOptionPane.INFORMATION_MESSAGE);
                 getFacade().iIHMTableToIHMMain.createInGameGUI(getIhmmain().primaryStage);
+
             }catch (DataException e){
                 showErrorPopup("Error","Game not created",
                     "Try again !");
             }
         }
         else
-            gameNameField.setStyle("-fx-border-color: #ef8d00;");
+            gameNameField.getStyleClass().add("borderError");
     }
 }

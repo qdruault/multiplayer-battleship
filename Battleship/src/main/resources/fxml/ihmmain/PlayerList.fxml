@@ -28,7 +28,11 @@
           <RowConstraints percentHeight="100.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="returnButton" mnemonicParsing="false" onAction="#returnMenu" text="RETURN" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+            <Button fx:id="returnButton" mnemonicParsing="false" onAction="#returnMenu" text="RETURN" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
+                <tooltip>
+                    <Tooltip text="Click to go back to the menu."/>
+                </tooltip>
+            </Button>
          </children>
       </GridPane>
       <TableView fx:id="listPlayers" onMouseClicked="#clickItem" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
