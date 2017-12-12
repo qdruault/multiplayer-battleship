@@ -52,10 +52,6 @@ public class PlayerListController extends AbstractController{
             nameColumn.getStyleClass().add("cell-right");
             nameColumn.getStyleClass().add("label");
 
-            /* TODO Add this lines when data add avatar in LightPublicUser. Add avatarColum in listPlayers.getColumns().addAll(...);
-            TableColumn avatarColumn = new TableColumn("AVATAR");
-            avatarColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("avatarThumbnal"));*/
-
             listPlayers.getColumns().addAll(idColumn, nameColumn);
 
             // Columns take all the width of the window
