@@ -267,7 +267,7 @@ public class GameListController extends AbstractController{
             }
         });
         //if loading failed
-        wait.setOnFailed(new EventHandler<WorkerStateEvent>() {
+        wait.setOnFailed(new EventHandler<WorkerStateEvent>(){
             @Override
             public void handle(WorkerStateEvent t){
                 //this function handle fail case too, so calling it when fails will give a fail message
@@ -304,10 +304,9 @@ public class GameListController extends AbstractController{
     private void goIntoGame(){
         if(isRunning()){
             if(receivedGame != null){
-                showErrorPopup("Finally Join the game ","Game Id is : receivedGame.getId()","but the line is commented !");
-                //facade.iIHMTableToIHMMain.showGame(receivedGame);
+                getFacade().iIHMTableToIHMMain.showGame(receivedGame);
             }else{
-                showErrorPopup("Connection Impossible","","Your Connection Request was failed ");
+                showErrorPopup("Connection Impossible","","Your connection request failed.");
                 refresh();
                 enableAllButtons();
             }
@@ -324,6 +323,7 @@ public class GameListController extends AbstractController{
             isLoading = false;
         }
     }
+
     /**
      * Called by data when can't connect to a game.
      */
@@ -335,7 +335,8 @@ public class GameListController extends AbstractController{
     }
 
     /**
-     * in order to not be infected the last time's result
+     * Resets the boolean values of the controller.
+     * Used in order to not be affected by the previous result.
      */
     private void resetValues() {
         isLoading = false;
