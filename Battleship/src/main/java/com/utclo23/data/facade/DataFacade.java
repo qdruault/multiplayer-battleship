@@ -383,7 +383,11 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     @Override
     public Pair<Integer, Ship> attack(Coordinate coords, boolean isAttack) {
         try {
-            return this.gameMediator.attack(coords, isAttack);
+            Pair<Integer, Ship> pairReturn = this.gameMediator.attack(coords, isAttack);
+            if(this.getComfacade() != null){
+                this.getComfacade().notifyNewCoordinates(this.gameMediator.getCurrentGame().getRecentMine(coords), this.gameMediator.getCurrentGame().getRecipients());
+            }
+            return pairReturn;
         } catch (Exception ex) {
             ex.printStackTrace();
             //Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);

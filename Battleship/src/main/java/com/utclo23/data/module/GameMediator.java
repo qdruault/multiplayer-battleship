@@ -194,27 +194,33 @@ public class GameMediator {
             if (player == null) {
                 throw new DataException("Data : player not found for set player ship");
             }
-
-          if (isTrueAttack == true) {
-            //check if mine already used at current location
-            List<Mine> mines = player.getMines();
-            if (mines.size() > 0) {
-                for (int i = 0; i < mines.size(); i++) {
-                    Mine mine = mines.get(i);
-                    if (mine.getCoord().getX() == coordinate.getX() && mine.getCoord().getY() == coordinate.getY()) {
-                        Logger.getLogger(GameMediator.class.getName()).log(Level.WARNING, "Data : Mine places in the place where already has a mine");
-                        return null;
-                    }
-                }
-            }
-
+            
             //return the result of the attack
             //if isTrueAttack=1, then add mine to player ; otherwise, that is just a test, no stat of mine
-           
+            if (isTrueAttack == true) {
+            //check if mine already used at current location
+                List<Mine> mines = player.getMines();
+                if (mines.size() > 0) {
+                    for (int i = 0; i < mines.size(); i++) {
+                        Mine mine = mines.get(i);
+                        if (mine.getCoord().getX() == coordinate.getX() && mine.getCoord().getY() == coordinate.getY()) {
+                            Logger.getLogger(GameMediator.class.getName()).log(Level.WARNING, "Data : Mine places in the place where already has a mine");
+                            return null;
+                        }
+                    }
+                }
+
                 pairReturn = this.currentGame.attack(player, coordinate, isTrueAttack);
 
                 //save with caretaker
                 this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
+                
+                
+                //Test if this game is finished
+                //If this game is finished, leave the game
+                if(this.currentGame.getStatGame().getWinner() != null){
+                    this.leaveGame();
+                }
                 return pairReturn;
             } else {
                 // In the case of a test, that's possible that the current player is not
@@ -357,6 +363,7 @@ public class GameMediator {
      * Exit current game.
      */
     public void leaveGame() {
+        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Leave this game");
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
