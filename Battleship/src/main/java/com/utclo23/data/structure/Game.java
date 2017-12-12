@@ -56,6 +56,9 @@ public abstract class Game extends SerializableEntity {
      */
     public void addUser(LightPublicUser user, String role) throws DataException {
         System.out.println("inside addUser");
+        
+        role = role.toLowerCase();
+        
         if(role.equals("player")) {
             
             if(this.players == null)

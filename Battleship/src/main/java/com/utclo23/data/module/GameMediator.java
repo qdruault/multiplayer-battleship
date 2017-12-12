@@ -321,6 +321,8 @@ public class GameMediator {
 
     public void gameConnectionRequestGame(String id, String role) {
 
+        role = role.toLowerCase();
+        
         if (this.dataFacade.getComfacade() != null) {
             StatGame game = null;
             if (this.gamesMap.containsKey(id)) {
