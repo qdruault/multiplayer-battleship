@@ -299,6 +299,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     @Override
     public void connectionLostWithOpponent() {
         this.gameMediator.setWinner(null);
+        this.gameMediator.getCurrentGame().getStatGame().setGameAbandonned(true);
         this.gameMediator.leaveGame();
         this.ihmTablefacade.connectionLostWithOpponent();
     }
