@@ -11,8 +11,10 @@ import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 
 /**
- * FXML Controller class
- *
+ * Object: Generate a pop-up to enter and to send new info to update player profile
+ * According to the label transformed by interface player profile, this controller will call
+ * the update function corresponding created by Data.
+ * 
  * @author lipeining
  */
 public class PopupController extends AbstractController{  
@@ -55,6 +57,10 @@ public class PopupController extends AbstractController{
         getIhmmain().controllerMap.get(SceneName.PLAYER_PROFILE.toString()).refresh();
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }
+    /**
+     * 
+     * @param attribut: tells which info the user would like to modify
+     */
     public void setAttribut(String attribut){
         label = attribut; 
     }

@@ -89,7 +89,7 @@
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" prefHeight="29.0" prefWidth="268.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#editPassword" text="edit" />
+                              <Button mnemonicParsing="false" onAction="#editDescription" text="edit" />
                            </children>
                         </HBox>
                      </children></VBox>

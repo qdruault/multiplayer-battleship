@@ -24,11 +24,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 /**
- *
+ * Object: display all info of player profile.
+ * Display user's own profile (writable)
+ * Display others profiles (read-only)
+ * 
  * @author Lipeining
  */
 
-//recievePublicUserProfile(Player);
 public class PlayerProfileController extends AbstractController{
     @FXML
     public  Label userID;
@@ -52,6 +54,7 @@ public class PlayerProfileController extends AbstractController{
     public void start(){
        refresh();
     } 
+  
     @FXML
     private void back(ActionEvent event) throws IOException{
         getIhmmain().toMenu();
@@ -100,6 +103,11 @@ public class PlayerProfileController extends AbstractController{
         attribut="Password";
         popup(attribut);
     }
+    /**
+     * Generate a pop-up
+     * @param attribut:name of info that user would like to modify
+     * @throws IOException 
+     */
     private void popup(String attribut) throws IOException{
         final Stage primaryStage = getIhmmain().primaryStage;
         String path = "/fxml/ihmmain/popup.fxml";
@@ -115,13 +123,23 @@ public class PlayerProfileController extends AbstractController{
         popup.initOwner(primaryStage);
         popup.setScene(newScene);
         popup.show();
-    }  
+    } 
+    /**
+     * This function is for receiving the profile of other player asked by user
+     * @param player: profile sent by Data for us to display
+     * @throws IOException 
+     */
     public void recievePublicUser(PublicUser player) throws IOException{
         if(isRunning()){
             isLoading = false;
             other = player;
         }
     }
+    /**
+     * This function is for waiting the profile
+     * As soon as receive the profile sent by Data, skip the loading and refresh the page.
+     * @throws IOException 
+     */
     public void loading() throws IOException{
         isLoading = true;
         if (isLoading){
@@ -129,7 +147,7 @@ public class PlayerProfileController extends AbstractController{
             pin.setProgress(-1);
             //to do: display ProgressIndicator
             
-            //create a wait task, check every 0.5s if the loading is finished
+            //create a wait task, check every 0.5s if the loading is finished, finish the waiting
             Task<Void> wait;
             wait = new Task<Void>() {
                 @Override
@@ -177,6 +195,9 @@ public class PlayerProfileController extends AbstractController{
         }
     }
     @Override
+    /**
+     * Initialize all the info of profile
+     */
     public void refresh(){
         if (!isOther){
             try{
