@@ -20,6 +20,7 @@ import javafx.scene.control.TextArea;
 public class PopupController extends AbstractController{  
     
     public String label;
+    private boolean textnull = true;
     @FXML
     private TextArea field;
     @FXML
@@ -30,7 +31,12 @@ public class PopupController extends AbstractController{
     private void update(ActionEvent event) throws IOException, DataException{
         String text;
         text = field.getText();
-        switch(label){
+        if (text.isEmpty()){
+            field.setText("Can not send empty string");
+        }
+        else{
+            textnull = false;
+            switch(label){
             case "PlayerName":
                 getFacade().iDataIHMMain.updatePlayername(text);
                 break;
@@ -48,14 +54,16 @@ public class PopupController extends AbstractController{
                 getFacade().iDataIHMMain.updatePassword(text);
                 break;
             default:
-                Logger.getLogger(
-                        PopupController.class.getName()).log(
+                Logger.getLogger( PopupController.class.getName()).log(
                                 Level.INFO,
                                 "[PlayerProfile] - error update profile, attribut not found."
                         );
+            } 
         }
-        getIhmmain().controllerMap.get(SceneName.PLAYER_PROFILE.toString()).refresh();
-        ((Node) (event.getSource())).getScene().getWindow().hide();
+        if(textnull == false){
+            getIhmmain().controllerMap.get(SceneName.PLAYER_PROFILE.toString()).refresh();
+            ((Node) (event.getSource())).getScene().getWindow().hide();
+        }
     }
     /**
      * 
