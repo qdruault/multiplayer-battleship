@@ -208,7 +208,9 @@ public class PlayerProfileController extends AbstractController{
         if (!isOther){
             try{
                 //imagePath = me.getLightPublicUser().
-                image.setImage(new Image (imagePath));
+                //image.setImage(new Image (imagePath));
+                me = getFacade().iDataIHMMain.getMyPublicUserProfile();
+                userID .setText(me.getLightPublicUser().getPlayerName());
                 firstName.setText(me.getFirstName());
                 lastName.setText(me.getLastName());
                 birthday.setText(me.getBirthDate().toString());

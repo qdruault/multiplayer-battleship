@@ -32,20 +32,20 @@ public class PopupController extends AbstractController{
         text = field.getText();
         switch(label){
             case "PlayerName":
-                //facade.iDataIHMMain.updatePlayername(text);
+                getFacade().iDataIHMMain.updatePlayername(text);
                 break;
             case "FirstName":
-                //facade.iDataIHMMain.updateFirstname(text);
+                getFacade().iDataIHMMain.updateFirstname(text);
                 break;
             case "LastName":
-                //facade.iDataIHMMain.updateLastname(text);
+                getFacade().iDataIHMMain.updateLastname(text);
                 break;
             /* To-do: change popup*/
             case "Birthday":
-                //facade.iDataIHMMain.updateLastname(text);
+                getFacade().iDataIHMMain.updateLastname(text);
                 break;
             case "Password":
-                //facade.iDataIHMMain.updatePassword(text);
+                getFacade().iDataIHMMain.updatePassword(text);
                 break;
             default:
                 Logger.getLogger(
