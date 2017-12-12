@@ -129,7 +129,9 @@ public class ComFacade {
         M_CreationGame m_creationgame = new M_CreationGame(iDataCom.getMyPublicUserProfile(), game);
         for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
             Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), m_creationgame);
-            new Thread(os).start();
+            Thread thread = new Thread(os);
+            thread.start();
+            System.out.println("envoi creationGame");
         }
     }
 
