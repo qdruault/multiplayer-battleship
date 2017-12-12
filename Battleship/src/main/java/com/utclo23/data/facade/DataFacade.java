@@ -656,8 +656,11 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     @Override
     public void receptionGame(Game game) throws DataException {
         if (game != null) {
+            
             this.gameMediator.receptionGame(game);
-        } else {
+            
+        } 
+        else {
             throw new DataException("Error in Data : no game received");
         }
 
