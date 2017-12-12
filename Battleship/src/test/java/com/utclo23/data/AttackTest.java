@@ -31,6 +31,7 @@ import javafx.util.Pair;
  */
 public class AttackTest {
     
+    
     @org.junit.Test
     public void testCasePlayer() throws DataException {
 
