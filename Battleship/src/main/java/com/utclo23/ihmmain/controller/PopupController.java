@@ -11,9 +11,9 @@ import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 
 /**
- * Object: Generate a pop-up to enter and to send new info to update player profile
- * According to the label transformed by interface player profile, this controller will call
- * the update function corresponding created by Data.
+ * Generates a pop-up to enter and to send new info to update player profile.
+ * According to the label transformed by interface player profile,
+ * this controller will call the update function corresponding created by Data.
  * 
  * @author lipeining
  */
