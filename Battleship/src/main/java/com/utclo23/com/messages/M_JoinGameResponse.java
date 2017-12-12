@@ -41,11 +41,11 @@ public class M_JoinGameResponse extends Message {
     @Override
     public void callback(IDataCom iDataCom) {
         if (success) {
-            /*try {
+            try {
                 iDataCom.receptionGame(game.getRealGame());
             } catch (DataException ex) {
                 Logger.getLogger(M_JoinGameResponse.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
+            }
         } else {
             try {
                 iDataCom.connectionImpossible();
