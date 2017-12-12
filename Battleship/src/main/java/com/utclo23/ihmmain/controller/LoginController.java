@@ -64,7 +64,7 @@ public class LoginController extends AbstractController{
      */
     @FXML
     private void exitAction(ActionEvent event){
-        System.exit(0);
+        getIhmmain().exit();
     }
     
     /**
