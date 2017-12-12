@@ -823,7 +823,7 @@ public class InGameGUIController {
             else
             {
                 Message m = (Message)dataEvent;
-                facade.printMessage(m);
+                // facade.printMessage(m);
             }
         }
     }
