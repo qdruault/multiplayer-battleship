@@ -7,6 +7,7 @@ package com.utclo23.com.messages;
 
 import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.module.DataException;
+import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.StatGame;
 import java.util.logging.Level;
@@ -22,7 +23,7 @@ import java.util.logging.Logger;
 public class M_JoinGameResponse extends Message {
 
     private final boolean success;
-    private final StatGame game;
+    private final Game game;
 
     /**
      * Constructor.
@@ -30,7 +31,7 @@ public class M_JoinGameResponse extends Message {
      * @param user is the message's sender
      * @param success is the response
      */
-    public M_JoinGameResponse(PublicUser user, boolean success, StatGame game) {
+    public M_JoinGameResponse(PublicUser user, boolean success, Game game) {
         super(user);
         this.success = success;
         this.game = game;
@@ -40,7 +41,7 @@ public class M_JoinGameResponse extends Message {
     public void callback(IDataCom iDataCom) {
         if (success) {
             try {
-                iDataCom.receptionGame(game.getRealGame());
+                iDataCom.receptionGame(game);
             } catch (DataException ex) {
                 Logger.getLogger(M_JoinGameResponse.class.getName()).log(Level.SEVERE, null, ex);
             }
