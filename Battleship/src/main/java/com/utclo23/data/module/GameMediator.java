@@ -93,8 +93,11 @@ public class GameMediator {
         //to Com : notify a new game
         ComFacade comFacade = this.dataFacade.getComfacade();
         if (comFacade != null && game != null) {
+            System.out.println("notify");
             comFacade.notifyNewGame(game.getStatGame());
         }
+        else   System.out.println("no notify");
+               
 
         //set current game
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Création d'un Game");
@@ -306,11 +309,11 @@ public class GameMediator {
             
             
             
-             System.out.println("add role "+role);
+             System.out.println("add Urole "+role);
             this.getCurrentGame().addUser(user, role);
 
             if (this.dataFacade.getComfacade() != null) {
-                this.dataFacade.getComfacade().joinGameResponse(true, id, this.currentGame.getStatGame());
+                this.dataFacade.getComfacade().joinGameResponse(true, user.getId(), this.currentGame);
 
             }
         } else {

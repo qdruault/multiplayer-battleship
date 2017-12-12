@@ -50,7 +50,7 @@ public class Sender implements Runnable {
             out = new ObjectOutputStream(socket.getOutputStream());
             request.setIpSender(kIpCtrl.getMyInetAddress());
             out.writeObject(request);
-			System.out.println("message sent" + request.getClass().toString());
+            System.out.println("message sent" + request.getClass().toString());
             out.close();
             socket.close();
         } catch (UnknownHostException e) {}
