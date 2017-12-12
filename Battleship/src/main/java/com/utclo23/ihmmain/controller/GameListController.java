@@ -34,81 +34,78 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
 /**
- * The GUI that displays the list of online games
- * @author calvezlo
+ * The controller of the GUI that displays the list of online games.
+ *
+ * @author Linxuhao
  */
 public class GameListController extends AbstractController{
     
-    
     @FXML
     private Button returnButton;
+
     @FXML
     private Button joinButton;
+
     @FXML
     private Button createButton;
+
     @FXML
     private Button watchButton;
+
     @FXML
     private ScrollPane gameListPane;
     
     private StatGame selectedGame;
-    
     private TableView<StatGame> gameList;
-  
     private Boolean isLoading;
-    
-    //game received with asynchronous load
-    private Game receivedGame;
+    private Game receivedGame; //game received with asynchronous load
     
     /**
-     * This function is called at the beginning of the application.
+     * Method called at the beginning of the application.
      * It loads the connected users and print them into the tableview.
      */
     @Override
     public void start(){
-        
         resetValues();
-        
         createGameListTableView();
-        
         addOnMoussClickEventOnGameList();
-            
         enableAllButtons();
-                
         gameListPane.setFitToWidth(true);
         gameListPane.setFitToHeight(true);
-        
         refresh();
     }
 
-    private void addOnMoussClickEventOnGameList() {
-        //add onMoussClicked event on table view
+    /**
+     * Adds an onMouseClicked event on the table view.
+     */
+    private void addOnMoussClickEventOnGameList(){
         gameList.setOnMouseClicked(new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent event) {
                 Node node = ((Node) event.getTarget()).getParent();
                 TableRow row;
-                if(node instanceof TableView){
-                }else{
-                    if (node instanceof TableRow) {
-                    row = (TableRow) node;
-                } else {
-                    // clicking on text part, parent is cell or row, cell's parent is the row
-                    //so check here if parent is cell or row
-                    if(node.getParent() instanceof TableRow){
-                        row = (TableRow) node.getParent();
-                    }else{
-                        row = (TableRow) node.getParent().getParent();
+                if(!(node instanceof TableView)){
+                    if (node instanceof TableRow){
+                        row = (TableRow) node;
+                    } else{
+                        //clicking on text part, parent is cell or row, cell's parent is the row
+                        //so check here if parent is cell or row
+                        if(node.getParent() instanceof TableRow){
+                            row = (TableRow) node.getParent();
+                        }else{
+                            row = (TableRow) node.getParent().getParent();
+                        }
                     }
+                    StatGame selected = (StatGame)row.getItem();
+                    selectedGame = selected;
                 }
-                StatGame selected = (StatGame)row.getItem();
-                selectedGame = selected;
-                }
-
             }
         });
     }
 
+    /**
+     * Create the table of games.
+     */
     private void createGameListTableView() {
         String labelClass = "label";
         //add columns
@@ -124,10 +121,8 @@ public class GameListController extends AbstractController{
         creatorColumn.setCellFactory(new Callback<TableColumn<StatGame, LightPublicUser>, TableCell<StatGame, LightPublicUser>>(){
 
             @Override
-            public TableCell<StatGame, LightPublicUser> call(TableColumn<StatGame, LightPublicUser> param) {
-
+            public TableCell<StatGame, LightPublicUser> call(TableColumn<StatGame, LightPublicUser> param){
                 TableCell<StatGame, LightPublicUser> cell = new TableCell<StatGame, LightPublicUser>(){
-
                     @Override
                     protected void updateItem(LightPublicUser item, boolean empty) {
                         if (item != null) {
@@ -150,16 +145,15 @@ public class GameListController extends AbstractController{
         
         TableColumn playerNumberColumn = new TableColumn("NUMBER PLAYER");
         playerNumberColumn.setCellValueFactory(new PropertyValueFactory<>("LightPublicUser"));
-        // ======== setting the cell factory for the creator.playerName column  
+
+        //setting the cell factory for the creator.playerName column  
         playerNumberColumn.getStyleClass().add("cell-right");
         playerNumberColumn.getStyleClass().add(labelClass);
         playerNumberColumn.setCellFactory(new Callback<TableColumn<StatGame, List<Player>>, TableCell<StatGame, List<Player>>>(){
 
             @Override
-            public TableCell<StatGame, List<Player>> call(TableColumn<StatGame, List<Player>> param) {
-
+            public TableCell<StatGame, List<Player>> call(TableColumn<StatGame, List<Player>> param){
                 TableCell<StatGame, List<Player>> cell = new TableCell<StatGame, List<Player>>(){
-
                     @Override
                     protected void updateItem(List<Player> item, boolean empty) {
                         if (item != null) {
@@ -173,13 +167,13 @@ public class GameListController extends AbstractController{
         });
         
         gameList = new TableView<>();
-        
         gameList.getColumns().addAll(nameColumn, creatorColumn, modeColumn, chatColumn, playerNumberColumn);
         gameList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
     
     /**
-     * This function update the list of online games, it refreshes the display each time is called when this controller is running and is not loading
+     * Updates the list of online games.
+     * It refreshes the display each time this controller is running and is not loading.
      */
     @Override
     public void refresh(){
@@ -190,7 +184,7 @@ public class GameListController extends AbstractController{
             }catch(Exception e){
                 e.printStackTrace();
             }
-            if(gameList == null || (newGameList != null && newGameList.isEmpty())){//if getGameList() is not implemented or not working as excepted
+            if(gameList == null || (newGameList != null && newGameList.isEmpty())){
                 newGameList = new ArrayList<>();
                 PublicUser me = getFacade().iDataIHMMain.getMyPublicUserProfile();
                 StatGame fake = new StatGame();
@@ -208,25 +202,24 @@ public class GameListController extends AbstractController{
             gameList.setItems(data);
             //create a new VBox to save table view
             gameListPane.setContent(gameList);
-
         }
-        
     }
-
     
     @FXML
     private void returnMenu(ActionEvent event) throws IOException{
         getIhmmain().toMenu();
     }
 
+    /**
+     * Join the selected game in the table.
+     * @param event
+     */
     @FXML
-    private void joinSelectedGame(ActionEvent event) {
+    private void joinSelectedGame(ActionEvent event){
         if(selectedGame != null){
-            //send connection request and open a loading screen while waitting
             getFacade().iDataIHMMain.gameConnectionRequestGame(selectedGame.getId(), "Player");
             loadingScreen();
         }
-       
     }
 
     @FXML
@@ -235,42 +228,41 @@ public class GameListController extends AbstractController{
     }
 
     @FXML
-    private void watchSelectedGame(ActionEvent event) {
+    private void watchSelectedGame(ActionEvent event){
         showErrorPopup("Not Supported Yet","Not Supported Yet","Not Supported Yet");
     }
     
     /**
-     * display loading screen and a loop checking if loading is finished, if so, load the receivedGame
+     * Displays the loading screen.
+     * A loop is checking if loading is finished.
+     * If so, it loads the receivedGame.
      */
-    private void loadingScreen() {
-        //set isLoading to true
+    private void loadingScreen(){
         isLoading = true;
-        //disable buttons when loading (my buttons are still displayed when loading)
         disableAllButtonsExceptReturn();
-        //create a progress indicator indicate that i am loading
-        ProgressIndicator pin = new ProgressIndicator ();
+        ProgressIndicator pin = new ProgressIndicator();
         pin.setProgress(-1);
-        //replace the list pane display by the progress indicator
         gameListPane.setContent(pin);
+
         //create a wait task, check every 0.5s if the loading is finished
-        Task<Void> wait = new Task<Void>() {
+        Task<Void> wait = new Task<Void>(){
             @Override
-            protected Void call() throws Exception {
+            protected Void call() throws Exception{
                 try {
                     while(isLoading){
                         Thread.sleep(500);
                         connectionImpossible();
                     }
-                } catch (Exception e) {
+                } catch (Exception e){
                     e.printStackTrace();
                 }
                 return null;
             }
         };
-        //if loading succed, call the goIntoGame();
-        wait.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+        //if loading succeeded, calls goIntoGame()
+        wait.setOnSucceeded(new EventHandler<WorkerStateEvent>(){
             @Override
-            public void handle(WorkerStateEvent event) {
+            public void handle(WorkerStateEvent event){
                 goIntoGame();
             }
         });
@@ -285,13 +277,21 @@ public class GameListController extends AbstractController{
         new Thread(wait).start();
     }
 
-    private void disableAllButtonsExceptReturn() {
+    /**
+     * Disables all buttons of the view, except the return one.
+     * It is called when the screen is loading.
+     */
+    private void disableAllButtonsExceptReturn(){
         joinButton.setDisable(true);
         createButton.setDisable(true); 
         watchButton.setDisable(true);
     }
     
-    private void enableAllButtons() {
+    /**
+     * Enables all buttons of the view, except the return one.
+     * It is called when start() and goIntoGame().
+     */
+    private void enableAllButtons(){
         joinButton.setDisable(false);
         createButton.setDisable(false); 
         watchButton.setDisable(false);
@@ -299,13 +299,11 @@ public class GameListController extends AbstractController{
     }
 
     /**
-     * go into game or display a error message about connection impossible
+     * Goes into game or displays an error message if the connection is impossible.
      */
-    private void goIntoGame() {
-        
+    private void goIntoGame(){
         if(isRunning()){
             if(receivedGame != null){
-                //Finally Join the game
                 showErrorPopup("Finally Join the game ","Game Id is : receivedGame.getId()","but the line is commented !");
                 //facade.iIHMTableToIHMMain.showGame(receivedGame);
             }else{
@@ -317,7 +315,7 @@ public class GameListController extends AbstractController{
     }
     
     /**
-     * the function to asynchronousely load the game
+     * Loads the game aynchronousely.
      * @param game 
      */
     public void receptionGame(Game game){
@@ -327,7 +325,7 @@ public class GameListController extends AbstractController{
         }
     }
     /**
-     * called by data when can't connect to a game
+     * Called by data when can't connect to a game.
      */
     public void connectionImpossible(){
         if(isRunning()){
@@ -346,7 +344,7 @@ public class GameListController extends AbstractController{
     }
     
     /**
-     * override stop() to set isLoading = false when leaving this controller, because stop() is called whenever i leave this controller
+     * Sets isLoading to false when leaving this controller.
      */
     @Override
     public void stop(){
