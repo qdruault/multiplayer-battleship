@@ -956,6 +956,18 @@ public class InGameGUIController {
                                 // Add the coordinates.
                                 ship.getListCoord().add(startPosition);
                                 ship.getListCoord().add(endPosition);
+                                
+                                // Add the coordinates between the two cases.
+                                Coordinate diff = new Coordinate(endPosition.getX()-startPosition.getX(),endPosition.getY()-startPosition.getY());
+                                int xDirection = (diff.getX() >= 0) ? 1 : -1;
+                                int yDirection = (diff.getY() >= 0) ? 1 : -1;
+
+                                for(int x = 1; x < Math.abs(diff.getX()); ++x) {
+                                    ship.getListCoord().add(new Coordinate(startPosition.getX()+xDirection*x,startPosition.getY()));
+                                }
+                                for(int y = 1; y < Math.abs(diff.getY()); ++y) {
+                                    ship.getListCoord().add(new Coordinate(startPosition.getX(),startPosition.getY()+yDirection*y));
+                                }
 
                                 // Send the ship.
                                 facade.getFacadeData().setShip(ship);
