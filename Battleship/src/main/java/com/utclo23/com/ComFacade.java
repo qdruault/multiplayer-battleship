@@ -134,10 +134,11 @@ public class ComFacade {
      * Called to send a request to join a specified game.
      *
      * @param game is a game the user wants to join
+     * @param role is player or spectator
      */
-    public void connectionToGame(StatGame game) {
+    public void connectionToGame(StatGame game, String role) {
 
-        M_JoinGame m_joingame = new M_JoinGame(iDataCom.getMyPublicUserProfile(), game);
+        M_JoinGame m_joingame = new M_JoinGame(iDataCom.getMyPublicUserProfile(), game, role);
         Inet4Address adr = KnownIPController.getInstance().getHashMap().get(game.getCreator().getId());
         Sender os = new Sender(adr.getHostAddress(), kIpCtrl.getPort(), m_joingame);
         new Thread(os).start();
