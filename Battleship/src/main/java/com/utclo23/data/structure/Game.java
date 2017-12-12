@@ -70,18 +70,19 @@ public abstract class Game extends SerializableEntity {
                 System.out.println("players == null");
             }
             
-            if(this.players.size() == 1) {
+            if(this.players.size() <= 1) {
                 
                 Player player = new Player(user);
                 this.players.add(player);
                 
                 System.out.println("player "+player.getLightPublicUser().getId());
                 
-            } else 
+            } /*else 
             {
+                
                 throw new DataException("Data : already two players in this "
                         + "game, you can not add another one.");
-            }
+            }*/
         } else if(role.equals("spectator")) {
             this.spectators.add(user);
             
