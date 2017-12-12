@@ -47,11 +47,15 @@ public enum SceneName {
     /**
      * name of the network interface choice scene
      */
-    NETWORK_INTERFACE("NetworkInterface");
+    NETWORK_INTERFACE("NetworkInterface"),
+    
+     /** name of watch a saved game scene
+     */
+    SAVED_GAME_LIST("SavedGameList");
 
 
     
-    private String name;
+    private final String name;
     SceneName(String name){
         this.name = name;
     }

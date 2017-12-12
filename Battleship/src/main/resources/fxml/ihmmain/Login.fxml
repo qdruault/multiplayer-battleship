@@ -26,9 +26,17 @@
     <children> 
         <Label id="pageTitleLabel" text="BATTLESHIPS" GridPane.columnIndex="1" GridPane.rowIndex="1" />               
         <Label id="formLabel" text="Username" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-        <TextField fx:id="usernameField" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+        <TextField fx:id="usernameField" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            <tooltip>
+                <Tooltip text="Enter your username."/>
+            </tooltip>
+        </TextField>
         <Label id="formLabel" text="Password" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-        <PasswordField fx:id="passwordField" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+        <PasswordField fx:id="passwordField" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+            <tooltip>
+                <Tooltip text="Enter your password."/>
+            </tooltip>
+        </PasswordField>
         <Label text="Don't have an account yet?" GridPane.columnIndex="1" GridPane.rowIndex="4" />
         <Button fx:id="createButton" onAction="#createUserAction" text="Create one now!" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.halignment="CENTER" maxWidth="Infinity">
             <tooltip>

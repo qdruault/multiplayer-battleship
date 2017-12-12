@@ -34,7 +34,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
 /**
- * The GUI that displays the list of connected users
+ * The GUI that displays the list of online games
  * @author calvezlo
  */
 public class GameListController extends AbstractController{
@@ -110,16 +110,17 @@ public class GameListController extends AbstractController{
     }
 
     private void createGameListTableView() {
+        String labelClass = "label";
         //add columns
         TableColumn nameColumn = new TableColumn("NAME");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.getStyleClass().add("cell-left");
-        nameColumn.getStyleClass().add("label");
+        nameColumn.getStyleClass().add(labelClass);
         
         TableColumn creatorColumn = new TableColumn("CREATOR");
         creatorColumn.setCellValueFactory(new PropertyValueFactory<>("creator"));
         //setting the cell factory for the creator.playerName column  
-        creatorColumn.getStyleClass().add("label");
+        creatorColumn.getStyleClass().add(labelClass);
         creatorColumn.setCellFactory(new Callback<TableColumn<StatGame, LightPublicUser>, TableCell<StatGame, LightPublicUser>>(){
 
             @Override
@@ -141,17 +142,17 @@ public class GameListController extends AbstractController{
         
         TableColumn modeColumn = new TableColumn("MODE");
         modeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-        modeColumn.getStyleClass().add("label");
+        modeColumn.getStyleClass().add(labelClass);
         
         TableColumn chatColumn = new TableColumn("CHAT");
         chatColumn.setCellValueFactory(new PropertyValueFactory<>("spectatorChat"));
-        chatColumn.getStyleClass().add("label");
+        chatColumn.getStyleClass().add(labelClass);
         
         TableColumn playerNumberColumn = new TableColumn("NUMBER PLAYER");
         playerNumberColumn.setCellValueFactory(new PropertyValueFactory<>("LightPublicUser"));
         // ======== setting the cell factory for the creator.playerName column  
         playerNumberColumn.getStyleClass().add("cell-right");
-        playerNumberColumn.getStyleClass().add("label");
+        playerNumberColumn.getStyleClass().add(labelClass);
         playerNumberColumn.setCellFactory(new Callback<TableColumn<StatGame, List<Player>>, TableCell<StatGame, List<Player>>>(){
 
             @Override
@@ -189,7 +190,7 @@ public class GameListController extends AbstractController{
             }catch(Exception e){
                 e.printStackTrace();
             }
-            if(gameList == null || newGameList.isEmpty()){//if getGameList() is not implemented or not working as excepted
+            if(gameList == null || (newGameList != null && newGameList.isEmpty())){//if getGameList() is not implemented or not working as excepted
                 newGameList = new ArrayList<>();
                 PublicUser me = getFacade().iDataIHMMain.getMyPublicUserProfile();
                 StatGame fake = new StatGame();
@@ -351,6 +352,5 @@ public class GameListController extends AbstractController{
     public void stop(){
         setRunning(false);
         isLoading = false;
-        
     }
 }
