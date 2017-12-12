@@ -18,11 +18,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  * Contains all mains scene and controllers. 
@@ -59,10 +61,17 @@ public class IHMMain {
         
         // Load the font for the css
         try {
-            Font c = Font.loadFont(new FileInputStream(new File("./target/classes/styles/space_age.ttf")), 10);
+            Font.loadFont(new FileInputStream(new File("./target/classes/styles/space_age.ttf")), 10);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PlayerListController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        //add onClose event handler which handle the event when user clicks X
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent we) {
+                 System.exit(0);
+            }
+        });
     }
     
     public void toNetworkInterfaceChoice() throws IOException{
@@ -109,6 +118,10 @@ public class IHMMain {
 
     public void toGameList() throws IOException{
         toScene(SceneName.GAME_LIST);
+    }
+    
+    public void toSavedGameList() throws IOException{
+        toScene(SceneName.SAVED_GAME_LIST);
     }
     
     /**

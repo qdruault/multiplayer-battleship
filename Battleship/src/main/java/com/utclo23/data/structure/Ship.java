@@ -64,4 +64,32 @@ public class Ship extends SerializableEntity{
     public void setSize(int size) {
         this.size = size;
     }    
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+       
+        if (obj == null)
+            return false;
+    
+        if (getClass() != obj.getClass())
+            return false;
+       
+        Ship other = (Ship) obj;
+        
+        if (type != other.type)
+            return false;
+       
+        if (!owner.getLightPublicUser().getId().equals(other.getOwner().getLightPublicUser().getId()))
+            return false;
+        
+        if (size != other.getSize())
+            return false;
+        
+        if (!listCoord.equals(other.getListCoord()))
+            return false;
+        
+       return true;
+    }
 }

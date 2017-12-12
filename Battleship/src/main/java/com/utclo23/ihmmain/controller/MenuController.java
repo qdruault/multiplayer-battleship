@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.shape.Line;
 
 /**
  *
@@ -29,6 +30,10 @@ public class MenuController extends AbstractController{
     private Button ipListButton;
     @FXML
     private Button disconnectButton;
+    @FXML
+    private Line lineDesign;
+    @FXML
+    private Button savedGameButton;
 
     @FXML
     private void play(ActionEvent event) throws IOException{
@@ -50,7 +55,6 @@ public class MenuController extends AbstractController{
         getIhmmain().toIpList();
     }
     
-    @FXML
     private void showCreateGame(ActionEvent event) throws IOException{
         getIhmmain().toCreateGame();
     }
@@ -68,5 +72,10 @@ public class MenuController extends AbstractController{
         }catch(Exception e){
             Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, e);
         }
+    }
+
+    @FXML
+    private void toSavedGames(ActionEvent event) throws IOException{
+        getIhmmain().toSavedGameList();
     }
 }

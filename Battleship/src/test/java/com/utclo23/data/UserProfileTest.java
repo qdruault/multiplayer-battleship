@@ -9,8 +9,10 @@ import com.utclo23.data.facade.DataFacade;
 import com.utclo23.data.module.DataException;
 import com.utclo23.data.structure.Owner;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.fail;
@@ -28,8 +30,12 @@ public class UserProfileTest {
     //test variables
     private static final String LOGGER_NAME = "Data tests for user profile";
     private final static String PLAYER_NAME = "DAVIDK";
+    private final static String NEW_PLAYER_NAME = "DAVID";
     private final static String PLAYER_PASSWORD = "PASSWORD";
     private final static String NEW_FIRSTNAME = "TEST";
+    private final static String NEW_LASTNAME = "TEST_L";
+    private final static Date NEW_BIRTHDATE = Calendar.getInstance().getTime();
+    private final static String NEW_IMAGE = "C/Image";
 
     public UserProfileTest() {
     }
@@ -43,7 +49,7 @@ public class UserProfileTest {
         df.setTestMode(true);
         try {
             df.createUser(PLAYER_NAME, PLAYER_PASSWORD, "", "", new Date(), "");
-        } catch (Exception e) {
+        } catch (DataException e) {
             e.printStackTrace();
         }
     }
@@ -75,6 +81,7 @@ public class UserProfileTest {
     /**
      * Test of signin method Must return dataexception when wrong credentials
      * are entered;
+     * @throws java.lang.Exception
      */
     @org.junit.Test
     public void testWrongSignin() throws Exception {
@@ -88,6 +95,7 @@ public class UserProfileTest {
 
     /**
      * test when we enter empty string for player name in creation step
+     * @throws com.utclo23.data.module.DataException
      */
     @org.junit.Test
     public void testBlankPlayerNameRegister() throws DataException {
@@ -101,6 +109,7 @@ public class UserProfileTest {
 
     /**
      * test when we enter empty string for password in creation step
+     * @throws com.utclo23.data.module.DataException
      */
     @org.junit.Test
     public void testBlankPasswordRegister() throws DataException {
@@ -132,7 +141,7 @@ public class UserProfileTest {
                 fail();
             }
 
-        } catch (Exception e) {
+        } catch (DataException e) {
             e.printStackTrace();
             fail();
         }
@@ -140,10 +149,11 @@ public class UserProfileTest {
     }
 
     /**
-     * Test update firstname
+     * Test update password
+     * @throws com.utclo23.data.module.DataException
      */
     @org.junit.Test
-    public void testUpdateBlankPasswordUser() throws DataException {
+    public void testUpdatePasswordUser() throws DataException {
         expectedException.expect(DataException.class);
 
         DataFacade df = new DataFacade();
@@ -169,10 +179,35 @@ public class UserProfileTest {
             fail();
         }
     }
+    
+   /* public void testUpdatePlayernameUser() throws DataException {
+        expectedException.expect(DataException.class);
 
-    /**
-     * Test update firstname
-     */
+        DataFacade df = new DataFacade();
+        df.setTestMode(true);
+        df.signin(PLAYER_NAME, PLAYER_PASSWORD);
+
+        if (df.getMyOwnerProfile() == null) {
+            fail();
+        }
+
+        Owner owner = df.getMyOwnerProfile();
+        df.updatePlayername("");
+
+        if (!owner.getUserIdentity().getPlayerName().equals(NEW_PLAYER_NAME)) {
+            fail();
+        }
+
+        df.updatePlayername(NEW_PLAYER_NAME);
+
+        df.signOut();
+
+        if (df.getMyOwnerProfile() != null) {
+            fail();
+        }
+    }
+
+
     @org.junit.Test
     public void testUpdateFirstnameUser() {
         try {
@@ -191,7 +226,7 @@ public class UserProfileTest {
                 fail();
             }
 
-            df.updateUser(owner.getPassword(), "", owner.getUserIdentity().getLastName(), owner.getUserIdentity().getBirthDate(), "");
+            df.updateFirstname(PLAYER_NAME);
 
             df.signOut();
 
@@ -199,16 +234,108 @@ public class UserProfileTest {
                 fail();
             }
 
-        } catch (Exception e) {
+        } catch (DataException e) {
             e.printStackTrace();
             fail();
         }
 
     }
 
+    
+    public void testUpdateLastnameUser() {
+        try {
+            DataFacade df = new DataFacade();
+            df.setTestMode(true);
+            df.signin(PLAYER_NAME, PLAYER_PASSWORD);
+
+            if (df.getMyOwnerProfile() == null) {
+                fail();
+            }
+
+            Owner owner = df.getMyOwnerProfile();
+            df.updateLastname(NEW_LASTNAME);
+
+            if (!owner.getUserIdentity().getLastName().equals(NEW_LASTNAME)) {
+                fail();
+            }
+
+            df.signOut();
+
+            if (df.getMyOwnerProfile() != null) {
+                fail();
+            }
+
+        } catch (DataException e) {
+            e.printStackTrace();
+            fail();
+        }
+
+    }
+    
+     public void testUpdateBirthdateUser() {
+        try {
+            DataFacade df = new DataFacade();
+            df.setTestMode(true);
+            df.signin(PLAYER_NAME, PLAYER_PASSWORD);
+
+            if (df.getMyOwnerProfile() == null) {
+                fail();
+            }
+
+            Owner owner = df.getMyOwnerProfile();
+            df.updateBirthdate(NEW_BIRTHDATE);
+
+            if (!owner.getUserIdentity().getBirthDate().equals(NEW_BIRTHDATE)) {
+                fail();
+            }
+            df.signOut();
+
+            if (df.getMyOwnerProfile() != null) {
+                fail();
+            }
+
+        } catch (DataException e) {
+            e.printStackTrace();
+            fail();
+        }
+>>>>>>> data/jingli/InterfaceIHMMain
+
+    }
+     
+     public void testUpdateFileImageUser() {
+        try {
+            DataFacade df = new DataFacade();
+            df.setTestMode(true);
+            df.signin(PLAYER_NAME, PLAYER_PASSWORD);
+
+            if (df.getMyOwnerProfile() == null) {
+                fail();
+            }
+
+            Owner owner = df.getMyOwnerProfile();
+            df.updateFileImage(NEW_IMAGE);
+
+            if (!owner.getUserIdentity().getAvatar().equals(NEW_IMAGE)) {
+                fail();
+            }
+            df.signOut();
+
+            if (df.getMyOwnerProfile() != null) {
+                fail();
+            }
+
+        } catch (DataException e) {
+            e.printStackTrace();
+            fail();
+        }
+
+    }
+
+    */
     /**
      * Test for update
      *
+     * @throws com.utclo23.data.module.DataException
      */
     @org.junit.Test
     public void testAlreadyConnected() throws DataException {
@@ -222,6 +349,7 @@ public class UserProfileTest {
     /**
      * Test of signout before signin
      *
+     * @throws java.lang.Exception
      */
     @org.junit.Test
     public void testWrongSignout() throws Exception {

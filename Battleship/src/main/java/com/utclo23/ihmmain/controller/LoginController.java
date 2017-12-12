@@ -81,11 +81,11 @@ public class LoginController extends AbstractController{
         boolean notEmpty = true;
         
         if(username.length() == 0){
-            usernameField.setStyle("-fx-border-color: #ef8d00;");
+            usernameField.getStyleClass().add("borderError");
             notEmpty = false;
         }        
         if(password.length() == 0){
-            passwordField.setStyle("-fx-border-color: #ef8d00;");
+            passwordField.getStyleClass().add("borderError");
             notEmpty = false;
         }
         return notEmpty;
