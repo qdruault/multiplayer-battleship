@@ -124,12 +124,11 @@ public class StatGame extends SerializableEntity{
         this.spectatorChat = spectatorChat;
         this.winner = winner;
         this.creator = creator;
-        //this.realGame = realGame;
         this.gameAbandonned = gameAbandonned;
         this.computerMode = computerMode;
     }
     
-    public StatGame(String id, GameType type, String name, boolean computerMode, boolean spectator, boolean spectatorChat, LightPublicUser creator){
+    public StatGame(String id,  GameType type, String name, boolean computerMode, boolean spectator, boolean spectatorChat, LightPublicUser creator){
         this.id = id;
         this.type = type;
         this.name = name;
@@ -138,7 +137,7 @@ public class StatGame extends SerializableEntity{
         this.players = new ArrayList<>();;
         this.winner = null;
         this.creator = creator;
-       // this.realGame = game;
+ 
         this.gameAbandonned = false;
         this.computerMode = computerMode;
     }

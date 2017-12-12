@@ -13,7 +13,11 @@ import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.LightPublicUser;
 import java.net.Inet4Address;
 import java.net.InterfaceAddress;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Facade for the communication module
@@ -130,10 +134,11 @@ public class ComFacade {
      * Called to send a request to join a specified game.
      *
      * @param game is a game the user wants to join
+     * @param role is player or spectator
      */
-    public void connectionToGame(StatGame game) {
+    public void connectionToGame(StatGame game, String role) {
 
-        M_JoinGame m_joingame = new M_JoinGame(iDataCom.getMyPublicUserProfile(), game);
+        M_JoinGame m_joingame = new M_JoinGame(iDataCom.getMyPublicUserProfile(), game, role);
         Inet4Address adr = KnownIPController.getInstance().getHashMap().get(game.getCreator().getId());
         Sender os = new Sender(adr.getHostAddress(), kIpCtrl.getPort(), m_joingame);
         new Thread(os).start();
@@ -156,11 +161,36 @@ public class ComFacade {
      * @param listIpTarget is the list of known ip targets
      */
     public void sendDiscovery(List<Inet4Address> listIpTarget) {
-        for (int i = 0; i < listIpTarget.size(); i++) {
-            M_GetIP m_getIp = new M_GetIP(iDataCom.getMyPublicUserProfile());
+        HashMap<String, Inet4Address> tmp_hash = new HashMap(kIpCtrl.getHashMap());
+        tmp_hash.put(iDataCom.getMyPublicUserProfile().getId(), kIpCtrl.getMyInetAddress());
+
+        List<LightPublicUser> tmp = new ArrayList(iDataCom.getConnectedUsers());
+        tmp.add(iDataCom.getMyPublicUserProfile().getLightPublicUser());
+            
+        // Suppression des doublons et de nous même au cas où
+        // dans listIpTarget
+        Set set = new HashSet();
+        set.addAll(listIpTarget);
+        if(set.contains(kIpCtrl.getMyInetAddress()))
+            set.remove(kIpCtrl.getMyInetAddress());
+        List<Inet4Address> newIpTarget = new ArrayList(set);
+        
+        for (Inet4Address ipDest : newIpTarget) {
+            /*M_GetIP m_getIp = new M_GetIP(iDataCom.getMyPublicUserProfile());
             Sender os = new Sender(listIpTarget.get(i).getHostAddress(), kIpCtrl.getPort(), m_getIp);
             new Thread(os).start();
-            discoCtrl.addIP(listIpTarget.get(i));
+            discoCtrl.addIP(listIpTarget.get(i));*/
+            
+            // On vérie si l'ip n'est pas déjà dans le hashMap         
+            if(!kIpCtrl.getHashMap().containsValue(ipDest)){
+                List otherTargets = new ArrayList(newIpTarget);
+                otherTargets.remove(ipDest);
+
+                M_Bleu m_Bleu = new M_Bleu(iDataCom.getMyPublicUserProfile(), 
+                        tmp_hash, tmp, iDataCom.getGameList(), otherTargets);
+                Sender os = new Sender(ipDest.getHostAddress(), kIpCtrl.getPort(), m_Bleu);
+                new Thread(os).start();
+            }
         }
     }
 
