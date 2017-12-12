@@ -35,10 +35,9 @@ public abstract class Game extends SerializableEntity {
 
     private Player currentPlayer;
 
-    public Game(StatGame statGame, List<Player> players, List<LightPublicUser> spectators, List<Message> messages) {
+    public Game(StatGame statGame, List<Player> players, List<LightPublicUser> spectators, List<Message> messages)  {
         this.statGame = statGame;
-        
-        //statGame.setRealGame(this);
+      
         
         this.players = players;
         this.spectators = spectators;
@@ -48,6 +47,8 @@ public abstract class Game extends SerializableEntity {
         this.currentPlayer = players.get(0);
         /* creation of caretaker */
         this.caretaker = new Caretaker();
+        
+       
     }
     
     /**
