@@ -36,6 +36,17 @@ public interface IDataIHMMain {
     public void setIPDiscovery(List<String> discoveryNodes) throws DataException;
     
     public void gameConnectionRequestGame(String id, String role);
-    public void setNetworkInterface(InterfaceAddress net_interface) ;
+
+    
+     public void setNetworkInterface(InterfaceAddress net_interface) ;
+     
+    public void updatePlayername(String playername) throws DataException;
+    public void updateFirstname(String firstname) throws DataException;
+    public void updateLastname(String lastname) throws DataException;
+    public void updateBirthdate(Date birthdate) throws DataException;
+    public void updateFileImage(String fileImage) throws DataException;
+    public void updatePassword(String password) throws DataException;
+
+
 
 }
