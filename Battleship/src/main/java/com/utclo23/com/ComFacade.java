@@ -216,7 +216,7 @@ public class ComFacade {
      * @param id is the UID of the player demanding to join the game
      * @param game is the game in question
      */
-    public void joinGameResponse(boolean success, String id, Game game) {
+    public void joinGameResponse(boolean success, String id, StatGame game) {
         M_JoinGameResponse m_joingameresponse = new M_JoinGameResponse(iDataCom.getMyPublicUserProfile(), success, game);
         if (success) {
             for (Inet4Address ip : kIpCtrl.getHashMap().values()) {

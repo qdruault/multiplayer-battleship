@@ -23,15 +23,16 @@ import java.util.logging.Logger;
 public class M_JoinGameResponse extends Message {
 
     private final boolean success;
-    private final Game game;
+    private final StatGame game;
 
     /**
      * Constructor.
      *
      * @param user is the message's sender
      * @param success is the response
+     * @param game
      */
-    public M_JoinGameResponse(PublicUser user, boolean success, Game game) {
+    public M_JoinGameResponse(PublicUser user, boolean success, StatGame game) {
         super(user);
         this.success = success;
         this.game = game;
@@ -40,11 +41,11 @@ public class M_JoinGameResponse extends Message {
     @Override
     public void callback(IDataCom iDataCom) {
         if (success) {
-            try {
-                iDataCom.receptionGame(game);
+            /*try {
+                iDataCom.receptionGame(game.getRealGame());
             } catch (DataException ex) {
                 Logger.getLogger(M_JoinGameResponse.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }*/
         } else {
             try {
                 iDataCom.connectionImpossible();
