@@ -312,7 +312,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     public void gameConnectionRequest(String gameID, String role) {
         StatGame game = this.gameMediator.getGame(gameID);
         if (!this.isTestMode()) {
-            this.comfacade.connectionToGame(game);
+            this.comfacade.connectionToGame(game, role);
         }
     }
 
