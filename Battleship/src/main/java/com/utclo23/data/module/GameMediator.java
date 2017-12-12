@@ -309,11 +309,11 @@ public class GameMediator {
             
             
             
-             System.out.println("add role "+role);
+             System.out.println("add Urole "+role);
             this.getCurrentGame().addUser(user, role);
 
             if (this.dataFacade.getComfacade() != null) {
-                this.dataFacade.getComfacade().joinGameResponse(true, id, this.currentGame);
+                this.dataFacade.getComfacade().joinGameResponse(true, user.getId(), this.currentGame);
 
             }
         } else {
