@@ -225,7 +225,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void connectionLostWithOpponent() {
-        throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
+        controller.popupConnectionLost();
     }
 
     /**

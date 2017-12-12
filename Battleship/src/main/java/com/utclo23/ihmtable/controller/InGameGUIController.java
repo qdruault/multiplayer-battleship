@@ -395,7 +395,6 @@ public class InGameGUIController {
         updateStatsPannel();
         // Get the current player.
         // currentPlayer = facade.getFacadeData().getGame().getCurrentPlayer();
-
     }
 
     /**
@@ -1151,6 +1150,30 @@ public class InGameGUIController {
             Node node = getNodeByRowColumnIndex(coordinate.getY(), coordinate.getX(), grid);
             node.getStyleClass().removeAll("inGameGUI_touched_cell");
             node.getStyleClass().add("inGameGUI_destroyed_cell");
+        }
+    }
+    
+    /**
+     * Popup displayed when the opponent lost his connection.
+     */
+    public void popupConnectionLost() {
+        // Create the popup.
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Connection lost");
+        alert.setHeaderText("Connection has been lost with your opponent");
+        alert.setContentText("Do you want to save this game?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        // Click on OK.
+        if (result.get() == ButtonType.OK){
+            // TODO: save the game.
+        }
+        
+        try {
+            // Go back to the menu.
+            facade.getFacadeIHMMain().toMenu();
+        } catch (IOException ex) {
+            Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
