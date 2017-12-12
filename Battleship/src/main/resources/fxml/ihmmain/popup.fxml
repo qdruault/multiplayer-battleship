@@ -9,7 +9,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="150.0" prefWidth="300.0" stylesheets="@../../styles/ihmmain.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.PopupController">
    <children>
-      <Pane prefHeight="151.0" prefWidth="400.0">
+      <Pane prefHeight="151.0" prefWidth="400.0" style="-fx-background-color: #061f30;">
          <children>
             <GridPane layoutX="51.0" layoutY="50.0" prefHeight="54.0" prefWidth="277.0">
               <columnConstraints>

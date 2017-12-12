@@ -11,15 +11,16 @@ import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 
 /**
- * Object: Generate a pop-up to enter and to send new info to update player profile
- * According to the label transformed by interface player profile, this controller will call
- * the update function corresponding created by Data.
+ * Generates a pop-up to enter and to send new info to update player profile.
+ * According to the label transformed by interface player profile,
+ * this controller will call the update function corresponding created by Data.
  * 
  * @author lipeining
  */
 public class PopupController extends AbstractController{  
     
     public String label;
+    private boolean textnull = true;
     @FXML
     private TextArea field;
     @FXML
@@ -27,10 +28,15 @@ public class PopupController extends AbstractController{
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }
     @FXML
-    private void update(ActionEvent event) throws IOException, DataException{
+    public void update(ActionEvent event) throws IOException, DataException{
         String text;
         text = field.getText();
-        switch(label){
+        if (text.isEmpty()){
+            field.setText("Can not send empty string");
+        }
+        else{
+            textnull = false;
+            switch(label){
             case "PlayerName":
                 getFacade().iDataIHMMain.updatePlayername(text);
                 break;
@@ -40,22 +46,20 @@ public class PopupController extends AbstractController{
             case "LastName":
                 getFacade().iDataIHMMain.updateLastname(text);
                 break;
-            /* To-do: change popup*/
-            case "Birthday":
-                getFacade().iDataIHMMain.updateLastname(text);
-                break;
             case "Password":
                 getFacade().iDataIHMMain.updatePassword(text);
                 break;
             default:
-                Logger.getLogger(
-                        PopupController.class.getName()).log(
+                Logger.getLogger( PopupController.class.getName()).log(
                                 Level.INFO,
                                 "[PlayerProfile] - error update profile, attribut not found."
                         );
+            } 
         }
-        getIhmmain().controllerMap.get(SceneName.PLAYER_PROFILE.toString()).refresh();
-        ((Node) (event.getSource())).getScene().getWindow().hide();
+        if(textnull == false){
+            getIhmmain().controllerMap.get(SceneName.PLAYER_PROFILE.toString()).refresh();
+            ((Node) (event.getSource())).getScene().getWindow().hide();
+        }
     }
     /**
      * 

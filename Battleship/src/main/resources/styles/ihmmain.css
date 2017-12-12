@@ -6,7 +6,9 @@
 #generalGrid{
     -fx-background-color: #061f30;
 }
-
+#root{
+    -fx-background-color: #061f30;
+}
 .scroll-pane {
     -fx-base: transparent;
     -fx-background-color: transparent;

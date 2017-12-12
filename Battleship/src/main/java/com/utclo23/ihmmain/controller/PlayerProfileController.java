@@ -5,9 +5,13 @@
  */
 package com.utclo23.ihmmain.controller;
 
+import com.utclo23.data.module.DataException;
 import com.utclo23.data.structure.PublicUser;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.concurrent.Task;
@@ -17,19 +21,25 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 /**
- * Object: display all info of player profile.
- * Display user's own profile (writable)
- * Display others profiles (read-only)
+ * Displays all info of player profile.
+ * Displays user's own profile (writable).
+ * Displays others profiles (read-only).
  * 
  * @author Lipeining
  */
@@ -53,7 +63,8 @@ public class PlayerProfileController extends AbstractController{
     private boolean isLoading = false; 
     private boolean isOther = false; 
     private String attribut;
-    private String imagePath;
+    private Image avatarImage;
+    private PopupController control;
     
     @FXML
     @Override
@@ -65,6 +76,7 @@ public class PlayerProfileController extends AbstractController{
     private void back(ActionEvent event) throws IOException{
         getIhmmain().toMenu();
     }
+
     @FXML
     private void toPlayerList(ActionEvent event) throws IOException{
         getIhmmain().toPlayerList();
@@ -77,6 +89,7 @@ public class PlayerProfileController extends AbstractController{
         text = description.getText();
         description.setText(text);
     }
+
     @FXML
     private void closeEdit(KeyEvent event) throws IOException{
         KeyCode code = event.getCode();
@@ -84,54 +97,117 @@ public class PlayerProfileController extends AbstractController{
             description.setEditable(false);
         }
     }
+
     @FXML
     private void editPlayerName(ActionEvent event) throws IOException{
         attribut="PlayerName";
         popup(attribut);
     }
+
     @FXML
     private void editFirstName(ActionEvent event) throws IOException{
         attribut="FirstName";
         popup(attribut);
     }
+
     @FXML
     private void editLastName(ActionEvent event) throws IOException{
         attribut="LastName";
         popup(attribut);
     }
+
     @FXML
     private void editBirthday(ActionEvent event) throws IOException{
         attribut="Birthday";
         popup(attribut);
     }
+
     @FXML
     private void editPassword(ActionEvent event) throws IOException{
         attribut="Password";
         popup(attribut);
     }
+    @FXML
+    private void editAvatar(ActionEvent event) throws IOException, DataException{
+        String avatarPath;
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open avatar file");
+        File selectedFile = fileChooser.showOpenDialog(getIhmmain().primaryStage);
+        if (selectedFile != null){
+            avatarPath = selectedFile.getPath();
+            Logger.getLogger(CreateUserController.class.getName()).log(
+                    Level.INFO, "The chosen file is : {0}", avatarPath);
+            getFacade().iDataIHMMain.updateFileImage(avatarPath);
+            refresh();
+        }        
+    }
     /**
      * Generate a pop-up
+     * The content of pop-up is generated dynamically.
+     * For updating the birthday, the date picker replace the text field in pop-up. 
      * @param attribut:name of info that user would like to modify
-     * @throws IOException 
      */
     private void popup(String attribut) throws IOException{
         final Stage primaryStage = getIhmmain().primaryStage;
-        String path = "/fxml/ihmmain/popup.fxml";
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
-        Parent sceneLoader = loader.load();
-        PopupController controller=loader.getController();
-        controller.setFacade(getFacade());
-        controller.setIhmmain(getIhmmain());
-        controller.setAttribut(attribut);
-        Scene newScene;
-        newScene = new Scene(sceneLoader);
         Stage popup = new Stage();
         popup.initOwner(primaryStage);
-        popup.setScene(newScene);
+        if(attribut == "Birthday"){
+            final DatePicker date = new DatePicker();
+            Button back = new Button();
+            Button submit = new Button(); 
+            back.setText("Back");
+            back.setOnAction(new EventHandler<ActionEvent>(){
+                @Override
+                public void handle(ActionEvent event) {
+                    ((Node) (event.getSource())).getScene().getWindow().hide();
+                }
+            });
+            submit.setText("Submit");
+            submit.setOnAction(new EventHandler<ActionEvent>(){
+                @Override
+                public void handle(ActionEvent event) {
+                    try {
+                        Date birthDate = Date.from(date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                        getFacade().iDataIHMMain.updateBirthdate(birthDate);
+                        refresh();
+                        ((Node) (event.getSource())).getScene().getWindow().hide();
+                    } catch (DataException ex) {
+                        Logger.getLogger(PlayerProfileController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+            });
+            Pane root = new Pane();
+            root.setId("root");
+            Scene display = new Scene(root,400,150);
+            display.getStylesheets().add(getClass().getResource("/styles/ihmmain.css").toExternalForm());
+            popup.setScene(display);
+            root.getChildren().add(back);
+            root.getChildren().add(submit);
+            back.setLayoutX(60);
+            back.setLayoutY(91);
+            submit.setLayoutX(231);
+            submit.setLayoutY(91);
+            root.getChildren().add(date);
+            date.setLayoutX(90);
+            date.setLayoutY(35);   
+        }
+        else{
+            String path = "/fxml/ihmmain/popup.fxml";
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+            Parent sceneLoader = loader.load();
+            PopupController controller=loader.getController();
+            controller.setFacade(getFacade());
+            controller.setIhmmain(getIhmmain());
+            controller.setAttribut(attribut);
+            Scene newScene;
+            newScene = new Scene(sceneLoader);
+            popup.setScene(newScene);
+        }
         popup.show();
     } 
     /**
-     * This function is for receiving the profile of other player asked by user
+     * This method is for receiving the profile of other player asked by user.
      * @param player: profile sent by Data for us to display
      * @throws IOException 
      */
@@ -141,8 +217,9 @@ public class PlayerProfileController extends AbstractController{
             other = player;
         }
     }
+
     /**
-     * This function is for waiting the profile
+     * This method is for waiting the profile.
      * As soon as receive the profile sent by Data, skip the loading and refresh the page.
      * @throws IOException 
      */
@@ -200,16 +277,32 @@ public class PlayerProfileController extends AbstractController{
             new Thread(wait).start();
         }
     }
+    /**
+     * Get user's avatar
+     */
+    public void getAvatar(PublicUser player){
+       byte[] thumbnail = player.getLightPublicUser().getAvatarThumbnail();
+       try{
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(thumbnail);
+            avatarImage = new Image(inputStream);
+       }catch(NullPointerException e){
+            Logger.getLogger(
+                PlayerProfileController.class.getName()).log(Level.INFO,
+                "[PlayerProfile] - error - avatar is null."
+                );   
+       }
+       
+    }
     @Override
     /**
-     * Initialize all the info of profile
+     * Initializes all the info of profile.
      */
     public void refresh(){
         if (!isOther){
             try{
-                //imagePath = me.getLightPublicUser().
-                //image.setImage(new Image (imagePath));
                 me = getFacade().iDataIHMMain.getMyPublicUserProfile();
+                getAvatar(me);
+                image.setImage(avatarImage);
                 userID .setText(me.getLightPublicUser().getPlayerName());
                 firstName.setText(me.getFirstName());
                 lastName.setText(me.getLastName());
@@ -225,6 +318,8 @@ public class PlayerProfileController extends AbstractController{
         }
         else{
             try{
+                getAvatar(other);
+                image.setImage(avatarImage);
                 userID.setText(other.getLightPublicUser().getPlayerName());
                 firstName.setText(other.getFirstName());
                 lastName.setText(other.getLastName());
