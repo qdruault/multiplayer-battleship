@@ -67,8 +67,12 @@ public abstract class Game extends SerializableEntity {
             }
             
             if(this.players.size() == 1) {
+                
                 Player player = new Player(user);
                 this.players.add(player);
+                
+                System.out.println("player "+player.getLightPublicUser().getId());
+                
             } else 
             {
                 throw new DataException("Data : already two players in this "
@@ -76,6 +80,10 @@ public abstract class Game extends SerializableEntity {
             }
         } else if(role.equals("spectator")) {
             this.spectators.add(user);
+            
+            System.out.println("spectator "+user.getId());
+               
+            
         } else {
             throw new DataException("Data : given role is not known.");
         }
