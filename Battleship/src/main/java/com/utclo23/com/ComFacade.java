@@ -222,10 +222,12 @@ public class ComFacade {
             for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
                 Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), m_joingameresponse);
                 new Thread(os).start();
+                System.out.println("send success joinGame");
             }
         } else {
             Sender os = new Sender(kIpCtrl.getHashMap().get(id).getHostAddress(), kIpCtrl.getPort(), m_joingameresponse);
             new Thread(os).start();
+            System.out.println("fail joinGame");
         }
     }
 }
