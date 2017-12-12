@@ -131,7 +131,7 @@ public class ComFacade {
             Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), m_creationgame);
             Thread thread = new Thread(os);
             thread.start();
-            System.out.println("envoi creationGame");
+            System.out.println("envoi creationGame" + m_creationgame);
         }
     }
 
