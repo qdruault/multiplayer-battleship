@@ -223,6 +223,7 @@ public class PlayerProfileController extends AbstractController{
                 birthday.setText(me.getBirthDate().toString());
             }
             catch(NullPointerException e){
+                e.printStackTrace();
                 Logger.getLogger(
                         PlayerProfileController.class.getName()).log(
                                 Level.INFO,
