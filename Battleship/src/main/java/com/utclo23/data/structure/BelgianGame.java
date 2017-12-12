@@ -18,14 +18,9 @@ public class BelgianGame extends Game {
     public BelgianGame(StatGame statGame, List<Player> players, List<LightPublicUser> spectators, List<Message> messages) {
         super(statGame, players, spectators, messages);
         
-         try{
-            
-        statGame.setRealGame((Game) this.clone());
         
-        }catch(Exception e)
-        {
-            e.printStackTrace();
-        }
+              
+        
     }
 
     /**
