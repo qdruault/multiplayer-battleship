@@ -209,7 +209,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void finishGame(StatGame stGame) {
-        throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
+        controller.displayFinishPopup(stGame.getWinner().getPlayerName());
     }
 
     /**

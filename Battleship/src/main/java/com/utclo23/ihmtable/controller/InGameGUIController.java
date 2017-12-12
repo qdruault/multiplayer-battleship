@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
@@ -33,7 +34,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -666,6 +670,34 @@ public class InGameGUIController {
     private void placeMine(Mine m, Player p)
     {
         placeMine(m.getCoord(), p);
+    }
+    /**
+     * Method to display popup asking the player to save the game !
+     * @param winner 
+     */
+    public void displayFinishPopup(String winner) {
+        String sMessage = "Victory! I'm proud of you General!";
+        if(!winner.equals(facade.getFacadeData().getMyPublicUserProfile().getPlayerName()))
+        {
+            sMessage = "Defeat! You should train against AI! Hahahah!";
+        }
+        
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("End of the Game");
+        alert.setHeaderText(sMessage + "\n" + winner +"wins this one!!!\n");
+        alert.setContentText("Do you want to save this game?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            // ... user chose OK
+            //facade.getFacadeData().save();
+        }
+
+        try {
+            facade.getFacadeIHMMain().toMenu();
+        } catch (IOException ex) {
+            Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private class AttackEvent implements EventHandler {
