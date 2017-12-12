@@ -20,7 +20,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 /**
- * The GUI that displays the list of connected users
+ * The GUI that displays the list of connected users.
  * @author calvezlo
  */
 public class PlayerListController extends AbstractController{
@@ -33,28 +33,24 @@ public class PlayerListController extends AbstractController{
         getIhmmain().toMenu();
     }
     
-     /* This function is called at the beginning of the application.
+    /** 
+     * This method is called at the beginning of the application.
      * It loads the connected users and print them into the tableview.
      */
     @FXML
     @Override
     public void start(){
         // The first display : we create the tableview
-        if(listPlayers.getColumns().isEmpty()){            
+        if(listPlayers.getColumns().isEmpty()){
             TableColumn idColumn = new TableColumn("ID");
             idColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("id"));
             idColumn.getStyleClass().add("cell-left");
             idColumn.getStyleClass().add("label");
-            
 
             TableColumn nameColumn = new TableColumn("NAME");
             nameColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("playerName"));
             nameColumn.getStyleClass().add("cell-right");
             nameColumn.getStyleClass().add("label");
-
-            /* TODO Add this lines when data add avatar in LightPublicUser. Add avatarColum in listPlayers.getColumns().addAll(...);
-            TableColumn avatarColumn = new TableColumn("AVATAR");
-            avatarColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("avatarThumbnal"));*/
 
             listPlayers.getColumns().addAll(idColumn, nameColumn);
 
@@ -67,7 +63,7 @@ public class PlayerListController extends AbstractController{
     }
     
     /**
-     * This method is call by data module when a new player is connected
+     * This method is called by data module when a new player is connected.
      */
     @Override
     public void refresh(){
@@ -77,7 +73,7 @@ public class PlayerListController extends AbstractController{
     }
     
     /**
-     * This function call the method of data to update the list of players
+     * This function calls the method of data to update the list of players.
      */
     private void getConnectedUsers(){
 
@@ -89,11 +85,10 @@ public class PlayerListController extends AbstractController{
             // Update the list in the GUI
             listPlayers.setItems(data);
         }
-
     }
     
     /**
-     * This function is call when the user click on a line in the tableview
+     * This function is called when the user click on a line in the tableview.
      * @param event 
      */
     @FXML
@@ -109,6 +104,5 @@ public class PlayerListController extends AbstractController{
                 }
             }
         }
-    }
-    
+    }    
 }
