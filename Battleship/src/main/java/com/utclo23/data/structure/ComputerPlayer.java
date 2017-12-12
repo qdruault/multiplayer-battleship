@@ -18,6 +18,7 @@ public class ComputerPlayer extends Player{
     public ComputerPlayer() {
         super(LightPublicUser.generateComputerProfile());
         this.focus = null;
+        this.setComputer(true);
         
     }
 
