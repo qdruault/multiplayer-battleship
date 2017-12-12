@@ -43,7 +43,7 @@ public class PlayerProfileController extends AbstractController{
    
     private PublicUser me;
     private PublicUser other;
-    private boolean isLoading = true; 
+    private boolean isLoading = false; 
     private boolean isOther = false; 
     private String attribut;
     
@@ -123,6 +123,7 @@ public class PlayerProfileController extends AbstractController{
         }
     }
     public void loading() throws IOException{
+        isLoading = true;
         if (isLoading){
             ProgressIndicator pin = new ProgressIndicator ();
             pin.setProgress(-1);
