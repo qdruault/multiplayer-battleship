@@ -57,7 +57,7 @@ public class Receiver implements Runnable {
                     request.callback(iDataCom);
                     break;
                 }*/
-
+                System.out.println("message received" + request.getClass().toString());
                 client.close();
                 in.close();
 

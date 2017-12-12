@@ -35,10 +35,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 /**
- * Object: display all info of player profile.
- * Display user's own profile (writable)
- * Display others profiles (read-only)
+ * Displays all info of player profile.
+ * Displays user's own profile (writable).
+ * Displays others profiles (read-only).
  * 
  * @author Lipeining
  */
@@ -75,6 +76,7 @@ public class PlayerProfileController extends AbstractController{
     private void back(ActionEvent event) throws IOException{
         getIhmmain().toMenu();
     }
+
     @FXML
     private void toPlayerList(ActionEvent event) throws IOException{
         getIhmmain().toPlayerList();
@@ -87,6 +89,7 @@ public class PlayerProfileController extends AbstractController{
         text = description.getText();
         description.setText(text);
     }
+
     @FXML
     private void closeEdit(KeyEvent event) throws IOException{
         KeyCode code = event.getCode();
@@ -94,26 +97,31 @@ public class PlayerProfileController extends AbstractController{
             description.setEditable(false);
         }
     }
+
     @FXML
     private void editPlayerName(ActionEvent event) throws IOException{
         attribut="PlayerName";
         popup(attribut);
     }
+
     @FXML
     private void editFirstName(ActionEvent event) throws IOException{
         attribut="FirstName";
         popup(attribut);
     }
+
     @FXML
     private void editLastName(ActionEvent event) throws IOException{
         attribut="LastName";
         popup(attribut);
     }
+
     @FXML
     private void editBirthday(ActionEvent event) throws IOException{
         attribut="Birthday";
         popup(attribut);
     }
+
     @FXML
     private void editPassword(ActionEvent event) throws IOException{
         attribut="Password";
@@ -138,7 +146,6 @@ public class PlayerProfileController extends AbstractController{
      * The content of pop-up is generated dynamically.
      * For updating the birthday, the date picker replace the text field in pop-up. 
      * @param attribut:name of info that user would like to modify
-     * @throws IOException 
      */
     private void popup(String attribut) throws IOException{
         final Stage primaryStage = getIhmmain().primaryStage;
@@ -200,7 +207,7 @@ public class PlayerProfileController extends AbstractController{
         popup.show();
     } 
     /**
-     * This function is for receiving the profile of other player asked by user
+     * This method is for receiving the profile of other player asked by user.
      * @param player: profile sent by Data for us to display
      * @throws IOException 
      */
@@ -210,8 +217,9 @@ public class PlayerProfileController extends AbstractController{
             other = player;
         }
     }
+
     /**
-     * This function is for waiting the profile
+     * This method is for waiting the profile.
      * As soon as receive the profile sent by Data, skip the loading and refresh the page.
      * @throws IOException 
      */
@@ -287,7 +295,7 @@ public class PlayerProfileController extends AbstractController{
     }
     @Override
     /**
-     * Initialize all the info of profile
+     * Initializes all the info of profile.
      */
     public void refresh(){
         if (!isOther){
