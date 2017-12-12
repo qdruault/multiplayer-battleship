@@ -27,11 +27,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 /**
- * The GUI that displays the list of saved local games
+ * The controller of the GUI that displays the list of saved local games.
  * @author calvezlo
  */
 public class SavedGameListController extends AbstractController{
-    
     
     @FXML
     private Button returnButton;
@@ -39,45 +38,38 @@ public class SavedGameListController extends AbstractController{
     private Button watchButton;
     @FXML
     private ScrollPane gameListPane;
-    
     private StatGameBean selectedGame;
-    
     private TableView<StatGameBean> gameList;
     
     /**
-     * This function is called at the beginning of the application.
+     * Called at the beginning of the application.
      * It loads the connected users and print them into the tableview.
      */
     @Override
     public void start(){
-        
         resetValues();
-        
         createGameListTableView();
-        
         addOnMoussClickEventOnGameList();
-            
         enableAllButtons();
-                
         gameListPane.setFitToWidth(true);
         gameListPane.setFitToHeight(true);
-        
         refresh();
     }
 
-    private void addOnMoussClickEventOnGameList() {
-        //add onMoussClicked event on table view
+    /**
+     * Adds an onMouseClicked event on the table view.
+     */
+    private void addOnMoussClickEventOnGameList(){
         gameList.setOnMouseClicked(new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent event) {
                 Node node = ((Node) event.getTarget()).getParent();
                 TableRow row;
-                if(node instanceof TableView){
-                }else{
+                if(!(node instanceof TableView)){
                     if (node instanceof TableRow) {
                     row = (TableRow) node;
                 } else {
-                    // clicking on text part, parent is cell or row, cell's parent is the row
+                    //clicking on text part, parent is cell or row, cell's parent is the row
                     //so check here if parent is cell or row
                     if(node.getParent() instanceof TableRow){
                         row = (TableRow) node.getParent();
@@ -88,12 +80,14 @@ public class SavedGameListController extends AbstractController{
                 StatGameBean selected = (StatGameBean)row.getItem();
                 selectedGame = selected;
                 }
-
             }
         });
     }
 
-    private void createGameListTableView() {
+    /**
+     * Create the table that displays the saved games.
+     */
+    private void createGameListTableView(){
         //add columns
         TableColumn nameColumn = new TableColumn("NAME");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("gameName"));
@@ -102,22 +96,24 @@ public class SavedGameListController extends AbstractController{
 
         TableColumn winnerColumn = new TableColumn("WINNER");
         winnerColumn.setCellValueFactory(new PropertyValueFactory<>("winner"));
+
         //setting the cell factory for the creator.playerName column  
         winnerColumn.getStyleClass().add("label");
         
         TableColumn losserColumn = new TableColumn("PLAYER");
         losserColumn.setCellValueFactory(new PropertyValueFactory<>("losser"));
+
         //setting the cell factory for the creator.playerName column  
         losserColumn.getStyleClass().add("label");
         
         gameList = new TableView<>();
-        
         gameList.getColumns().addAll(nameColumn, winnerColumn, losserColumn);
         gameList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
     
     /**
-     * This function update the list of online games, it refreshes the display each time is called when this controller is running and is not loading
+     * Updates the list of online games.
+     * It refreshes the display each time this controller is running and is not loading.
      */
     @Override
     public void refresh(){
@@ -145,18 +141,16 @@ public class SavedGameListController extends AbstractController{
             gameList.setItems(data);
             //create a new VBox to save table view
             gameListPane.setContent(gameList);
-
         }
-        
     }
-
     
     @FXML
     private void returnMenu(ActionEvent event) throws IOException{
         getIhmmain().toMenu();
     }
+
     @FXML
-    private void watchSelectedGame(ActionEvent event) {
+    private void watchSelectedGame(ActionEvent event){
         try{
             getFacade().iIHMTableToIHMMain.showSavedGameWithId(Integer.valueOf(selectedGame.getGame().getId()));
         }catch(NullPointerException e){
@@ -165,20 +159,20 @@ public class SavedGameListController extends AbstractController{
         }
     }
 
-    private void disableAllButtonsExceptReturn() {
+    private void disableAllButtonsExceptReturn(){
         watchButton.setDisable(true);
     }
     
-    private void enableAllButtons() {
+    private void enableAllButtons(){
         watchButton.setDisable(false);
         returnButton.setDisable(false);
     }
 
     /**
-     * in order to not be infected the last time's result
+     * Resets booleans of this controller.
+     * Used in order not to be affected by the previous result.
      */
-    private void resetValues() {
+    private void resetValues(){
         selectedGame = null;
     }
-
 }

@@ -22,7 +22,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="203.0" prefWidth="250.0">
                            <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fafbfc" height="135.0" stroke="BLACK" strokeType="INSIDE" width="132.0" />
+                              <ImageView fx:id="image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
@@ -89,7 +89,7 @@
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" prefHeight="29.0" prefWidth="268.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#editPassword" text="edit" />
+                              <Button mnemonicParsing="false" onAction="#editDescription" text="edit" />
                            </children>
                         </HBox>
                      </children></VBox>
