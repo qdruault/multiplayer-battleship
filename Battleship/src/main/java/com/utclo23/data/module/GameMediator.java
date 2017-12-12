@@ -419,7 +419,7 @@ public class GameMediator {
         }
 
         if (this.dataFacade.getIhmTablefacade() != null) {
-            //this.dataFacade.getIhmTablefacade().feedback(mine.getCoord(),touched,shipDestroyed) ;
+            this.dataFacade.getIhmTablefacade().feedback(mine,touched,shipDestroyed) ;
         }
 
         if (this.currentGame.isGameFinishedByEnnemy()) {
