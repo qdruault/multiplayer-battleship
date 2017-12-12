@@ -313,7 +313,7 @@ public class GameMediator {
             this.getCurrentGame().addUser(user, role);
 
             if (this.dataFacade.getComfacade() != null) {
-                this.dataFacade.getComfacade().joinGameResponse(true, id, this.currentGame.getStatGame());
+                this.dataFacade.getComfacade().joinGameResponse(true, id, this.currentGame);
 
             }
         } else {
