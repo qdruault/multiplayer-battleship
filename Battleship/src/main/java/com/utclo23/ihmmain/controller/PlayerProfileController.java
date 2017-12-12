@@ -6,6 +6,8 @@
 package com.utclo23.ihmmain.controller;
 
 import com.utclo23.data.structure.PublicUser;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,11 +17,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -42,12 +46,15 @@ public class PlayerProfileController extends AbstractController{
     private Label birthday;    
     @FXML
     private TextField description;
+    @FXML
+    private ImageView image;
    
     private PublicUser me;
     private PublicUser other;
     private boolean isLoading = false; 
     private boolean isOther = false; 
     private String attribut;
+    private Image avatarImage;
     
     @FXML
     @Override
@@ -143,9 +150,8 @@ public class PlayerProfileController extends AbstractController{
     public void loading() throws IOException{
         isLoading = true;
         if (isLoading){
-            ProgressIndicator pin = new ProgressIndicator ();
-            pin.setProgress(-1);
-            //to do: display ProgressIndicator
+            //change the cursor
+            getIhmmain().primaryStage.getScene().setCursor(Cursor.WAIT);
             
             //create a wait task, check every 0.5s if the loading is finished, finish the waiting
             Task<Void> wait;
@@ -172,6 +178,7 @@ public class PlayerProfileController extends AbstractController{
                 public void handle(WorkerStateEvent event) {
                     isOther = true;
                     try {
+                        getIhmmain().primaryStage.getScene().setCursor(Cursor.DEFAULT);
                         getIhmmain().toPlayerProfile();
                     } catch (IOException ex) {
                         Logger.getLogger(
@@ -194,6 +201,12 @@ public class PlayerProfileController extends AbstractController{
             new Thread(wait).start();
         }
     }
+    public void getAvatar(){
+       byte[] thumbnail = getFacade().iDataIHMMain.getMyPublicUserProfile().getLightPublicUser().getAvatarThumbnail();
+       //System.out.println(thumbnail);
+       ByteArrayInputStream inputStream = new ByteArrayInputStream(thumbnail);
+       avatarImage = new Image(inputStream);
+    }
     @Override
     /**
      * Initialize all the info of profile
@@ -201,8 +214,10 @@ public class PlayerProfileController extends AbstractController{
     public void refresh(){
         if (!isOther){
             try{
+                getAvatar();
+                image.setImage(avatarImage);
                 me = getFacade().iDataIHMMain.getMyPublicUserProfile();
-                userID.setText(me.getLightPublicUser().getPlayerName());
+                userID .setText(me.getLightPublicUser().getPlayerName());
                 firstName.setText(me.getFirstName());
                 lastName.setText(me.getLastName());
                 birthday.setText(me.getBirthDate().toString());

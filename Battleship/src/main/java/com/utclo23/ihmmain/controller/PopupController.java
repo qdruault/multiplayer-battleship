@@ -20,6 +20,7 @@ import javafx.scene.control.TextArea;
 public class PopupController extends AbstractController{  
     
     public String label;
+    private boolean textnull = true;
     @FXML
     private TextArea field;
     @FXML
@@ -30,32 +31,39 @@ public class PopupController extends AbstractController{
     private void update(ActionEvent event) throws IOException, DataException{
         String text;
         text = field.getText();
-        switch(label){
+        if (text.isEmpty()){
+            field.setText("Can not send empty string");
+        }
+        else{
+            textnull = false;
+            switch(label){
             case "PlayerName":
-                //facade.iDataIHMMain.updatePlayername(text);
+                getFacade().iDataIHMMain.updatePlayername(text);
                 break;
             case "FirstName":
-                //facade.iDataIHMMain.updateFirstname(text);
+                getFacade().iDataIHMMain.updateFirstname(text);
                 break;
             case "LastName":
-                //facade.iDataIHMMain.updateLastname(text);
+                getFacade().iDataIHMMain.updateLastname(text);
                 break;
             /* To-do: change popup*/
             case "Birthday":
-                //facade.iDataIHMMain.updateLastname(text);
+                getFacade().iDataIHMMain.updateLastname(text);
                 break;
             case "Password":
-                //facade.iDataIHMMain.updatePassword(text);
+                getFacade().iDataIHMMain.updatePassword(text);
                 break;
             default:
-                Logger.getLogger(
-                        PopupController.class.getName()).log(
+                Logger.getLogger( PopupController.class.getName()).log(
                                 Level.INFO,
                                 "[PlayerProfile] - error update profile, attribut not found."
                         );
+            } 
         }
-        getIhmmain().controllerMap.get(SceneName.PLAYER_PROFILE.toString()).refresh();
-        ((Node) (event.getSource())).getScene().getWindow().hide();
+        if(textnull == false){
+            getIhmmain().controllerMap.get(SceneName.PLAYER_PROFILE.toString()).refresh();
+            ((Node) (event.getSource())).getScene().getWindow().hide();
+        }
     }
     /**
      * 
