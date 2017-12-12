@@ -8,6 +8,7 @@ package com.utclo23.ihmtable.controller;
 import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.Game;
+import com.utclo23.data.structure.Message;
 import com.utclo23.data.structure.Mine;
 import com.utclo23.data.structure.Player;
 import com.utclo23.data.structure.Ship;
@@ -222,6 +223,17 @@ public class InGameGUIController {
      * The current player.
      */
     private Player currentPlayer;
+
+
+    /**
+     * True if playing review game
+     */
+    private boolean reviewGame = false;
+
+    /**
+     * Frame for reloading a game
+     */
+    private Timeline reloadTimeline = null;
 
     /**
     * Set the IHM Table facade.
@@ -590,7 +602,7 @@ public class InGameGUIController {
                     result = node;
                     break;
                 }
-            }            
+            }
         }
 
         return result;
@@ -648,7 +660,7 @@ public class InGameGUIController {
      * Generic method for placing a mine on the grid
      * Data gives us the mine object and the player
      * @param m
-     * @param p 
+     * @param p
      */
     private void placeMine(Mine m, Player p)
     {
@@ -791,6 +803,31 @@ public class InGameGUIController {
         anchor.getChildren().add(butt);
     }
 
+
+    /**
+     * Reload a game from a list of event
+     * @param eventList : list of events (mines and messages)
+     */
+    private void reloadGame(List<com.utclo23.data.structure.Event> eventList)
+    {
+        //Foreach event
+        for(com.utclo23.data.structure.Event dataEvent : eventList)
+        {
+            //If it's a mine, place it
+            if(dataEvent instanceof Mine)
+            {
+                Mine m = (Mine)dataEvent;
+                placeMine(m, m.getOwner());
+            }
+            //If it's a message, print it
+            else
+            {
+                Message m = (Message)dataEvent;
+                facade.printMessage(m);
+            }
+        }
+    }
+
     /**
      * Method for clearing the corner and put the right buttons (forward...)
      */
@@ -819,7 +856,7 @@ public class InGameGUIController {
         backWardButton.getStyleClass().add("reviews");
         backWardButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                facade.getFacadeData().getPreviousBoard();
+                reloadGame(facade.getFacadeData().getPreviousBoard());
             }
         });
 
@@ -828,7 +865,31 @@ public class InGameGUIController {
         playButton.getStyleClass().add("reviews");
         playButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                facade.getFacadeData().getNextBoard();
+                //if the timeline doesn't exist, create it
+                if(reloadTimeline == null)
+                {
+                    //Create the review timeline
+                    reloadTimeline = new Timeline();
+                    reloadTimeline.setCycleCount(Timeline.INDEFINITE);
+                    KeyFrame frame = new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            List<com.utclo23.data.structure.Event> l = facade.getFacadeData().getNextBoard();
+                            if(l == null){
+                                reloadTimeline.pause();
+                            }
+                            else{
+                                reloadGame(l);
+                            }
+                        }
+                    });
+                    reloadTimeline.getKeyFrames().add(frame);
+                    reloadTimeline.playFromStart();
+                }
+                //if the timeline already exist, play it
+                else{
+                    reloadTimeline.play();
+                }
             }
         });
 
@@ -837,9 +898,8 @@ public class InGameGUIController {
         pauseButton.getStyleClass().add("reviews");
         backWardButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                /*
-                TODO: Pause
-                */
+                //stop the review timeline
+                reloadTimeline.pause();
             }
         });
 
@@ -848,7 +908,7 @@ public class InGameGUIController {
         forwardButton.getStyleClass().add("reviews");
         backWardButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                facade.getFacadeData().getNextBoard();
+                reloadGame(facade.getFacadeData().getNextBoard());
             }
         });
 
@@ -956,7 +1016,7 @@ public class InGameGUIController {
                                 // Add the coordinates.
                                 ship.getListCoord().add(startPosition);
                                 ship.getListCoord().add(endPosition);
-                                
+
                                 // Add the coordinates between the two cases.
                                 Coordinate diff = new Coordinate(endPosition.getX()-startPosition.getX(),endPosition.getY()-startPosition.getY());
                                 int xDirection = (diff.getX() >= 0) ? 1 : -1;
