@@ -15,84 +15,92 @@ import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Thibault Chiche
  */
 public class M_Bleu extends Message {
-    HashMap<String, Inet4Address> hashMap_received;
-    List<LightPublicUser> users_received;
-    List<StatGame> listGames_received;
-    List<Inet4Address> otherTargets;
-    public M_Bleu(PublicUser user, HashMap<String, Inet4Address> hashMap, 
+
+    private final HashMap<String, Inet4Address> hashMapReceived;
+    private final List<LightPublicUser> usersReceived;
+    private final List<StatGame> listGamesReceived;
+    private final List<Inet4Address> otherTargets;
+
+    public M_Bleu(PublicUser user, HashMap<String, Inet4Address> hashMap,
             List<LightPublicUser> users, List<StatGame> listGames, List<Inet4Address> oTargets) {
         super(user);
-        this.hashMap_received = hashMap;
-        this.users_received = users;
-        this.listGames_received = listGames;
+        this.hashMapReceived = hashMap;
+        this.usersReceived = users;
+        this.listGamesReceived = listGames;
         this.otherTargets = oTargets;
     }
 
     @Override
-    public void callback(IDataCom iDataCom){
-        System.out.println("Message bleu reçu");
-        List<String> my_users_id = new ArrayList(KnownIPController.getInstance().getHashMap().keySet());
-        List<LightPublicUser> my_users_profile = new ArrayList(iDataCom.getConnectedUsers());
-        
-        HashMap<String, Inet4Address> new_pairs = new HashMap();
-        List<LightPublicUser> new_users_profile = new ArrayList();     
-        
+    public void callback(IDataCom iDataCom) {
+        Logger.getLogger(M_Bleu.class.getName()).log(Level.INFO, null, "Blue message received");
+        List<String> myUsersId = new ArrayList(KnownIPController.getInstance().getHashMap().keySet());
+        List<LightPublicUser> myUsersProfile = new ArrayList(iDataCom.getConnectedUsers());
+
+        HashMap<String, Inet4Address> newPairs = new HashMap();
+        List<LightPublicUser> newUsersProfile = new ArrayList();
+
         // Envoi message bleu aux autres targets afin que tout le monde ait 
         // les mêmes joueurs connectés. Les premiers qui recevront ces messages
         // seront prioritaires
-        HashMap<String, Inet4Address> tmp_hash = new HashMap(KnownIPController.getInstance().getHashMap());
-        tmp_hash.put(iDataCom.getMyPublicUserProfile().getId(), KnownIPController.getInstance().getMyInetAddress());
+        HashMap<String, Inet4Address> tmpHash = new HashMap(KnownIPController.getInstance().getHashMap());
+        tmpHash.put(iDataCom.getMyPublicUserProfile().getId(), KnownIPController.getInstance().getMyInetAddress());
 
         List<LightPublicUser> tmp = new ArrayList(iDataCom.getConnectedUsers());
         tmp.add(iDataCom.getMyPublicUserProfile().getLightPublicUser());
-        
-        if(this.otherTargets != null){
-            for(Inet4Address ipDest : this.otherTargets){
+
+        if (this.otherTargets != null) {
+            for (Inet4Address ipDest : this.otherTargets) {
                 // On envoie pas si on avait déjà l'IP dans le hashMap
-                if(!KnownIPController.getInstance().getHashMap().containsValue(ipDest)){
-                    M_Bleu m_Bleu = new M_Bleu(iDataCom.getMyPublicUserProfile(), 
-                            tmp_hash, tmp, iDataCom.getGameList(), null);
+                if (!KnownIPController.getInstance().getHashMap().containsValue(ipDest)) {
+                    M_Bleu m_Bleu = new M_Bleu(iDataCom.getMyPublicUserProfile(),
+                            tmpHash, tmp, iDataCom.getGameList(), null);
                     Sender os = new Sender(ipDest.getHostAddress(), KnownIPController.getInstance().getPort(), m_Bleu);
                     new Thread(os).start();
                 }
             }
         }
-        
+
         // Envoi message rouge à ceux non déjà présents dans nos joueurs connectés
-        for(String key : this.hashMap_received.keySet()){
-            if(!key.equals(iDataCom.getMyPublicUserProfile().getId()) &&
-                    !my_users_id.contains(key)){                                        
-                M_Rouge m_Rouge = new M_Rouge(iDataCom.getMyPublicUserProfile(), tmp_hash, tmp, iDataCom.getGameList());
-                Sender os = new Sender(this.hashMap_received.get(key).getHostAddress(), KnownIPController.getInstance().getPort(), m_Rouge);
+        for (Map.Entry<String, Inet4Address> entry : this.hashMapReceived.entrySet()) {
+            if (!entry.getKey().equals(iDataCom.getMyPublicUserProfile().getId())
+                    && !myUsersId.contains(entry.getKey())) {
+                M_Rouge mRouge = new M_Rouge(iDataCom.getMyPublicUserProfile(), tmpHash, tmp, iDataCom.getGameList());
+                Sender os = new Sender(entry.getValue().getHostAddress(), KnownIPController.getInstance().getPort(), mRouge);
                 Thread thread = new Thread(os);
                 thread.start();
-                
-                new_pairs.put(key, this.hashMap_received.get(key));
+
+                newPairs.put(entry.getKey(), entry.getValue());
             }
         }
-        
-        for(LightPublicUser key : this.users_received){
-            if(!key.equals(iDataCom.getMyPublicUserProfile().getLightPublicUser()) &&
-                    !my_users_profile.contains(key)){
-                new_users_profile.add(key);
+
+        for (LightPublicUser key : this.usersReceived) {
+            if (!key.equals(iDataCom.getMyPublicUserProfile().getLightPublicUser())
+                    && !myUsersProfile.contains(key)) {
+                newUsersProfile.add(key);
             }
         }
-        
+
         // Maj de nos listes avec les nouvelles données reçues
         // maj de la liste des games
-        for(StatGame game : this.listGames_received){
-            if(!iDataCom.getGameList().contains(game))
+        for (StatGame game : this.listGamesReceived) {
+            if (!iDataCom.getGameList().contains(game)) {
                 iDataCom.addNewGame(game);
+            }
         }
-        for(String key : new_pairs.keySet())
-            KnownIPController.getInstance().getHashMap().put(key, new_pairs.get(key));
-        for(LightPublicUser key : new_users_profile)
+        for (Map.Entry<String, Inet4Address> entry : newPairs.entrySet()) {
+            KnownIPController.getInstance().getHashMap().put(entry.getKey(), entry.getValue());
+        }
+        for (LightPublicUser key : newUsersProfile) {
             iDataCom.addConnectedUser(key);
-    }   
+        }
+    }
 }

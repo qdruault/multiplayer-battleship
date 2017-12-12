@@ -13,7 +13,7 @@ import com.utclo23.data.structure.StatGame;
  * @author Thibault CHICHE
  */
 public class M_CreationGame extends Message{
-    public StatGame game;
+    public final StatGame game;
     
     /**
     * Constructor.

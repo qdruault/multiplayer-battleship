@@ -16,7 +16,7 @@ import com.utclo23.data.facade.IDataCom;
  */
 public abstract class Message implements Serializable{
     protected PublicUser user;
-    protected Inet4Address IP_sender;
+    protected Inet4Address ipSender;
     
     /**
      * This function is called by the receptor when it receives a new Message
@@ -33,6 +33,6 @@ public abstract class Message implements Serializable{
     }
     
     public void setIpSender(Inet4Address ip){
-        IP_sender = ip;
+        ipSender = ip;
     }
 }
