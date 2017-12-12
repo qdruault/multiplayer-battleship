@@ -53,8 +53,8 @@ public class M_ReturnIP extends Message {
 
         kic = KnownIPController.getInstance();
         //MAJ our knownIp hashMap
-        kic.addNonExistingNodes(idToIp);
-
+        HashMap<String, Inet4Address> newIpHash = kic.addNonExistingNodes(idToIp);
+       
         discoCtrl = DiscoveryController.getInstance();
 
         List<LightPublicUser> listUsersMaj = iDataCom.getConnectedUsers();
@@ -65,6 +65,7 @@ public class M_ReturnIP extends Message {
         // else (we got this returnIp from a newly updated node
         // send only our OWN data to all new IP
         if (discoCtrl.isIn(IP_sender)) {
+            System.out.println("if");
             discoCtrl.removeIpRetrieved(IP_sender);
             // get the hasmap of our IP to send it to the requesting node. EXECT our own and the ones in getIPIssuedLIst
             HashMap<String, Inet4Address> IdToIp = kic.getNewIpHashMap();
@@ -86,26 +87,24 @@ public class M_ReturnIP extends Message {
             new Thread(os).start();
 
         } else {
-
+            System.out.println("else");
             LightPublicUser myUser = iDataCom.getMyPublicUserProfile().getLightPublicUser();
             List<LightPublicUser> listUsersToSend = new ArrayList<>();
             listUsersToSend.add(myUser);
             // get the hasmap of our IP to send it to the requesting node. 
-            HashMap<String, Inet4Address> IdToIp = new HashMap<>();
+            HashMap<String, Inet4Address> IdToIpToSend = new HashMap<>();
 
             try {
-                IdToIp.put(myUser.getId(), (Inet4Address) Inet4Address.getLocalHost());
+                IdToIpToSend.put(myUser.getId(), (Inet4Address) Inet4Address.getLocalHost());
             } catch (UnknownHostException ex) {
                 Logger.getLogger(M_ReturnIP.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            M_ReturnIP returnIp = new M_ReturnIP(user, listGamesMaj, listUsersToSend, IdToIp);
-            for (Inet4Address ip : kic.getHashMap().values()) {
+            M_ReturnIP returnIp = new M_ReturnIP(user, listGamesMaj, listUsersToSend, IdToIpToSend);
+            for (Inet4Address ip : newIpHash.values()) {
                 Sender os = new Sender(ip.getHostAddress(), kic.getPort(), returnIp);
                 Thread thread = new Thread(os);
                 thread.start();
             }
         }
-
     }
 }

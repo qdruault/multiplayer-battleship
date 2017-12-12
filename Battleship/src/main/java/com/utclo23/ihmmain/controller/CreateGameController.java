@@ -97,7 +97,7 @@ public class CreateGameController extends AbstractController{
             boolean audiences = radioButtonAudience.isSelected();
             try{
                 Game newGame = getFacade().iDataIHMMain.createGame(names, enemys, audiences, chats, modes);
-                msg.showMessageDialog(null, "Game created", "Information", JOptionPane.INFORMATION_MESSAGE);
+                //msg.showMessageDialog(null, "Game created", "Information", JOptionPane.INFORMATION_MESSAGE);
                 getFacade().iIHMTableToIHMMain.createInGameGUI(getIhmmain().primaryStage);
 
             }catch (DataException e){

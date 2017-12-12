@@ -145,6 +145,16 @@ public class GameMediator {
             }
 
             /**
+             * Check if the ship has the right amount of coordinates
+             */
+            for (Ship s : player.getShips()) {
+                if(s.getSize() != s.getListCoord().size()){
+                    throw new DataException("Data : ship has more coordinates than its size");
+                }
+            }
+            
+            
+            /**
              * determine all positions taken *
              */
             Map<String, Coordinate> positionMap = new HashMap<>();
@@ -154,7 +164,7 @@ public class GameMediator {
                 }
             }
 
-            //test
+            //test the ship isn't placed on coordinates that are already taken
             for (Coordinate c : ship.getListCoord()) {
                 if (positionMap.containsKey("" + c.getX() + "-" + c.getY())) {
                     throw new DataException("Data : position already taken");
@@ -356,16 +366,29 @@ public class GameMediator {
     /**
      * Exit current game.
      */
-    public void leaveGame() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     
+   public void leaveGame() {
+        //Sauvegarde à ajouter.
+        this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
+        //Sauvegarde à ajouter, que l'owner soit joueur ou pas.
+        String status = this.getOwnerStatus();
+        if(status == "player") {
+            if(this.currentGame.getStatGame().getWinner() == null) {
+                this.giveUp();
+            }
+            this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
+        }
+        this.currentGame = null;
     }
+
+
 
     public void receptionGame(Game game) {
 
         if (this.dataFacade.getIhmMainFacade() != null) {
 
             this.currentGame = game;
-            // this.dataFacade.getIhmMainFacade().receptionGame(game);
+            this.dataFacade.getIhmMainFacade().receptionGame(game);
         }
 
     }
@@ -401,18 +424,21 @@ public class GameMediator {
 
         if (this.currentGame.isGameFinishedByEnnemy()) {
             // a faire
-        }
-
-
-        //Sauvegarde à ajouter, que l'owner soit joueur ou pas.
-        String status = this.getOwnerStatus();
-        if(status == "player") {
-            if(this.currentGame.getStatGame().getWinner() == null) {
-                this.giveUp();
+             //Sauvegarde à ajouter, que l'owner soit joueur ou pas.
+            String status = this.getOwnerStatus();
+            if(status == "player") {
+                if(this.currentGame.getStatGame().getWinner() == null) {
+                    this.giveUp();
+                }
+                this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
+                
+                 this.currentGame = null;
             }
-            this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
         }
-        this.currentGame = null;
+
+
+       
+       
     }
     
     /**
