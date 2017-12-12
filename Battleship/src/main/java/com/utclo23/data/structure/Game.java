@@ -87,8 +87,7 @@ public abstract class Game extends SerializableEntity {
             this.spectators.add(user);
             
             System.out.println("spectator "+user.getId());
-               
-            
+              
         } else {
             throw new DataException("Data : given role is not known.");
         }
