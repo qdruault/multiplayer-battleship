@@ -13,7 +13,11 @@ import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.LightPublicUser;
 import java.net.Inet4Address;
 import java.net.InterfaceAddress;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Facade for the communication module
@@ -156,11 +160,36 @@ public class ComFacade {
      * @param listIpTarget is the list of known ip targets
      */
     public void sendDiscovery(List<Inet4Address> listIpTarget) {
-        for (int i = 0; i < listIpTarget.size(); i++) {
-            M_GetIP m_getIp = new M_GetIP(iDataCom.getMyPublicUserProfile());
+        HashMap<String, Inet4Address> tmp_hash = new HashMap(kIpCtrl.getHashMap());
+        tmp_hash.put(iDataCom.getMyPublicUserProfile().getId(), kIpCtrl.getMyInetAddress());
+
+        List<LightPublicUser> tmp = new ArrayList(iDataCom.getConnectedUsers());
+        tmp.add(iDataCom.getMyPublicUserProfile().getLightPublicUser());
+            
+        // Suppression des doublons et de nous même au cas où
+        // dans listIpTarget
+        Set set = new HashSet();
+        set.addAll(listIpTarget);
+        if(set.contains(kIpCtrl.getMyInetAddress()))
+            set.remove(kIpCtrl.getMyInetAddress());
+        List<Inet4Address> newIpTarget = new ArrayList(set);
+        
+        for (Inet4Address ipDest : newIpTarget) {
+            /*M_GetIP m_getIp = new M_GetIP(iDataCom.getMyPublicUserProfile());
             Sender os = new Sender(listIpTarget.get(i).getHostAddress(), kIpCtrl.getPort(), m_getIp);
             new Thread(os).start();
-            discoCtrl.addIP(listIpTarget.get(i));
+            discoCtrl.addIP(listIpTarget.get(i));*/
+            
+            // On vérie si l'ip n'est pas déjà dans le hashMap         
+            if(!kIpCtrl.getHashMap().containsValue(ipDest)){
+                List otherTargets = new ArrayList(newIpTarget);
+                otherTargets.remove(ipDest);
+
+                M_Bleu m_Bleu = new M_Bleu(iDataCom.getMyPublicUserProfile(), 
+                        tmp_hash, tmp, iDataCom.getGameList(), otherTargets);
+                Sender os = new Sender(ipDest.getHostAddress(), kIpCtrl.getPort(), m_Bleu);
+                new Thread(os).start();
+            }
         }
     }
 
