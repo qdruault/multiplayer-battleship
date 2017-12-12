@@ -37,8 +37,8 @@ public interface IDataIHMMain {
     
     public void gameConnectionRequestGame(String id, String role);
 
-    
-     public void setNetworkInterface(InterfaceAddress net_interface) ;
+  
+    public void setNetworkInterface(InterfaceAddress net_interface) ;
      
     public void updatePlayername(String playername) throws DataException;
     public void updateFirstname(String firstname) throws DataException;

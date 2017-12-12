@@ -292,7 +292,21 @@ public class GameMediator {
      * @param role role of the new user
      */
     public void updateGameList(LightPublicUser user, String id, String role) throws DataException {
+       if(user == null)
+            {
+                System.out.println("user is null");
+            }
+            
+            if(this.currentGame == null)
+            {
+                System.out.println("current game is null");
+            }
+        
         if (this.currentGame.getId().compareTo(id) == 0) {
+            
+            
+            
+             System.out.println("add role "+role);
             this.getCurrentGame().addUser(user, role);
 
             if (this.dataFacade.getComfacade() != null) {
@@ -312,8 +326,11 @@ public class GameMediator {
             if (this.gamesMap.containsKey(id)) {
                 game = this.gamesMap.get(id);
                 //send game
-                //TODO set spectator or player
-                this.dataFacade.getComfacade().connectionToGame(game);
+                
+                // 
+                System.out.println(" ROLE : "+role);
+                
+                this.dataFacade.getComfacade().connectionToGame(game, role);
             }
 
         }
@@ -384,10 +401,11 @@ public class GameMediator {
 
 
     public void receptionGame(Game game) {
-
+        System.out.println("reception game ... ");
+        this.currentGame = game;
         if (this.dataFacade.getIhmMainFacade() != null) {
-
-            this.currentGame = game;
+            
+            System.out.println("give to ihm ... ");
             this.dataFacade.getIhmMainFacade().receptionGame(game);
         }
 
