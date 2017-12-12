@@ -544,9 +544,13 @@ public class InGameGUIController {
                     // (the better would be for data to have the boolean information
                     // in a Mine returned with attack)
 
-                    facade.getFacadeData().attack(cellToAttack, true);
+                    Pair<Integer, Ship> fireResult = facade.getFacadeData().attack(cellToAttack, true);
                     placeMine(cellToAttack,currentPlayer);
 
+                    // Update stats pannel
+                    currentPlayerStats.turnPlayed((fireResult.getKey() == 1), (fireResult.getValue() != null));
+                    updateStatsPannel();
+                    
                     // Reinitialize chrono for the next turn.
                     chronoTimeInit();
                     // End of my turn.
@@ -1129,6 +1133,10 @@ public class InGameGUIController {
             // Change the CSS class of the cells.
             destroyShip(destroyedShip, playerGrid);
         }
+        
+        // Update stats pannel
+        opponentStats.turnPlayed(touched, (destroyedShip != null));
+        updateStatsPannel();
     }
 
     /**
