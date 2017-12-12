@@ -37,13 +37,12 @@ public abstract class Game extends SerializableEntity {
 
     public Game(StatGame statGame, List<Player> players, List<LightPublicUser> spectators, List<Message> messages)  {
         this.statGame = statGame;
-      
+        this.statGame.setRealGame(this);
         
         this.players = players;
         this.spectators = spectators;
 
         this.messages = messages;
-
         this.currentPlayer = players.get(0);
         /* creation of caretaker */
         this.caretaker = new Caretaker();
