@@ -6,6 +6,7 @@
 package com.utclo23.ihmmain.controller;
 
 import com.utclo23.data.structure.PublicUser;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -53,7 +54,7 @@ public class PlayerProfileController extends AbstractController{
     private boolean isLoading = false; 
     private boolean isOther = false; 
     private String attribut;
-    private String imagePath;
+    private Image avatarImage;
     
     @FXML
     @Override
@@ -200,6 +201,12 @@ public class PlayerProfileController extends AbstractController{
             new Thread(wait).start();
         }
     }
+    public void getAvatar(){
+       byte[] thumbnail = getFacade().iDataIHMMain.getMyPublicUserProfile().getLightPublicUser().getAvatarThumbnail();
+       //System.out.println(thumbnail);
+       ByteArrayInputStream inputStream = new ByteArrayInputStream(thumbnail);
+       avatarImage = new Image(inputStream);
+    }
     @Override
     /**
      * Initialize all the info of profile
@@ -207,8 +214,8 @@ public class PlayerProfileController extends AbstractController{
     public void refresh(){
         if (!isOther){
             try{
-                //imagePath = me.getLightPublicUser().
-                //image.setImage(new Image (imagePath));
+                getAvatar();
+                image.setImage(avatarImage);
                 me = getFacade().iDataIHMMain.getMyPublicUserProfile();
                 userID .setText(me.getLightPublicUser().getPlayerName());
                 firstName.setText(me.getFirstName());
