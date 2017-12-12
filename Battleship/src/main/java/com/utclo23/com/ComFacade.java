@@ -122,16 +122,12 @@ public class ComFacade {
      *
      * @param game is the new created game
      */
-    public void notifyNewGame(StatGame game) {
-        
-        System.out.println("notifyNewGame");
-        
+    public void notifyNewGame(StatGame game) {                
         M_CreationGame m_creationgame = new M_CreationGame(iDataCom.getMyPublicUserProfile(), game);
         for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
             Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), m_creationgame);
             Thread thread = new Thread(os);
-            thread.start();
-            System.out.println("envoi creationGame" + m_creationgame);
+            thread.start();   
         }
     }
 
