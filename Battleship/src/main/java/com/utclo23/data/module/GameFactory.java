@@ -30,8 +30,7 @@ public class GameFactory {
     public Game createGame(String name, LightPublicUser creator,  boolean computerMode, boolean spectator, boolean spectatorChat, GameType type){
         //create stat game
         String id = new UID().toString();
-        StatGame statGame = new StatGame(id, type, name, computerMode, spectator, spectatorChat, creator);
-        
+       
         Game game = null;
         List<Player> players = new ArrayList<>();
         
@@ -51,6 +50,9 @@ public class GameFactory {
         List<LightPublicUser> spectators = new ArrayList<>();
         spectators.add(creator);
         
+        StatGame statGame = new StatGame(id, type, name, computerMode, spectator, spectatorChat, creator);
+                
+        
         List<Message> messages = new ArrayList<>();
         switch(type){
             case CLASSIC:
@@ -60,6 +62,8 @@ public class GameFactory {
                 game = new BelgianGame(statGame, players, spectators, messages); 
                 break;
         }
+        
+         
         
         return game;
     }
