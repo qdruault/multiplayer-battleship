@@ -251,7 +251,6 @@ public class GameListController extends AbstractController{
                 try {
                     while(isLoading){
                         Thread.sleep(500);
-                        connectionImpossible();
                     }
                 } catch (Exception e){
                     e.printStackTrace();

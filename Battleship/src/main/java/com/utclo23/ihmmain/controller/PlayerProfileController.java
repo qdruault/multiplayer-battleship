@@ -218,7 +218,7 @@ public class PlayerProfileController extends AbstractController{
        ByteArrayInputStream inputStream = new ByteArrayInputStream(thumbnail);
        avatarImage = new Image(inputStream);
     }
-    @Override
+
     /**
      * Initializes all the info of profile.
      */
