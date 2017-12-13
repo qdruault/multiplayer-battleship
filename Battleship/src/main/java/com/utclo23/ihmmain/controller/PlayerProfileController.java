@@ -14,6 +14,8 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
@@ -24,6 +26,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -33,6 +36,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -57,6 +61,12 @@ public class PlayerProfileController extends AbstractController{
     private TextField description;
     @FXML
     private ImageView image;
+    @FXML
+    private PieChart allMode;
+    @FXML
+    private PieChart classical;
+    @FXML
+    private PieChart belge;
    
     private PublicUser me;
     private PublicUser other;
@@ -293,6 +303,15 @@ public class PlayerProfileController extends AbstractController{
        }
        
     }
+    public void drawPieChart(PieChart chart){
+        //to do: get data from interface Data
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList( 
+        new PieChart.Data("Win", 15), 
+        new PieChart.Data("Loss", 5), 
+        new PieChart.Data("Abandonned", 0)
+        );
+        chart.setData(pieChartData);
+    }
     @Override
     /**
      * Initializes all the info of profile.
@@ -307,6 +326,9 @@ public class PlayerProfileController extends AbstractController{
                 firstName.setText(me.getFirstName());
                 lastName.setText(me.getLastName());
                 birthday.setText(me.getBirthDate().toString());
+                drawPieChart(allMode);
+                drawPieChart(classical);
+                drawPieChart(belge);
             }
             catch(NullPointerException e){
                 Logger.getLogger(
