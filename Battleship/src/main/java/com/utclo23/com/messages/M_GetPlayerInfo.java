@@ -27,8 +27,8 @@ public class M_GetPlayerInfo extends Message {
     @Override
     public void callback(IDataCom iDataCom){
         PublicUser receiver = iDataCom.getMyPublicUserProfile();
-        M_PlayerInfo m_PlayerInfo = new M_PlayerInfo(receiver);
-        Sender os = new Sender(IP_sender.getHostAddress(), KnownIPController.getInstance().getPort(), m_PlayerInfo);
+        M_PlayerInfo mPlayerInfo = new M_PlayerInfo(receiver);
+        Sender os = new Sender(ipSender.getHostAddress(), KnownIPController.getInstance().getPort(), mPlayerInfo);
         new Thread(os).start();
     }
 }

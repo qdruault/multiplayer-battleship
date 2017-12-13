@@ -6,7 +6,6 @@
 package com.utclo23.com.messages;
 import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.PublicUser;
-import java.util.Date;
 
 /**
  * M_Chat is a Message generated when a user sends a new chat message. 
@@ -14,18 +13,15 @@ import java.util.Date;
  */
 public class M_Chat extends Message {
     private final com.utclo23.data.structure.Message message;
-    private final Date timeStamp;
     
     /**
      * Constructor.  
      * @param user is the message's sender
-     * @param message_content is the content of the message
-     * @param date is the date in which the message was sent
+     * @param messageContent is the content of the message
      */
-    public M_Chat(PublicUser user, com.utclo23.data.structure.Message message_content, Date date){
+    public M_Chat(PublicUser user, com.utclo23.data.structure.Message messageContent){
         super(user);
-        message = message_content;
-        timeStamp = date;
+        message = messageContent;
     }
     
     

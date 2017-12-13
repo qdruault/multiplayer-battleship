@@ -10,8 +10,6 @@ import java.net.Inet4Address;
 import com.utclo23.data.facade.IDataCom;
 import java.net.InterfaceAddress;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Class containing a hashmap with UID and corresponding IP address of the known
@@ -22,15 +20,13 @@ import java.util.Map;
  */
 public class KnownIPController {
 
-    // All IP known by this node
     // TODO: add a lock on this one
     private final HashMap<String, Inet4Address> knownIp;
-    IDataCom iDataCom;
-    InterfaceAddress usedInterface;
+    protected IDataCom iDataCom;
+    private InterfaceAddress usedInterface;
     
-    private final int PORT = 25000;
+    private static final int PORT = 25000;
 
-    // private constructor
     private KnownIPController() {
         knownIp = new HashMap<>();
     }
@@ -40,8 +36,11 @@ public class KnownIPController {
      * the application.
      */
     private static class SingletonHolder {
+        private SingletonHolder(){
+            throw new IllegalStateException("Utility class");
+        }
 
-        private final static KnownIPController INSTANCE = new KnownIPController();
+        private static final KnownIPController INSTANCE = new KnownIPController();
     }
 
     /**
@@ -76,40 +75,16 @@ public class KnownIPController {
 
     }
 
-    public String getKeyFromValue(HashMap<String, Inet4Address> tmphash, Inet4Address value) {
-        String key = null;
-        for (Map.Entry<String, Inet4Address> entry : tmphash.entrySet()) {
-            if (value.equals(entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
-
     /**
      * Called to return attribute "knownIp" value without our own node.
      *
      * @return Hashmap value
      */
     public HashMap<String, Inet4Address> getHashMap() {
-        HashMap<String, Inet4Address> tmphash = knownIp;
+        HashMap<String, Inet4Address> tmpHash = knownIp;
         String id = iDataCom.getMyPublicUserProfile().getLightPublicUser().getId();
-        tmphash.remove(id);	// to avoid sending back our own Ip adress (cuz it already got it).
-        return tmphash;
-
-    }
-
-    public HashMap<String, Inet4Address> getNewIpHashMap() {
-        DiscoveryController discoCtrl = DiscoveryController.getInstance();
-        HashMap<String, Inet4Address> tmphash = knownIp;
-        tmphash.remove(iDataCom.getMyPublicUserProfile().getLightPublicUser().getId());	// to avoid sending back our own Ip adress (cuz it already got it).
-        List<Inet4Address> getIpIssuedList = discoCtrl.getGetIpIssuedList();
-        String key;
-        for (int i = 0; i < getIpIssuedList.size(); i++) {
-            key = getKeyFromValue(tmphash, getIpIssuedList.get(i));
-            tmphash.remove(key);
-        }
-        return tmphash;
+        tmpHash.remove(id);	// to avoid sending back our own Ip adress (cuz it already got it).
+        return tmpHash;
 
     }
 
@@ -129,6 +104,7 @@ public class KnownIPController {
      *
      * @param hashToCheck is the Hashmap containing ids of type String and
      * Inet4Address
+     * @return the new updated HashMap
      */
     public HashMap<String, Inet4Address> addNonExistingNodes(HashMap<String, Inet4Address> hashToCheck) {
         Iterator it = hashToCheck.entrySet().iterator();
@@ -144,6 +120,10 @@ public class KnownIPController {
         return tmpHash;
     }
     
+    /**
+     * Acessor
+     * @return the network port number
+     */
     public int getPort(){
         return PORT;
     }
