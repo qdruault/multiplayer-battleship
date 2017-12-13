@@ -295,6 +295,7 @@ public class GameMediator {
      * @param role role of the new user
      */
     public void updateGameList(LightPublicUser user, String id, String role) throws DataException {
+       System.out.println("id "+id);
        if(user == null)
             {
                 System.out.println("user is null");
@@ -309,11 +310,13 @@ public class GameMediator {
             
             
             
-             System.out.println("add Urole "+role);
+            System.out.println("add Urole "+role);
             this.getCurrentGame().addUser(user, role);
 
             if (this.dataFacade.getComfacade() != null) {
-                this.dataFacade.getComfacade().joinGameResponse(true, user.getId(), this.currentGame);
+                
+                System.out.println("data join game resp");
+                this.dataFacade.getComfacade().joinGameResponse(true, user.getId(), this.currentGame.getStatGame());
 
             }
         } else {
