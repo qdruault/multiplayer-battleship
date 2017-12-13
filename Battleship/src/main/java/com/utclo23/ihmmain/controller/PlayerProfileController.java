@@ -311,7 +311,7 @@ public class PlayerProfileController extends AbstractController{
         Avatar.setDisable(true);
         Description.setDisable(true);
     }
-    @Override
+
     /**
      * Initializes all the info of profile.
      */
@@ -330,6 +330,7 @@ public class PlayerProfileController extends AbstractController{
                 drawPieChart(belge);
             }
             catch(NullPointerException e){
+                e.printStackTrace();
                 Logger.getLogger(
                         PlayerProfileController.class.getName()).log(
                                 Level.INFO,
