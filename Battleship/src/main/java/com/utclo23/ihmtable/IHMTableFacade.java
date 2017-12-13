@@ -5,6 +5,7 @@
  */
 package com.utclo23.ihmtable;
 
+import com.utclo23.data.facade.DataFacade;
 import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.data.facade.IDataIHMTable;
@@ -205,11 +206,21 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
 
     /**
      * Display the new stats of the player.
-     * @param stGame : ths stats
+     * @param stGame : the stats
      */
     @Override
     public void finishGame(StatGame stGame) {
-        controller.displayFinishPopup(stGame.getWinner().getPlayerName());
+        String sMessage;
+        // Game lost.
+        if(!stGame.getWinner().getPlayerName().equals(facadeData.getMyPublicUserProfile().getPlayerName()))
+        {
+            sMessage = "Defeat! You should train against AI! Hahahah!";
+        } else {
+            // Game won.
+            sMessage = "Victory! I'm proud of you General!";
+        }
+        // Display popup.
+        controller.displayFinishPopup(sMessage);
     }
 
     /**
@@ -217,7 +228,8 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void opponentHasLeftGame() {
-        throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
+        // Display popup.
+        controller.displayFinishPopup("Your opponent has left this game!");
     }
 
     /**
@@ -225,7 +237,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void connectionLostWithOpponent() {
-        controller.popupConnectionLost();
+        controller.displayFinishPopup("Connection has been lost with your opponent");
     }
 
     /**

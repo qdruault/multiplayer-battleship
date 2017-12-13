@@ -671,19 +671,14 @@ public class InGameGUIController {
         placeMine(m.getCoord(), p);
     }
     /**
-     * Method to display popup asking the player to save the game !
-     * @param winner 
+     * Method to display popup asking the player to save the game.
+     * @param sMessage 
      */
-    public void displayFinishPopup(String winner) {
-        String sMessage = "Victory! I'm proud of you General!";
-        if(!winner.equals(facade.getFacadeData().getMyPublicUserProfile().getPlayerName()))
-        {
-            sMessage = "Defeat! You should train against AI! Hahahah!";
-        }
+    public void displayFinishPopup(String sMessage) {
         
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("End of the Game");
-        alert.setHeaderText(sMessage + "\n" + winner +"wins this one!!!\n");
+        alert.setHeaderText(sMessage);
         alert.setContentText("Do you want to save this game?");
 
         Optional<ButtonType> result = alert.showAndWait();
@@ -693,6 +688,7 @@ public class InGameGUIController {
         }
 
         try {
+            // Go back to the menu.
             facade.getFacadeIHMMain().toMenu();
         } catch (IOException ex) {
             Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
@@ -1150,30 +1146,6 @@ public class InGameGUIController {
             Node node = getNodeByRowColumnIndex(coordinate.getY(), coordinate.getX(), grid);
             node.getStyleClass().removeAll("inGameGUI_touched_cell");
             node.getStyleClass().add("inGameGUI_destroyed_cell");
-        }
-    }
-    
-    /**
-     * Popup displayed when the opponent lost his connection.
-     */
-    public void popupConnectionLost() {
-        // Create the popup.
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Connection lost");
-        alert.setHeaderText("Connection has been lost with your opponent");
-        alert.setContentText("Do you want to save this game?");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        // Click on OK.
-        if (result.get() == ButtonType.OK){
-            // TODO: save the game.
-        }
-        
-        try {
-            // Go back to the menu.
-            facade.getFacadeIHMMain().toMenu();
-        } catch (IOException ex) {
-            Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
