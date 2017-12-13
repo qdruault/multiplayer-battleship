@@ -67,14 +67,26 @@ public class PlayerProfileController extends AbstractController{
     private PieChart classical;
     @FXML
     private PieChart belge;
-   
+    @FXML
+    private Button PlayerName;
+    @FXML
+    private Button FirstName;
+    @FXML
+    private Button LastName;
+    @FXML
+    private Button Birthday;
+    @FXML
+    private Button Password;
+    @FXML
+    private Button Avatar;
+    @FXML
+    private Button Description;
     private PublicUser me;
     private PublicUser other;
     private boolean isLoading = false; 
     private boolean isOther = false; 
     private String attribut;
     private Image avatarImage;
-    private PopupController control;
     
     @FXML
     @Override
@@ -109,34 +121,12 @@ public class PlayerProfileController extends AbstractController{
     }
 
     @FXML
-    private void editPlayerName(ActionEvent event) throws IOException{
-        attribut="PlayerName";
+    private void edit(ActionEvent event) throws IOException{
+        attribut = ((Button)event.getSource()).getId();
+        System.out.println(attribut);
         popup(attribut);
     }
-
-    @FXML
-    private void editFirstName(ActionEvent event) throws IOException{
-        attribut="FirstName";
-        popup(attribut);
-    }
-
-    @FXML
-    private void editLastName(ActionEvent event) throws IOException{
-        attribut="LastName";
-        popup(attribut);
-    }
-
-    @FXML
-    private void editBirthday(ActionEvent event) throws IOException{
-        attribut="Birthday";
-        popup(attribut);
-    }
-
-    @FXML
-    private void editPassword(ActionEvent event) throws IOException{
-        attribut="Password";
-        popup(attribut);
-    }
+    
     @FXML
     private void editAvatar(ActionEvent event) throws IOException, DataException{
         String avatarPath;
@@ -158,10 +148,11 @@ public class PlayerProfileController extends AbstractController{
      * @param attribut:name of info that user would like to modify
      */
     private void popup(String attribut) throws IOException{
+        System.out.println("Popup: "+attribut);
         final Stage primaryStage = getIhmmain().primaryStage;
         Stage popup = new Stage();
         popup.initOwner(primaryStage);
-        if(attribut == "Birthday"){
+        if("Birthday".equals(attribut)){
             final DatePicker date = new DatePicker();
             Button back = new Button();
             Button submit = new Button(); 
@@ -227,7 +218,6 @@ public class PlayerProfileController extends AbstractController{
             other = player;
         }
     }
-
     /**
      * This method is for waiting the profile.
      * As soon as receive the profile sent by Data, skip the loading and refresh the page.
@@ -252,8 +242,7 @@ public class PlayerProfileController extends AbstractController{
                                     );
                             Thread.sleep(500);
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } catch (InterruptedException e) {
                     }
                     return null;
                 }
@@ -288,7 +277,8 @@ public class PlayerProfileController extends AbstractController{
         }
     }
     /**
-     * Get user's avatar
+     * Get player's avatar
+     * @param player:user self or other player
      */
     public void getAvatar(PublicUser player){
        byte[] thumbnail = player.getLightPublicUser().getAvatarThumbnail();
@@ -311,6 +301,15 @@ public class PlayerProfileController extends AbstractController{
         new PieChart.Data("Abandonned", 0)
         );
         chart.setData(pieChartData);
+    }
+    public void disableButton(){
+        PlayerName.setDisable(true);
+        FirstName.setDisable(true);
+        LastName.setDisable(true);
+        Birthday.setDisable(true);
+        Password.setDisable(true);
+        Avatar.setDisable(true);
+        Description.setDisable(true);
     }
     @Override
     /**
@@ -340,6 +339,7 @@ public class PlayerProfileController extends AbstractController{
         }
         else{
             try{
+                disableButton();
                 getAvatar(other);
                 image.setImage(avatarImage);
                 userID.setText(other.getLightPublicUser().getPlayerName());

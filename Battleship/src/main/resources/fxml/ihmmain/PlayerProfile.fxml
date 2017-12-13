@@ -27,7 +27,7 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#editAvatar" text="Modify">
+                              <Button fx:id="Avatar" mnemonicParsing="false" onAction="#editAvatar" text="Modify">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -51,11 +51,11 @@
                               <Label text="Birthday" GridPane.rowIndex="3" />
                               <Label fx:id="birthday" text="--" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <Label text="Password" GridPane.rowIndex="4" />
-                              <Button mnemonicParsing="false" onAction="#editPlayerName" text="edit" GridPane.columnIndex="2" />
-                              <Button mnemonicParsing="false" onAction="#editFirstName" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                              <Button mnemonicParsing="false" onAction="#editLastName" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                              <Button mnemonicParsing="false" onAction="#editBirthday" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                              <Button mnemonicParsing="false" onAction="#editPassword" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                              <Button fx:id="PlayerName" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" />
+                              <Button fx:id="FirstName" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <Button fx:id="LastName" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <Button fx:id="Birthday" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <Button fx:id="Password" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                               <Label />
                               <Label text="Nickname" />
                               <Label fx:id="birthday1" text="********" GridPane.columnIndex="1" GridPane.rowIndex="4" />
@@ -95,7 +95,7 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="29.0" prefWidth="268.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#editDescription" text="edit" />
+                              <Button fx:id="Description" mnemonicParsing="false" onAction="#editDescription" text="edit" />
                            </children>
                            <padding>
                               <Insets left="70.0" />
