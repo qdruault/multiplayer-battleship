@@ -27,7 +27,7 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button mnemonicParsing="false" text="Modify">
+                              <Button fx:id="Avatar" mnemonicParsing="false" onAction="#editAvatar" text="Modify">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -51,11 +51,11 @@
                               <Label text="Birthday" GridPane.rowIndex="3" />
                               <Label fx:id="birthday" text="--" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <Label text="Password" GridPane.rowIndex="4" />
-                              <Button mnemonicParsing="false" onAction="#editPlayerName" text="edit" GridPane.columnIndex="2" />
-                              <Button mnemonicParsing="false" onAction="#editFirstName" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                              <Button mnemonicParsing="false" onAction="#editLastName" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                              <Button mnemonicParsing="false" onAction="#editBirthday" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                              <Button mnemonicParsing="false" onAction="#editPassword" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                              <Button fx:id="PlayerName" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" />
+                              <Button fx:id="FirstName" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <Button fx:id="LastName" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <Button fx:id="Birthday" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <Button fx:id="Password" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                               <Label />
                               <Label text="Nickname" />
                               <Label fx:id="birthday1" text="********" GridPane.columnIndex="1" GridPane.rowIndex="4" />
@@ -77,20 +77,29 @@
                   </VBox>
                   <VBox prefHeight="261.0" prefWidth="291.0">
                      <children>
-                        <HBox alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="268.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="268.0">
                            <children>
-                              <Label alignment="CENTER" text="Description" />
+                              <Label alignment="CENTER" contentDisplay="CENTER" text="Description">
+                                 <HBox.margin>
+                                    <Insets left="80.0" />
+                                 </HBox.margin></Label>
                            </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" prefHeight="165.0" prefWidth="268.0">
                            <children>
                               <TextField fx:id="description" editable="false" onKeyPressed="#closeEdit" prefHeight="144.0" prefWidth="219.0" text="Hello!" />
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER_RIGHT" prefHeight="29.0" prefWidth="268.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="29.0" prefWidth="268.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#editDescription" text="edit" />
+                              <Button fx:id="Description" mnemonicParsing="false" onAction="#editDescription" text="edit" />
                            </children>
+                           <padding>
+                              <Insets left="70.0" />
+                           </padding>
                         </HBox>
                      </children></VBox>
                </children>
@@ -101,8 +110,8 @@
          </columnConstraints>
          <rowConstraints>
             <RowConstraints maxHeight="143.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="143.0" minHeight="6.0" prefHeight="14.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="280.0" minHeight="10.0" prefHeight="263.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="143.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="280.0" minHeight="10.0" prefHeight="273.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
       <GridPane alignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
@@ -116,9 +125,9 @@
             <RowConstraints maxHeight="261.6125183105469" minHeight="10.0" prefHeight="67.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Statistics" GridPane.halignment="CENTER">
+            <Label text="Statistics" GridPane.halignment="LEFT">
                <GridPane.margin>
-                  <Insets left="10.0" />
+                  <Insets left="90.0" />
                </GridPane.margin>
             </Label>
             <GridPane prefHeight="125.0" prefWidth="368.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
@@ -141,7 +150,7 @@
                   <Label text="Played" GridPane.columnIndex="1" />
                   <Label text="Win" GridPane.columnIndex="2" />
                   <Label text="Loss" GridPane.columnIndex="3" />
-                  <Label text="Abondon" GridPane.columnIndex="4" />
+                  <Label text="Abandoned" GridPane.columnIndex="4" />
                   <Label prefHeight="17.0" prefWidth="0.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label text="0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label text="0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -164,9 +173,9 @@
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="54.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="74.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="63.0" minHeight="10.0" prefHeight="61.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="68.0" minHeight="10.0" prefHeight="53.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="74.0" minHeight="10.0" prefHeight="57.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <GridPane.margin>
                   <Insets left="80.0" />
@@ -181,7 +190,10 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#back" text="Return" GridPane.halignment="CENTER" GridPane.valignment="TOP" />
+                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#back" text="Return" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets left="80.0" />
+                     </GridPane.margin></Button>
                   <Button fx:id="playerList" mnemonicParsing="false" onAction="#toPlayerList" text="Other Player" GridPane.columnIndex="1" GridPane.valignment="TOP" />
                </children>
             </GridPane>
@@ -195,9 +207,9 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <PieChart minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" title="All Mode" titleSide="BOTTOM" />
-                  <PieChart minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" title="Classical" titleSide="BOTTOM" GridPane.columnIndex="1" />
-                  <PieChart minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" title="Belge" titleSide="BOTTOM" GridPane.columnIndex="2" />
+                  <PieChart fx:id="allMode" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" title="All Mode" titleSide="BOTTOM" />
+                  <PieChart fx:id="classical" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" title="Classical" titleSide="BOTTOM" GridPane.columnIndex="1" />
+                  <PieChart fx:id="belge" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" title="Belge" titleSide="BOTTOM" GridPane.columnIndex="2" />
                </children>
             </GridPane>
          </children>

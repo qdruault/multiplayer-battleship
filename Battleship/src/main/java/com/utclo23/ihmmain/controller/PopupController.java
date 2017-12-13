@@ -28,7 +28,7 @@ public class PopupController extends AbstractController{
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }
     @FXML
-    private void update(ActionEvent event) throws IOException, DataException{
+    public void update(ActionEvent event) throws IOException, DataException{
         String text;
         text = field.getText();
         if (text.isEmpty()){
@@ -44,10 +44,6 @@ public class PopupController extends AbstractController{
                 getFacade().iDataIHMMain.updateFirstname(text);
                 break;
             case "LastName":
-                getFacade().iDataIHMMain.updateLastname(text);
-                break;
-            /* To-do: change popup*/
-            case "Birthday":
                 getFacade().iDataIHMMain.updateLastname(text);
                 break;
             case "Password":
