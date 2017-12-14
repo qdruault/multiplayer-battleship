@@ -766,5 +766,60 @@ public class UserMediator {
 
     }
 
+    /**
+     *
+     * send number of victories
+     *
+     * @return int number of victories
+     * @throws DataException
+     */
+    public int getNumberVictories() throws DataException {
+        List<StatGame> games = this.getMyOwnerProfile().getPlayedGamesList() ;
+        LightPublicUser user = this.getMyLightPublicUserProfile() ; 
+        int nbVictories = 0;
+        for (StatGame g : games) {
+            if ((g.getWinner() == user) && !(g.isGameAbandonned())) {
+                nbVictories++ ;
+            }                
+        }
+        return nbVictories ; 
+    }
+
+    /**
+     *
+     * send number of defeats
+     *
+     * @return int number of defeats
+     * @throws DataException
+     */
+    public int getNumberDefeats() throws DataException {
+        List<StatGame> games = this.getMyOwnerProfile().getPlayedGamesList() ;
+        LightPublicUser user = this.getMyLightPublicUserProfile() ; 
+        int nbDefeats = 0;
+        for (StatGame g : games) {
+            if ((g.getWinner() != user) && !(g.isGameAbandonned())) {
+                nbDefeats++ ;
+            }                
+        }
+        return nbDefeats ; 
+    }
     
+    /**
+     *
+     * send number of abandons
+     *
+     * @return int number of abandons
+     * @throws DataException
+     */
+    public int getNumberAbandons() throws DataException {
+        List<StatGame> games = this.getMyOwnerProfile().getPlayedGamesList() ;
+        LightPublicUser user = this.getMyLightPublicUserProfile() ; 
+        int nbAbandons = 0;
+        for (StatGame g : games) {
+            if ((g.getWinner() == null) && (g.isGameAbandonned())) {
+                nbAbandons++ ;
+            }                
+        }
+        return nbAbandons ; 
+    }
 }

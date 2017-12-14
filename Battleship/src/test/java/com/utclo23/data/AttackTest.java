@@ -218,7 +218,7 @@ public class AttackTest {
          playerB.setShips(shipsB);
          
          //Coordinate of A's mines
-         Coordinate coorMineA1 = new Coordinate(11,2);
+         Coordinate coorMineA1 = new Coordinate(11,12);
          Mine mineA1 = new Mine(playerA, coorMineA1); 
          Coordinate coorMineA2 = new Coordinate(12,2);
          Mine mineA2 = new Mine(playerA, coorMineA2); 
@@ -242,8 +242,15 @@ public class AttackTest {
          df.attack(coorMineB2, true); 
          df.forwardCoordinates(mineB2);
          df.attack(coorMineA3, true);
+         df.forwardCoordinates(mineA3); 
+         df.attack(coorMineB3, true);
          boolean b = df.getGameMediator().getCurrentGame().isGameFinishedByEnnemy() ;
-         df.forwardCoordinates(mineA3);
+         df.forwardCoordinates(mineB3);    
+         
+         
+         int nbVict = df.getNumberVictories() ;
+         int nbDefeats = df.getNumberDefeats();
+         int nbAbandons = df.getNumberAbandons() ;
 
     }
 }
