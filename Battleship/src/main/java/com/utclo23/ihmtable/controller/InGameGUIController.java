@@ -327,22 +327,12 @@ public class InGameGUIController {
         startPosition = null;
         endPosition = null;
 
-        // Get the ships.
-        // TODO: ships = facade.getFacadeData().getTemplateShips();
-        ships = new ArrayList<>();
-        ships.add(new Ship(ShipType.BATTLESHIP, 4));
-        ships.add(new Ship(ShipType.BATTLESHIP, 4));
-        ships.add(new Ship(ShipType.CARRIER, 4));
-        ships.add(new Ship(ShipType.CRUISER, 3));
-        ships.add(new Ship(ShipType.DESTROYER, 2));
-        ships.add(new Ship(ShipType.SUBMARINE, 2));
-
-        ships.add(new Ship(ShipType.BATTLESHIP, 4));
-        ships.add(new Ship(ShipType.BATTLESHIP, 4));
-        ships.add(new Ship(ShipType.CARRIER, 4));
-        ships.add(new Ship(ShipType.CRUISER, 3));
-        ships.add(new Ship(ShipType.DESTROYER, 2));
-        ships.add(new Ship(ShipType.SUBMARINE, 2));
+        try {
+            // Get the ships.
+            ships = facade.getFacadeData().getTemplateShips();
+        } catch (DataException ex) {
+            Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
+        }        
 
         //Add manually the button to set them up
         mapBtnType = new HashMap<>();
