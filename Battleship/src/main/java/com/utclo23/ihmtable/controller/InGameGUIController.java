@@ -5,6 +5,7 @@
 */
 package com.utclo23.ihmtable.controller;
 
+import com.utclo23.data.module.DataException;
 import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.Game;
@@ -715,6 +716,20 @@ public class InGameGUIController {
             Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    /**
+     * Display a popup when there is a problem.
+     * @param message : the message to display
+     */
+    private void displayWarningPopup(String message) {
+        // Create the popup.
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Warning");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        // Display it.
+        alert.showAndWait();        
+    }
 
     private class AttackEvent implements EventHandler {
 
@@ -1055,46 +1070,66 @@ public class InGameGUIController {
                     // Highlight the cell.
                     endPositionPane = (Pane)event.getSource();
                     endPositionPane.getStyleClass().add("inGameGUI_selected_cell");
-                    // Update the ship.
-                    for (Ship ship : ships) {
-                        // Search for the first ship of the right type not placed.
-                        if (ship.getType() == shipToPlace && ship.getListCoord().isEmpty()) {
-                            try {
-                                // Ship founded.
-                                suitableShip = true;
-                                // Add the coordinates.
-                                CoordinatesGenerator.generate(startPosition, endPosition, ship.getListCoord());
+                    
+                    // Prevent diagonal placement.
+                    if (startPosition.getX() != endPosition.getX() && 
+                        startPosition.getY() != endPosition.getY()
+                    ) {
+                        displayWarningPopup("Ship cannot be placed diagonally.");
+                    } else {
+                        // Update the ship.
+                        for (Ship ship : ships) {
+                            // Search for the first ship of the right type not placed.
+                            if (ship.getType() == shipToPlace && ship.getListCoord().isEmpty()) {
+                                try {
+                                    // Ship founded.
+                                    suitableShip = true;
+                                    // Add the coordinates.
+                                    CoordinatesGenerator.generate(startPosition, endPosition, ship.getListCoord());
 
-                                // Send the ship.
-                                facade.getFacadeData().setShip(ship);
+                                    // Send the ship.
+                                    facade.getFacadeData().setShip(ship);
 
-                                // No exception : Place the ship on the board.
-                                // Load the image.
-                                ImageView shipOnTheGrid = new ImageView(shipsPictures.get(ship.getType()));
-                                //associate ship with its image on the grid
-                                listOfShipsOnTheGrid.put(ship, shipOnTheGrid);
+                                    // No exception : Place the ship on the board.
+                                    // Load the image.
+                                    ImageView shipOnTheGrid = new ImageView(shipsPictures.get(ship.getType()));
+                                    //associate ship with its image on the grid
+                                    listOfShipsOnTheGrid.put(ship, shipOnTheGrid);
 
-                                // Put the image on the board
-                                putShipOnBoard(ship, playerGrid);
+                                    // Put the image on the board
+                                    putShipOnBoard(ship, playerGrid);
 
-                                // ATTENTION! Grid size is out of control!
-                                // setShip didn't return any exception so the ship is correctly placed -> Update the label on the left panel
-                                updateShipButton(shipToPlace, -1);
-                                break;
-                            } catch (Exception ex) {
-                                Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
-                                // Wrong coordinates -> reset.
-                                ship.getListCoord().clear();
+                                    // ATTENTION! Grid size is out of control!
+                                    // setShip didn't return any exception so the ship is correctly placed -> Update the label on the left panel
+                                    updateShipButton(shipToPlace, -1);
+                                    
+                                } catch (DataException ex) {
+                                    Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
+                                    // Display the error.
+                                    displayWarningPopup("You cannot place your ship here.\n"
+                                            + "Do not forget this ship needs " 
+                                            + ship.getSize() + " cells."
+                                    );
+                                    // Wrong coordinates -> reset.
+                                    ship.getListCoord().clear();
+                                    
+                                } finally {
+                                    // The ship was found, no need to continue the loop.
+                                    break;
+                                }
                             }
+                        }
 
+                        // If no ship suits.
+                        if (!suitableShip) {
+                            System.out.println("No suitable ship for this type!");
+                            // Display the error.
+                            displayWarningPopup("You have placed all of your " 
+                                + shipToPlace.name() + " ships."
+                            );
                         }
                     }
-
-                    // If no ship suits.
-                    if (!suitableShip) {
-                        System.out.println("No suitable ship for this type!");
-                    }
-
+                    
                     // Clear the previous positions.
                     startPosition = null;
                     endPosition = null;
