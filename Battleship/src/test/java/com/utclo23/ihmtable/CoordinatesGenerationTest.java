@@ -119,6 +119,17 @@ public class CoordinatesGenerationTest {
         assertTrue("Must contains (1,1)", equal(new Coordinate(1, 1), coordinates.get(0)));
         assertTrue("Must contains (1,2)", equal(new Coordinate(1, 2), coordinates.get(1)));
     }
+    
+    @org.junit.Test
+    public void testCoordinateGeneratorOneCell() throws Exception {
+        Coordinate startPoint = new Coordinate(1, 1);
+        Coordinate endPoint = new Coordinate(1, 1);
+        ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
+        CoordinatesGenerator.generate(startPoint, endPoint, coordinates);
+        
+        assertTrue("Must contains (1,1)", equal(new Coordinate(1, 1), coordinates.get(0)));
+        assertTrue("Must contains only 1 cell", coordinates.size() == 1);
+    }
 
     public boolean equal(Coordinate c1, Coordinate c2) {
         return c1.getX() == c2.getX() && c1.getY() == c2.getY();

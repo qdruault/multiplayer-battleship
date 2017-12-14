@@ -332,7 +332,7 @@ public class InGameGUIController {
             ships = facade.getFacadeData().getTemplateShips();
         } catch (DataException ex) {
             Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
 
         //Add manually the button to set them up
         mapBtnType = new HashMap<>();
@@ -467,40 +467,59 @@ public class InGameGUIController {
 
             // Load the image.
             ImageView shipOnTheGrid = new ImageView(shipsPictures.get(ship.getType()));
-            if (ship.getListCoord().get(0).getY() == ship.getListCoord().get(1).getY()) {
-                // Horizontal.
+            // For 1-cell ship.
+            if (ship.getSize() == 1) {
                 // Set the size.
-                shipOnTheGrid.setFitWidth(grid.getWidth()/10.0 * ship.getSize());
+                shipOnTheGrid.setFitWidth(grid.getWidth()/10.0);
                 shipOnTheGrid.setFitHeight(grid.getHeight()/10.0);
-                // Place on the grid.
-                grid.add(
-                    shipOnTheGrid, 
-                    Math.min(
-                        ship.getListCoord().get(0).getX(),
-                        ship.getListCoord().get(ship.getListCoord().size() - 1).getX()
-                    ),
-                    ship.getListCoord().get(0).getY(), 
-                    ship.getSize(),
-                    1
-                );
-            } else {
-                // Vertical
-                // Set the size.
-                shipOnTheGrid.setFitHeight(grid.getWidth()/10.0);
-                shipOnTheGrid.setFitWidth(grid.getHeight()/10.0 * ship.getSize());
-                // Rotate the image.
-                shipOnTheGrid.setRotate(90);
                 // Place on the grid.
                 grid.add(
                     shipOnTheGrid,
                     ship.getListCoord().get(0).getX(),
-                    Math.min(
+                    ship.getListCoord().get(0).getY(),
+                    ship.getSize(),
+                    1
+                );
+            } else {
+                if (ship.getListCoord().get(0).getY() == ship.getListCoord().get(1).getY()) {
+                    // Horizontal.
+                    // Set the size.
+                    shipOnTheGrid.setFitWidth(grid.getWidth()/10.0 * ship.getSize());
+                    shipOnTheGrid.setFitHeight(grid.getHeight()/10.0);
+                    // Place on the grid.
+                    grid.add(
+                        shipOnTheGrid,
+                        Math.min(
+                            ship.getListCoord().get(0).getX(),
+                            ship.getListCoord().get(ship.getListCoord().size() - 1).getX()
+                        ),
                         ship.getListCoord().get(0).getY(),
-                        ship.getListCoord().get(ship.getListCoord().size() - 1).getY()
-                    ),
-                    1, 
-                    ship.getSize());
+                        ship.getSize(),
+                        1
+                    );
+
+                } else {
+                    // Vertical
+                    // Set the size.
+                    shipOnTheGrid.setFitHeight(grid.getWidth()/10.0);
+                    shipOnTheGrid.setFitWidth(grid.getHeight()/10.0 * ship.getSize());
+                    // Rotate the image.
+                    shipOnTheGrid.setRotate(90);
+                    // Place on the grid.
+                    grid.add(
+                        shipOnTheGrid,
+                        ship.getListCoord().get(0).getX(),
+                        Math.min(
+                            ship.getListCoord().get(0).getY(),
+                            ship.getListCoord().get(ship.getListCoord().size() - 1).getY()
+                        ),
+                        1,
+                        ship.getSize()
+                    );
+
+                }
             }
+
 
             return shipOnTheGrid;
 
@@ -561,7 +580,7 @@ public class InGameGUIController {
                     // Update stats pannel
                     currentPlayerStats.turnPlayed((fireResult.getKey() == 1), (fireResult.getValue() != null));
                     updateStatsPannel();
-                    
+
                     // Reinitialize chrono for the next turn.
                     chronoTimeInit();
                     // End of my turn.
@@ -687,10 +706,10 @@ public class InGameGUIController {
     }
     /**
      * Method to display popup asking the player to save the game.
-     * @param sMessage 
+     * @param sMessage
      */
     public void displayFinishPopup(String sMessage) {
-        
+
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("End of the Game");
         alert.setHeaderText(sMessage);
@@ -709,7 +728,7 @@ public class InGameGUIController {
             Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
      * Display a popup when there is a problem.
      * @param message : the message to display
@@ -721,9 +740,9 @@ public class InGameGUIController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         // Display it.
-        alert.showAndWait();        
+        alert.showAndWait();
     }
-    
+
     /**
      * Display a popup when there is an unknown error.
      * @param ex : the exception that occured
@@ -760,7 +779,7 @@ public class InGameGUIController {
         // Set expandable Exception into the dialog pane.
         alert.getDialogPane().setExpandableContent(expContent);
 
-        alert.showAndWait();       
+        alert.showAndWait();
     }
 
     private class AttackEvent implements EventHandler {
@@ -1102,9 +1121,9 @@ public class InGameGUIController {
                     // Highlight the cell.
                     endPositionPane = (Pane)event.getSource();
                     endPositionPane.getStyleClass().add("inGameGUI_selected_cell");
-                    
+
                     // Prevent diagonal placement.
-                    if (startPosition.getX() != endPosition.getX() && 
+                    if (startPosition.getX() != endPosition.getX() &&
                         startPosition.getY() != endPosition.getY()
                     ) {
                         displayWarningPopup("Ship cannot be placed diagonally.");
@@ -1134,17 +1153,17 @@ public class InGameGUIController {
                                     // ATTENTION! Grid size is out of control!
                                     // setShip didn't return any exception so the ship is correctly placed -> Update the label on the left panel
                                     updateShipButton(shipToPlace, -1);
-                                    
+
                                 } catch (DataException ex) {
                                     Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
                                     // Display the error.
                                     displayWarningPopup("You cannot place your ship here.\n"
-                                            + "Do not forget this ship needs " 
+                                            + "Do not forget this ship needs "
                                             + ship.getSize() + " cells."
                                     );
                                     // Wrong coordinates -> reset.
                                     ship.getListCoord().clear();
-                                    
+
                                 } catch (Exception e) {
                                     Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, e);
                                     // Display the error.
@@ -1162,12 +1181,12 @@ public class InGameGUIController {
                         if (!suitableShip) {
                             System.out.println("No suitable ship for this type!");
                             // Display the error.
-                            displayWarningPopup("You have placed all of your " 
+                            displayWarningPopup("You have placed all of your "
                                 + shipToPlace.name() + " ships."
                             );
                         }
                     }
-                    
+
                     // Clear the previous positions.
                     startPosition = null;
                     endPosition = null;
@@ -1223,7 +1242,7 @@ public class InGameGUIController {
             // Change the CSS class of the cells.
             destroyShip(destroyedShip, playerGrid);
         }
-        
+
         // Update stats pannel
         opponentStats.turnPlayed(touched, (destroyedShip != null));
         updateStatsPannel();

@@ -22,20 +22,28 @@ public class CoordinatesGenerator {
      */
     public static void generate(Coordinate startPosition, Coordinate endPosition, List<Coordinate> list) {
 
-        list.add(startPosition);
+        // For 1-cell ships.
+        if (startPosition.getX() == endPosition.getX() &&
+            startPosition.getY() == endPosition.getY()
+        ) {
+            list.add(endPosition);
+        } else {
+            // For more-tan-two-cell ship.
+            list.add(startPosition);
 
-        // Add the coordinates between the two cases.
-        Coordinate diff = new Coordinate(endPosition.getX() - startPosition.getX(), endPosition.getY() - startPosition.getY());
-        int xDirection = (diff.getX() >= 0) ? 1 : -1;
-        int yDirection = (diff.getY() >= 0) ? 1 : -1;
+            // Add the coordinates between the two cases.
+            Coordinate diff = new Coordinate(endPosition.getX() - startPosition.getX(), endPosition.getY() - startPosition.getY());
+            int xDirection = (diff.getX() >= 0) ? 1 : -1;
+            int yDirection = (diff.getY() >= 0) ? 1 : -1;
 
-        for (int x = 1; x < Math.abs(diff.getX()); ++x) {
-            list.add(new Coordinate(startPosition.getX() + xDirection * x, startPosition.getY()));
+            for (int x = 1; x < Math.abs(diff.getX()); ++x) {
+                list.add(new Coordinate(startPosition.getX() + xDirection * x, startPosition.getY()));
+            }
+            for (int y = 1; y < Math.abs(diff.getY()); ++y) {
+                list.add(new Coordinate(startPosition.getX(), startPosition.getY() + yDirection * y));
+            }
+
+            list.add(endPosition);
         }
-        for (int y = 1; y < Math.abs(diff.getY()); ++y) {
-            list.add(new Coordinate(startPosition.getX(), startPosition.getY() + yDirection * y));
-        }
-
-        list.add(endPosition);
     }
 }
