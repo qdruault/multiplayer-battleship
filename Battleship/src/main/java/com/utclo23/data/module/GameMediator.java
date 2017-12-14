@@ -150,10 +150,8 @@ public class GameMediator {
             /**
              * Check if the ship has the right amount of coordinates
              */
-            for (Ship s : player.getShips()) {
-                if(s.getSize() != s.getListCoord().size()){
-                    throw new DataException("Data : ship has more coordinates than its size");
-                }
+            if(ship.getSize() != ship.getListCoord().size()){
+                throw new DataException("Data : ship has more coordinates than its size");
             }
             
             
