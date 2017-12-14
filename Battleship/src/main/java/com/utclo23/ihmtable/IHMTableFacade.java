@@ -5,19 +5,14 @@
  */
 package com.utclo23.ihmtable;
 
-import com.utclo23.data.facade.DataFacade;
 import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.data.facade.IDataIHMTable;
-import com.utclo23.data.structure.Game;
-import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.data.structure.Ship;
-import com.utclo23.ihmmain.controller.AbstractController;
 import com.utclo23.ihmmain.facade.IHMMainToIhmTable;
 import com.utclo23.ihmtable.controller.InGameGUIController;
 import java.io.IOException;
 
-import java.rmi.server.UID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
