@@ -8,14 +8,11 @@ package com.utclo23.ihmtable;
 import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.data.facade.IDataIHMTable;
-import com.utclo23.data.structure.Game;
-import com.utclo23.data.structure.LightPublicUser;
-import com.utclo23.ihmmain.controller.AbstractController;
+import com.utclo23.data.structure.Ship;
 import com.utclo23.ihmmain.facade.IHMMainToIhmTable;
 import com.utclo23.ihmtable.controller.InGameGUIController;
 import java.io.IOException;
 
-import java.rmi.server.UID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
@@ -132,10 +129,9 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
 
     /**
      * Join a current game.
-     * @param guid : id of the game.
      */
     @Override
-    public void showGame(Game game) {
+    public void showGame() {
         //Créer la fenêtre
         FXMLLoader paneLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
         Parent pane;
@@ -194,20 +190,32 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
     /**
      * Show on the board if the shot has hit or not a ship.
      * @param coord : the coordinates of the hit.
-     * @param bool : true if a ship is hit.
+     * @param touched : true if a ship is hit.
+     * @param destroyedShip : destroyed ship or null.
      */
     @Override
-    public void feedBack(Coordinate coord, boolean bool) {
+    public void feedBack(Coordinate coord, boolean touched, Ship destroyedShip) {
+        controller.displayOpponentAttack(coord, touched, destroyedShip);
         controller.timeToAttack();
     }
 
     /**
      * Display the new stats of the player.
-     * @param stGame : ths stats
+     * @param stGame : the stats
      */
     @Override
     public void finishGame(StatGame stGame) {
-        throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
+        String sMessage;
+        // Game lost.
+        if(!stGame.getWinner().getPlayerName().equals(facadeData.getMyPublicUserProfile().getPlayerName()))
+        {
+            sMessage = "Defeat! You should train against AI! Hahahah!";
+        } else {
+            // Game won.
+            sMessage = "Victory! I'm proud of you General!";
+        }
+        // Display popup.
+        controller.displayFinishPopup(sMessage);
     }
 
     /**
@@ -215,7 +223,8 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void opponentHasLeftGame() {
-        throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
+        // Display popup.
+        controller.displayFinishPopup("Your opponent has left this game!");
     }
 
     /**
@@ -223,7 +232,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void connectionLostWithOpponent() {
-        throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
+        controller.displayFinishPopup("Connection has been lost with your opponent");
     }
 
     /**
