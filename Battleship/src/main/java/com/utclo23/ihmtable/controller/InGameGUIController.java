@@ -883,9 +883,6 @@ public class InGameGUIController {
                             // Reinitialize chrono for the next turn
                             chronoTimeInit();
                             switchOpponnentPane();
-
-                            // TODO: Remove this line!
-                            timeToAttack();
                         }
                     }
                     else {
