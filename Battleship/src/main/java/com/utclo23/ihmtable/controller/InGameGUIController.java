@@ -233,6 +233,11 @@ public class InGameGUIController {
      */
     private Player currentPlayer;
 
+     /**
+     * Me.
+     */
+    private Player myPlayer;
+    
 
     /**
      * True if playing review game
@@ -389,6 +394,8 @@ public class InGameGUIController {
         updateStatsPannel();
         // Get the current player.
         currentPlayer = facade.getFacadeData().getGame().getCurrentPlayer();
+        // Get my player.
+        myPlayer = facade.getFacadeData().getGame().getPlayer(facade.getFacadeData().getMyPublicUserProfile().getId());
     }
 
     /**
@@ -575,7 +582,7 @@ public class InGameGUIController {
                     // in a Mine returned with attack)
 
                     Pair<Integer, Ship> fireResult = facade.getFacadeData().attack(cellToAttack, true);
-                    placeMine(cellToAttack,currentPlayer);
+                    placeMine(cellToAttack, myPlayer);
 
                     // Update stats pannel
                     currentPlayerStats.turnPlayed((fireResult.getKey() == 1), (fireResult.getValue() != null));
