@@ -531,4 +531,35 @@ public class GameMediator {
         return status;
 
     }
+    
+    public void setEnnemyShips(List<Ship> ships) {
+        // Check game is instanciated
+        if (this.currentGame != null){
+            if(!ships.isEmpty()){
+                // retrieve the id of the player that put the ships
+                String player_id = ships.get(0).getOwner().getLightPublicUser().getId();
+
+                // Retrieve the player that put the ships
+                Player p = this.currentGame.getPlayer(player_id);
+
+                // Set the ships
+                p.setShips(ships);  
+                
+                // If the 2 players are ready, notify IHM Table.
+                boolean ready = true;
+                for (Player player : currentGame.getPlayers()) {
+                    // If their ships are placed.
+                    if (this.currentGame.getTemplateShips().size() != player.getShips().size()) {
+                        ready = false;
+                        break;
+                    }
+                }
+                
+                if(ready) {
+                    this.dataFacade.getIhmTablefacade().notifyGameReady();
+                }
+            }         
+        }
+    }
+
 }

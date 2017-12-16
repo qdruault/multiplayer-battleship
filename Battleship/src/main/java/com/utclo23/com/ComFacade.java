@@ -61,8 +61,10 @@ public class ComFacade {
     public void sendShipsToEnnemy(List<Ship> listShips, List<LightPublicUser> recipients) {
         M_PlaceShip mPlaceship = new M_PlaceShip(iDataCom.getMyPublicUserProfile(), listShips);
         for (LightPublicUser recipient : recipients) {
-            Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), mPlaceship);
-            new Thread(os).start();
+            if (kIpCtrl.getHashMap().get(recipient.getId()) != null) {
+                Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), mPlaceship);
+                new Thread(os).start();
+            }            
         }
     }
 
