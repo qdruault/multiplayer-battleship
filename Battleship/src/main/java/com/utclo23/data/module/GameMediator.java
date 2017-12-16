@@ -179,8 +179,8 @@ public class GameMediator {
             //last ship
             if (this.currentGame.getTemplateShips().size() == player.getShips().size()) {
                 if (this.dataFacade.getComfacade() != null) {
-
                     this.dataFacade.getComfacade().sendShipsToEnnemy(player.getShips(), this.currentGame.getRecipients());
+                    checkPlayersReady();
                 }
             }
 
@@ -545,20 +545,27 @@ public class GameMediator {
                 // Set the ships
                 p.setShips(ships);  
                 
-                // If the 2 players are ready, notify IHM Table.
-                boolean ready = true;
-                for (Player player : currentGame.getPlayers()) {
-                    // If their ships are placed.
-                    if (this.currentGame.getTemplateShips().size() != player.getShips().size()) {
-                        ready = false;
-                        break;
-                    }
-                }
-                
-                if(ready) {
-                    this.dataFacade.getIhmTablefacade().notifyGameReady();
-                }
+                checkPlayersReady();
             }         
+        }
+    }
+    
+    /**
+     * Check if the two players are ready.
+     */
+    private void checkPlayersReady() {
+        // If the 2 players are ready, notify IHM Table.
+        boolean ready = true;
+        for (Player player : currentGame.getPlayers()) {
+            // If their ships are placed.
+            if (this.currentGame.getTemplateShips().size() != player.getShips().size()) {
+                ready = false;
+                break;
+            }
+        }
+
+        if(ready) {
+            this.dataFacade.getIhmTablefacade().notifyGameReady();
         }
     }
 
