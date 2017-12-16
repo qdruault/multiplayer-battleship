@@ -172,6 +172,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void notifyGameReady() {
+        System.out.println("notifygameready");
         gameReady = true;
         // Notify the controller the game has started.
         controller.startGame();
