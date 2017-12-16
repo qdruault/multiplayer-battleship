@@ -1,9 +1,6 @@
 package com.utclo23.data.module;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.utclo23.com.ComFacade;
-import com.utclo23.data.module.DataException;
 import com.utclo23.data.configuration.Configuration;
 import com.utclo23.data.facade.DataFacade;
 import com.utclo23.data.structure.ComputerPlayer;
@@ -17,9 +14,7 @@ import com.utclo23.data.structure.Message;
 import com.utclo23.data.structure.Mine;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.ihmtable.IIHMTableToData;
-import java.io.File;
 import java.io.IOException;
-import java.rmi.server.UID;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -223,6 +218,9 @@ public class GameMediator {
             //if isTrueAttack=1, then add mine to player ; otherwise, that is just a test, no stat of mine
            
                 pairReturn = this.currentGame.attack(player, coordinate, isTrueAttack);
+                
+                // Forward to other players.
+                dataFacade.getComfacade().notifyNewCoordinates(new Mine(player, coordinate), currentGame.getRecipients());
 
                 //save with caretaker
                 this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
