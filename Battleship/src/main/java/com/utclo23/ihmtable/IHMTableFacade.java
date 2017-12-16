@@ -135,7 +135,6 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
         //Créer la fenêtre
         FXMLLoader paneLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
         Parent pane;
-        InGameGUIController controller = null;
         Stage primaryStage = facadeIHMMain.getPrimaryStage();
         try {
             controller = new InGameGUIController();
