@@ -108,8 +108,10 @@ public class ComFacade {
     public void notifyNewCoordinates(Mine mine, List<LightPublicUser> recipients) {
         M_PlaceMine mPlaceMine = new M_PlaceMine(iDataCom.getMyPublicUserProfile(), mine);
         for (LightPublicUser recipient : recipients) {
-            Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), mPlaceMine);
-            new Thread(os).start();
+            if (kIpCtrl.getHashMap().get(recipient.getId()) != null) {
+                Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), mPlaceMine);
+                new Thread(os).start();
+            }
         }
     }
 
