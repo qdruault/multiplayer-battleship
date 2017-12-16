@@ -374,7 +374,7 @@ public abstract class Game extends SerializableEntity {
         List<Coordinate> coord = ship.getListCoord() ;
         boolean shipTouched = false ;
         for (Coordinate c : coord) {
-            if (c == mine.getCoord()) {
+            if (mine.getCoord().getX() == c.getX() && mine.getCoord().getY() == c.getY()) {
                 shipTouched = true ; 
                 return shipTouched ; 
             }
