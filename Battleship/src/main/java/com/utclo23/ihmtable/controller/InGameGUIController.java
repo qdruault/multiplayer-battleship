@@ -662,7 +662,7 @@ public class InGameGUIController {
         }
 
         // Select the node in the grid and disable it when we lanch the attack
-        Node hitCell = getNodeByRowColumnIndex(coord.getX(), coord.getY(), grid);
+        Node hitCell = getNodeByRowColumnIndex(coord.getY(), coord.getX(), grid);
         hitCell.setDisable(true);
 
         Pair<Integer, Ship> attack_result = facade.getFacadeData().attack(coord, false);
@@ -1224,7 +1224,7 @@ public class InGameGUIController {
      */
     public void displayOpponentAttack(Coordinate coord, boolean touched, Ship destroyedShip) {
         // Get the cell.
-        Node cell = getNodeByRowColumnIndex(coord.getX(), coord.getY(), playerGrid);
+        Node cell = getNodeByRowColumnIndex(coord.getY(), coord.getX(), playerGrid);
         // The opponent has touched my ship.
         if (touched) {
             // Add the CSS class.
