@@ -443,7 +443,7 @@ public class GameMediator {
         }
 
         if (this.dataFacade.getIhmTablefacade() != null) {
-            //this.dataFacade.getIhmTablefacade().feedback(mine.getCoord(),touched,shipDestroyed) ;
+            this.dataFacade.getIhmTablefacade().feedBack(mine.getCoord(), touched,shipDestroyed) ;
         }
 
         if (this.currentGame.isGameFinishedByEnnemy()) {
