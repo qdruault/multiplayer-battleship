@@ -656,9 +656,9 @@ public class InGameGUIController {
         // Select the right grid which depends on the player (TODO spectateur?)
         GridPane grid;
         if(player.getLightPublicUser().getId().equals(facade.getFacadeData().getMyPublicUserProfile().getId())) {
-            grid = playerGrid;
-        } else {
             grid = opponentGrid;
+        } else {
+            grid = playerGrid;
         }
 
         // Select the node in the grid and disable it when we lanch the attack
