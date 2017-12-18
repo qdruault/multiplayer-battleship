@@ -774,6 +774,7 @@ public class UserMediator {
      * @throws DataException
      */
     public int getNumberVictories() throws DataException {
+        if(this.owner != null){
         List<StatGame> games = this.getMyOwnerProfile().getPlayedGamesList() ;
         LightPublicUser user = this.getMyLightPublicUserProfile() ; 
         int nbVictories = 0;
@@ -783,6 +784,8 @@ public class UserMediator {
             }                
         }
         return nbVictories ; 
+        }
+        return 0;
     }
 
     /**
@@ -793,6 +796,7 @@ public class UserMediator {
      * @throws DataException
      */
     public int getNumberDefeats() throws DataException {
+        if(this.owner != null){
         List<StatGame> games = this.getMyOwnerProfile().getPlayedGamesList() ;
         LightPublicUser user = this.getMyLightPublicUserProfile() ; 
         int nbDefeats = 0;
@@ -802,6 +806,8 @@ public class UserMediator {
             }                
         }
         return nbDefeats ; 
+        }
+        return 0;
     }
     
     /**
@@ -812,6 +818,7 @@ public class UserMediator {
      * @throws DataException
      */
     public int getNumberAbandons() throws DataException {
+        if(this.owner!=null){
         List<StatGame> games = this.getMyOwnerProfile().getPlayedGamesList() ;
         LightPublicUser user = this.getMyLightPublicUserProfile() ; 
         int nbAbandons = 0;
@@ -821,5 +828,7 @@ public class UserMediator {
             }                
         }
         return nbAbandons ; 
+        }
+        return 0;
     }
 }

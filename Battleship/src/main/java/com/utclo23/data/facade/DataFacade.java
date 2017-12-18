@@ -142,7 +142,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void updatePlayername(String playername) throws DataException {
-
+        
         this.userMediator.updatePlayername(playername);
     }
 
@@ -246,6 +246,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void setEnnemyShips(List<Ship> ships) {
+       Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | set ennemy ships");
         this.gameMediator.setEnnemyShips(ships);
     }
 
@@ -257,6 +258,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void forwardCoordinates(Mine mine) {
+        Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | forward coordinates");
         this.gameMediator.forwardCoordinates(mine);
     }
 
@@ -266,8 +268,11 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void leaveGame() {
+        Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | leave game");
+        
         PublicUser user = this.userMediator.getMyPublicUserProfile();
-        //LightPublicUser user = this.userMediator.getMyLightPublicUserProfile(); com doit prendre en argument un LightPublicUser
+       
+        
         this.comfacade.leaveGame();
         this.gameMediator.leaveGame();
         try {
@@ -282,6 +287,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void opponentHasLeftGame() {
+        Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | opponent has left");
+        
         if (!this.gameMediator.isFinishedGame()) {
             try {
                 this.gameMediator.defWin();
@@ -298,7 +305,12 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void connectionLostWithOpponent() {
+        
+        Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | connection lost");
+        
+        //stats.
         this.gameMediator.setWinner(null);
+        
         this.gameMediator.getCurrentGame().getStatGame().setGameAbandonned(true);
         this.gameMediator.leaveGame();
         this.ihmTablefacade.connectionLostWithOpponent();
@@ -364,6 +376,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void forwardMessage(Message msg) {
+        Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | forward message");
+        
         this.gameMediator.forwardMessage(msg);
 
     }
@@ -403,8 +417,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void updateGameList(LightPublicUser user, String id, String role) throws DataException {
+        Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | update game list "+user.getPlayerName()+" "+id+" "+role);
         this.gameMediator.updateGameList(user, id, role);
-        this.gameMediator.getCurrentGame().addUser(user, role);
     }
 
     /**
@@ -415,6 +429,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public List<Ship> getTemplateShips() throws DataException {
+           Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | get template ships");
+     
         if (this.gameMediator.getCurrentGame() != null) {
             return this.gameMediator.getCurrentGame().getTemplateShips();
         } else {
@@ -429,7 +445,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      *
      */
     public void setShip(Ship ship) throws DataException {
-
+        Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | set ship");
+    
         this.gameMediator.setPlayerShip(ship);
 
     }
@@ -448,6 +465,12 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public Pair<Integer, Ship> attack(Coordinate coords, boolean isAttack) {
+        if(isAttack)
+        {
+             Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | attack "+coords.getX()+"-"+coords.getY());
+     
+        }
+        
         try {
             Pair<Integer, Ship> pairReturn = this.gameMediator.attack(coords, isAttack);
             if(this.getComfacade() != null){
@@ -456,7 +479,6 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
             return pairReturn;
         } catch (Exception ex) {
             ex.printStackTrace();
-            //Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -490,6 +512,9 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void sendMessage(String text) {
+        
+        Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | send  message "+text);
+     
         this.gameMediator.sendMessage(text);
     }
 
@@ -660,8 +685,10 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
     @Override
     public void receptionGame(Game game) throws DataException {
+           Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | reception game");
+     
         if (game != null) {
-            
+            Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | game not null");
             this.gameMediator.receptionGame(game);
             
         } 
