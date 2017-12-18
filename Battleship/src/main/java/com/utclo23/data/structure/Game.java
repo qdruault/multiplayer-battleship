@@ -131,8 +131,12 @@ public abstract class Game extends SerializableEntity {
   
     public List<LightPublicUser> getRecipients() {
         List<LightPublicUser> listRecipients = new ArrayList<>();
-        for(int i = 0; i < this.getPlayers().size(); ++i)
-            listRecipients.add(this.getPlayers().get(i).getLightPublicUser());
+        
+        for(int i = 0; i < this.getPlayers().size(); ++i) {
+            if(!(this.getPlayers().get(i).isComputer())) {
+                listRecipients.add(this.getPlayers().get(i).getLightPublicUser());
+            }
+        }
         listRecipients.addAll(this.getSpectators()) ;
         return listRecipients;
     }
@@ -447,5 +451,20 @@ public abstract class Game extends SerializableEntity {
         return isSpectator;
     }
 
+    /**
+     * 
+     * @return If a player of this game is a computer
+     */
+    public boolean isComputerGame() {
+        return (this.getPlayers().get(0).isComputer() || this.getPlayers().get(1).isComputer());
+    }
     
+    public Player getComputerPlayer() {
+        for(int i = 0; i < players.size(); i++) {
+            if(players.get(i).isComputer()) {
+                return players.get(i);
+            }
+        }
+        return null;
+    }
 }

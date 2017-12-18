@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.util.Pair;
@@ -188,6 +189,80 @@ public class GameMediator {
         }
 
     }
+    
+    /**
+     * 
+     */
+    public void setComputerShips() {
+        Player cPlayer = this.currentGame.getComputerPlayer();
+        List<Ship> listShips = this.currentGame.getTemplateShips();
+        for(int s = 0; s < listShips.size(); s++) {
+            craftCoordinates(listShips, listShips.get(s));
+        }
+    }
+    
+    /**
+     * Gives a random position to a ship.
+     * 
+     * @param previousShips
+     * @param ship 
+     */
+    private void craftCoordinates(List<Ship> previousShips, Ship ship) {
+        List<List<Coordinate>> allCoords = this.createAvailableCoordinates(previousShips, ship);
+        Random r = new Random();
+        int position = r.nextInt(allCoords.size());
+        ship.setListCoord(allCoords.get(position));
+    }
+    
+    private List<List<Coordinate>> createAvailableCoordinates(List<Ship> previousShips, Ship ship) {
+        int size = ship.getSize();
+        List<List<Coordinate>> returnList = new ArrayList(); 
+        for(int x = 0; x < 10; x++) {
+            for(int y = 0; y < 10; y++) {
+                Coordinate c = new Coordinate(x,y);
+                if(c.isAllowed(previousShips)) {
+                    
+                    //Crafting the West -> East coordinates.
+                    List<Coordinate> coordsWE = new ArrayList();
+                    coordsWE.add(new Coordinate(x,y));
+                    boolean allowed = true;
+                    for(int s = 0; s < previousShips.size(); s++) {
+                        Coordinate cSuite = new Coordinate(x + s, y);
+                        if(!cSuite.isAllowed(previousShips)) {
+                            allowed = false;
+                            break;
+                        } else {
+                            coordsWE.add(cSuite);
+                        }
+                    }
+                    if(allowed) {
+                        returnList.add(coordsWE);
+                    }
+                    
+                    //Crafting the South->North coordinates.
+                    List<Coordinate> coordsSN = new ArrayList();
+                    coordsSN.add(new Coordinate(x,y));
+                    allowed = true;
+                    for(int s = 0; s < previousShips.size(); s++) {
+                        Coordinate cSuite = new Coordinate(x, y + s);
+                        if(!cSuite.isAllowed(previousShips)) {
+                            allowed = false;
+                            break;
+                        } else {
+                            coordsSN.add(cSuite);
+                        }
+                    }
+                    if(allowed) {
+                        returnList.add(coordsSN);
+                    }
+                }
+            }
+        
+        }
+        return returnList;
+    }
+
+    
 
     /**
      *
