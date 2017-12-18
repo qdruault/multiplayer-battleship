@@ -11,6 +11,8 @@ import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import com.utclo23.com.messages.Message;
 import com.utclo23.data.facade.IDataCom;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class implements a serverSocket to receive messages from another 
@@ -38,8 +40,8 @@ public class Receiver implements Runnable {
         try {
             serverSocket = new ServerSocket(port); 
             iDataCom = dataCom;
-        }catch(IOException e){
-            e.printStackTrace();
+        }catch(IOException ex){
+            Logger.getLogger(ComFacade.class.getName()).log(Level.INFO, null, ex);
         }
     }
 
@@ -49,24 +51,15 @@ public class Receiver implements Runnable {
             try {
                 client = serverSocket.accept();
                 in = new ObjectInputStream(client.getInputStream());
-                System.out.println(in.available());
                 request = (Message) in.readObject();
                 request.callback(iDataCom);
-                /*while((request = (Message) in.readObject()) != null)
-                {
-                    request.callback(iDataCom);
-                    break;
-                }*/
-
+                Logger.getLogger(Receiver.class.getName()).log(Level.INFO, null, "Message received : " + request.getClass().toString());
                 client.close();
                 in.close();
 
-            } catch (IOException e) {
-
-            } catch (ClassNotFoundException e) {
-
+            } catch (IOException|ClassNotFoundException ex) {
+                Logger.getLogger(ComFacade.class.getName()).log(Level.INFO, null, ex);
             }
-
         }
     }
 }

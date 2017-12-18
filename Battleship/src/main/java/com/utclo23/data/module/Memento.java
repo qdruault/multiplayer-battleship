@@ -6,6 +6,7 @@
 package com.utclo23.data.module;
 
 import com.utclo23.data.structure.Event;
+import com.utclo23.data.structure.SerializableEntity;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
  * Keep a state of a game
  * @author Davy
  */
-public class Memento {
+public class Memento extends SerializableEntity{
     /**
      * list of events (messages, ships)
      */

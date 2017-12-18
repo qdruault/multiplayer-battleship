@@ -94,8 +94,11 @@ public class GameMediator {
         //to Com : notify a new game
         ComFacade comFacade = this.dataFacade.getComfacade();
         if (comFacade != null && game != null) {
+            System.out.println("notify");
             comFacade.notifyNewGame(game.getStatGame());
         }
+        else   System.out.println("no notify");
+               
 
         //set current game
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Création d'un Game");
@@ -373,11 +376,28 @@ public class GameMediator {
      * @param role role of the new user
      */
     public void updateGameList(LightPublicUser user, String id, String role) throws DataException {
+       System.out.println("id "+id);
+       if(user == null)
+            {
+                System.out.println("user is null");
+            }
+            
+            if(this.currentGame == null)
+            {
+                System.out.println("current game is null");
+            }
+        
         if (this.currentGame.getId().compareTo(id) == 0) {
+            
+            
+            
+            System.out.println("add Urole "+role);
             this.getCurrentGame().addUser(user, role);
 
             if (this.dataFacade.getComfacade() != null) {
-                this.dataFacade.getComfacade().joinGameResponse(true, id, this.currentGame.getStatGame());
+                
+                System.out.println("data join game resp");
+                this.dataFacade.getComfacade().joinGameResponse(true, user.getId(), this.currentGame.getStatGame());
 
             }
         } else {
@@ -388,13 +408,18 @@ public class GameMediator {
 
     public void gameConnectionRequestGame(String id, String role) {
 
+        role = role.toLowerCase();
+        
         if (this.dataFacade.getComfacade() != null) {
             StatGame game = null;
             if (this.gamesMap.containsKey(id)) {
                 game = this.gamesMap.get(id);
                 //send game
-                //TODO set spectator or player
-                this.dataFacade.getComfacade().connectionToGame(game);
+                
+                // 
+                System.out.println(" ROLE : "+role);
+                
+                this.dataFacade.getComfacade().connectionToGame(game, role);
             }
 
         }
@@ -466,10 +491,11 @@ public class GameMediator {
 
 
     public void receptionGame(Game game) {
-
+        System.out.println("reception game ... ");
+        this.currentGame = game;
         if (this.dataFacade.getIhmMainFacade() != null) {
-
-            this.currentGame = game;
+            
+            System.out.println("give to ihm ... ");
             this.dataFacade.getIhmMainFacade().receptionGame(game);
         }
 

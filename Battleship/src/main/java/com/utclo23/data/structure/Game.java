@@ -35,16 +35,19 @@ public abstract class Game extends SerializableEntity {
 
     private Player currentPlayer;
 
-    public Game(StatGame statGame, List<Player> players, List<LightPublicUser> spectators, List<Message> messages) {
+    public Game(StatGame statGame, List<Player> players, List<LightPublicUser> spectators, List<Message> messages)  {
         this.statGame = statGame;
+        this.statGame.setRealGame(this);
+        
         this.players = players;
         this.spectators = spectators;
 
         this.messages = messages;
-
         this.currentPlayer = players.get(0);
         /* creation of caretaker */
         this.caretaker = new Caretaker();
+        
+       
     }
     
     /**
@@ -55,16 +58,35 @@ public abstract class Game extends SerializableEntity {
      * @throws DataException 
      */
     public void addUser(LightPublicUser user, String role) throws DataException {
-        if(role.compareTo("player") == 0) {
-            if(this.players.size() == 1) {
+        System.out.println("inside addUser");
+        
+        role = role.toLowerCase();
+        
+        if(role.equals("player")) {
+            
+            if(this.players == null)
+            {
+                System.out.println("players == null");
+            }
+            
+            if(this.players.size() <= 1) {
+                
                 Player player = new Player(user);
                 this.players.add(player);
-            } else {
+                
+                System.out.println("player "+player.getLightPublicUser().getId());
+                
+            } /*else 
+            {
+                
                 throw new DataException("Data : already two players in this "
                         + "game, you can not add another one.");
-            }
-        } else if(role.compareTo("spectator") == 0) {
+            }*/
+        } else if(role.equals("spectator")) {
             this.spectators.add(user);
+            
+            System.out.println("spectator "+user.getId());
+              
         } else {
             throw new DataException("Data : given role is not known.");
         }

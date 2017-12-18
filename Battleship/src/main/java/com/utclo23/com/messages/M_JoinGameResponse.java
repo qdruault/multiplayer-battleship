@@ -29,6 +29,7 @@ public class M_JoinGameResponse extends Message {
      *
      * @param user is the message's sender
      * @param success is the response
+     * @param game
      */
     public M_JoinGameResponse(PublicUser user, boolean success, StatGame game) {
         super(user);

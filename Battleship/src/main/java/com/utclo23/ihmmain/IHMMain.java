@@ -5,6 +5,7 @@
  */
 package com.utclo23.ihmmain;
 
+import com.utclo23.data.module.DataException;
 import com.utclo23.ihmmain.constants.SceneName;
 import com.utclo23.ihmmain.controller.AbstractController;
 import com.utclo23.ihmmain.controller.PlayerProfileController;
@@ -65,11 +66,11 @@ public class IHMMain {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PlayerListController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //add onClose event handler which handle the event when user clicks X
+        //add onClose event handler which handle the event when user clics X
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent we) {
-                 System.exit(0);
+               exit(); 
             }
         });
     }
@@ -175,5 +176,15 @@ public class IHMMain {
         controllerMap.put(fxml, controller);
 
         return scene;
+    }
+    
+    public void exit(){
+        try{
+            facade.iDataIHMMain.signOut();
+            System.out.println("Logged out");
+        }catch (Exception e) {
+            //not displaying anything, the app is closing
+        }
+        System.exit(0);
     }
 }

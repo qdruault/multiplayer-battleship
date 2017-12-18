@@ -23,9 +23,10 @@ public class M_JoinGame extends Message {
      * @param user is the message's sender
      * @param game is the game that the player wants to join to
      */
-    public M_JoinGame(PublicUser user, StatGame game) {
+    public M_JoinGame(PublicUser user, StatGame game, String role) {
         super(user);
         this.game = game;
+        this.role = role;
     }
     @Override
     public void callback(IDataCom iDataCom) {
@@ -35,8 +36,5 @@ public class M_JoinGame extends Message {
         } catch (DataException ex) {
             Logger.getLogger(M_JoinGame.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    public void setRole(String r){
-        role = r;
     }
 }
