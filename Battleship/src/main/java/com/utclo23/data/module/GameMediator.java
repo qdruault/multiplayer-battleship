@@ -588,4 +588,20 @@ public class GameMediator {
         return status;
 
     }
+    
+    public void setEnnemyShips(List<Ship> ships) {
+        // Check game is instanciated
+        if (this.currentGame != null){
+            if(!ships.isEmpty()){
+                // retrieve the id of the player that put the ships
+                String player_id = ships.get(0).getOwner().getLightPublicUser().getId();
+
+                // Retrieve the player that put the ships
+                Player p = this.currentGame.getPlayer(player_id);
+
+                // Set the ships
+                p.setShips(ships);  
+            }         
+        }
+    }
 }
