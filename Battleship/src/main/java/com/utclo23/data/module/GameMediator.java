@@ -431,7 +431,7 @@ public class GameMediator {
     public void forwardMessage(Message msg) {
         IIHMTableToData ihmTablefacade = this.dataFacade.getIhmTablefacade();
         if (ihmTablefacade != null) {
-            ihmTablefacade.printMessage(msg);
+            ihmTablefacade.printMessage(msg.getContent());
         }
     }
 
@@ -501,7 +501,7 @@ public class GameMediator {
         }
 
         if (this.dataFacade.getIhmTablefacade() != null) {
-            this.dataFacade.getIhmTablefacade().feedback(mine,touched,shipDestroyed) ;
+            //this.dataFacade.getIhmTablefacade().feedback(mine,touched,shipDestroyed) ;
         }
 
         if (this.currentGame.isGameFinishedByEnnemy()) {
