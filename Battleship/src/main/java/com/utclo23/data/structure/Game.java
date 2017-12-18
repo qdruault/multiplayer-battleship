@@ -228,7 +228,11 @@ public abstract class Game extends SerializableEntity {
                 //Add mine to player
                 player.getMines().add(mine);
             }
-            
+            //Test if this game is finished
+            boolean gameFinished = this.isGameFinishedByCurrentPlayer();
+            if(gameFinished){
+                this.setWinner(player.getLightPublicUser());
+            }
             //Let opponent be the current player
             nextTurn();
         }
@@ -292,6 +296,19 @@ public abstract class Game extends SerializableEntity {
             }
             
         }
+    }
+    
+    /* to get the mine added in attack */
+    public Mine getRecentMine(Coordinate coordinate){
+        List<Player> players = this.players;
+        for(Player play : players){
+            Mine minePlayer = play.getMines().get(play.getMines().size()-1);
+            Coordinate coorMine = minePlayer.getCoord();
+            if (coorMine.getX() == coordinate.getX() && coorMine.getY() == coordinate.getY()){
+                return minePlayer;
+            }
+        }
+        return null;
     }
 
     public Caretaker getCaretaker() {
