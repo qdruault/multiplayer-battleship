@@ -299,6 +299,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     @Override
     public void connectionLostWithOpponent() {
         this.gameMediator.setWinner(null);
+        this.gameMediator.getCurrentGame().getStatGame().setGameAbandonned(true);
         this.gameMediator.leaveGame();
         this.ihmTablefacade.connectionLostWithOpponent();
     }
@@ -673,4 +674,39 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * send number of victories
+     *
+     * @return int number of victories
+     * @throws DataException
+     */
+    @Override
+    public int getNumberVictories() throws DataException {
+        return this.userMediator.getNumberVictories() ;
+    }
+
+    /**
+     *
+     * send number of defeats
+     *
+     * @return int number of defeats
+     * @throws DataException
+     */
+    @Override
+    public int getNumberDefeats() throws DataException {
+        return this.userMediator.getNumberDefeats() ;
+    }
+    
+    /**
+     *
+     * send number of abandons
+     *
+     * @return int number of abandons
+     * @throws DataException
+     */
+    @Override
+    public int getNumberAbandons() throws DataException {
+        return this.userMediator.getNumberAbandons() ;
+    }
 }

@@ -350,7 +350,7 @@ public class GameMediator {
     public void forwardMessage(Message msg) {
         IIHMTableToData ihmTablefacade = this.dataFacade.getIhmTablefacade();
         if (ihmTablefacade != null) {
-            ihmTablefacade.printMessage(msg.getContent());
+            ihmTablefacade.printMessage(msg);
         }
     }
 
@@ -419,11 +419,10 @@ public class GameMediator {
         }
 
         if (this.dataFacade.getIhmTablefacade() != null) {
-            //this.dataFacade.getIhmTablefacade().feedback(mine.getCoord(),touched,shipDestroyed) ;
+            this.dataFacade.getIhmTablefacade().feedback(mine,touched,shipDestroyed) ;
         }
 
         if (this.currentGame.isGameFinishedByEnnemy()) {
-            // a faire
              //Sauvegarde à ajouter, que l'owner soit joueur ou pas.
             String status = this.getOwnerStatus();
             if(status == "player") {
@@ -432,7 +431,7 @@ public class GameMediator {
                 }
                 this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
                 
-                 this.currentGame = null;
+                this.currentGame = null;
             }
         }
 
