@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
@@ -70,6 +71,7 @@ public class IHMMain {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent we) {
+               we.consume();
                exit(); 
             }
         });
@@ -140,10 +142,14 @@ public class IHMMain {
      * @throws IOException 
      */
     public void toScene(String scenename)throws IOException{
+        Scene activeScene = primaryStage.getScene();
+        if(activeScene != null){
+           activeScene.setCursor(Cursor.DEFAULT);
+        }
         if(sceneMap.containsKey(scenename)){
-            //stop active controller
-            if(activeSceneName != null){
-                controllerMap.get(activeSceneName).stop();
+            //stop all controllers
+            for(SceneName name : SceneName.values()){
+                controllerMap.get(name.toString()).stop();
             }
             primaryStage.setScene(sceneMap.get(scenename));
             activeSceneName = scenename;
@@ -181,7 +187,6 @@ public class IHMMain {
     public void exit(){
         try{
             facade.iDataIHMMain.signOut();
-            System.out.println("Logged out");
         }catch (Exception e) {
             //not displaying anything, the app is closing
         }

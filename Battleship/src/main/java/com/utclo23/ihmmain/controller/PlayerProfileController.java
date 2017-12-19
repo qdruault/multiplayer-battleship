@@ -228,6 +228,7 @@ public class PlayerProfileController extends AbstractController{
         if (isLoading){
             //change the cursor
             getIhmmain().primaryStage.getScene().setCursor(Cursor.WAIT);
+           
             
             //create a wait task, check every 0.5s if the loading is finished, finish the waiting
             Task<Void> wait;
@@ -253,8 +254,11 @@ public class PlayerProfileController extends AbstractController{
                 public void handle(WorkerStateEvent event) {
                     isOther = true;
                     try {
-                        getIhmmain().primaryStage.getScene().setCursor(Cursor.DEFAULT);
-                        getIhmmain().toPlayerProfile();
+                        if(other != null){
+                            getIhmmain().toPlayerProfile();
+                        }else{
+                            isOther = false;
+                        }
                     } catch (IOException ex) {
                         Logger.getLogger(
                                 PlayerProfileController.class.getName()).log(
@@ -266,6 +270,7 @@ public class PlayerProfileController extends AbstractController{
             wait.setOnFailed(new EventHandler<WorkerStateEvent>() {
                 @Override
                 public void handle(WorkerStateEvent t){
+                    getIhmmain().primaryStage.getScene().setCursor(Cursor.DEFAULT);
                     Logger.getLogger(
                             PlayerProfileController.class.getName()).log(
                                     Level.INFO,
@@ -355,5 +360,14 @@ public class PlayerProfileController extends AbstractController{
                         );
             }
         }
+    }
+    
+    /**
+     * Sets isLoading to false when leaving this controller.
+     */
+    @Override
+    public void stop(){
+        setRunning(false);
+        isLoading = false;
     }
 }
