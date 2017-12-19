@@ -27,19 +27,25 @@ import java.util.logging.Logger;
 import javafx.util.Pair;
 
 /**
- * Game Mediator related to games features
- *
- * @author tboulair
+ * Game Mediator related to games features.
  */
 public class GameMediator {
 
     /**
-     * reference to the data facade
+     * Reference to the Data Facade.
      */
     private DataFacade dataFacade;
+    /**
+     * Available games mapped by ID.
+     */
     private Map<String, StatGame> gamesMap;
+    /**
+     * Game Factory.
+     */
     private GameFactory gameFactory;
-
+    /**
+     * The game wich is currently played, replayed or observed.
+     */
     private Game currentGame;
 
     /**
@@ -55,22 +61,35 @@ public class GameMediator {
 
     }
 
+    /**
+     * 
+     * @return 
+     */
     public Game getCurrentGame() {
         return currentGame;
     }
 
+    /**
+     * 
+     * @param currentGame 
+     */
     public void setCurrentGame(Game currentGame) {
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Data | ");
         this.currentGame = currentGame;
     }
 
     /**
-     * Create a game
-     *
-     * @param name
-     * @param spectator
-     * @param spectatorChat
-     * @param type
+     * Creation of a game.
+     * 
+     * The game is notified to other users and it becomes the current game.
+     * 
+     * @param name Name of the game
+     * @param computerMode True if the opponent is an AI, false else.
+     * @param spectator True if spectators are allowed, false else.
+     * @param spectatorChat True if spectators are allowed to chat, false else.
+     * @param type Type of the game (standard, belgian).
+     * @return Created game
+     * @throws DataException 
      */
     public Game createGame(String name, boolean computerMode, boolean spectator, boolean spectatorChat, GameType type) throws DataException {
         //empty game name
@@ -104,9 +123,10 @@ public class GameMediator {
     }
 
     /**
-     * add a new game
+     * 
+     * Adds a new StatGame to the available games' map.
      *
-     * @param game
+     * @param statgame StatGame ot add.
      */
     public void addNewGame(StatGame statgame) {
         if (!this.gamesMap.containsKey(statgame.getId())) {
@@ -136,6 +156,14 @@ public class GameMediator {
         return listGame;
     }
 
+    /**
+     * Gives a ship to the playing owner.
+     * Checks if the ship doesn't collide with the owner's other ships and send 
+     * the ships to the other users if it was the last one.
+     * 
+     * @param ship Ship to add to the owner.
+     * @throws DataException 
+     */
     public void setPlayerShip(Ship ship) throws DataException {
         if (this.currentGame != null) {
             String id = this.dataFacade.getMyPublicUserProfile().getId();
@@ -187,7 +215,7 @@ public class GameMediator {
     }
 
     /**
-     *
+     * Gives a random position to every ship of the AI.
      */
     public void setComputerShips() {
         Player cPlayer = this.currentGame.getComputerPlayer();
@@ -210,6 +238,14 @@ public class GameMediator {
         ship.setListCoord(allCoords.get(position));
     }
 
+    /**
+     * Creates the list of available coordinates for a ship.
+     * The list of already placed ships is taken into account.
+     * 
+     * @param previousShips List of already placed ships.
+     * @param ship Ship to place.
+     * @return 
+     */
     private List<List<Coordinate>> createAvailableCoordinates(List<Ship> previousShips, Ship ship) {
         int size = ship.getSize();
         List<List<Coordinate>> returnList = new ArrayList();
@@ -379,12 +415,17 @@ public class GameMediator {
     }
 
     /**
-     *
-     * Update current game's list as a new user has joined it.
-     *
-     * @param user the new user who has joined
-     * @param id id of the stat game
-     * @param role role of the new user
+     * Attack of the owner.
+     * Checks if a mine was already placed here and if the game was just won. 
+     * If the opponent is an AI, manages its attack. Saves the attack and previous 
+     * events in a Memento.
+     * 
+     * @param coordinate Coordinate of the attack.
+     * @param isTrueAttack
+     * @return 1 if it's a hit, 0 if it's a miss and if a ship is destroyed this ship.
+     * @throws DataException
+     * @throws IOException
+     * @throws ClassNotFoundException 
      */
     public void updateGameList(LightPublicUser user, String id, String role) throws DataException {
         System.out.print("liste players");
@@ -427,6 +468,14 @@ public class GameMediator {
         System.out.println("nombre de joueurs " + this.currentGame.getPlayers().size());
     }
 
+    /**
+     *
+     * Update current game's list as a new user has joined it.
+     *
+     * @param user the new user who has joined
+     * @param id id of the stat game
+     * @param role role of the new user
+     */
     public void gameConnectionRequestGame(String id, String role) {
 
         role = role.toLowerCase();
@@ -447,9 +496,11 @@ public class GameMediator {
     }
 
     /**
-     * send a chat message
-     *
-     * @param text the text message to send
+     * Sends a chat message.
+     * Doesn't send the message if the owner isn't allowed (observing a game 
+     * with a disabled spectator chat).
+     * 
+     * @param text Text to send.
      */
     public void sendMessage(String text) {
         //get information of sender
@@ -470,9 +521,9 @@ public class GameMediator {
     }
 
     /**
-     * Forward a message
+     * Forwards a message to table for display.
      *
-     * @param msg message to forward
+     * @param msg Message to forward.
      */
     public void forwardMessage(Message msg) {
         IIHMTableToData ihmTablefacade = this.dataFacade.getIhmTablefacade();
@@ -492,6 +543,8 @@ public class GameMediator {
 
     /**
      * Exit current game.
+     * If there is no winner yet, and the owner is playing this game, gives 
+     * victory to the opponent.
      */
     public void leaveGame() {
         //Sauvegarde à ajouter.
@@ -506,6 +559,11 @@ public class GameMediator {
         // this.currentGame = null;
     }
 
+    /**
+     * Receive a game.
+     * It becomes the current game and it is forward to table.
+     * @param game Received game.
+     */
     public void receptionGame(Game game) {
         System.out.println("reception game ... ");
         Player player = null;
@@ -527,6 +585,9 @@ public class GameMediator {
 
     }
 
+    /**
+     * Forwarding of "impossible connection" (to a game) message to main.
+     */
     public void connectionImpossible() {
         if (this.dataFacade.getIhmMainFacade() != null) {
             this.dataFacade.getIhmMainFacade().connectionImpossible();
@@ -535,9 +596,11 @@ public class GameMediator {
     }
 
     /**
-     * foorwardCoordinates
+     * Reception of an attack by an other player (not AI).
+     * Mirror of the attack() method. If the game just ended, gives victory. Save 
+     * state to Memento
      *
-     * @param mine the mine placed
+     * @param mine Mine placed by the other player.
      */
     public void forwardCoordinates(Mine mine) {
         System.out.println("FORWARD COORDINATES "+mine.getOwner().getLightPublicUser().getPlayerName()+" "+mine.getCoord().getX()+","+mine.getCoord().getY());
@@ -626,7 +689,7 @@ public class GameMediator {
      * Check if there is no current game or there is one but it already has a
      * winner.
      *
-     * @return
+     * @return True if finished, false else.
      */
     public boolean isFinishedGame() {
         boolean finished = true;
@@ -647,7 +710,7 @@ public class GameMediator {
      * Return the status of the owner in the current game (player, spectator or
      * null).
      *
-     * @return
+     * @return The owner's status.
      */
     public String getOwnerStatus() {
         LightPublicUser owner = this.dataFacade.getUserMediator().getMyLightPublicUserProfile();
@@ -655,11 +718,11 @@ public class GameMediator {
     }
 
     /**
-     * Return the status of user in the current game (player, spectator or
+     * Return the status of a user in the current game (player, spectator or
      * null).
      *
-     * @param user
-     * @return
+     * @param user The user whose status is requested.
+     * @return The user's status ("player" or "spectator").
      */
     public String getUserStatus(LightPublicUser user) {
         String status = null;
@@ -672,6 +735,11 @@ public class GameMediator {
 
     }
 
+    /**
+     * Set the position of the ennemy's ships.
+     * 
+     * @param ships List of ships of the ennemy.
+     */
     public void setEnnemyShips(List<Ship> ships) {
         // Check game is instanciated
         if (this.currentGame != null) {
@@ -691,7 +759,8 @@ public class GameMediator {
     }
 
     /**
-     * Check if the two players are ready.
+     * Check if both players are ready.
+     * Notify table if ready. Count the player's ships to know.
      */
     private void checkPlayersReady() {
         // If the 2 players are ready, notify IHM Table.
@@ -729,6 +798,9 @@ public class GameMediator {
         }
     }
 
+    /**
+     * Get the game to the next Memento of the caretaker.
+     */
     public void next() {
         if (this.currentGame != null) {
             if (this.currentGame.isSave()) {
