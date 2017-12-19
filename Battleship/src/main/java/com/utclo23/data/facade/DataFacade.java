@@ -282,6 +282,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+        
+        this.opponentHasLeftGame();
     }
 
     /**
