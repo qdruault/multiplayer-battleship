@@ -408,7 +408,7 @@ public class UserMediator {
             //save into a json file
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            mapper.writeValue(new File(path), owner);
+            mapper.writeValue(new File(path), owner);      
         } catch (Exception e) {
             throw new DataException("Data : error in save process"); //throw related error by using exception of DataModule
         }
@@ -583,18 +583,28 @@ public class UserMediator {
 
         if (this.owner != null) {
 
-            //blank  
+            //blank playername  
             if (playername.isEmpty()) {
                 throw new DataException("Data : error due to empty playername");
-            }
-            playername = playername.toUpperCase();
+            }            
 
+            String oldPlayerName = this.owner.getUserIdentity().getLightPublicUser().getPlayerName();
             if (!this.getDataFacade().isTestMode()) {
                 this.owner.getUserIdentity().getLightPublicUser().setPlayerName(playername);
             }
-            save();
+            
 
             //remove old profile and add new one
+            //determine the path
+            try{
+                String path = Configuration.SAVE_DIR + File.separator + oldPlayerName + ".json";
+                File f = new File(path);                               
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            
+            save();
+            
             //to check by data module
             ComFacade comFacade = this.dataFacade.getComfacade();
             if (comFacade != null) {
