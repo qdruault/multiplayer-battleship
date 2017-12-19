@@ -320,7 +320,7 @@ public class GameMediator {
                                 check = true;
 
                                 if (this.currentGame.isShipDestroyed(ship, this.currentGame.getComputerPlayer().getMines())) {
-                                    this.currentGame.getComputerPlayer().loseFocus();
+                                    this.currentGame.getComputerPlayer().loseFocus(ship);
                                     System.out.println("DATA  TOTAL FOCUS LOST");
 
                                 } else {
