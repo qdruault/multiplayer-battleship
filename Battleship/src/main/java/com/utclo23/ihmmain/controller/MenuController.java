@@ -103,6 +103,7 @@ public class MenuController extends AbstractController{
         try{
             getFacade().iDataIHMMain.signOut();
             getIhmmain().toLogin();
+            super.cleanPlayerAvatar();
         }catch(Exception e){
             Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, e);
         }
