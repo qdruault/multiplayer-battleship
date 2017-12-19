@@ -258,8 +258,7 @@ public class AttackTest {
          df.forwardCoordinates(mineA3); 
          df.attack(coorMineB3, true);
          boolean b = df.getGameMediator().getCurrentGame().isGameFinishedByEnnemy() ;
-         df.forwardCoordinates(mineB3);    
-         
+             
          
          int nbVict = df.getNumberVictories() ;
          int nbDefeats = df.getNumberDefeats();
