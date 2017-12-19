@@ -432,6 +432,9 @@ public class InGameGUIController {
                }
            }
         });
+       
+       // If the chat is enabled for this game
+       // isSpectatorChat() is true if the chat is enabled in the game settings
        if(!facade.getFacadeData().getGame().getStatGame().isSpectatorChat()) {
             paneChat.setOpacity(0);
             paneChat.setDisable(true);
@@ -661,7 +664,7 @@ public class InGameGUIController {
     }
 
     /**
-    * Function for ing new window with menu option (Save and leave)
+    * Function for displaying new window with menu option (Save and leave)
     * @param event
     * @throws IOException
     */
@@ -843,7 +846,8 @@ public class InGameGUIController {
     }
 
     /*
-    * Function of Chat in IHM Table
+    * Function called when you click on the send button of the chat
+    * It will send the message written in the textfield of the chat
     * fx:controller="com.utclo23.ihmtable.controller.InGameGUIController" ==> all the windows 
     */
     @FXML
