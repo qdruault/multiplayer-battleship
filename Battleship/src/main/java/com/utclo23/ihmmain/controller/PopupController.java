@@ -37,16 +37,16 @@ public class PopupController extends AbstractController{
         else{
             textnull = false;
             switch(label){
-            case "PlayerName":
+            case "playerName":
                 getFacade().iDataIHMMain.updatePlayername(text);
                 break;
-            case "FirstName":
+            case "firstName":
                 getFacade().iDataIHMMain.updateFirstname(text);
                 break;
-            case "LastName":
+            case "lastName":
                 getFacade().iDataIHMMain.updateLastname(text);
                 break;
-            case "Password":
+            case "password":
                 getFacade().iDataIHMMain.updatePassword(text);
                 break;
             default:

@@ -10,6 +10,7 @@ import com.utclo23.data.structure.PublicUser;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.logging.Level;
@@ -87,7 +88,9 @@ public class PlayerProfileController extends AbstractController{
     private boolean isOther = false; 
     private String attribut;
     private Image avatarImage;
-    
+    private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+ 
+   
     @FXML
     @Override
     public void start(){
@@ -321,10 +324,10 @@ public class PlayerProfileController extends AbstractController{
                 me = getFacade().iDataIHMMain.getMyPublicUserProfile();
                 getAvatar(me);
                 image.setImage(avatarImage);
-                userID .setText(me.getLightPublicUser().getPlayerName());
+                userID .setText(me.getPlayerName());
                 firstName.setText(me.getFirstName());
                 lastName.setText(me.getLastName());
-                birthday.setText(me.getBirthDate().toString());
+                birthday.setText(formatter.format(me.getBirthDate()));
                 drawPieChart(allMode);
                 drawPieChart(classical);
                 drawPieChart(belge);
@@ -343,10 +346,10 @@ public class PlayerProfileController extends AbstractController{
                 disableButton();
                 getAvatar(other);
                 image.setImage(avatarImage);
-                userID.setText(other.getLightPublicUser().getPlayerName());
+                userID.setText(other.getPlayerName());
                 firstName.setText(other.getFirstName());
                 lastName.setText(other.getLastName());
-                birthday.setText(other.getBirthDate().toString());
+                birthday.setText(formatter.format(other.getBirthDate()));
             }
             catch(NullPointerException e){
                 Logger.getLogger(
