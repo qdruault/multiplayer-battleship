@@ -168,8 +168,9 @@ public abstract class Game extends SerializableEntity {
             }
         }
         
-        System.out.println(" "+this.getSpectators().size());
         listRecipients.addAll(this.getSpectators());
+        
+        System.out.println(">recipients "+listRecipients.size());
         return listRecipients;
     }
 
