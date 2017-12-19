@@ -428,13 +428,7 @@ public class InGameGUIController {
        sendcontent.setOnKeyPressed(new EventHandler<KeyEvent>() {
            public void handle(KeyEvent ke) {
                if (ke.getCode() == KeyCode.ENTER) {
-                   String userName = myPlayer.getLightPublicUser().getPlayerName();
-                    if(!sendcontent.getText().isEmpty()){
-                            if (!userName.isEmpty()){
-                                String content = sendcontent.getText();
-                                sendMessageOnGUI(userName, content);
-                            }
-                    }
+                    retrieveInformationAndSendMessage();
                }
            }
         });
@@ -860,52 +854,38 @@ public class InGameGUIController {
     */
     @FXML
     public void onClickSendButton(MouseEvent event) throws IOException {
+        retrieveInformationAndSendMessage();
+    }
+    
+    private void retrieveInformationAndSendMessage() {
         String userName = myPlayer.getLightPublicUser().getPlayerName();
-        if(!sendcontent.getText().isEmpty()){
-                if (!userName.isEmpty()){
-                    String content = sendcontent.getText();
-                    sendMessageOnGUI(userName, content);
-                }
+        String text = retrieveAndClearMessage();
+        if (text != null) {
+            printMessageInChat(userName, text);
+            facade.getFacadeData().sendMessage(text);
         }
     }
     
-    
-    /**
-     * Method for sending message to Data (to other the player) and create JavaFX element on tchat
-     */
-    private void sendMessageOnGUI(String userName, String msgContent) {
-        HBox chat = new HBox();
-        /**
-         * check if text is null
-         */
-        try {
-            Text chattext = new Text(userName + " :: " + msgContent); 
-            chat.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
-            chattext.setWrappingWidth(400);
-            chat.getChildren().add(chattext);
-            listView.getItems().add(chat);
-            /*
-            *Send the message to Data : userID and the message
-            */
-            facade.getFacadeData().sendMessage(msgContent);
+    private String retrieveAndClearMessage() {
+        String text = null;
+        if(!sendcontent.getText().isEmpty()) {
+            text = sendcontent.getText();
             sendcontent.clear();
         }
-        catch (Exception e) {
-            Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, e);
-        }
+        return text;
     }
     
+    public void printMessageInChat(String userName, String msgContent) {
 
-    /*
-    * Show the message of Chat in IHM Table
-    */
-    public void showMessageChat(Message message){
-        String userName = message.getSender().getPlayerName();
-        String content = message.getContent();
-        sendMessageOnGUI(userName, content);
+        HBox chatBox = new HBox();
+        Text chatText = new Text(userName + " :: " + msgContent); 
+        chatBox.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+        chatText.setWrappingWidth(400);
+        chatBox.getChildren().add(chatText);
+        listView.getItems().add(chatBox);
+        sendcontent.clear();
     }
 
-    
     private class AttackEvent implements EventHandler {
 
         /**

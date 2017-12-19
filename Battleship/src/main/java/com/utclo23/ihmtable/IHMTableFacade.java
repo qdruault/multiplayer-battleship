@@ -185,8 +185,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void printMessage(Message message) {
-        InGameGUIController controller = new InGameGUIController();
-        controller.showMessageChat(message); 
+        controller.printMessageInChat(message.getSender().getPlayerName(), message.getContent()); 
     }
 
     /**
