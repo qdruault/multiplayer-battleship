@@ -303,7 +303,7 @@ public class GameListController extends AbstractController{
     private void goIntoGame(){
         if(isRunning()){
             if(receivedGame != null){
-                getFacade().iIHMTableToIHMMain.showGame(receivedGame);
+                getFacade().iIHMTableToIHMMain.showGame();
             }else{
                 showErrorPopup("Connection Impossible","","Your connection request failed.");
                 refresh();

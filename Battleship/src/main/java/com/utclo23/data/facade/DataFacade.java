@@ -220,13 +220,13 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     }
 
     /**
-     * Add new game <<<<<<< HEAD
+     * Add new game 
      *
-     * @param game =======
-     * @param game the game to add >>>>>>> Data/javadoc
+     * @param game 
      */
     @Override
     public void addNewGame(StatGame game) {
+        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Data | new game received");
 
         this.gameMediator.addNewGame(game);
 
@@ -246,7 +246,9 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void setEnnemyShips(List<Ship> ships) {
+
        Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | set ennemy ships");
+
         this.gameMediator.setEnnemyShips(ships);
     }
 
@@ -467,7 +469,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     public Pair<Integer, Ship> attack(Coordinate coords, boolean isAttack) {
         if(isAttack)
         {
-             Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | attack "+coords.getX()+"-"+coords.getY());
+            System.out.println("datafacade | attack "+coords.getX()+"-"+coords.getY());
      
         }
         

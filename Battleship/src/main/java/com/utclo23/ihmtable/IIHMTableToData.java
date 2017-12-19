@@ -6,6 +6,7 @@
 package com.utclo23.ihmtable;
 
 import com.utclo23.data.structure.Coordinate;
+import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.StatGame;
 
 /**
@@ -15,7 +16,7 @@ import com.utclo23.data.structure.StatGame;
 public interface IIHMTableToData {
     public void notifyGameReady();
     public void printMessage(String message);
-    public void feedBack(Coordinate coord, boolean bool);
+    public void feedBack(Coordinate coord, boolean bool, Ship destroyedShip);
     public void finishGame(StatGame stGame);
     public void opponentHasLeftGame();
     public void connectionLostWithOpponent();
