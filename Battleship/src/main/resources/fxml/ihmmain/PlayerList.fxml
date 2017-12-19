@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -32,11 +31,7 @@
          </rowConstraints>
          <children>
             <Label id="usernameLabel" fx:id="playerUsernameLabel" text="Label" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
-            <ImageView fx:id="avatarImageView1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-               <image>
-                  <Image url="@../../../../../../../../../Pictures/Capture2.PNG" />
-               </image>
-            </ImageView>
+            <ImageView fx:id="avatarImageView1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
       <Label id="pageTitleLabel" text="PLAYERS" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
