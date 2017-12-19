@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javafx.util.Pair;
@@ -30,6 +32,7 @@ public abstract class Game extends SerializableEntity {
     private List<Player> players;
     private List<LightPublicUser> spectators;
     private List<Message> messages;
+    private boolean save;
     private Caretaker caretaker;
 
     private Player currentPlayer;
@@ -38,6 +41,8 @@ public abstract class Game extends SerializableEntity {
         this.statGame = statGame;
         this.statGame.setRealGame(this);
 
+        this.save = false;
+        
         this.players = players;
         this.spectators = spectators;
 
@@ -46,6 +51,14 @@ public abstract class Game extends SerializableEntity {
         /* creation of caretaker */
         this.caretaker = new Caretaker();
 
+    }
+
+    public boolean isSave() {
+        return save;
+    }
+
+    public void setSave(boolean save) {
+        this.save = save;
     }
 
     /**
@@ -272,11 +285,15 @@ public abstract class Game extends SerializableEntity {
     public Memento saveStateToMemento() {
         //notify caretaker
         List<Event> events = new ArrayList<>();
+        
+        
         //Add msgs
         events.addAll(this.messages);
         for (Player p : players) {
             events.addAll(p.getMines());
         }
+        
+       
         //creation of memento
         Memento memento = new Memento(events);
         return memento;
