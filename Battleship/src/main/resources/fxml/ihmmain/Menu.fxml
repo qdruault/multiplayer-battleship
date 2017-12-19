@@ -33,13 +33,13 @@
             <children>
                 <GridPane id="frameButton" GridPane.columnIndex="1">
                     <rowConstraints>
-                        <RowConstraints percentHeight="16.6" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="16.6" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="16.6" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" percentHeight="16.6" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="16.6" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="16.6" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="16.6" vgrow="SOMETIMES" />
+                        <RowConstraints percentHeight="14.2" vgrow="SOMETIMES" />
+                        <RowConstraints percentHeight="14.2" vgrow="SOMETIMES" />
+                        <RowConstraints percentHeight="14.2" vgrow="SOMETIMES" />
+                        <RowConstraints percentHeight="14.2" vgrow="SOMETIMES" />
+                        <RowConstraints percentHeight="14.2" vgrow="SOMETIMES" />
+                        <RowConstraints percentHeight="14.2" vgrow="SOMETIMES" />
+                        <RowConstraints percentHeight="14.2" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" percentWidth="100.0" />
@@ -60,6 +60,11 @@
                                 <Tooltip text="Click to see the list of connected users." />
                             </tooltip>
                         </Button>
+                        <Button fx:id="savedGameButton" alignment="CENTER" onAction="#toSavedGames" text="Watch Replys" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                            <tooltip>
+                                <Tooltip text="Click to see the list of connected users." />
+                            </tooltip>
+                        </Button>
                         <Button fx:id="ipListButton" onAction="#showIpList" text="List of IP" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                             <tooltip>
                                 <Tooltip text="Click to see/edit the list of IP addresses." />
@@ -75,11 +80,6 @@
                                 <Tooltip text="Click to close the application." />
                             </tooltip>
                         </Button>
-                  <Button fx:id="savedGameButton" alignment="CENTER" onAction="#toSavedGames" text="Watch Replys" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-                     <tooltip>
-                        <Tooltip text="Click to see the list of connected users." />
-                     </tooltip>
-                  </Button>
                     </children>
                 </GridPane>
             </children>
