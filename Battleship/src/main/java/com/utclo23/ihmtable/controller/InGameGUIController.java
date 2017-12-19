@@ -44,8 +44,12 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.geometry.NodeOrientation;
+import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -91,7 +95,7 @@ public class InGameGUIController {
     @FXML
     private ListView<HBox> listView;
     @FXML
-    private TextArea sendcontent;
+    private TextField sendcontent;
     @FXML
     private Button fireButton;
     @FXML
@@ -410,6 +414,15 @@ public class InGameGUIController {
         currentPlayer = facade.getFacadeData().getGame().getCurrentPlayer();
         // Get my player.
         myPlayer = facade.getFacadeData().getGame().getPlayer(facade.getFacadeData().getMyPublicUserProfile().getId());
+    
+        sendcontent.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent ke) {
+                if (ke.getCode() == KeyCode.ENTER) {
+                    sendMessageOnGUI();
+                }
+            }
+        });
+    
     }
 
     /**
@@ -814,36 +827,48 @@ public class InGameGUIController {
         alert.showAndWait();
     }
 
+    
+    private void sendMessageOnGUI() {
+        HBox chat = new HBox();      
+        /*
+         * Get the userID of the palyer at game
+         * ihm facade -> datafacade -> game -> currentplayer -> lightpublicuser -> getPlyer id
+        */
+        String userName = facade.getFacadeData().getGame().getCurrentPlayer().getLightPublicUser().getPlayerName();  
+
+        /**
+         * check if text is null
+         */
+        try {
+            if(!sendcontent.getText().isEmpty()){
+                if (!userName.isEmpty()){
+                    Text chattext = new Text(sendcontent.getText() + " :: " + userName); 
+                    chat.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+                    chattext.setWrappingWidth(400);
+                    chat.getChildren().add(chattext);
+                    listView.getItems().add(chat);
+                    /*
+                    *Send the message to Data : userID and the message
+                    */
+                    facade.getFacadeData().sendMessage(userName + chattext);
+                    sendcontent.clear();
+                }
+            } else {
+                System.out.println("Try to send empty message");
+            }
+        }
+        catch (Exception e) {
+            Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+    
     /*
     * Function of Chat in IHM Table
     * fx:controller="com.utclo23.ihmtable.controller.InGameGUIController" ==> all the windows 
     */
     @FXML
     public void onClickSendButton(MouseEvent event) throws IOException {
-            
-        System.out.println("Clic sur le button Send ");
-        HBox chat = new HBox();      
-        /*
-         * Get the userID of the palyer at game
-         * ihm facade -> datafacade -> game -> currentplayer -> lightpublicuser -> getPlyer id
-        */
-        String userID = facade.getFacadeData().getGame().getCurrentPlayer().getLightPublicUser().getId();  
-        //String userID = "tong";
-        
-        if(!sendcontent.getText().isEmpty()){
-            if (!userID.isEmpty()){
-                Text chattext = new Text(sendcontent.getText() + " :: " + userID); 
-                chat.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
-                chattext.setWrappingWidth(400);
-                chat.getChildren().add(chattext);
-                listView.getItems().add(chat);
-                /*
-                *Send the message to Data : userID and the message
-                */
-                facade.getFacadeData().sendMessage(userID + chattext);
-                sendcontent.clear();
-            }         
-        }    
+        sendMessageOnGUI();
     }
     
     /*
