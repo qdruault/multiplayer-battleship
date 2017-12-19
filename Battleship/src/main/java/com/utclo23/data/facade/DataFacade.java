@@ -478,9 +478,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         
         try {
             Pair<Integer, Ship> pairReturn = this.gameMediator.attack(coords, isAttack);
-            if(this.getComfacade() != null){
-                this.getComfacade().notifyNewCoordinates(this.gameMediator.getCurrentGame().getRecentMine(coords), this.gameMediator.getCurrentGame().getRecipients(this.userMediator.getMyLightPublicUserProfile().getPlayerName()));
-            }
+            
             return pairReturn;
         } catch (Exception ex) {
             ex.printStackTrace();
