@@ -313,7 +313,7 @@ public class GameMediator {
                         this.forwardCoordinates(m);
 
                         boolean check = false;
-                        for (Ship ship : this.currentGame.ennemyOf(this.currentGame.getComputerPlayer()).getShips()) {
+                        for (Ship ship : this.currentGame.getCurrentPlayer().getShips()) {
                             if (this.currentGame.isShipTouched(ship, m)) {
 
                                 this.currentGame.getComputerPlayer().setFocus(m.getCoord());
@@ -321,8 +321,10 @@ public class GameMediator {
 
                                 if (this.currentGame.isShipDestroyed(ship, this.currentGame.getComputerPlayer().getMines())) {
                                     this.currentGame.getComputerPlayer().loseFocus();
-                                    System.out.println("");
+                                    System.out.println("DATA  TOTAL FOCUS LOST");
 
+                                } else {
+                                    System.out.println("DATA  FOCUS ON " + m.getCoord().getX() + "," + m.getCoord().getY());
                                 }
                             }
 
@@ -331,6 +333,10 @@ public class GameMediator {
                         if (!check) {
 
                             this.currentGame.getComputerPlayer().setFocus(null);
+                            System.out.println("DATA  FOCUS  LOST  ");
+                            if (this.currentGame.getComputerPlayer().getFocus() != null) {
+                                System.out.println("NEW FOCUS  " + this.currentGame.getComputerPlayer().getFocus().getX() + "," + this.currentGame.getComputerPlayer().getFocus().getY());
+                            }
                         }
 
                     }
@@ -499,12 +505,11 @@ public class GameMediator {
         Player player = null;
 
         for (Player p : game.getPlayers()) {
-            if (p.getLightPublicUser().getId().equals(this.dataFacade.getUserMediator().getMyLightPublicUserProfile().getId()))
-                     {
+            if (p.getLightPublicUser().getId().equals(this.dataFacade.getUserMediator().getMyLightPublicUserProfile().getId())) {
                 player = p;
             }
         }
-        
+
         game.setCurrentPlayer(player);
 
         this.currentGame = game;
@@ -530,13 +535,13 @@ public class GameMediator {
      */
     public void forwardCoordinates(Mine mine) {
 
-        List<Ship> ships = this.currentGame.getCurrentPlayer().getShips();
+        List<Ship> ships = this.currentGame.ennemyOf(mine.getOwner()).getShips();//this.currentGame.getCurrentPlayer().getShips();
         Ship shipDestroyed = null;
         boolean touched = false;
         for (Ship s : ships) {
             if (this.currentGame.isShipTouched(s, mine)) {
                 touched = true;
-                if (this.currentGame.isShipDestroyed(s, this.currentGame.ennemyOf(this.currentGame.getCurrentPlayer()).getMines())) {
+                if (this.currentGame.isShipDestroyed(s, mine.getOwner().getMines())) {
                     shipDestroyed = s;
                 }
             }
@@ -553,7 +558,6 @@ public class GameMediator {
         }
 
         if (this.dataFacade.getIhmTablefacade() != null) {
-
             this.dataFacade.getIhmTablefacade().feedBack(mine.getCoord(), touched, shipDestroyed);
 
         }

@@ -41,12 +41,16 @@ public class ComputerPlayer extends Player {
 
     public void setFocus(Coordinate focus) {
         if(focus!=null){
+        
+            
         this.oldFocus = this.focus;
         this.focus = focus;
         }
         else
         {
-            this.focus = this.oldFocus;
+            if(this.oldFocus!=null){
+                this.focus = this.oldFocus;
+            }
         }
       
     }
@@ -218,8 +222,8 @@ public class ComputerPlayer extends Player {
                         System.out.println("no y+1");
                         if ( (focus.getX() >= Configuration.WIDTH || focus.getY() - 1 < 0) || tab[focus.getX()][focus.getY() - 1] != 0) {
                             System.out.println("no y-1");
-                            this.focus = null;
-                            this.oldFocus = null;
+                            //this.focus = null;
+                            //this.oldFocus = null;
 
                             Random r = new Random();
 
@@ -235,7 +239,7 @@ public class ComputerPlayer extends Player {
                                     valid = false;
                                 }
                                 
-                                 //System.out.print(" ("+x+","+y+ ")="+tab[x][y]+" ");
+                                //System.out.print(" ("+x+","+y+ ")="+tab[x][y]+" ");
 
                             } while (!valid);
 
