@@ -534,17 +534,31 @@ public class GameMediator {
      * @param mine the mine placed
      */
     public void forwardCoordinates(Mine mine) {
-        System.out.println("FORWARD COORDINATES "+mine.getCoord().getX()+","+mine.getCoord().getY());
+        System.out.println("FORWARD COORDINATES "+mine.getOwner().getLightPublicUser().getPlayerName()+" "+mine.getCoord().getX()+","+mine.getCoord().getY());
         List<Ship> ships = this.currentGame.ennemyOf(mine.getOwner()).getShips();//this.currentGame.getCurrentPlayer().getShips();
         Ship shipDestroyed = null;
         boolean touched = false;
         for (Ship s : ships) {
             if (this.currentGame.isShipTouched(s, mine)) {
+                
+                System.out.println("data "+mine.getOwner().getLightPublicUser().getPlayerName()+" touched "+mine.getCoord().getX()+","+mine.getCoord().getY());
+                
                 touched = true;
                 if (this.currentGame.isShipDestroyed(s, mine.getOwner().getMines())) {
                     shipDestroyed = s;
+                    
+                    System.out.println("data "+mine.getOwner().getLightPublicUser().getPlayerName()+" destroyed ");
+                
+                    
                 }
+                
             }
+        }
+        
+        if(touched)
+        {
+             System.out.println("attack manqué ");
+            
         }
 
         //Add mine to local game
