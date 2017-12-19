@@ -159,12 +159,12 @@ public abstract class Game extends SerializableEntity {
 
         for (int i = 0; i < this.getPlayers().size(); ++i) {
             
-            if (!(this.getPlayers().get(i).isComputer()) && !this.getPlayers().get(i).getLightPublicUser().getId().equals(id_current_player)) {
+            if (!(this.getPlayers().get(i).isComputer()) && !this.getPlayers().get(i).getLightPublicUser().getPlayerName().equals(id_current_player)) {
                 listRecipients.add(this.getPlayers().get(i).getLightPublicUser());
             }
             else
             {
-                System.out.println("delete "+this.getPlayers().get(i).getLightPublicUser().getId());
+                System.out.println("delete "+this.getPlayers().get(i).getLightPublicUser().getPlayerName());
             }
         }
         

@@ -454,7 +454,7 @@ public class GameMediator {
             }
         }
 
-        Message msg = new Message(sender, text, this.currentGame.getRecipients(sender.getId()));
+        Message msg = new Message(sender, text, this.currentGame.getRecipients(sender.getPlayerName()));
         ComFacade comFacade = this.dataFacade.getComfacade();
         if (comFacade != null) {
             comFacade.notifyNewMessage(msg);
