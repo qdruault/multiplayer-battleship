@@ -6,7 +6,6 @@
 package com.utclo23.ihmmain.controller;
 
 import com.utclo23.data.structure.Game;
-import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.ihmmain.beans.StatGameBean;
 import java.io.IOException;
@@ -124,14 +123,6 @@ public class SavedGameListController extends AbstractController{
                 for(Game game : savedGameList){
                     StatGame stat = game.getStatGame(); 
                     newGameList.add(new StatGameBean(stat));
-                }
-                if(savedGameList.isEmpty()){
-                    PublicUser me = getFacade().iDataIHMMain.getMyPublicUserProfile();
-                    StatGame fake = new StatGame();
-                    fake.setWinner(me.getLightPublicUser());
-                    fake.setName("Fake");
-                    fake.setId("111111");
-                    newGameList.add(new StatGameBean(fake));
                 }
             }catch(Exception e){
                 e.printStackTrace();
