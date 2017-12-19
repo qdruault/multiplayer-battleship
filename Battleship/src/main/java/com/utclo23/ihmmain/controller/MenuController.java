@@ -115,7 +115,7 @@ public class MenuController extends AbstractController{
      */
     @FXML
     private void exit(ActionEvent event){
-        System.exit(0);
+        getIhmmain().exit();
     }
     
     @Override

@@ -211,7 +211,7 @@ public class GameListController extends AbstractController{
     @FXML
     private void joinSelectedGame(ActionEvent event){
         if(selectedGame != null){
-            getFacade().iDataIHMMain.gameConnectionRequestGame(selectedGame.getId(), "Player");
+            getFacade().iDataIHMMain.gameConnectionRequestGame(selectedGame.getId(), "player");
             loadingScreen();
         }
     }
@@ -223,7 +223,10 @@ public class GameListController extends AbstractController{
 
     @FXML
     private void watchSelectedGame(ActionEvent event){
-        showErrorPopup("Not Supported Yet","Not Supported Yet","Not Supported Yet");
+        if(selectedGame != null){
+            getFacade().iDataIHMMain.gameConnectionRequestGame(selectedGame.getId(), "spectator");
+            loadingScreen();
+        }
     }
     
     /**

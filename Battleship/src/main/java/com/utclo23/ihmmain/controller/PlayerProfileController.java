@@ -39,7 +39,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -86,8 +85,7 @@ public class PlayerProfileController extends AbstractController{
     private Button Description;
     private PublicUser me;
     private PublicUser other;
-    private boolean isLoading = false; 
-    private boolean isOther = false; 
+    private boolean isOther; 
     private String attribut;
     private Image avatarImage;
     private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -212,6 +210,7 @@ public class PlayerProfileController extends AbstractController{
         }
         popup.show();
     } 
+    
     /**
      * Get player's avatar
      * @param player:user self or other player
@@ -260,6 +259,7 @@ public class PlayerProfileController extends AbstractController{
     /**
      * Initializes all the info of profile.
      */
+    @Override
     public void refresh(){
         if (!isOther){
             try{
@@ -302,5 +302,25 @@ public class PlayerProfileController extends AbstractController{
                         );
             }
         }
+    }
+    
+    public void displayOther(PublicUser other){
+        this.other = other;
+        isOther = true;
+    }
+    
+    public void displayMe(){
+       other = null;
+       isOther = false;
+    }
+    
+    public void enableButtons(){
+        playerName.setDisable(false);
+        firstName.setDisable(false);
+        lastName.setDisable(false);
+        birthday.setDisable(false);
+        password.setDisable(false);
+        avatar.setDisable(false);
+        Description.setDisable(false);
     }
 }

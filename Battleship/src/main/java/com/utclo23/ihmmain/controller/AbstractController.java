@@ -8,6 +8,7 @@ package com.utclo23.ihmmain.controller;
 import com.utclo23.ihmmain.IHMMain;
 import com.utclo23.ihmmain.facade.IHMMainFacade;
 import java.io.ByteArrayInputStream;
+import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
@@ -72,7 +73,7 @@ public class AbstractController {
 
     /**
      * Displays an error popup.
-     *
+     * Calls the generic showPopup method with the parameter AlertType.ERROR
      * @param title
      * @param header
      * @param message
@@ -81,10 +82,25 @@ public class AbstractController {
         showPopup(title, header, message, Alert.AlertType.ERROR);
     }
     
+    /**
+     * Displays a success popup.
+     * Calls the generic showPopup method with the parameter AlertType.INFORMATION
+     * @param title
+     * @param header
+     * @param message
+     */
     public void showSuccessPopup(String title, String header, String message){
         showPopup(title, header, message, Alert.AlertType.INFORMATION);
     }
     
+    /**
+     * Displays a popup of different types depending on the type parameter.
+     * 
+     * @param title
+     * @param header
+     * @param message
+     * @param type
+     */
     public void showPopup(String title, String header, String message, Alert.AlertType type){
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -95,7 +111,13 @@ public class AbstractController {
         dialogPane.getStylesheets().add(getClass().getResource("/styles/ihmmain.css").toExternalForm());
         alert.showAndWait();
     }
-
+    
+    /**
+     * When this method is called for the first time after a user loggin into the application,
+     * call data's method to get the proper avatar image.
+     * 
+     * @return the currently connected user's avatar image.
+     */
     protected Image retrievePlayerAvatar(){
         if (playerAvatar == null){
             byte[] thumbnail = getFacade().iDataIHMMain.getMyPublicUserProfile().getLightPublicUser().getAvatarThumbnail();
@@ -105,6 +127,12 @@ public class AbstractController {
         return playerAvatar;
     }
     
+    /**
+     * When this method is called for the first time after a user loggin into the application,
+     * call data's method to get the proper username.
+     * 
+     * @return the currently connected user's username.
+     */
     protected String retrievePlayerUsername(){
         if (playerUsername == null){
             playerUsername = getFacade().iDataIHMMain.getMyPublicUserProfile().getPlayerName();
@@ -112,6 +140,10 @@ public class AbstractController {
         return playerUsername;
     }
     
+    /**
+     * This method is called when a user disconnects from the application.
+     * Cleans the attributes gotten from data during the session and 
+     */
     protected void cleanPlayerAvatar(){
         playerAvatar = null;
         playerUsername = null;

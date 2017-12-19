@@ -5,6 +5,7 @@
  */
 package com.utclo23.ihmmain;
 
+import com.utclo23.data.structure.PublicUser;
 import com.utclo23.ihmmain.constants.SceneName;
 import com.utclo23.ihmmain.controller.AbstractController;
 import com.utclo23.ihmmain.controller.PlayerProfileController;
@@ -20,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
@@ -79,6 +81,7 @@ public class IHMMain {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent we) {
+               we.consume();
                exit(); 
             }
         });
@@ -97,16 +100,18 @@ public class IHMMain {
     }
     
     public void toPlayerProfile() throws IOException{
+        PlayerProfileController controller;
+        controller = (PlayerProfileController) controllerMap.get(SceneName.PLAYER_PROFILE.toString());
+        controller.displayMe();
         toScene(SceneName.PLAYER_PROFILE);
 
     }
     
-    public void toOthersPlayerProfile(String playerId) throws IOException{
+    public void toOthersPlayerProfile(PublicUser other) throws IOException{
         PlayerProfileController controller;
         controller = (PlayerProfileController) controllerMap.get(SceneName.PLAYER_PROFILE.toString());
-        facade.iDataIHMMain.askPublicUserProfile(playerId);
-        controller.loading();
-        //toScene(SceneName.PLAYER_PROFILE);
+        controller.displayOther(other);
+        toScene(SceneName.PLAYER_PROFILE);
     }
     
     public void toPlayerList() throws IOException{
@@ -149,10 +154,14 @@ public class IHMMain {
      * @throws IOException 
      */
     public void toScene(String scenename)throws IOException{
+        Scene activeScene = primaryStage.getScene();
+        if(activeScene != null){
+           activeScene.setCursor(Cursor.DEFAULT);
+        }
         if(sceneMap.containsKey(scenename)){
-            //stop active controller
-            if(activeSceneName != null){
-                controllerMap.get(activeSceneName).stop();
+            //stop all controllers
+            for(SceneName name : SceneName.values()){
+                controllerMap.get(name.toString()).stop();
             }
             primaryStage.setScene(sceneMap.get(scenename));
             activeSceneName = scenename;
@@ -190,7 +199,6 @@ public class IHMMain {
     public void exit(){
         try{
             facade.iDataIHMMain.signOut();
-            System.out.println("Logged out");
         }catch (Exception e) {
             //not displaying anything, the app is closing
         }
