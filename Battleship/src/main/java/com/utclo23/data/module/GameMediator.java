@@ -175,7 +175,7 @@ public class GameMediator {
             //last ship
             if (this.currentGame.getTemplateShips().size() == player.getShips().size()) {
                 if (this.dataFacade.getComfacade() != null) {
-                    this.dataFacade.getComfacade().sendShipsToEnnemy(player.getShips(), this.currentGame.getRecipients(player.getLightPublicUser().getId()));
+                    this.dataFacade.getComfacade().sendShipsToEnnemy(player.getShips(), this.currentGame.getRecipients(player.getLightPublicUser().getPlayerName()));
                     checkPlayersReady();
                 }
             }
@@ -296,7 +296,7 @@ public class GameMediator {
                 pairReturn = this.currentGame.attack(player, coordinate, isTrueAttack);
 
                 // Forward to other players.
-                dataFacade.getComfacade().notifyNewCoordinates(new Mine(player, coordinate), currentGame.getRecipients(player.getLightPublicUser().getId()));
+                dataFacade.getComfacade().notifyNewCoordinates(new Mine(player, coordinate), currentGame.getRecipients(player.getLightPublicUser().getPlayerName()));
 
                 //save with caretaker
                 if (!this.currentGame.isSave()) {
