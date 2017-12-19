@@ -22,7 +22,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Set;
 
-
 /**
  * Facade for the communication module
  *
@@ -40,7 +39,7 @@ public class ComFacade {
 
     public ComFacade(IDataCom iDataCom) {
         this.iDataCom = iDataCom;
-        kIpCtrl = KnownIPController.getInstance(); 
+        kIpCtrl = KnownIPController.getInstance();
         receiver = new Receiver(25000, iDataCom);
         new Thread(receiver).start();
         Logger.getLogger(ComFacade.class.getName()).log(Level.INFO, null, "Facade created");
@@ -61,8 +60,12 @@ public class ComFacade {
     public void sendShipsToEnnemy(List<Ship> listShips, List<LightPublicUser> recipients) {
         M_PlaceShip mPlaceship = new M_PlaceShip(iDataCom.getMyPublicUserProfile(), listShips);
         for (LightPublicUser recipient : recipients) {
-            Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), mPlaceship);
-            new Thread(os).start();
+
+            if (kIpCtrl.getHashMap().get(recipient.getId()) != null) {
+                Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), mPlaceship);
+                new Thread(os).start();
+            }
+
         }
     }
 
@@ -79,8 +82,10 @@ public class ComFacade {
     public void notifyUserSignedOut() {
         M_Deconnection mDeconnection = new M_Deconnection(iDataCom.getMyPublicUserProfile());
         for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
-            Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), mDeconnection);
-            new Thread(os).start();
+            if (ip != null) {
+                Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), mDeconnection);
+                new Thread(os).start();
+            }
         }
     }
 
@@ -92,8 +97,10 @@ public class ComFacade {
     public void notifyNewMessage(com.utclo23.data.structure.Message message) {
         M_Chat mChat = new M_Chat(iDataCom.getMyPublicUserProfile(), message);
         for (LightPublicUser recipient : message.getRecipients()) {
-            Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), mChat);
-            new Thread(os).start();
+            if (kIpCtrl.getHashMap().get(recipient.getId()) != null) {
+                Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), mChat);
+                new Thread(os).start();
+            }
         }
     }
 
@@ -104,25 +111,32 @@ public class ComFacade {
      * @param recipients are the recipients of the new mine
      */
     public void notifyNewCoordinates(Mine mine, List<LightPublicUser> recipients) {
+        
+        
         M_PlaceMine mPlaceMine = new M_PlaceMine(iDataCom.getMyPublicUserProfile(), mine);
         for (LightPublicUser recipient : recipients) {
-            Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), mPlaceMine);
-            new Thread(os).start();
+           
+            if (kIpCtrl.getHashMap().get(recipient.getId()) != null) {
+                Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), mPlaceMine);
+
+                new Thread(os).start();
+            }
         }
     }
-
-    /**
-     * Called to notify everybody of the creation of a new game to update all
-     * users Data's module.
-     *
-     * @param game is the new created game
-     */
-    public void notifyNewGame(StatGame game) {                
+        /**
+         * Called to notify everybody of the creation of a new game to update
+         * all users Data's module.
+         *
+         * @param game is the new created game
+         */
+    public void notifyNewGame(StatGame game) {
         M_CreationGame mCreationGame = new M_CreationGame(iDataCom.getMyPublicUserProfile(), game);
         for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
-            Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), mCreationGame);
-            Thread thread = new Thread(os);
-            thread.start();   
+            if (ip != null) {
+                Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), mCreationGame);
+                Thread thread = new Thread(os);
+                thread.start();
+            }
         }
     }
 
@@ -146,8 +160,10 @@ public class ComFacade {
     public void leaveGame() {
         M_LeaveGame mLeaveGame = new M_LeaveGame(iDataCom.getMyPublicUserProfile());
         for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
-            Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), mLeaveGame);
-            new Thread(os).start();
+            if (ip != null) {
+                Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), mLeaveGame);
+                new Thread(os).start();
+            }
         }
     }
 
@@ -162,22 +178,23 @@ public class ComFacade {
 
         List<LightPublicUser> tmp = new ArrayList(iDataCom.getConnectedUsers());
         tmp.add(iDataCom.getMyPublicUserProfile().getLightPublicUser());
-            
+
         // Suppression des doublons et de nous même au cas où
         // dans listIpTarget
         Set set = new HashSet();
         set.addAll(listIpTarget);
-        if(set.contains(kIpCtrl.getMyInetAddress()))
+        if (set.contains(kIpCtrl.getMyInetAddress())) {
             set.remove(kIpCtrl.getMyInetAddress());
+        }
         List<Inet4Address> newIpTarget = new ArrayList(set);
-        
-        for (Inet4Address ipDest : newIpTarget) {    
+
+        for (Inet4Address ipDest : newIpTarget) {
             // On vérie si l'ip n'est pas déjà dans le hashMap         
-            if(!kIpCtrl.getHashMap().containsValue(ipDest)){
+            if (!kIpCtrl.getHashMap().containsValue(ipDest)) {
                 List otherTargets = new ArrayList(newIpTarget);
                 otherTargets.remove(ipDest);
 
-                M_Bleu mBleu = new M_Bleu(iDataCom.getMyPublicUserProfile(), 
+                M_Bleu mBleu = new M_Bleu(iDataCom.getMyPublicUserProfile(),
                         tmpHash, tmp, iDataCom.getGameList(), otherTargets);
                 Sender os = new Sender(ipDest.getHostAddress(), kIpCtrl.getPort(), mBleu);
                 new Thread(os).start();
@@ -210,9 +227,11 @@ public class ComFacade {
 
         if (success) {
             for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
-                Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), mJoinGameResponse);
-                new Thread(os).start();
-                Logger.getLogger(ComFacade.class.getName()).log(Level.INFO, null, "Send success joinGame");
+                if (ip != null) {
+                    Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), mJoinGameResponse);
+                    new Thread(os).start();
+                    Logger.getLogger(ComFacade.class.getName()).log(Level.INFO, null, "Send success joinGame");
+                }
             }
         } else {
             Sender os = new Sender(kIpCtrl.getHashMap().get(id).getHostAddress(), kIpCtrl.getPort(), mJoinGameResponse);

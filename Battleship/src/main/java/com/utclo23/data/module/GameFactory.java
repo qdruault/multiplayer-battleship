@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.utclo23.data.structure.BelgianGame;
 import com.utclo23.data.structure.ClassicGame;
+import com.utclo23.data.structure.ComputerPlayer;
 import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.GameType;
 import com.utclo23.data.structure.LightPublicUser;
@@ -40,12 +41,16 @@ public class GameFactory {
         
         if(computerMode)
         {
+            System.out.println("Data | computer mode");
             //add second player
-            Player j2 = new Player(LightPublicUser.generateComputerProfile());
+            Player j2 = new ComputerPlayer();
             j2.setComputer(true);
             players.add(j2);
             
         }
+        
+        
+        System.out.println("player number : "+players.size());
         
         List<LightPublicUser> spectators = new ArrayList<>();
         spectators.add(creator);
