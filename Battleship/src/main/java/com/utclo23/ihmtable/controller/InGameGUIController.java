@@ -414,7 +414,10 @@ public class InGameGUIController {
         currentPlayer = facade.getFacadeData().getGame().getCurrentPlayer();
         // Get my player.
         myPlayer = facade.getFacadeData().getGame().getPlayer(facade.getFacadeData().getMyPublicUserProfile().getId());
-    
+        
+        /**
+         * Binding of key "enter" for sending message in tchat
+         */
         sendcontent.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent ke) {
                 if (ke.getCode() == KeyCode.ENTER) {
@@ -827,7 +830,9 @@ public class InGameGUIController {
         alert.showAndWait();
     }
 
-    
+    /**
+     * Method for sending message to Data (to other the player) and create JavaFX element on tchat
+     */
     private void sendMessageOnGUI() {
         HBox chat = new HBox();      
         /*
