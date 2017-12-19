@@ -79,7 +79,7 @@ public class ComFacade {
     /**
      * Called to send "log out" notification to everybody.
      */
-    public void notifyUserSignedOut() {
+    public void notifyUserSignedOut(){
         M_Deconnection mDeconnection = new M_Deconnection(iDataCom.getMyPublicUserProfile());
         for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
             if (ip != null) {
@@ -88,6 +88,11 @@ public class ComFacade {
             }
         }
         KnownIPController.getInstance().getHashMap().clear();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ComFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
