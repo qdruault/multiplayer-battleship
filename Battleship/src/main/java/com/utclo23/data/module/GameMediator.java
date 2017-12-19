@@ -262,12 +262,15 @@ public class GameMediator {
      *
      * @param coordinate
      * @param isTrueAttack
+     * @param playerWhoPutTheMine
      * @return
      * @throws DataException
      */
-    public Pair<Integer, Ship> attack(Coordinate coordinate, boolean isTrueAttack) throws DataException, IOException, ClassNotFoundException {
-
+    public Pair<Integer, Ship> attack(Coordinate coordinate, boolean isTrueAttack, Player playerWhoPutTheMine) throws DataException, IOException, ClassNotFoundException {
         if (this.currentGame != null) {
+            if(coordinate.getX()==-1 && coordinate.getY()==-1){
+                return new Pair(0,null);
+            }
             Player player = this.currentGame.getCurrentPlayer();
             System.out.println("ATTACK CURRENT PLAYER " + player.getLightPublicUser().getPlayerName());
 
@@ -340,7 +343,13 @@ public class GameMediator {
                 // In the case of a test, that's possible that the current player is not
                 // the right player to test the mine (that means the enemy of the player 
                 // is the right person to test the mine)
-                pairReturn = this.currentGame.attack(player, coordinate, isTrueAttack);
+                if(playerWhoPutTheMine!=null){
+                    pairReturn = this.currentGame.attack(playerWhoPutTheMine, coordinate, isTrueAttack);
+                }else{
+                    pairReturn = this.currentGame.attack(player, coordinate, isTrueAttack);
+                }
+              
+                
                 if (pairReturn.getKey() == 0 && pairReturn.getValue() == null) {
                     //pairReturn = this.currentGame.attack(this.currentGame.ennemyOf(player), coordinate, isTrueAttack);
                 }
