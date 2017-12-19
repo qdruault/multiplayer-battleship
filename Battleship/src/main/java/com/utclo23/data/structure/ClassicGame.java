@@ -30,12 +30,18 @@ public class ClassicGame extends Game{
     
     public  List<Ship> getTemplateShips()
     {
+        //1 porte-avions (5) = CARRIER
+        //1 croiseur (4) = BATTLESHIP
+        //1 contre-torpilleur (3) = AGAINSTDESTROYER
+        //1 sous-marin (3) = SUBMARINE
+        //1 torpilleur (2) = DESTROYER
+
         List<Ship> ships = new ArrayList<Ship>();
         ships.add(new Ship(ShipType.CARRIER, 5));
         ships.add(new Ship(ShipType.BATTLESHIP, 4));
-        ships.add(new Ship(ShipType.CRUISER, 3));
-        ships.add(new Ship(ShipType.SUBMARINE, 2));
-        ships.add(new Ship(ShipType.DESTROYER, 1));
+        ships.add(new Ship(ShipType.AGAINSTDESTROYER, 3));
+        ships.add(new Ship(ShipType.SUBMARINE, 3));
+        ships.add(new Ship(ShipType.DESTROYER, 2));
       
         return ships;
     }

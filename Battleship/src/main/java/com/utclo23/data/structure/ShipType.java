@@ -10,5 +10,5 @@ package com.utclo23.data.structure;
  * @author Davy
  */
 public enum ShipType {
-    CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER
+    CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, AGAINSTDESTROYER
 }

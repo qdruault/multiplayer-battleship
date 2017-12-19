@@ -28,6 +28,10 @@ public class BelgianGame extends Game {
      * @return 
      */
     public List<Ship> getTemplateShips() {
+        //1 cuirassé (4) = BATTLESHIP
+        //2 croiseur (3) = CRUISER
+        //4 sous-marin (1) = SUBMARINE
+        //3 torpilleur (2) = DESTROYER
         List<Ship> ships = new ArrayList<Ship>();
 
         ships.add(new Ship(ShipType.BATTLESHIP, 4));
