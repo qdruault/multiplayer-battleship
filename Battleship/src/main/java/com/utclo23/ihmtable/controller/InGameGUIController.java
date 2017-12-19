@@ -842,7 +842,7 @@ public class InGameGUIController {
         try {
             if(!sendcontent.getText().isEmpty()){
                 if (!userName.isEmpty()){
-                    Text chattext = new Text(sendcontent.getText() + " :: " + userName); 
+                    Text chattext = new Text(userName + " :: " + sendcontent.getText()); 
                     chat.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
                     chattext.setWrappingWidth(400);
                     chat.getChildren().add(chattext);
