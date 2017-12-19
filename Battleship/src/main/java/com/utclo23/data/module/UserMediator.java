@@ -11,14 +11,10 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.Inet4Address;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import java.rmi.server.UID;
 import java.util.ArrayList;
@@ -62,8 +58,6 @@ public class UserMediator {
      * @param dataFacade reference to the facade
      */
     public UserMediator(DataFacade dataFacade) {
-        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Création du mediator");
-
         this.dataFacade = dataFacade;
         this.mapConnectedUser = new HashMap<>();
     }
@@ -313,7 +307,7 @@ public class UserMediator {
      *
      * @param username
      * @param password
-     * @throws Exception
+     * @throws DataException
      */
     public void signIn(String username, String password) throws DataException {
 
@@ -536,7 +530,7 @@ public class UserMediator {
                 save();
 
                 // Create the Inet4Address list
-                List<Inet4Address> ips = new ArrayList<Inet4Address>();
+                List<Inet4Address> ips = new ArrayList<>();
                 for (String stringIp : discoveryNodes) {
 
                     Inet4Address inetIp = (Inet4Address) InetAddress.getByName(stringIp);
@@ -820,7 +814,7 @@ public class UserMediator {
     public int getNumberAbandons() throws DataException {
         if(this.owner!=null){
         List<StatGame> games = this.getMyOwnerProfile().getPlayedGamesList() ;
-        LightPublicUser user = this.getMyLightPublicUserProfile() ; 
+        //LightPublicUser user = this.getMyLightPublicUserProfile() ; 
         int nbAbandons = 0;
         for (StatGame g : games) {
             if ((g.getWinner() == null) && (g.isGameAbandonned())) {

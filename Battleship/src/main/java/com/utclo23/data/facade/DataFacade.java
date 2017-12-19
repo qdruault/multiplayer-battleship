@@ -95,9 +95,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     /**
      * Constructor
      */
-    public DataFacade() {
-        System.out.println(this.getClass() + " Creation de la facade");
-
+    public DataFacade() {        
         /**
          * Construction of mediators by giving them a reference to this facade
          */
