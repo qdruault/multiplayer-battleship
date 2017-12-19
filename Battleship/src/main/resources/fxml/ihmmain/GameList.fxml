@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<GridPane id="generalGrid" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../styles/ihmmain.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.GameListController">
+<GridPane id="generalGrid" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../styles/ihmmain.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.GameListController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     </columnConstraints>
@@ -31,25 +35,43 @@
             <children>
                 <Button fx:id="joinButton" mnemonicParsing="false" onAction="#joinSelectedGame" text="Join" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                     <tooltip>
-                        <Tooltip text="Click to join the selected game as a player."/>
+                        <Tooltip text="Click to join the selected game as a player." />
                     </tooltip>
                 </Button>
                 <Button fx:id="createButton" mnemonicParsing="false" onAction="#createNewGame" text="Create" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
                     <tooltip>
-                        <Tooltip text="Click to create a new game."/>
+                        <Tooltip text="Click to create a new game." />
                     </tooltip>
                 </Button>
                 <Button fx:id="returnButton" mnemonicParsing="false" onAction="#returnMenu" text="RETURN" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                     <tooltip>
-                        <Tooltip text="Click to return to the previous page."/>
+                        <Tooltip text="Click to return to the previous page." />
                     </tooltip>
                 </Button>    
                 <Button fx:id="watchButton" mnemonicParsing="false" onAction="#watchSelectedGame" text="Watch" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                     <tooltip>
-                        <Tooltip text="Click to join the selected game as a spectator."/>
+                        <Tooltip text="Click to join the selected game as a spectator." />
                     </tooltip>
                 </Button>
             </children>
         </GridPane>
+      <ImageView fx:id="avatarImageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets right="20.0" top="20.0" />
+         </GridPane.margin>
+      </ImageView>
+      <GridPane maxWidth="300.0" minWidth="60.0" prefWidth="60.0" GridPane.halignment="RIGHT">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label id="usernameLabel" fx:id="playerUsernameLabel" text="Label" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
+            <ImageView fx:id="avatarImageView1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+         </children>
+      </GridPane>
     </children>
 </GridPane>
