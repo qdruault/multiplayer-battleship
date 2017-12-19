@@ -5,6 +5,7 @@
  */
 package com.utclo23.ihmmain;
 
+import com.utclo23.data.structure.PublicUser;
 import com.utclo23.ihmmain.constants.SceneName;
 import com.utclo23.ihmmain.controller.AbstractController;
 import com.utclo23.ihmmain.controller.PlayerProfileController;
@@ -90,16 +91,18 @@ public class IHMMain {
     }
     
     public void toPlayerProfile() throws IOException{
+        PlayerProfileController controller;
+        controller = (PlayerProfileController) controllerMap.get(SceneName.PLAYER_PROFILE.toString());
+        controller.displayMe();
         toScene(SceneName.PLAYER_PROFILE);
 
     }
     
-    public void toOthersPlayerProfile(String playerId) throws IOException{
+    public void toOthersPlayerProfile(PublicUser other) throws IOException{
         PlayerProfileController controller;
         controller = (PlayerProfileController) controllerMap.get(SceneName.PLAYER_PROFILE.toString());
-        facade.iDataIHMMain.askPublicUserProfile(playerId);
-        controller.loading();
-        //toScene(SceneName.PLAYER_PROFILE);
+        controller.displayOther(other);
+        toScene(SceneName.PLAYER_PROFILE);
     }
     
     public void toPlayerList() throws IOException{
