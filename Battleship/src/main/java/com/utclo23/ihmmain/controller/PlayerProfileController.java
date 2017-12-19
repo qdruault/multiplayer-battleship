@@ -37,7 +37,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -300,5 +299,15 @@ public class PlayerProfileController extends AbstractController{
     public void displayMe(){
        other = null;
        isOther = false;
+    }
+    
+    public void enableButtons(){
+        playerName.setDisable(false);
+        firstName.setDisable(false);
+        lastName.setDisable(false);
+        birthday.setDisable(false);
+        password.setDisable(false);
+        avatar.setDisable(false);
+        Description.setDisable(false);
     }
 }
