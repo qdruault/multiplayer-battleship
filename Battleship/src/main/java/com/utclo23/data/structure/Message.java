@@ -26,6 +26,11 @@ public class Message extends Event{
         return sender;
     }
 
+    public Message() {
+    }
+
+    
+    
     public void setSender(LightPublicUser sender) {
         this.sender = sender;
     }

@@ -302,9 +302,9 @@ public class GameMediator {
                 dataFacade.getComfacade().notifyNewCoordinates(new Mine(player, coordinate), currentGame.getRecipients(player.getLightPublicUser().getPlayerName()));
 
                 //save with caretaker
-                if (!this.currentGame.isSave()) {
-                    this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
-                }
+               // if (!this.currentGame.isSave()) {
+                 //   this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
+                //}
 
                 //if creator of the game
                 if (this.currentGame.getStatGame().getCreator().getId().equals(this.dataFacade.getUserMediator().getMyPublicUserProfile().getId())) {
@@ -442,9 +442,9 @@ public class GameMediator {
 
                 // 
                 System.out.println(" ROLE : " + role);
-                if (! game.isComputerMode()) {
-                    this.dataFacade.getComfacade().connectionToGame(game, role);
-                }
+              
+                this.dataFacade.getComfacade().connectionToGame(game, role);
+                
             }
 
         }
@@ -577,9 +577,9 @@ public class GameMediator {
         }
 
         //save
-        if (!this.currentGame.isSave()) {
-            this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
-        }
+       // if (!this.currentGame.isSave()) {
+       //     this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
+       // }
 
         if (this.dataFacade.getIhmTablefacade() != null) {
             this.dataFacade.getIhmTablefacade().feedBack(mine.getCoord(), touched, shipDestroyed);
@@ -734,22 +734,7 @@ public class GameMediator {
     }
 
     public void next() {
-        if (this.currentGame != null) {
-            if (this.currentGame.isSave()) {
-                Event event = this.currentGame.getCaretaker().getMemento().getLastEvent();
-                if (event instanceof Mine) {
-                    Mine mine = (Mine) event;
-                    if (this.dataFacade.getMyPublicUserProfile().getId().equals(mine.getOwner().getLightPublicUser().getId())) {
-                        //equivalent of attack
-
-                    } else {
-                        //equivalent of forward
-
-                    }
-                }
-                this.currentGame.getCaretaker().next();
-            }
-        }
+       
     }
 
 }

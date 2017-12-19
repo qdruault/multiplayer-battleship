@@ -5,6 +5,7 @@
  */
 package com.utclo23.data.structure;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.utclo23.data.module.Caretaker;
 import com.utclo23.data.module.DataException;
 import com.utclo23.data.module.Memento;
@@ -33,7 +34,7 @@ public abstract class Game extends SerializableEntity {
     private List<LightPublicUser> spectators;
     private List<Message> messages;
     private boolean save;
-    private Caretaker caretaker;
+    //private Caretaker caretaker;
 
     private Player currentPlayer;
 
@@ -54,17 +55,23 @@ public abstract class Game extends SerializableEntity {
         this.statGame.setRealGame(this);
 
         this.save = false;
-        
+
         this.players = players;
         this.spectators = spectators;
 
         this.messages = messages;
         this.currentPlayer = players.get(0);
         /* creation of caretaker */
-        this.caretaker = new Caretaker();
+        //this.caretaker = new Caretaker();
 
     }
 
+    public Game() {
+        
+    }
+
+    
+    
     public boolean isSave() {
         return save;
     }
@@ -131,6 +138,7 @@ public abstract class Game extends SerializableEntity {
         return currentPlayer;
     }
 
+     @JsonIgnore
     public boolean isReady() {
         return this.players.size() == 2;
     }
@@ -144,17 +152,16 @@ public abstract class Game extends SerializableEntity {
         }*/
     }
 
-    
     public Player ennemyOf(Player player) {
         Player ennemy = null;
-        
-        if(this.players.size() >= 2){
-        if (player.getLightPublicUser().getId().equals(this.players.get(0).getLightPublicUser().getId())) {
-            ennemy = this.players.get(1);
-        } else {
-            ennemy = this.players.get(0);
-        }
-        
+
+        if (this.players.size() >= 2) {
+            if (player.getLightPublicUser().getId().equals(this.players.get(0).getLightPublicUser().getId())) {
+                ennemy = this.players.get(1);
+            } else {
+                ennemy = this.players.get(0);
+            }
+
         }
 
         return ennemy;
@@ -175,19 +182,17 @@ public abstract class Game extends SerializableEntity {
         List<LightPublicUser> listRecipients = new ArrayList<>();
 
         for (int i = 0; i < this.getPlayers().size(); ++i) {
-            
+
             if (!(this.getPlayers().get(i).isComputer()) && !this.getPlayers().get(i).getLightPublicUser().getPlayerName().equals(id_current_player)) {
                 listRecipients.add(this.getPlayers().get(i).getLightPublicUser());
-            }
-            else
-            {
-                System.out.println("delete "+this.getPlayers().get(i).getLightPublicUser().getPlayerName());
+            } else {
+                System.out.println("delete " + this.getPlayers().get(i).getLightPublicUser().getPlayerName());
             }
         }
-        
+
         listRecipients.addAll(this.getSpectators());
-        
-        System.out.println(">recipients "+listRecipients.size());
+
+        System.out.println(">recipients " + listRecipients.size());
         return listRecipients;
     }
 
@@ -195,6 +200,7 @@ public abstract class Game extends SerializableEntity {
         return statGame;
     }
 
+    @JsonIgnore
     public String getId() {
         return this.statGame.getId();
     }
@@ -210,6 +216,7 @@ public abstract class Game extends SerializableEntity {
      */
     public abstract List<Ship> getTemplateShips();
 
+     @JsonIgnore
     // This is for deep copy of a List
     public static <T> List<T> deepCopy(List<T> src) throws IOException, ClassNotFoundException {
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
@@ -223,8 +230,9 @@ public abstract class Game extends SerializableEntity {
         return dest;
     }
 
+     @JsonIgnore
     public Pair<Integer, Ship> attack(Player player, Coordinate coordinate, boolean isTrueAttack) throws DataException, IOException, ClassNotFoundException {
-        System.out.println("exec attack of "+player.getLightPublicUser().getPlayerName()+" "+isTrueAttack);
+        System.out.println("exec attack of " + player.getLightPublicUser().getPlayerName() + " " + isTrueAttack);
         //Create mine
         Mine mine = new Mine(player, coordinate);
 
@@ -246,27 +254,25 @@ public abstract class Game extends SerializableEntity {
         if (shipsOpponent.size() == 0) {
             throw new DataException("Data : player opponent didn't set any ship");
         }
-        
-        for (Ship shipA :shipsOpponent) {
-            
+
+        for (Ship shipA : shipsOpponent) {
 
             for (Coordinate shipCoord : shipA.getListCoord()) {
                 if (shipCoord.getX() == coordinate.getX() && shipCoord.getY() == coordinate.getY()) {
                     succeedAttack = 1;
                     shipTouch = shipA;
-                   
+
                 }
             }
             if (succeedAttack == 1) {
                 System.out.println("data => touched ");
-                
+
                 break;
             }
         }
 
         if (isTrueAttack) {//When this is a real attack
-        
-            
+
             //Change the state of MineResult according to value of succeedAttack
             if (succeedAttack == 1) {
                 System.out.println("Data | good attack");
@@ -275,12 +281,12 @@ public abstract class Game extends SerializableEntity {
                 player.getMines().add(mine);
                 //If is not in right place, shipReturn = null
                 if (isShipDestroyed(shipTouch, player.getMines())) {
-                     System.out.println("Data | very  good attack");
+                    System.out.println("Data | very  good attack");
                     shipReturn = shipTouch;
                 }
             } else {
                 mine.setResult(MineResult.FAILURE);
-                 System.out.println("Data | bad attack");
+                System.out.println("Data | bad attack");
                 //Add mine to player
                 player.getMines().add(mine);
             }
@@ -306,18 +312,17 @@ public abstract class Game extends SerializableEntity {
         return attackShip;
     }
 
+     @JsonIgnore
     public Memento saveStateToMemento() {
         //notify caretaker
         List<Event> events = new ArrayList<>();
-        
-        
+
         //Add msgs
         events.addAll(this.messages);
         for (Player p : players) {
             events.addAll(p.getMines());
         }
-        
-       
+
         //creation of memento
         Memento memento = new Memento(events);
         return memento;
@@ -335,6 +340,7 @@ public abstract class Game extends SerializableEntity {
         }
         return cp;
     }*/
+     @JsonIgnore
     public void restoreStateToMemento(Memento memento) {
         //reset
         this.messages.clear();
@@ -355,6 +361,7 @@ public abstract class Game extends SerializableEntity {
         }
     }
 
+     @JsonIgnore
     /* to get the mine added in attack */
     public Mine getRecentMine(Coordinate coordinate) {
         List<Player> players = this.players;
@@ -368,14 +375,14 @@ public abstract class Game extends SerializableEntity {
         return null;
     }
 
-    public Caretaker getCaretaker() {
+    /* public Caretaker getCaretaker() {
         return caretaker;
     }
 
     public void setCaretaker(Caretaker caretaker) {
         this.caretaker = caretaker;
     }
-
+     */
     public void setCurrentPlayer(Player player) {
         System.err.println("SET CURRENT PLAYER **********************************************************");
         this.currentPlayer = player;
@@ -385,6 +392,7 @@ public abstract class Game extends SerializableEntity {
      * clear mines and messages (all moves are stored now in caretaker) it
      * enables player to have a blank game at the beginning of the next review
      */
+     @JsonIgnore
     public void prepareToBeSaved() {
         this.messages.clear();
         for (Player p : players) {
@@ -399,6 +407,7 @@ public abstract class Game extends SerializableEntity {
      * @param mines list of the mines to compare with the coord of the ship
      * @return boolean true if ship destroyed false otherwise
      */
+     @JsonIgnore
     public boolean isShipDestroyed(Ship ship, List<Mine> mines) {
         boolean shipDestroyed = true;
 
@@ -428,18 +437,17 @@ public abstract class Game extends SerializableEntity {
      * @param mine the mine to test
      * @return boolean true if ship touched false otherwise
      */
+     @JsonIgnore
     public boolean isShipTouched(Ship ship, Mine mine) {
         boolean touched = false;
         Coordinate coordinateMine = mine.getCoord();
         for (Coordinate coordinate : ship.getListCoord()) {
-            if(coordinate.getX() == coordinateMine.getX() && coordinate.getY() == coordinateMine.getY())
-            {
+            if (coordinate.getX() == coordinateMine.getX() && coordinate.getY() == coordinateMine.getY()) {
                 touched = true;
                 break;
             }
         }
-        
-        
+
         return touched;
     }
 
@@ -448,6 +456,7 @@ public abstract class Game extends SerializableEntity {
      *
      * @return boolean true if game finished false otherwise
      */
+     @JsonIgnore
     public boolean isGameFinishedByCurrentPlayer() {
         List<Mine> mines = this.currentPlayer.getMines();
         List<Ship> ships = this.ennemyOf(this.currentPlayer).getShips();
@@ -458,7 +467,7 @@ public abstract class Game extends SerializableEntity {
             }
         }
 
-        System.out.println("Data : State by player : "+this.currentPlayer.getLightPublicUser().getPlayerName()+" " + gameFinished);
+        System.out.println("Data : State by player : " + this.currentPlayer.getLightPublicUser().getPlayerName() + " " + gameFinished);
         return gameFinished;
     }
 
@@ -467,6 +476,7 @@ public abstract class Game extends SerializableEntity {
      *
      * @return boolean true if game finished false otherwise
      */
+     @JsonIgnore
     public boolean isGameFinishedByEnnemy() {
         List<Mine> mines = this.ennemyOf(this.currentPlayer).getMines();
         List<Ship> ships = this.currentPlayer.getShips();
@@ -477,7 +487,7 @@ public abstract class Game extends SerializableEntity {
             }
         }
 
-        System.out.println("Data : State by ennemy : " +this.currentPlayer.getLightPublicUser().getPlayerName() + " " + gameFinished);
+        System.out.println("Data : State by ennemy : " + this.currentPlayer.getLightPublicUser().getPlayerName() + " " + gameFinished);
         return gameFinished;
     }
 
@@ -486,6 +496,7 @@ public abstract class Game extends SerializableEntity {
      *
      * @return
      */
+     @JsonIgnore
     public LightPublicUser getWinner() {
         return this.statGame.getWinner();
     }
@@ -495,6 +506,7 @@ public abstract class Game extends SerializableEntity {
      *
      * @param winner
      */
+     @JsonIgnore
     public void setWinner(LightPublicUser winner) {
         this.statGame.setWinner(winner);
     }
@@ -505,6 +517,7 @@ public abstract class Game extends SerializableEntity {
      * @param user
      * @return
      */
+     @JsonIgnore
     public boolean isPlayer(LightPublicUser user) {
         String userID = user.getId();
         Iterator<Player> i = this.players.iterator();
@@ -524,6 +537,7 @@ public abstract class Game extends SerializableEntity {
      * @param user
      * @return
      */
+     @JsonIgnore
     public boolean isSpectator(LightPublicUser user) {
         String userID = user.getId();
         Iterator<LightPublicUser> i = this.spectators.iterator();
@@ -541,10 +555,12 @@ public abstract class Game extends SerializableEntity {
      *
      * @return If a player of this game is a computer
      */
+     @JsonIgnore
     public boolean isComputerGame() {
         return (this.getPlayers().get(0).isComputer() || this.getPlayers().get(1).isComputer());
     }
 
+    @JsonIgnore
     public ComputerPlayer getComputerPlayer() {
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).isComputer()) {

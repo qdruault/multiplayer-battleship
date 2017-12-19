@@ -5,6 +5,7 @@
  */
 package com.utclo23.data.structure;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,11 @@ public class Ship extends SerializableEntity{
         this.owner = null;
         this.listCoord = new ArrayList<>();
     }   
+
+    public Ship() {
+    }
+     
+     
     
     public ShipType getType() {
         return type;
@@ -43,6 +49,7 @@ public class Ship extends SerializableEntity{
      * @param coord
      * @return 
      */
+    @JsonIgnore
     public boolean isCrossed(Coordinate coord) {
         for(int i = 0; i < listCoord.size(); i++){
             if(coord.equals(listCoord.get(i))) {

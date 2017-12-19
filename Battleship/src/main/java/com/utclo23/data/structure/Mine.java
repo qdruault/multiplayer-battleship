@@ -26,6 +26,11 @@ public class Mine extends Event {
         this.result = MineResult.UNKNOWN;        
     }
 
+    public Mine() {
+    }
+    
+    
+
     public MineResult getResult() {
         return result;
     }
@@ -58,6 +63,7 @@ public class Mine extends Event {
         return coord;
     }
 
+    
     /**
      * set coordinates
      * @param coord 

@@ -16,12 +16,15 @@ import java.util.List;
 public class BelgianGame extends Game {
 
     public BelgianGame(StatGame statGame, List<Player> players, List<LightPublicUser> spectators, List<Message> messages) {
-        super(statGame, players, spectators, messages);
-        
-        
-              
+        super(statGame, players, spectators, messages);           
         
     }
+
+    public BelgianGame() {
+        super();
+    }
+    
+    
 
     /**
      * get templates of ships for belgian game

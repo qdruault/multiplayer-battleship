@@ -15,13 +15,17 @@ import java.util.List;
  */
 public class ClassicGame extends Game{
 
+    public ClassicGame()
+    {
+        super();
+    }
     
     public ClassicGame(StatGame statGame, List<Player> players, List<LightPublicUser> spectators, List<Message> messages) {
-        super(statGame, players, spectators, messages);
-        
-       
+        super(statGame, players, spectators, messages);       
         
     }
+    
+    
     
      /**
      * get templates of ships for classic game
@@ -38,5 +42,6 @@ public class ClassicGame extends Game{
         ships.add(new Ship(ShipType.DESTROYER, 1));
       
         return ships;
+        
     }
 }

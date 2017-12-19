@@ -30,6 +30,17 @@ public class Player extends SerializableEntity{
 
     }
 
+    public Player() {
+    }
+    
+    
+
+    public void setLightPublicUser(LightPublicUser lightPublicUser) {
+        this.lightPublicUser = lightPublicUser;
+    }
+
+    
+    
     public List<Ship> getShips() {
         return ships;
     }

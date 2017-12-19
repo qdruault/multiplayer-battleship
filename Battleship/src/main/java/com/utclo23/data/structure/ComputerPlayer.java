@@ -20,39 +20,39 @@ import javafx.util.Pair;
 public class ComputerPlayer extends Player {
 
     private Stack<Coordinate> stackFocus;
-    private Coordinate focus;
-    private Coordinate oldFocus;
+
+    private int dx;
+    private int dy;
 
     public void loseFocus(Ship ship) {
 
         List<Coordinate> list = new ArrayList<>();
         for (Coordinate cf : this.stackFocus) {
             for (Coordinate c : ship.getListCoord()) {
-                
+
                 if (cf.getX() == c.getX() && c.getY() == cf.getY()) {
                     list.add(cf);
                 }
             }
 
         }
-        
-        for(Coordinate cf : list)
-        {
+
+        dx = 0;
+        dy = 0;
+
+        for (Coordinate cf : list) {
             this.stackFocus.remove(cf);
             System.out.println("remove focus");
         }
 
-  
-
-        this.oldFocus = null;
-        this.focus = null;
     }
 
     public ComputerPlayer() {
         super(LightPublicUser.generateComputerProfile());
         System.out.println("new Com player");
-        this.focus = null;
-        this.oldFocus = null;
+
+        dx = 0;
+        dy = 0;
 
         this.stackFocus = new Stack<Coordinate>();
 
@@ -69,16 +69,33 @@ public class ComputerPlayer extends Player {
 
     public void setFocus(Coordinate focus) {
         if (focus != null) {
+            if (!this.stackFocus.isEmpty()) {
+                Coordinate oldFocus = this.stackFocus.peek();
+                if (oldFocus.getX() > focus.getX()) {
+                    dx = -1;
+                    dy = 0;
+                }
+
+                if (oldFocus.getX() < focus.getX()) {
+                    dx = -1;
+                    dy = 0;
+                }
+
+                if (oldFocus.getY() > focus.getY()) {
+                    dy = -1;
+                    dx = 0;
+                }
+
+                if (oldFocus.getY() < focus.getY()) {
+                    dy = 1;
+                    dx = 0;
+                }
+
+            } else {
+
+            }
             this.stackFocus.push(focus);
         }
-    }
-
-    public Coordinate getOldFocus() {
-        return oldFocus;
-    }
-
-    public void setOldFocus(Coordinate oldFocus) {
-        this.oldFocus = oldFocus;
     }
 
     @Override
@@ -244,44 +261,50 @@ public class ComputerPlayer extends Player {
 
             do {
 
-                this.focus = this.stackFocus.peek();
+                Coordinate focus = this.stackFocus.peek();
 
                 System.out.println("FOCUS method");
+                if ((focus.getX() + dx >= Configuration.WIDTH || (focus.getY() + dy < 0)|| (focus.getX() + dx < 0) || focus.getY() + dy >= Configuration.WIDTH) || tab[focus.getX() + dx][focus.getY() + dy] != 0) {
 
-                if ((focus.getX() + 1 >= Configuration.WIDTH || focus.getY() >= Configuration.WIDTH) || tab[focus.getX() + 1][focus.getY()] != 0) {
-                    System.out.println("no x + 1");
-                    if ((focus.getX() - 1 < 0 || focus.getY() >= Configuration.WIDTH) || tab[focus.getX() - 1][focus.getY()] != 0) {
-                        System.out.println("no x-1");
-                        if ((focus.getX() >= Configuration.WIDTH || focus.getY() + 1 >= Configuration.WIDTH) || tab[focus.getX()][focus.getY() + 1] != 0) {
-                            System.out.println("no y+1");
-                            if ((focus.getX() >= Configuration.WIDTH || focus.getY() - 1 < 0) || tab[focus.getX()][focus.getY() - 1] != 0) {
-                                System.out.println("no y-1");
-                                //this.focus = null;
-                                //this.oldFocus = null;
+                    if ((focus.getX() + 1 >= Configuration.WIDTH || focus.getY() >= Configuration.WIDTH) || tab[focus.getX() + 1][focus.getY()] != 0) {
+                        System.out.println("no x + 1");
+                        if ((focus.getX() - 1 < 0 || focus.getY() >= Configuration.WIDTH) || tab[focus.getX() - 1][focus.getY()] != 0) {
+                            System.out.println("no x-1");
+                            if ((focus.getX() >= Configuration.WIDTH || focus.getY() + 1 >= Configuration.WIDTH) || tab[focus.getX()][focus.getY() + 1] != 0) {
+                                System.out.println("no y+1");
+                                if ((focus.getX() >= Configuration.WIDTH || focus.getY() - 1 < 0) || tab[focus.getX()][focus.getY() - 1] != 0) {
+                                    System.out.println("no y-1");
+                                    //this.focus = null;
+                                    //this.oldFocus = null;
 
-                                this.stackFocus.pop();
+                                    this.stackFocus.pop();
+
+                                } else {
+                                    System.out.println("y-1");
+                                    x = focus.getX();
+                                    y = focus.getY() - 1;
+                                }
 
                             } else {
-                                System.out.println("y-1");
+                                System.out.println("y+1");
                                 x = focus.getX();
-                                y = focus.getY() - 1;
+                                y = focus.getY() + 1;
                             }
-
                         } else {
-                            System.out.println("y+1");
-                            x = focus.getX();
-                            y = focus.getY() + 1;
+                            System.out.println("x-1");
+
+                            x = focus.getX() - 1;
+                            y = focus.getY();
                         }
                     } else {
-                        System.out.println("x-1");
-
-                        x = focus.getX() - 1;
+                        System.out.println("x+1");
+                        x = focus.getX() + 1;
                         y = focus.getY();
                     }
                 } else {
-                    System.out.println("x+1");
-                    x = focus.getX() + 1;
-                    y = focus.getY();
+                    System.out.println("dx dy");
+                    x = focus.getX() + dx;
+                    y = focus.getY() +dy;
                 }
 
             } while (x == 0 && y == 0 && !this.stackFocus.isEmpty());
