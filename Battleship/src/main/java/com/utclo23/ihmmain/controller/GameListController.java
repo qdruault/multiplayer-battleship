@@ -8,7 +8,6 @@ package com.utclo23.ihmmain.controller;
 import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.data.structure.Player;
-import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.StatGame;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -185,25 +184,13 @@ public class GameListController extends AbstractController{
     @Override
     public void refresh(){
         if(isRunning() && !isLoading){
-            List<StatGame> newGameList = null;
+            List<StatGame> newGameList = new ArrayList<>();
             try{
                 newGameList = getFacade().iDataIHMMain.getGameList();
             }catch(Exception e){
                 e.printStackTrace();
             }
-            if(gameList == null || (newGameList != null && newGameList.isEmpty())){
-                newGameList = new ArrayList<>();
-                PublicUser me = getFacade().iDataIHMMain.getMyPublicUserProfile();
-                StatGame fake = new StatGame();
-                fake.setCreator(me.getLightPublicUser());
-                fake.setName("Fake");
-                newGameList.add(fake);
-                
-                StatGame fake2 = new StatGame();
-                fake.setCreator(me.getLightPublicUser());
-                fake.setName("Fake2");
-                newGameList.add(fake2);
-            }
+            
             ObservableList<StatGame> data = FXCollections.observableArrayList(newGameList);
             // Update the list in the GUI
             gameList.setItems(data);
@@ -310,7 +297,7 @@ public class GameListController extends AbstractController{
     private void goIntoGame(){
         if(isRunning()){
             if(receivedGame != null){
-                getFacade().iIHMTableToIHMMain.showGame(receivedGame);
+                getFacade().iIHMTableToIHMMain.showGame();
             }else{
                 showErrorPopup("Connection Impossible","","Your connection request failed.");
                 refresh();

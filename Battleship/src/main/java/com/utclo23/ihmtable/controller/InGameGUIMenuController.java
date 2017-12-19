@@ -62,6 +62,7 @@ public class InGameGUIMenuController {
         System.out.print("Retour vers IHM Main");
         facade.getFacadeData().leaveGame();
         facade.getFacadeIHMMain().toMenu();
-        
+        Stage stage = (Stage) inGameGUIReturn.getScene().getWindow();
+        stage.close();
     }
 }

@@ -35,6 +35,7 @@ public class Player extends SerializableEntity{
     }
 
     public void setShips(List<Ship> ships) {
+  
         this.ships = ships;
     }
 

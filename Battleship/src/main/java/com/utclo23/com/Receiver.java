@@ -53,7 +53,8 @@ public class Receiver implements Runnable {
                 in = new ObjectInputStream(client.getInputStream());
                 request = (Message) in.readObject();
                 request.callback(iDataCom);
-                Logger.getLogger(Receiver.class.getName()).log(Level.INFO, null, "Message received : " + request.getClass().toString());
+                //Logger.getLogger(Receiver.class.getName()).log(Level.INFO, null, "Message received : " + request.getClass().toString());
+                System.out.println("Message received :" + request.getClass().toString());
                 client.close();
                 in.close();
 
