@@ -42,7 +42,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -86,6 +88,10 @@ public class InGameGUIController {
 
     @FXML
     private Button sendButton;
+    @FXML
+    private ListView<HBox> listView;
+    @FXML
+    private TextArea sendcontent;
     @FXML
     private Button fireButton;
     @FXML
@@ -627,7 +633,7 @@ public class InGameGUIController {
     }
 
     /**
-    * Function for displaying new window with menu option (Save and leave)
+    * Function for ing new window with menu option (Save and leave)
     * @param event
     * @throws IOException
     */
@@ -808,6 +814,51 @@ public class InGameGUIController {
         alert.showAndWait();
     }
 
+    /*
+    * Function of Chat in IHM Table
+    * fx:controller="com.utclo23.ihmtable.controller.InGameGUIController" ==> all the windows 
+    */
+    @FXML
+    public void onClickSendButton(MouseEvent event) throws IOException {
+            
+        System.out.println("Clic sur le button Send ");
+        HBox chat = new HBox();      
+        /*
+         * Get the userID of the palyer at game
+         * ihm facade -> datafacade -> game -> currentplayer -> lightpublicuser -> getPlyer id
+        */
+        String userID = facade.getFacadeData().getGame().getCurrentPlayer().getLightPublicUser().getId();  
+        //String userID = "tong";
+        
+        if(!sendcontent.getText().isEmpty()){
+            if (!userID.isEmpty()){
+                Text chattext = new Text(sendcontent.getText() + " :: " + userID); 
+                chat.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+                chattext.setWrappingWidth(400);
+                chat.getChildren().add(chattext);
+                listView.getItems().add(chat);
+                /*
+                *Send the message to Data : userID and the message
+                */
+                facade.getFacadeData().sendMessage(userID + chattext);
+                sendcontent.clear();
+            }         
+        }    
+    }
+    
+    /*
+    * Show the message of Chat in IHM Table
+    */
+    public void showMessageChat(Message message){
+        HBox chat = new HBox();
+        Text chattext = new Text( message.getSender().getId() + " :: " + message.getContent()); 
+        chat.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT); 
+        chattext.setWrappingWidth(400);
+        chat.getChildren().add(chattext);
+        listView.getItems().add(chat);
+    }
+
+    
     private class AttackEvent implements EventHandler {
 
         /**

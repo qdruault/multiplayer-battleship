@@ -9,6 +9,7 @@ import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.data.facade.IDataIHMTable;
 import com.utclo23.data.structure.Ship;
+import com.utclo23.data.structure.Message;
 import com.utclo23.ihmmain.facade.IHMMainToIhmTable;
 import com.utclo23.ihmtable.controller.InGameGUIController;
 import java.io.IOException;
@@ -183,8 +184,9 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      * @param message : the message to display.
      */
     @Override
-    public void printMessage(String message) {
-        throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
+    public void printMessage(Message message) {
+        InGameGUIController controller = new InGameGUIController();
+        controller.showMessageChat(message); 
     }
 
     /**
