@@ -321,6 +321,7 @@ public class GameMediator {
 
                                 if (this.currentGame.isShipDestroyed(ship, this.currentGame.getComputerPlayer().getMines())) {
                                     this.currentGame.getComputerPlayer().loseFocus();
+                                    System.out.println("");
 
                                 }
                             }
@@ -666,7 +667,6 @@ public class GameMediator {
 
             if (ready) //notify IA to place ships
             {
-
                 System.out.println("Data | IA turn set ships");
                 this.currentGame.getComputerPlayer().setShips(this.currentGame.getTemplateShips());
                 this.dataFacade.getIhmTablefacade().notifyGameReady();
