@@ -25,7 +25,7 @@ import javafx.util.Pair;
  */
 public class AttackTest {
 
-    @org.junit.Test
+   /* @org.junit.Test
     public void testCasePlayer() throws DataException {
 
         DataFacade df = new DataFacade();
@@ -250,5 +250,5 @@ public class AttackTest {
          int nbDefeats = df.getNumberDefeats();
          int nbAbandons = df.getNumberAbandons() ;
 
-    }
+    }*/
 }
