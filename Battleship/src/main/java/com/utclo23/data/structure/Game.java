@@ -83,7 +83,6 @@ public abstract class Game extends SerializableEntity {
 
                 Player player = new Player(user);
                 this.players.add(player);
-
                 System.out.println("player " + player.getLightPublicUser().getId());
 
             }
@@ -155,15 +154,23 @@ public abstract class Game extends SerializableEntity {
         return player;
     }
 
-    public List<LightPublicUser> getRecipients() {
+    public List<LightPublicUser> getRecipients(String id_current_player) {
         List<LightPublicUser> listRecipients = new ArrayList<>();
 
         for (int i = 0; i < this.getPlayers().size(); ++i) {
-            if (!(this.getPlayers().get(i).isComputer())) {
+            
+            if (!(this.getPlayers().get(i).isComputer()) && !this.getPlayers().get(i).getLightPublicUser().getPlayerName().equals(id_current_player)) {
                 listRecipients.add(this.getPlayers().get(i).getLightPublicUser());
             }
+            else
+            {
+                System.out.println("delete "+this.getPlayers().get(i).getLightPublicUser().getPlayerName());
+            }
         }
+        
         listRecipients.addAll(this.getSpectators());
+        
+        System.out.println(">recipients "+listRecipients.size());
         return listRecipients;
     }
 

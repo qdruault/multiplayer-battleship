@@ -53,7 +53,7 @@ public class GameFactory {
         System.out.println("player number : "+players.size());
         
         List<LightPublicUser> spectators = new ArrayList<>();
-        spectators.add(creator);
+        //spectators.add(creator);
         
         StatGame statGame = new StatGame(id, type, name, computerMode, spectator, spectatorChat, creator);
                 

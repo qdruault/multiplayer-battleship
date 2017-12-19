@@ -392,7 +392,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @return my owner profile
      */
     public Owner getMyOwnerProfile() {
-
+        
         return this.userMediator.getMyOwnerProfile();
 
     }
@@ -402,6 +402,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      *
      * @return my public profile
      */
+    
     @Override
     public PublicUser getMyPublicUserProfile() {
         try {
@@ -477,9 +478,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         
         try {
             Pair<Integer, Ship> pairReturn = this.gameMediator.attack(coords, isAttack);
-            if(this.getComfacade() != null){
-                this.getComfacade().notifyNewCoordinates(this.gameMediator.getCurrentGame().getRecentMine(coords), this.gameMediator.getCurrentGame().getRecipients());
-            }
+            
             return pairReturn;
         } catch (Exception ex) {
             ex.printStackTrace();
