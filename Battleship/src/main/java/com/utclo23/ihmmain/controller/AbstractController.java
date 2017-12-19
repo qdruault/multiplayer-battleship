@@ -95,7 +95,7 @@ public class AbstractController {
         dialogPane.getStylesheets().add(getClass().getResource("/styles/ihmmain.css").toExternalForm());
         alert.showAndWait();
     }
-    // TODO Check if the code works after disconnection
+
     protected Image retrievePlayerAvatar(){
         if (playerAvatar == null){
             byte[] thumbnail = getFacade().iDataIHMMain.getMyPublicUserProfile().getLightPublicUser().getAvatarThumbnail();
@@ -110,5 +110,10 @@ public class AbstractController {
             playerUsername = getFacade().iDataIHMMain.getMyPublicUserProfile().getPlayerName();
         } 
         return playerUsername;
+    }
+    
+    protected void cleanPlayerAvatar(){
+        playerAvatar = null;
+        playerUsername = null;
     }
 }
