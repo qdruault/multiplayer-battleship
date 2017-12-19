@@ -145,6 +145,16 @@ public class Owner extends SerializableEntity{
     public void setSavedGamesList(List<Game> savedGamesList) {
         this.savedGamesList = savedGamesList;
     }
+    
+    public Game getSavedGame(String id) {
+        Game ret = null;
+        for(Game g : this.savedGamesList) {
+            if(g.getId().equals(id)) {
+                ret = g;
+            }
+        }
+        return ret;
+    }
 
     public List<StatGame> getPlayedGamesList() {
         return playedGamesList;
@@ -166,7 +176,9 @@ public class Owner extends SerializableEntity{
         this.playedGamesList.add(game);
     }
 
-    
+    public void addSavedGame(Game game) {
+        this.savedGamesList.add(game);
+    }
     
     
 }

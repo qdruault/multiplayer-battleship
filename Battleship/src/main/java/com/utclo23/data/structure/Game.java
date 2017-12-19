@@ -529,4 +529,10 @@ public abstract class Game extends SerializableEntity {
         }
         return null;
     }
+    
+    public void init() {
+        this.messages.clear();
+        this.players.get(0).clearMines();
+        this.players.get(1).clearMines();
+    }
 }

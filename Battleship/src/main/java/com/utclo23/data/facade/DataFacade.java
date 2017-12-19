@@ -747,4 +747,22 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     public int getNumberAbandons() throws DataException {
         return this.userMediator.getNumberAbandons() ;
     }
+    
+    /**
+     * Saves the current game.
+     * 
+     * @throws DataException 
+     */
+    public void saveGame() throws DataException {
+        this.userMediator.addSavedGame(this.gameMediator.getCurrentGame());
+    }
+    
+    public void replayGame(String idGame) {
+        Game game = this.userMediator.getSavedGame(idGame);
+        this.gameMediator.setCurrentGame(game);
+    }
+    
+    public void replayNextTurn() {
+        
+    }
 }

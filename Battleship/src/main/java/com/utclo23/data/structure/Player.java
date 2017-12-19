@@ -59,5 +59,8 @@ public class Player extends SerializableEntity{
         this.computer = computer;
     }
     
+    public void clearMines() {
+        this.mines.clear();
+    }
     
 }

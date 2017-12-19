@@ -567,6 +567,10 @@ public class UserMediator {
         }
     }
     
+    public Game getSavedGame(String id) {
+        return this.owner.getSavedGame(id);
+    }
+    
     /**
      * Add a played game to the owner's played games list.
      * 
@@ -574,6 +578,18 @@ public class UserMediator {
      */
     public void addPlayedGame(StatGame game) {
         this.owner.addPlayedGame(game);
+    }
+    
+    /**
+     * Add a saved game to the owner's saved games list and save the owner.
+     * 
+     * @param game Game
+     * @throws DataException 
+     */
+    public void addSavedGame(Game game) throws DataException {
+        game.init();
+        this.owner.addSavedGame(game);
+        this.save();
     }
     
        /**
