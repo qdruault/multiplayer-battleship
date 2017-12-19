@@ -437,13 +437,7 @@ public class InGameGUIController {
             paneChat.setDisable(true);
         }
        
-        HBox first = new HBox();
-        Text chattext = new Text("Welcome to the chat!"); 
-        first.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
-        chattext.setWrappingWidth(400);
-        first.getChildren().add(chattext);
-        listView.getItems().add(first);
-        System.out.println("Listview : "+listView);
+        printMessageInChat("System", "Welcome to the game room !");
     }
 
     /**
