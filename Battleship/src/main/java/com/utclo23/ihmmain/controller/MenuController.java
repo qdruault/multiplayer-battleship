@@ -10,6 +10,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.shape.Line;
 
 /**
  * Show the list of buttons which allow to navigate in the application
@@ -17,6 +20,26 @@ import javafx.fxml.FXML;
  */
 public class MenuController extends AbstractController{
 
+    
+    @FXML
+    private Button playButton;
+    @FXML
+    private Button profileButton;
+    @FXML
+    private Button playerListButton;
+    @FXML
+    private Button exitButton;
+    @FXML
+    private Button ipListButton;
+    @FXML
+    private Button disconnectButton;
+    @FXML
+    private Line lineDesign;
+    @FXML
+    private Button savedGameButton;
+    @FXML
+    private ImageView avatarImageView;
+    
     /**
      * Go to the GUI which show the list of game and offer the possibility to create a game
      * @param event
@@ -91,4 +114,7 @@ public class MenuController extends AbstractController{
         System.exit(0);
     }
     
+    public void start(){   
+          avatarImageView.setImage(super.retrievePlayerAvatar());
+    }
 }
