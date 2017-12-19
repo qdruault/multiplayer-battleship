@@ -103,6 +103,7 @@ public class MenuController extends AbstractController{
         try{
             getFacade().iDataIHMMain.signOut();
             getIhmmain().toLogin();
+            super.cleanPlayerAvatar();
         }catch(Exception e){
             Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -114,11 +115,12 @@ public class MenuController extends AbstractController{
      */
     @FXML
     private void exit(ActionEvent event){
-        System.exit(0);
+        getIhmmain().exit();
     }
     
-    public void start(){   
-          avatarImageView.setImage(super.retrievePlayerAvatar());
-          playerUsernameLabel.setText(super.retrievePlayerUsername());
+    @Override
+    public void start(){
+        avatarImageView.setImage(super.retrievePlayerAvatar());
+        playerUsernameLabel.setText(super.retrievePlayerUsername());
     }
 }

@@ -10,6 +10,7 @@ import com.utclo23.data.structure.PublicUser;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.logging.Level;
@@ -36,7 +37,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -52,11 +52,11 @@ public class PlayerProfileController extends AbstractController{
     @FXML
     public  Label userID;
     @FXML
-    private Label firstName;
+    private Label firstNameText;
     @FXML
-    private Label lastName;
+    private Label lastNameText;
     @FXML
-    private Label birthday;    
+    private Label birthdayText;    
     @FXML
     private TextField description;
     @FXML
@@ -68,26 +68,27 @@ public class PlayerProfileController extends AbstractController{
     @FXML
     private PieChart belge;
     @FXML
-    private Button PlayerName;
+    private Button playerName;
     @FXML
-    private Button FirstName;
+    private Button firstName;
     @FXML
-    private Button LastName;
+    private Button lastName;
     @FXML
-    private Button Birthday;
+    private Button birthday;
     @FXML
-    private Button Password;
+    private Button password;
     @FXML
-    private Button Avatar;
+    private Button avatar;
     @FXML
     private Button Description;
     private PublicUser me;
     private PublicUser other;
-    private boolean isLoading = false; 
-    private boolean isOther = false; 
+    private boolean isOther; 
     private String attribut;
     private Image avatarImage;
-    
+    private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+ 
+   
     @FXML
     @Override
     public void start(){
@@ -152,7 +153,7 @@ public class PlayerProfileController extends AbstractController{
         final Stage primaryStage = getIhmmain().primaryStage;
         Stage popup = new Stage();
         popup.initOwner(primaryStage);
-        if("Birthday".equals(attribut)){
+        if("birthday".equals(attribut)){
             final DatePicker date = new DatePicker();
             Button back = new Button();
             Button submit = new Button(); 
@@ -207,75 +208,7 @@ public class PlayerProfileController extends AbstractController{
         }
         popup.show();
     } 
-    /**
-     * This method is for receiving the profile of other player asked by user.
-     * @param player: profile sent by Data for us to display
-     * @throws IOException 
-     */
-    public void recievePublicUser(PublicUser player) throws IOException{
-        if(isRunning()){
-            isLoading = false;
-            other = player;
-        }
-    }
-    /**
-     * This method is for waiting the profile.
-     * As soon as receive the profile sent by Data, skip the loading and refresh the page.
-     * @throws IOException 
-     */
-    public void loading() throws IOException{
-        isLoading = true;
-        if (isLoading){
-            //change the cursor
-            getIhmmain().primaryStage.getScene().setCursor(Cursor.WAIT);
-            
-            //create a wait task, check every 0.5s if the loading is finished, finish the waiting
-            Task<Void> wait;
-            wait = new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    try {
-                        while(isLoading){
-                            Logger.getLogger(
-                                    PlayerProfileController.class.getName()).log(
-                                            Level.INFO, "Waiting."
-                                    );
-                            Thread.sleep(500);
-                        }
-                    } catch (InterruptedException e) {
-                    }
-                    return null;
-                }
-            };
-            //if loading succed, call the refresh();
-            wait.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-                @Override
-                public void handle(WorkerStateEvent event) {
-                    isOther = true;
-                    try {
-                        getIhmmain().primaryStage.getScene().setCursor(Cursor.DEFAULT);
-                        getIhmmain().toPlayerProfile();
-                    } catch (IOException ex) {
-                        Logger.getLogger(
-                                PlayerProfileController.class.getName()).log(
-                                        Level.SEVERE, null, ex);
-                    }
-                }
-            });
-            //if loading failed
-            wait.setOnFailed(new EventHandler<WorkerStateEvent>() {
-                @Override
-                public void handle(WorkerStateEvent t){
-                    Logger.getLogger(
-                            PlayerProfileController.class.getName()).log(
-                                    Level.INFO,
-                                    "Loading task failed : {0}", t.toString()
-                            );
-                }
-            });
-            new Thread(wait).start();
-        }
-    }
+    
     /**
      * Get player's avatar
      * @param player:user self or other player
@@ -303,28 +236,29 @@ public class PlayerProfileController extends AbstractController{
         chart.setData(pieChartData);
     }
     public void disableButton(){
-        PlayerName.setDisable(true);
-        FirstName.setDisable(true);
-        LastName.setDisable(true);
-        Birthday.setDisable(true);
-        Password.setDisable(true);
-        Avatar.setDisable(true);
+        playerName.setDisable(true);
+        firstName.setDisable(true);
+        lastName.setDisable(true);
+        birthday.setDisable(true);
+        password.setDisable(true);
+        avatar.setDisable(true);
         Description.setDisable(true);
     }
 
     /**
      * Initializes all the info of profile.
      */
+    @Override
     public void refresh(){
         if (!isOther){
             try{
                 me = getFacade().iDataIHMMain.getMyPublicUserProfile();
                 getAvatar(me);
                 image.setImage(avatarImage);
-                userID .setText(me.getLightPublicUser().getPlayerName());
-                firstName.setText(me.getFirstName());
-                lastName.setText(me.getLastName());
-                birthday.setText(me.getBirthDate().toString());
+                userID .setText(me.getPlayerName());
+                firstNameText.setText(me.getFirstName());
+                lastNameText.setText(me.getLastName());
+                birthdayText.setText(formatter.format(me.getBirthDate()));
                 drawPieChart(allMode);
                 drawPieChart(classical);
                 drawPieChart(belge);
@@ -343,10 +277,10 @@ public class PlayerProfileController extends AbstractController{
                 disableButton();
                 getAvatar(other);
                 image.setImage(avatarImage);
-                userID.setText(other.getLightPublicUser().getPlayerName());
-                firstName.setText(other.getFirstName());
-                lastName.setText(other.getLastName());
-                birthday.setText(other.getBirthDate().toString());
+                userID.setText(other.getPlayerName());
+                firstNameText.setText(other.getFirstName());
+                lastNameText.setText(other.getLastName());
+                birthdayText.setText(formatter.format(other.getBirthDate()));
             }
             catch(NullPointerException e){
                 Logger.getLogger(
@@ -355,5 +289,25 @@ public class PlayerProfileController extends AbstractController{
                         );
             }
         }
+    }
+    
+    public void displayOther(PublicUser other){
+        this.other = other;
+        isOther = true;
+    }
+    
+    public void displayMe(){
+       other = null;
+       isOther = false;
+    }
+    
+    public void enableButtons(){
+        playerName.setDisable(false);
+        firstName.setDisable(false);
+        lastName.setDisable(false);
+        birthday.setDisable(false);
+        password.setDisable(false);
+        avatar.setDisable(false);
+        Description.setDisable(false);
     }
 }
