@@ -21,7 +21,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
@@ -154,14 +153,11 @@ public class IHMMain {
      * @throws IOException 
      */
     public void toScene(String scenename)throws IOException{
-        Scene activeScene = primaryStage.getScene();
-        if(activeScene != null){
-           activeScene.setCursor(Cursor.DEFAULT);
-        }
+        
         if(sceneMap.containsKey(scenename)){
             //stop all controllers
-            for(SceneName name : SceneName.values()){
-                controllerMap.get(name.toString()).stop();
+            if(activeSceneName != null){
+                controllerMap.get(activeSceneName).stop();
             }
             primaryStage.setScene(sceneMap.get(scenename));
             activeSceneName = scenename;

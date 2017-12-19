@@ -18,7 +18,6 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -120,8 +119,10 @@ public class PlayerListController extends AbstractController{
             if(listPlayers.getSelectionModel().getSelectedItem() != null){
                 String id = listPlayers.getSelectionModel().getSelectedItem().getId();
                 try {
-                    getFacade().iDataIHMMain.askPublicUserProfile(id);
-                    loading();
+                    if(!isLoading){
+                        getFacade().iDataIHMMain.askPublicUserProfile(id);
+                        loading();
+                    }
                 } catch (IOException ex) {
                     Logger.getLogger(PlayerListController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -148,8 +149,6 @@ public class PlayerListController extends AbstractController{
     public void loading() throws IOException{
         isLoading = true;
         if (isLoading){
-            //change the cursor
-            getIhmmain().primaryStage.getScene().setCursor(Cursor.WAIT);
 
             //create a wait task, check every 0.5s if the loading is finished, finish the waiting
             Task<Void> wait;
@@ -163,8 +162,6 @@ public class PlayerListController extends AbstractController{
                                             Level.INFO, "Waiting."
                                     );
                             Thread.sleep(500);
-                            PublicUser me = getFacade().iDataIHMMain.getMyPublicUserProfile();
-                            recievePublicUser(me);
                         }
                     } catch (InterruptedException e) {
                     }
@@ -190,7 +187,6 @@ public class PlayerListController extends AbstractController{
             wait.setOnFailed(new EventHandler<WorkerStateEvent>() {
                 @Override
                 public void handle(WorkerStateEvent t){
-                    getIhmmain().primaryStage.getScene().setCursor(Cursor.DEFAULT);
                     Logger.getLogger(
                             PlayerProfileController.class.getName()).log(
                                     Level.INFO,

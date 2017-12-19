@@ -12,7 +12,9 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -226,12 +228,21 @@ public class PlayerProfileController extends AbstractController{
        }
        
     }
-    public void drawPieChart(PieChart chart){
+    public List<Integer> statTotal() throws DataException{
+        List<Integer> data = new ArrayList<>();
+        data.add(getFacade().iDataIHMMain.getNumberVictories());
+        data.add(getFacade().iDataIHMMain.getNumberDefeats());
+        data.add(getFacade().iDataIHMMain.getNumberAbandons());
+        return data;
+    }
+    public void drawPieChart(PieChart chart) throws DataException{
+        List<Integer> data = new ArrayList<>();
+        data = statTotal();
         //to do: get data from interface Data
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList( 
-        new PieChart.Data("Win", 15), 
-        new PieChart.Data("Loss", 5), 
-        new PieChart.Data("Abandonned", 0)
+        new PieChart.Data("Win", data.get(0)), 
+        new PieChart.Data("Loss", data.get(1)), 
+        new PieChart.Data("Abandonned", data.get(2))
         );
         chart.setData(pieChartData);
     }
@@ -252,6 +263,7 @@ public class PlayerProfileController extends AbstractController{
     public void refresh(){
         if (!isOther){
             try{
+                enableButtons();
                 me = getFacade().iDataIHMMain.getMyPublicUserProfile();
                 getAvatar(me);
                 image.setImage(avatarImage);
@@ -260,8 +272,8 @@ public class PlayerProfileController extends AbstractController{
                 lastNameText.setText(me.getLastName());
                 birthdayText.setText(formatter.format(me.getBirthDate()));
                 drawPieChart(allMode);
-                drawPieChart(classical);
-                drawPieChart(belge);
+                //drawPieChart(classical);
+                //drawPieChart(belge);
             }
             catch(NullPointerException e){
                 e.printStackTrace();
@@ -270,6 +282,8 @@ public class PlayerProfileController extends AbstractController{
                                 Level.INFO,
                                 "[PlayerProfile] error - my profile is null."
                         );
+            } catch (DataException ex) {
+                Logger.getLogger(PlayerProfileController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         else{
