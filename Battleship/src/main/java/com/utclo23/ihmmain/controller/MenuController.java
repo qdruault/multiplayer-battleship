@@ -117,8 +117,9 @@ public class MenuController extends AbstractController{
         System.exit(0);
     }
     
-    public void start(){   
-          avatarImageView.setImage(super.retrievePlayerAvatar());
-          playerUsernameLabel.setText(super.retrievePlayerUsername());
+    @Override
+    public void start(){
+        avatarImageView.setImage(super.retrievePlayerAvatar());
+        playerUsernameLabel.setText(super.retrievePlayerUsername());
     }
 }
