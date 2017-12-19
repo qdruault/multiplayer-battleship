@@ -354,7 +354,7 @@ public class GameMediator {
             }
 
             //this.currentGame.nextTurn();
-            if (isTrueAttack) {
+            if (isTrueAttack && !this.currentGame.isComputerGame()) {
                 //Test if this game is finished
                 //If this game is finished, leave the game
                 if (this.currentGame.getStatGame().getWinner() != null) {
@@ -534,7 +534,7 @@ public class GameMediator {
      * @param mine the mine placed
      */
     public void forwardCoordinates(Mine mine) {
-
+        System.out.println("FORWARD COORDINATES "+mine.getCoord().getX()+","+mine.getCoord().getY());
         List<Ship> ships = this.currentGame.ennemyOf(mine.getOwner()).getShips();//this.currentGame.getCurrentPlayer().getShips();
         Ship shipDestroyed = null;
         boolean touched = false;
@@ -596,6 +596,7 @@ public class GameMediator {
         if (this.getCurrentGame().getWinner() == null) {
             this.win();
         }
+        
         this.dataFacade.getIhmTablefacade().finishGame(this.currentGame.getStatGame());
     }
 
@@ -703,7 +704,6 @@ public class GameMediator {
                 this.currentGame.getComputerPlayer().setShips(this.currentGame.getTemplateShips());
                 this.dataFacade.getIhmTablefacade().notifyGameReady();
             }
-
         }
     }
 
