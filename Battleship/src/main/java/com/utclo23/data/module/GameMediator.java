@@ -309,7 +309,7 @@ public class GameMediator {
                     if (this.currentGame.isComputerGame()) {
                         //attack
 
-                        Mine m = this.currentGame.getComputerPlayer().randomMine();
+                        Mine m = this.currentGame.getComputerPlayer().randomMine(player.getShips(), this.currentGame);
                         this.forwardCoordinates(m);
 
                         boolean check = false;
