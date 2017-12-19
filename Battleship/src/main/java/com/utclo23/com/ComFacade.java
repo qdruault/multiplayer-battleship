@@ -61,10 +61,12 @@ public class ComFacade {
     public void sendShipsToEnnemy(List<Ship> listShips, List<LightPublicUser> recipients) {
         M_PlaceShip mPlaceship = new M_PlaceShip(iDataCom.getMyPublicUserProfile(), listShips);
         for (LightPublicUser recipient : recipients) {
-            if (kIpCtrl.getHashMap().get(recipient.getId()) != null){
+
+            if (kIpCtrl.getHashMap().get(recipient.getId()) != null) {
                 Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), mPlaceship);
                 new Thread(os).start();
-            }
+            }            
+
         }
     }
 
@@ -112,13 +114,13 @@ public class ComFacade {
     public void notifyNewCoordinates(Mine mine, List<LightPublicUser> recipients) {
         M_PlaceMine mPlaceMine = new M_PlaceMine(iDataCom.getMyPublicUserProfile(), mine);
         for (LightPublicUser recipient : recipients) {
-            if (kIpCtrl.getHashMap().get(recipient.getId()) != null){
+
                 Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), mPlaceMine);
                 new Thread(os).start();
             }
         }
-    }
-
+   
+   
     /**
      * Called to notify everybody of the creation of a new game to update all
      * users Data's module.

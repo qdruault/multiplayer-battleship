@@ -28,7 +28,6 @@ public class StatGame extends SerializableEntity{
     private Game realGame;
     
     private boolean computerMode;
-    
     private boolean gameAbandonned;
     
  

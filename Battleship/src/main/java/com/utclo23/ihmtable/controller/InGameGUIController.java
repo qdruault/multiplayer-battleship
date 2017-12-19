@@ -233,6 +233,11 @@ public class InGameGUIController {
      */
     private Player currentPlayer;
 
+     /**
+     * Me.
+     */
+    private Player myPlayer;
+    
 
     /**
      * True if playing review game
@@ -243,6 +248,11 @@ public class InGameGUIController {
      * Frame for reloading a game
      */
     private Timeline reloadTimeline = null;
+    
+    /**
+     * Timer
+     */
+    private Timeline timer;
 
     /**
     * Set the IHM Table facade.
@@ -376,6 +386,7 @@ public class InGameGUIController {
         buttonImage5.setOnMouseClicked(new SelectShipEvent(ShipType.SUBMARINE));
 
         // Start chrono.
+        initTimer();
         chronoTimeInit();
 
         // Init the number of turns passed.
@@ -388,7 +399,9 @@ public class InGameGUIController {
         // Init pannel with values
         updateStatsPannel();
         // Get the current player.
-        // currentPlayer = facade.getFacadeData().getGame().getCurrentPlayer();
+        currentPlayer = facade.getFacadeData().getGame().getCurrentPlayer();
+        // Get my player.
+        myPlayer = facade.getFacadeData().getGame().getPlayer(facade.getFacadeData().getMyPublicUserProfile().getId());
     }
 
     /**
@@ -575,7 +588,7 @@ public class InGameGUIController {
                     // in a Mine returned with attack)
 
                     Pair<Integer, Ship> fireResult = facade.getFacadeData().attack(cellToAttack, true);
-                    placeMine(cellToAttack,currentPlayer);
+                    placeMine(cellToAttack, myPlayer);
 
                     // Update stats pannel
                     currentPlayerStats.turnPlayed((fireResult.getKey() == 1), (fireResult.getValue() != null));
@@ -583,6 +596,7 @@ public class InGameGUIController {
 
                     // Reinitialize chrono for the next turn.
                     chronoTimeInit();
+                    cellToAttack = null;
                     // End of my turn.
                     switchOpponnentPane();
                 } catch (Exception e) {
@@ -656,13 +670,13 @@ public class InGameGUIController {
         // Select the right grid which depends on the player (TODO spectateur?)
         GridPane grid;
         if(player.getLightPublicUser().getId().equals(facade.getFacadeData().getMyPublicUserProfile().getId())) {
-            grid = playerGrid;
-        } else {
             grid = opponentGrid;
+        } else {
+            grid = playerGrid;
         }
 
         // Select the node in the grid and disable it when we lanch the attack
-        Node hitCell = getNodeByRowColumnIndex(coord.getX(), coord.getY(), grid);
+        Node hitCell = getNodeByRowColumnIndex(coord.getY(), coord.getX(), grid);
         hitCell.setDisable(true);
 
         Pair<Integer, Ship> attack_result = facade.getFacadeData().attack(coord, false);
@@ -826,6 +840,10 @@ public class InGameGUIController {
     * Function for initialize chrono
     */
     private void chronoTimeInit() {
+        // Stop the timer.
+        if (timer != null) {
+            timer.stop();
+        }
         switch (nbPassedTurns) {
             case 0:
                 countdown = 30;
@@ -849,16 +867,17 @@ public class InGameGUIController {
     * Function for initialize chrono
     */
     private void restartChronoTime() {
+        System.out.println("restartcronotime");
         chronoTimeInit();
-        timePass();
+        timer.playFromStart();
     }
 
     /**
     * Function for simulate chrono, using Timeline and KeyFrame import and set the label
     */
-    private void timePass() {
-        final Timeline time = new Timeline();
-        time.setCycleCount(Timeline.INDEFINITE);
+    private void initTimer() {
+        timer = new Timeline();
+        timer.setCycleCount(Timeline.INDEFINITE);
         KeyFrame frame = new KeyFrame(Duration.seconds(1.1), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -867,7 +886,7 @@ public class InGameGUIController {
                     countdown--;
                     // Time's up!
                     if (countdown <= 0) {
-                        time.stop();
+                        timer.stop();
                         chronoLabel.setText("00:00");
 
                         // Leave the game if te player has not played for the 3rd time.
@@ -883,9 +902,6 @@ public class InGameGUIController {
                             // Reinitialize chrono for the next turn
                             chronoTimeInit();
                             switchOpponnentPane();
-
-                            // TODO: Remove this line!
-                            timeToAttack();
                         }
                     }
                     else {
@@ -901,8 +917,7 @@ public class InGameGUIController {
             }
 
         });
-        time.getKeyFrames().add(frame);
-        time.playFromStart();
+        timer.getKeyFrames().add(frame);
     }
 
     /**
@@ -1226,8 +1241,9 @@ public class InGameGUIController {
      * @param destroyedShip : the destroyed ship or null.
      */
     public void displayOpponentAttack(Coordinate coord, boolean touched, Ship destroyedShip) {
+        System.out.println("displayOpponentAttack");
         // Get the cell.
-        Node cell = getNodeByRowColumnIndex(coord.getX(), coord.getY(), playerGrid);
+        Node cell = getNodeByRowColumnIndex(coord.getY(), coord.getX(), playerGrid);
         // The opponent has touched my ship.
         if (touched) {
             // Add the CSS class.

@@ -36,6 +36,21 @@ public class Ship extends SerializableEntity{
     public ShipType getType() {
         return type;
     }
+    
+    /**
+     * Checks if a coordinate belongs to the ship.
+     * 
+     * @param coord
+     * @return 
+     */
+    public boolean isCrossed(Coordinate coord) {
+        for(int i = 0; i < listCoord.size(); i++){
+            if(coord.equals(listCoord.get(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void setType(ShipType type) {
         this.type = type;
@@ -64,4 +79,32 @@ public class Ship extends SerializableEntity{
     public void setSize(int size) {
         this.size = size;
     }    
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+       
+        if (obj == null)
+            return false;
+    
+        if (getClass() != obj.getClass())
+            return false;
+       
+        Ship other = (Ship) obj;
+        
+        if (type != other.type)
+            return false;
+       
+        if (!owner.getLightPublicUser().getId().equals(other.getOwner().getLightPublicUser().getId()))
+            return false;
+        
+        if (size != other.getSize())
+            return false;
+        
+        if (!listCoord.equals(other.getListCoord()))
+            return false;
+        
+       return true;
+    }
 }

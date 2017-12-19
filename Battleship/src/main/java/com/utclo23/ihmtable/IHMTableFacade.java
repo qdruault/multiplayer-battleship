@@ -135,7 +135,6 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
         //Créer la fenêtre
         FXMLLoader paneLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
         Parent pane;
-        InGameGUIController controller = null;
         Stage primaryStage = facadeIHMMain.getPrimaryStage();
         try {
             controller = new InGameGUIController();
@@ -173,6 +172,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void notifyGameReady() {
+        System.out.println("notifygameready");
         gameReady = true;
         // Notify the controller the game has started.
         controller.startGame();
