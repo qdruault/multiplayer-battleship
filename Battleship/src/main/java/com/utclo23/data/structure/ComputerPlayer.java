@@ -40,8 +40,14 @@ public class ComputerPlayer extends Player {
     }
 
     public void setFocus(Coordinate focus) {
+        if(focus!=null){
         this.oldFocus = this.focus;
         this.focus = focus;
+        }
+        else
+        {
+            this.focus = this.oldFocus;
+        }
       
     }
 
@@ -73,8 +79,8 @@ public class ComputerPlayer extends Player {
             do {
 
                 //choose a new location until empty
-                x = r.nextInt(Configuration.HEIGHT - 1);
-                y = r.nextInt(Configuration.WIDTH - 1);
+                x = r.nextInt(Configuration.HEIGHT );
+                y = r.nextInt(Configuration.WIDTH);
 
                 if (tab[x][y] != 0 || (x + ship.getSize() >= Configuration.WIDTH && y + ship.getSize() >= Configuration.WIDTH)) {
                     // System.out.println("("+x+","+y+") NON VALIDE");
@@ -191,8 +197,8 @@ public class ComputerPlayer extends Player {
             do { 
                 valid = true;
                 //choose a new location until empty
-                x = r.nextInt(Configuration.WIDTH - 1);
-                y = r.nextInt(Configuration.WIDTH - 1);
+                x = r.nextInt(Configuration.WIDTH );
+                y = r.nextInt(Configuration.WIDTH);
 
                 if (tab[x][y] != 0 || (x >= Configuration.WIDTH || y >= Configuration.WIDTH)) {
                     valid = false;
@@ -205,9 +211,13 @@ public class ComputerPlayer extends Player {
 
              //System.out.println("focus method");
             if ((focus.getX() + 1 >= Configuration.WIDTH || focus.getY() >= Configuration.WIDTH) ||  tab[focus.getX() + 1][focus.getY()] != 0 ) {
+                System.out.println("no x + 1");
                 if ((focus.getX() - 1 < 0 || focus.getY() >= Configuration.WIDTH) || tab[focus.getX() - 1][focus.getY()] != 0) {
+                    System.out.println("no x-1");
                     if ((focus.getX() >= Configuration.WIDTH || focus.getY() + 1 >= Configuration.WIDTH)|| tab[focus.getX()][focus.getY() + 1] != 0) {
+                        System.out.println("no y+1");
                         if ( (focus.getX() >= Configuration.WIDTH || focus.getY() - 1 < 0) || tab[focus.getX()][focus.getY() - 1] != 0) {
+                            System.out.println("no y-1");
                             this.focus = null;
                             this.oldFocus = null;
 
@@ -217,8 +227,8 @@ public class ComputerPlayer extends Player {
 
                                 valid = true;
                                 //choose a new location until empty
-                                x = r.nextInt(Configuration.HEIGHT - 1);
-                                y = r.nextInt(Configuration.WIDTH - 1);
+                                x = r.nextInt(Configuration.HEIGHT );
+                                y = r.nextInt(Configuration.WIDTH);
 
                                 if (tab[x][y] != 0 || (x >= Configuration.WIDTH || y >= Configuration.WIDTH)) {
 
@@ -230,19 +240,24 @@ public class ComputerPlayer extends Player {
                             } while (!valid);
 
                         } else {
+                            System.out.println("y-1");
                             x = focus.getX();
                             y = focus.getY() - 1;
                         }
 
                     } else {
+                        System.out.println("y+1");
                         x = focus.getX();
                         y = focus.getY() + 1;
                     }
                 } else {
+                    System.out.println("x-1");
+                    
                     x = focus.getX() - 1;
                     y = focus.getY();
                 }
             } else {
+                System.out.println("x+1");
                 x = focus.getX() + 1;
                 y = focus.getY();
             }
