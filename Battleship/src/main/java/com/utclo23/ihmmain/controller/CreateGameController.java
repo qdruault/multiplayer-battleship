@@ -11,9 +11,11 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.ImageView;
 import javax.swing.JOptionPane;
 
 /**
@@ -47,6 +49,12 @@ public class CreateGameController extends AbstractController{
     TextField gameNameField;
     
     @FXML
+    private ImageView avatarImageView;
+    
+   @FXML 
+   private Label playerUsernameLabel;
+    
+    @FXML
     
     /**
      * This function is called at the oppening of the page.
@@ -64,10 +72,14 @@ public class CreateGameController extends AbstractController{
         
         // Default values
         radioButtonClassical.setSelected(true);
-        radioButtonComputer.setSelected(true);
-        
-                
+        radioButtonComputer.setSelected(true);        
     }
+    
+    public void start(){   
+        avatarImageView.setImage(super.retrievePlayerAvatar());
+        playerUsernameLabel.setText(super.retrievePlayerUsername());
+    }
+    
     /**
      * Go to the previous page.
      * Called when the return button is clicked.
