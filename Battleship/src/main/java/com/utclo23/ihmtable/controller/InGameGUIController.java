@@ -454,7 +454,15 @@ public class InGameGUIController {
     * Function for switch different pane in starting turn for the current player
     */
     public void switchOpponnentPane() {
-        readyToAttack = !readyToAttack;
+        if (readyToAttack == true) {
+            System.out.println("A lui de jouer");
+            readyToAttack = false;
+        }
+        else {
+            System.out.println("A moi de jouer");
+            readyToAttack = true;
+        }
+        System.out.println("switchOpponnentPane : rdyToAttack : "  + readyToAttack);
         if (readyToAttack) {
             // We can now hover the opponent panes.
             for (Pane opponentPane : opponentPanes) {
@@ -579,6 +587,8 @@ public class InGameGUIController {
         if (gameStarted && readyToAttack) {
             // Only if a cell has been aimed.
             if (cellToAttack != null) {
+                System.out.println("onClickFire : rdyToAttack : "  + readyToAttack);
+
                 // Remove the highlight on the cell.
                 clickedPane.getStyleClass().removeAll("inGameGUI_selected_cell");
                 // Attack!
@@ -1241,7 +1251,7 @@ public class InGameGUIController {
      * @param destroyedShip : the destroyed ship or null.
      */
     public void displayOpponentAttack(Coordinate coord, boolean touched, Ship destroyedShip) {
-        System.out.println("displayOpponentAttack");
+        System.out.println("displayOpponentAttack : rdyToAttack : "  + readyToAttack);
         // Get the cell.
         Node cell = getNodeByRowColumnIndex(coord.getY(), coord.getX(), playerGrid);
         // The opponent has touched my ship.
