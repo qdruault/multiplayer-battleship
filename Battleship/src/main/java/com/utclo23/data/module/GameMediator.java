@@ -442,8 +442,9 @@ public class GameMediator {
 
                 // 
                 System.out.println(" ROLE : " + role);
-
-                this.dataFacade.getComfacade().connectionToGame(game, role);
+                if (! game.isComputerMode()) {
+                    this.dataFacade.getComfacade().connectionToGame(game, role);
+                }
             }
 
         }
