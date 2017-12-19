@@ -87,10 +87,13 @@ public class AbstractController {
         alert.showAndWait();
     }
     
+    // TODO Check if the code works after disconnection
     protected Image retrievePlayerAvatar(){
-        byte[] thumbnail = getFacade().iDataIHMMain.getMyPublicUserProfile().getLightPublicUser().getAvatarThumbnail();
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(thumbnail);
-        playerAvatar = new Image(inputStream);
+        if (playerAvatar == null){
+            byte[] thumbnail = getFacade().iDataIHMMain.getMyPublicUserProfile().getLightPublicUser().getAvatarThumbnail();
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(thumbnail);
+            playerAvatar = new Image(inputStream);
+        }
         return playerAvatar;
     }
 }
