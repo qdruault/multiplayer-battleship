@@ -44,4 +44,18 @@ public class Memento extends SerializableEntity{
         this.state = state;
     }
     
+    public Event getLastEvent()
+    {
+        Event max = this.state.get(0);
+        for(int i = 1; i< state.size(); ++i)
+        {
+            if(max!=null && max.getTimestamp().compareTo(state.get(i).getTimestamp()) < 0)
+            {
+                max = state.get(i);
+            }
+        }
+        
+        return max;
+    }
+    
 }

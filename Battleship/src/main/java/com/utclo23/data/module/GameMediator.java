@@ -5,6 +5,7 @@ import com.utclo23.data.configuration.Configuration;
 import com.utclo23.data.facade.DataFacade;
 import com.utclo23.data.structure.ComputerPlayer;
 import com.utclo23.data.structure.Coordinate;
+import com.utclo23.data.structure.Event;
 import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.GameType;
 import com.utclo23.data.structure.LightPublicUser;
@@ -298,37 +299,36 @@ public class GameMediator {
                 dataFacade.getComfacade().notifyNewCoordinates(new Mine(player, coordinate), currentGame.getRecipients());
 
                 //save with caretaker
-                this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
+                if (!this.currentGame.isSave()) {
+                    this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
+                }
 
                 //if creator of the game
                 if (this.currentGame.getStatGame().getCreator().getId().equals(this.dataFacade.getUserMediator().getMyPublicUserProfile().getId())) {
                     //if computer mode ?
                     if (this.currentGame.isComputerGame()) {
                         //attack
-                        // this.currentGame.nextTurn();
 
                         Mine m = this.currentGame.getComputerPlayer().randomMine();
                         this.forwardCoordinates(m);
 
-                        System.out.println("verification ia bateaux de ... " + this.currentGame.ennemyOf(this.currentGame.getComputerPlayer()).getLightPublicUser().getPlayerName());
                         boolean check = false;
                         for (Ship ship : this.currentGame.ennemyOf(this.currentGame.getComputerPlayer()).getShips()) {
                             if (this.currentGame.isShipTouched(ship, m)) {
-                                System.out.println("IA focus on location");
+
                                 this.currentGame.getComputerPlayer().setFocus(m.getCoord());
                                 check = true;
 
                                 if (this.currentGame.isShipDestroyed(ship, this.currentGame.getComputerPlayer().getMines())) {
                                     this.currentGame.getComputerPlayer().loseFocus();
-                                    System.out.println("IA loses total focus");
-                                    
+
                                 }
                             }
 
                         }
 
                         if (!check) {
-                            System.out.println("IA loses focus");
+
                             this.currentGame.getComputerPlayer().setFocus(null);
                         }
 
@@ -502,7 +502,7 @@ public class GameMediator {
      * @param mine the mine placed
      */
     public void forwardCoordinates(Mine mine) {
-        System.out.println("forward coordinate..");
+
         List<Ship> ships = this.currentGame.getCurrentPlayer().getShips();
         Ship shipDestroyed = null;
         boolean touched = false;
@@ -515,6 +515,16 @@ public class GameMediator {
             }
         }
 
+        //Add mine to local game
+        if (!this.currentGame.isComputerGame()) {
+            this.currentGame.ennemyOf(this.currentGame.getCurrentPlayer()).getMines().add(mine);
+        }
+
+        //save
+        if (!this.currentGame.isSave()) {
+            this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
+        }
+        
         if (this.dataFacade.getIhmTablefacade() != null) {
 
             this.dataFacade.getIhmTablefacade().feedBack(mine.getCoord(), touched, shipDestroyed);
@@ -662,6 +672,33 @@ public class GameMediator {
                 this.dataFacade.getIhmTablefacade().notifyGameReady();
             }
 
+        }
+    }
+    
+    public void next()
+    {
+        if(this.currentGame!= null)
+        {
+            if(this.currentGame.isSave())
+            {
+                Event event =   this.currentGame.getCaretaker().getMemento().getLastEvent();
+                if(event instanceof Mine)
+                {
+                    Mine mine = (Mine) event;
+                    if(this.dataFacade.getMyPublicUserProfile().getId().equals(mine.getOwner().getLightPublicUser().getId()))
+                    {
+                        //equivalent of attack
+                       
+                        
+                    }
+                    else
+                    {
+                        //equivalent of forward
+                        
+                    }
+                }
+                this.currentGame.getCaretaker().next();
+            }
         }
     }
 
