@@ -138,7 +138,7 @@ public class CreateUserController extends AbstractController{
                 Level.INFO,  "createUser method called.");
         try{
             getFacade().iDataIHMMain.createUser(userName, password, firstName, lastName, birthDate, avatarPath);
-            showErrorPopup("Success", "Your account was successfully created", "Back to the login screen.");
+            showSuccessPopup("Success", "Your account was successfully created", "Back to the login screen.");
             back();
         } catch(Exception e){
             showErrorPopup("Error", "We're sorry, but an error occured", e.getMessage());
