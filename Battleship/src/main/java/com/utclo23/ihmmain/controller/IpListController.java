@@ -23,6 +23,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 
 /**
  * Controller of the IP address list.
@@ -34,6 +35,9 @@ public class IpListController extends AbstractController{
     
     @FXML
     private TableView<ObservableIp> ipList;
+    
+    @FXML
+    private ImageView avatarImageView;
     
     @FXML
     @Override
@@ -57,6 +61,7 @@ public class IpListController extends AbstractController{
             ipList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         }
         getKnownIp();
+        avatarImageView.setImage(super.retrievePlayerAvatar());
     }
     
     /**

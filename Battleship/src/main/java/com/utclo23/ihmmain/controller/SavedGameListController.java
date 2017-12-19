@@ -24,6 +24,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -38,6 +39,9 @@ public class SavedGameListController extends AbstractController{
     private Button watchButton;
     @FXML
     private ScrollPane gameListPane;
+    @FXML
+    private ImageView avatarImageView;
+    
     private StatGameBean selectedGame;
     private TableView<StatGameBean> gameList;
     
@@ -53,6 +57,7 @@ public class SavedGameListController extends AbstractController{
         enableAllButtons();
         gameListPane.setFitToWidth(true);
         gameListPane.setFitToHeight(true);
+        avatarImageView.setImage(super.retrievePlayerAvatar());
         refresh();
     }
 

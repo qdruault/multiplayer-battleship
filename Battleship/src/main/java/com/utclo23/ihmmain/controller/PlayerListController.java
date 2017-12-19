@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -27,6 +28,9 @@ public class PlayerListController extends AbstractController{
 
     @FXML
     private TableView<LightPublicUser> listPlayers;
+    
+    @FXML
+    private ImageView avatarImageView;
 
     @FXML
     private void returnMenu(ActionEvent event) throws IOException{
@@ -56,6 +60,8 @@ public class PlayerListController extends AbstractController{
 
             // Columns take all the width of the window
             listPlayers.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+            
+            avatarImageView.setImage(super.retrievePlayerAvatar());
         }
         
         // Load the connected users
