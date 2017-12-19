@@ -29,6 +29,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
@@ -53,6 +54,10 @@ public class GameListController extends AbstractController{
 
     @FXML
     private ScrollPane gameListPane;
+    @FXML
+    private ImageView avatarImageView;
+    @FXML
+    private Label playerUsernameLabel;
     
     private StatGame selectedGame;
     private TableView<StatGame> gameList;
@@ -71,6 +76,8 @@ public class GameListController extends AbstractController{
         enableAllButtons();
         gameListPane.setFitToWidth(true);
         gameListPane.setFitToHeight(true);
+        avatarImageView.setImage(super.retrievePlayerAvatar());
+        playerUsernameLabel.setText(super.retrievePlayerUsername());
         refresh();
     }
 
