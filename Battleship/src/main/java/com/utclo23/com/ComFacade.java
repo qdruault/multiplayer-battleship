@@ -87,6 +87,7 @@ public class ComFacade {
                 new Thread(os).start();
             }
         }
+        KnownIPController.getInstance().getHashMap().clear();
     }
 
     /**
@@ -112,6 +113,7 @@ public class ComFacade {
      */
     public void notifyNewCoordinates(Mine mine, List<LightPublicUser> recipients) {             
         M_PlaceMine mPlaceMine = new M_PlaceMine(iDataCom.getMyPublicUserProfile(), mine);
+        System.out.println("recipients notify: " + recipients.size());
         for (LightPublicUser recipient : recipients) {      
             System.out.println("notifyNewCoordinates +" + recipient.getPlayerName());
             if (kIpCtrl.getHashMap().get(recipient.getId()) != null) {
@@ -120,12 +122,12 @@ public class ComFacade {
             }
         }
     }
-        /**
-         * Called to notify everybody of the creation of a new game to update
-         * all users Data's module.
-         *
-         * @param game is the new created game
-         */
+    /**
+     * Called to notify everybody of the creation of a new game to update
+     * all users Data's module.
+     *
+     * @param game is the new created game
+     */
     public void notifyNewGame(StatGame game) {
         M_CreationGame mCreationGame = new M_CreationGame(iDataCom.getMyPublicUserProfile(), game);
         for (Inet4Address ip : kIpCtrl.getHashMap().values()) {

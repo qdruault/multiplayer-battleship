@@ -57,7 +57,6 @@ public class Receiver implements Runnable {
                 System.out.println("Message received :" + request.getClass().toString());
                 client.close();
                 in.close();
-
             } catch (IOException|ClassNotFoundException ex) {
                 Logger.getLogger(ComFacade.class.getName()).log(Level.INFO, null, ex);
             }
