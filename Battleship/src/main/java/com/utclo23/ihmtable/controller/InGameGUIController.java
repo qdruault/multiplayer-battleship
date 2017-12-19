@@ -597,7 +597,7 @@ public class InGameGUIController {
                     // (the better would be for data to have the boolean information
                     // in a Mine returned with attack)
 
-                    Pair<Integer, Ship> fireResult = facade.getFacadeData().attack(cellToAttack, true);
+                    Pair<Integer, Ship> fireResult = facade.getFacadeData().attack(cellToAttack, true, this.myPlayer);
                     placeMine(cellToAttack, myPlayer);
 
                     // Update stats pannel
@@ -689,7 +689,7 @@ public class InGameGUIController {
         Node hitCell = getNodeByRowColumnIndex(coord.getY(), coord.getX(), grid);
         hitCell.setDisable(true);
 
-        Pair<Integer, Ship> attack_result = facade.getFacadeData().attack(coord, false);
+        Pair<Integer, Ship> attack_result = facade.getFacadeData().attack(coord, false, player);
         // TODO: Voir si il faut demander à data une méthode "attack" neutralisée,
         // on a besoin de pouvoir tester si une mine placée à un endroit provoque
         // une explosion sans aucun autre effet (ou dire à data de tester si le joueur
@@ -904,7 +904,7 @@ public class InGameGUIController {
                             facade.getFacadeData().leaveGame();
                         } else {
                             // Fake an attack.
-                            facade.getFacadeData().attack(new Coordinate(-1, -1), true);
+                            facade.getFacadeData().attack(new Coordinate(-1, -1), true, null);
 
                             // Increase the number of turns passed.
                             nbPassedTurns++;

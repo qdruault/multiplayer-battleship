@@ -78,21 +78,21 @@ public class AttackTest {
         
          //Test of player A and player B
          Coordinate coorTestA1 = new Coordinate(11,2); //case de B
-         Pair<Integer, Ship> attackA1 = df.attack(coorTestA1, true);
+         Pair<Integer, Ship> attackA1 = df.attack(coorTestA1, true, playerA);
          
          //test of function getRecentMine
          Mine mineTest = df.getGameMediator().getCurrentGame().getRecentMine(coorTestA1);
          
          Coordinate coorTestB1 = new Coordinate(2,2); 
-         Pair<Integer, Ship> attackB1 = df.attack(coorTestB1, true);
+         Pair<Integer, Ship> attackB1 = df.attack(coorTestB1, true, playerB);
          Coordinate coorTestA2 = new Coordinate(12,2); //case de B
-         Pair<Integer, Ship> attackA2 = df.attack(coorTestA2, true);
+         Pair<Integer, Ship> attackA2 = df.attack(coorTestA2, true, playerA);
          Coordinate coorTestB2 = new Coordinate(9,2); 
-         Pair<Integer, Ship> attackB2 = df.attack(coorTestB2, true);
+         Pair<Integer, Ship> attackB2 = df.attack(coorTestB2, true, playerB);
          Coordinate coorTestA3 = new Coordinate(13,2); //case de B
-         Pair<Integer, Ship> attackA3 = df.attack(coorTestA3, true);
+         Pair<Integer, Ship> attackA3 = df.attack(coorTestA3, true, playerA);
          Coordinate coorTestB3 = new Coordinate(1,2); 
-         Pair<Integer, Ship> attackB3 = df.attack(coorTestB3, true);
+         Pair<Integer, Ship> attackB3 = df.attack(coorTestB3, true, playerB);
          
          //Test of a spectator
         // Coordinate coorTestU3 = new Coordinate(2,1); 
@@ -232,17 +232,17 @@ public class AttackTest {
          Coordinate coorMineB3 = new Coordinate(3,1);
          Mine mineB3 = new Mine(playerB, coorMineB3); 
          
-         df.attack(coorMineA1, true);
+         df.attack(coorMineA1, true, playerA);
          df.forwardCoordinates(mineA1);  
-         df.attack(coorMineB1, true);
+         df.attack(coorMineB1, true, playerB);
          df.forwardCoordinates(mineB1); 
-         df.attack(coorMineA2, true);
+         df.attack(coorMineA2, true, playerA);
          df.forwardCoordinates(mineA2);    
-         df.attack(coorMineB2, true); 
+         df.attack(coorMineB2, true, playerB); 
          df.forwardCoordinates(mineB2);
-         df.attack(coorMineA3, true);
+         df.attack(coorMineA3, true, playerA);
          df.forwardCoordinates(mineA3); 
-         df.attack(coorMineB3, true);
+         df.attack(coorMineB3, true, playerB);
          boolean b = df.getGameMediator().getCurrentGame().isGameFinishedByEnnemy() ;
              
          
