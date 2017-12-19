@@ -1252,6 +1252,12 @@ public class InGameGUIController {
      */
     public void displayOpponentAttack(Coordinate coord, boolean touched, Ship destroyedShip) {
         System.out.println("displayOpponentAttack : rdyToAttack : "  + readyToAttack);
+        
+        // Return in case of fake attack
+        if (coord.getX() < 0 || coord.getY() < 0) { 
+            return;
+        }
+        
         // Get the cell.
         Node cell = getNodeByRowColumnIndex(coord.getY(), coord.getX(), playerGrid);
         // The opponent has touched my ship.
