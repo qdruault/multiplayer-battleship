@@ -262,12 +262,15 @@ public class GameMediator {
      *
      * @param coordinate
      * @param isTrueAttack
+     * @param playerWhoPutTheMine
      * @return
      * @throws DataException
      */
-    public Pair<Integer, Ship> attack(Coordinate coordinate, boolean isTrueAttack) throws DataException, IOException, ClassNotFoundException {
-
+    public Pair<Integer, Ship> attack(Coordinate coordinate, boolean isTrueAttack, Player playerWhoPutTheMine) throws DataException, IOException, ClassNotFoundException {
         if (this.currentGame != null) {
+            if(coordinate.getX()==-1 && coordinate.getY()==-1){
+                return new Pair(0,null);
+            }
             Player player = this.currentGame.getCurrentPlayer();
             System.out.println("ATTACK CURRENT PLAYER " + player.getLightPublicUser().getPlayerName());
 
@@ -346,7 +349,13 @@ public class GameMediator {
                 // In the case of a test, that's possible that the current player is not
                 // the right player to test the mine (that means the enemy of the player 
                 // is the right person to test the mine)
-                pairReturn = this.currentGame.attack(player, coordinate, isTrueAttack);
+                if(playerWhoPutTheMine!=null){
+                    pairReturn = this.currentGame.attack(playerWhoPutTheMine, coordinate, isTrueAttack);
+                }else{
+                    pairReturn = this.currentGame.attack(player, coordinate, isTrueAttack);
+                }
+              
+                
                 if (pairReturn.getKey() == 0 && pairReturn.getValue() == null) {
                     //pairReturn = this.currentGame.attack(this.currentGame.ennemyOf(player), coordinate, isTrueAttack);
                 }
@@ -354,7 +363,7 @@ public class GameMediator {
             }
 
             //this.currentGame.nextTurn();
-            if (isTrueAttack) {
+            if (isTrueAttack && !this.currentGame.isComputerGame()) {
                 //Test if this game is finished
                 //If this game is finished, leave the game
                 if (this.currentGame.getStatGame().getWinner() != null) {
@@ -433,8 +442,9 @@ public class GameMediator {
 
                 // 
                 System.out.println(" ROLE : " + role);
-
-                this.dataFacade.getComfacade().connectionToGame(game, role);
+                if (! game.isComputerMode()) {
+                    this.dataFacade.getComfacade().connectionToGame(game, role);
+                }
             }
 
         }
@@ -534,17 +544,30 @@ public class GameMediator {
      * @param mine the mine placed
      */
     public void forwardCoordinates(Mine mine) {
-
+        System.out.println("FORWARD COORDINATES "+mine.getOwner().getLightPublicUser().getPlayerName()+" "+mine.getCoord().getX()+","+mine.getCoord().getY());
         List<Ship> ships = this.currentGame.ennemyOf(mine.getOwner()).getShips();//this.currentGame.getCurrentPlayer().getShips();
         Ship shipDestroyed = null;
         boolean touched = false;
         for (Ship s : ships) {
             if (this.currentGame.isShipTouched(s, mine)) {
+                
+                System.out.println("data "+mine.getOwner().getLightPublicUser().getPlayerName()+" touched "+mine.getCoord().getX()+","+mine.getCoord().getY());
+                
                 touched = true;
                 if (this.currentGame.isShipDestroyed(s, mine.getOwner().getMines())) {
-                    shipDestroyed = s;
+                    shipDestroyed = s;                    
+                    System.out.println("data "+mine.getOwner().getLightPublicUser().getPlayerName()+" destroyed ");
+                    // Destroyed ship found.
+                    break;
                 }
+                
             }
+        }
+        
+        if(touched)
+        {
+             System.out.println("attack manqué ");
+            
         }
 
         //Add mine to local game
@@ -564,8 +587,10 @@ public class GameMediator {
 
         if (this.currentGame.isGameFinishedByEnnemy()) {
             //Sauvegarde à ajouter, que l'owner soit joueur ou pas.
+         
             String status = this.getOwnerStatus();
-            if (status == "player") {
+               System.out.println("status = "+status);
+            if (status.equals("player")) {
                 if (this.currentGame.getStatGame().getWinner() == null) {
                     this.giveUp();
                 }
@@ -596,6 +621,7 @@ public class GameMediator {
         if (this.getCurrentGame().getWinner() == null) {
             this.win();
         }
+        
         this.dataFacade.getIhmTablefacade().finishGame(this.currentGame.getStatGame());
     }
 
@@ -703,7 +729,6 @@ public class GameMediator {
                 this.currentGame.getComputerPlayer().setShips(this.currentGame.getTemplateShips());
                 this.dataFacade.getIhmTablefacade().notifyGameReady();
             }
-
         }
     }
 

@@ -81,12 +81,12 @@ public class KnownIPController {
      * @return Hashmap value
      */
     public HashMap<String, Inet4Address> getHashMap() {
-        HashMap<String, Inet4Address> tmpHash = knownIp;
         String id = iDataCom.getMyPublicUserProfile().getLightPublicUser().getId();
-        tmpHash.remove(id);	// to avoid sending back our own Ip adress (cuz it already got it).
-        return tmpHash;
-
+        knownIp.remove(id);	// to avoid sending back our own Ip adress (cuz it already got it).
+        return knownIp;
     }
+    
+    
 
     /**
      * Called to add a new node in the attribute "knownIP".
@@ -96,28 +96,6 @@ public class KnownIPController {
      */
     public void addNode(String id, Inet4Address ip) {
         knownIp.put(id, ip);
-    }
-
-    /**
-     * Called to add non existing nodes in attribute "knownIp" from another
-     * hashmap.
-     *
-     * @param hashToCheck is the Hashmap containing ids of type String and
-     * Inet4Address
-     * @return the new updated HashMap
-     */
-    public HashMap<String, Inet4Address> addNonExistingNodes(HashMap<String, Inet4Address> hashToCheck) {
-        Iterator it = hashToCheck.entrySet().iterator();
-        HashMap<String, Inet4Address> tmpHash = new HashMap<>();
-        while (it.hasNext()) {
-            HashMap.Entry pair = (HashMap.Entry) it.next();
-            if (!knownIp.containsKey(pair.getKey())) {
-                knownIp.put((String) pair.getKey(), (Inet4Address) pair.getValue());
-                tmpHash.put((String) pair.getKey(), (Inet4Address) pair.getValue());
-            }
-            it.remove(); // avoids a ConcurrentModificationException
-        }
-        return tmpHash;
     }
     
     /**

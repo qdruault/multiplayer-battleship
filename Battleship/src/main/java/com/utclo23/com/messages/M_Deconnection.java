@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.utclo23.com.messages;
+import com.utclo23.com.KnownIPController;
 import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.PublicUser;
 /**
@@ -24,5 +25,6 @@ public class M_Deconnection extends Message {
     @Override
     public void callback(IDataCom iDataCom){
         iDataCom.removeConnectedUser(user.getLightPublicUser());
+        KnownIPController.getInstance().getHashMap().remove(user.getId());       
     }
 }

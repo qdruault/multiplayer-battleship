@@ -37,6 +37,18 @@ public abstract class Game extends SerializableEntity {
 
     private Player currentPlayer;
 
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public void setSpectators(List<LightPublicUser> spectators) {
+        this.spectators = spectators;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
     public Game(StatGame statGame, List<Player> players, List<LightPublicUser> spectators, List<Message> messages) {
         this.statGame = statGame;
         this.statGame.setRealGame(this);
@@ -132,12 +144,17 @@ public abstract class Game extends SerializableEntity {
         }*/
     }
 
+    
     public Player ennemyOf(Player player) {
         Player ennemy = null;
-        if (player.equals(this.players.get(0))) {
+        
+        if(this.players.size() >= 2){
+        if (player.getLightPublicUser().getId().equals(this.players.get(0).getLightPublicUser().getId())) {
             ennemy = this.players.get(1);
         } else {
             ennemy = this.players.get(0);
+        }
+        
         }
 
         return ennemy;

@@ -69,7 +69,7 @@ public class M_Rouge extends Message {
         
         for(LightPublicUser key : this.usersReceived){
             if(!myUsersProfile.contains(key) && 
-                    !key.equals(iDataCom.getMyPublicUserProfile().getLightPublicUser())){
+                    !key.getId().equals(iDataCom.getMyPublicUserProfile().getLightPublicUser().getId())){
                 newUsersProfile.add(key);
             }
         }

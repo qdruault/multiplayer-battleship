@@ -83,7 +83,7 @@ public class M_Bleu extends Message {
         }
 
         for (LightPublicUser key : this.usersReceived) {
-            if (!key.equals(iDataCom.getMyPublicUserProfile().getLightPublicUser())
+            if (!key.getId().equals(iDataCom.getMyPublicUserProfile().getLightPublicUser().getId())
                     && !myUsersProfile.contains(key)) {
                 newUsersProfile.add(key);
             }
