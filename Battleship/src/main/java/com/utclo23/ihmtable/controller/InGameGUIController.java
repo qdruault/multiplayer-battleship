@@ -857,6 +857,10 @@ public class InGameGUIController {
         retrieveInformationAndSendMessage();
     }
     
+    /**
+     * Retrieve information from the textfield of the chat, clear the textfield 
+     * and send the message to data
+     */
     private void retrieveInformationAndSendMessage() {
         String userName = myPlayer.getLightPublicUser().getPlayerName();
         String text = retrieveAndClearMessage();
@@ -866,6 +870,10 @@ public class InGameGUIController {
         }
     }
     
+    /**
+     * Retrieve the message from the textfield of the chat and clear it
+     * @return Text contained in the textfield of the chat
+     */
     private String retrieveAndClearMessage() {
         String text = null;
         if(!sendcontent.getText().isEmpty()) {
@@ -875,6 +883,12 @@ public class InGameGUIController {
         return text;
     }
     
+    /**
+     * Create a message from the username and the message content, and display it
+     * in the chat
+     * @param userName Name of the player that sends this message
+     * @param msgContent Content of the message that has to be displayed
+     */
     public void printMessageInChat(String userName, String msgContent) {
 
         HBox chatBox = new HBox();
