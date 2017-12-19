@@ -127,6 +127,13 @@
     -fx-text-fill: #ef8d00;
     -fx-font-size: 13pt;
 }
+/* Used for the username in the up right corner */
+#usernameLabel{
+    -fx-font-family: "Space Age";
+    -fx-text-fill: #0ce8f0;
+    -fx-font-size: 14pt; 
+}
+
 /* Used for all other labels (popup messages, etc.) */
 .label{
     -fx-font-family: "Arial";
