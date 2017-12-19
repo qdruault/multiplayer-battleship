@@ -11,14 +11,10 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.Inet4Address;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import java.rmi.server.UID;
 import java.util.ArrayList;
@@ -62,8 +58,6 @@ public class UserMediator {
      * @param dataFacade reference to the facade
      */
     public UserMediator(DataFacade dataFacade) {
-        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Création du mediator");
-
         this.dataFacade = dataFacade;
         this.mapConnectedUser = new HashMap<>();
     }
@@ -233,6 +227,9 @@ public class UserMediator {
 
             //save user in json file
             save();
+            
+            //Disconnect the user
+            this.owner = null;
 
         }
     }
@@ -313,7 +310,7 @@ public class UserMediator {
      *
      * @param username
      * @param password
-     * @throws Exception
+     * @throws DataException
      */
     public void signIn(String username, String password) throws DataException {
 
@@ -411,7 +408,7 @@ public class UserMediator {
             //save into a json file
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            mapper.writeValue(new File(path), owner);
+            mapper.writeValue(new File(path), owner);      
         } catch (Exception e) {
             throw new DataException("Data : error in save process"); //throw related error by using exception of DataModule
         }
@@ -536,7 +533,7 @@ public class UserMediator {
                 save();
 
                 // Create the Inet4Address list
-                List<Inet4Address> ips = new ArrayList<Inet4Address>();
+                List<Inet4Address> ips = new ArrayList<>();
                 for (String stringIp : discoveryNodes) {
 
                     Inet4Address inetIp = (Inet4Address) InetAddress.getByName(stringIp);
@@ -586,18 +583,28 @@ public class UserMediator {
 
         if (this.owner != null) {
 
-            //blank  password
+            //blank playername  
             if (playername.isEmpty()) {
                 throw new DataException("Data : error due to empty playername");
-            }
-            playername = playername.toUpperCase();
+            }            
 
+            String oldPlayerName = this.owner.getUserIdentity().getLightPublicUser().getPlayerName();
             if (!this.getDataFacade().isTestMode()) {
                 this.owner.getUserIdentity().getLightPublicUser().setPlayerName(playername);
             }
-            save();
+            
 
             //remove old profile and add new one
+            //determine the path
+            try{
+                String path = Configuration.SAVE_DIR + File.separator + oldPlayerName + ".json";
+                File f = new File(path);                               
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            
+            save();
+            
             //to check by data module
             ComFacade comFacade = this.dataFacade.getComfacade();
             if (comFacade != null) {
@@ -820,7 +827,7 @@ public class UserMediator {
     public int getNumberAbandons() throws DataException {
         if(this.owner!=null){
         List<StatGame> games = this.getMyOwnerProfile().getPlayedGamesList() ;
-        LightPublicUser user = this.getMyLightPublicUserProfile() ; 
+        //LightPublicUser user = this.getMyLightPublicUserProfile() ; 
         int nbAbandons = 0;
         for (StatGame g : games) {
             if ((g.getWinner() == null) && (g.isGameAbandonned())) {

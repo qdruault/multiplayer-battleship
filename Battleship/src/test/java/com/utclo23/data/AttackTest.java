@@ -5,32 +5,19 @@
  */
 package com.utclo23.data;
 
-import com.utclo23.com.ComFacade;
 import com.utclo23.data.facade.DataFacade;
-import com.utclo23.data.facade.IDataCom;
-import com.utclo23.data.facade.IDataIHMMain;
-import com.utclo23.data.facade.IDataIHMTable;
 import com.utclo23.data.module.DataException;
-import com.utclo23.data.module.GameMediator;
-import com.utclo23.data.structure.ClassicGame;
 import com.utclo23.data.structure.Coordinate;
-import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.GameType;
 import com.utclo23.data.structure.LightPublicUser;
-import com.utclo23.data.structure.Mine;
 import com.utclo23.data.structure.Player;
 import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.ShipType;
-import com.utclo23.data.structure.StatGame;
 import com.utclo23.data.structure.Mine;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.util.Pair;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
 
 /**
  * Test the function attack
@@ -44,13 +31,11 @@ public class AttackTest {
         DataFacade df = new DataFacade();
         df.setTestMode(true);
         try {
-            df.createUser("Xiaodan", "123", "", "", new Date(), "");
-             df.signin("Xiaodan", "123");
-        } catch (Exception e) {
-            e.printStackTrace();
-            df.signin("Xiaodan", "123");
+            df.createUser("Xiaodan", "123", "", "", new Date(), "");        
+        } catch (Exception e) {    
+            e.printStackTrace();       
         }
-         
+         df.signin("Xiaodan", "123");
 
          df.createGame("TestAttack", false, true, true, GameType.CLASSIC);
          
@@ -128,9 +113,10 @@ public class AttackTest {
             df.createUser("Xiaodan", "123", "", "", new Date(), "");
         } catch (Exception e) {
             e.printStackTrace();
-            df.signin("Xiaodan", "123");
+            
         }
-         
+        df.signin("Xiaodan", "123"); 
+        
         df.createGame("TestAttack", false, true, true, GameType.CLASSIC);
          
         //Add another player
@@ -188,10 +174,10 @@ public class AttackTest {
         try {
             df.createUser("Xiaodan", "123", "", "", new Date(), "");
         } catch (Exception e) {
-            e.printStackTrace();
-            df.signin("Xiaodan", "123");
+            e.printStackTrace();            
         }
-         
+        df.signin("Xiaodan", "123");
+        
         df.createGame("TestAttack", false, true, true, GameType.CLASSIC);
          
         //Add another player
