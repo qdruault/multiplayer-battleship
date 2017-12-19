@@ -42,6 +42,24 @@ public class Caretaker extends SerializableEntity{
     {
         this.mementoList.add(mem);
     }
+
+    public List<Memento> getMementoList() {
+        return mementoList;
+    }
+
+    public void setMementoList(List<Memento> mementoList) {
+        this.mementoList = mementoList;
+    }
+
+    public int getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(int current) {
+        this.current = current;
+    }
+    
+    
     
     /**
      * get memento

@@ -79,13 +79,19 @@ public class ComFacade {
     /**
      * Called to send "log out" notification to everybody.
      */
-    public void notifyUserSignedOut() {
+    public void notifyUserSignedOut(){
         M_Deconnection mDeconnection = new M_Deconnection(iDataCom.getMyPublicUserProfile());
         for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
             if (ip != null) {
                 Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), mDeconnection);
                 new Thread(os).start();
             }
+        }
+        KnownIPController.getInstance().getHashMap().clear();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ComFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -112,6 +118,7 @@ public class ComFacade {
      */
     public void notifyNewCoordinates(Mine mine, List<LightPublicUser> recipients) {             
         M_PlaceMine mPlaceMine = new M_PlaceMine(iDataCom.getMyPublicUserProfile(), mine);
+        System.out.println("recipients notify: " + recipients.size());
         for (LightPublicUser recipient : recipients) {      
             System.out.println("notifyNewCoordinates +" + recipient.getPlayerName());
             if (kIpCtrl.getHashMap().get(recipient.getId()) != null) {
@@ -120,12 +127,12 @@ public class ComFacade {
             }
         }
     }
-        /**
-         * Called to notify everybody of the creation of a new game to update
-         * all users Data's module.
-         *
-         * @param game is the new created game
-         */
+    /**
+     * Called to notify everybody of the creation of a new game to update
+     * all users Data's module.
+     *
+     * @param game is the new created game
+     */
     public void notifyNewGame(StatGame game) {
         M_CreationGame mCreationGame = new M_CreationGame(iDataCom.getMyPublicUserProfile(), game);
         for (Inet4Address ip : kIpCtrl.getHashMap().values()) {

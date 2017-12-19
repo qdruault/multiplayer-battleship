@@ -21,7 +21,7 @@ public interface IDataIHMTable {
     public List<Ship> getTemplateShips() throws DataException;
     public void setShip(Ship ship) throws DataException;
     
-    public Pair<Integer, Ship> attack(Coordinate coords, boolean isAttack);
+    public Pair<Integer, Ship> attack(Coordinate coords, boolean isAttack, Player playerWhoPutTheMine);
     public void leaveGame();
 
     public List<Ship> getInitialBoardFromGameId(String gameid);

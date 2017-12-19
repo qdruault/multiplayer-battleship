@@ -48,7 +48,7 @@ public class Sender implements Runnable {
             KnownIPController kIpCtrl = KnownIPController.getInstance();
             socket = new Socket();
             socket.setSoTimeout(2000);
-            socket.connect(new InetSocketAddress(ip, port), 2000);
+            socket.connect(new InetSocketAddress(ip, port), kIpCtrl.getPort());
             out = new ObjectOutputStream(socket.getOutputStream());
             request.setIpSender(kIpCtrl.getMyInetAddress());
             out.writeObject(request);

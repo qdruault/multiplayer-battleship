@@ -263,6 +263,7 @@ public class PlayerProfileController extends AbstractController{
     public void refresh(){
         if (!isOther){
             try{
+                enableButtons();
                 me = getFacade().iDataIHMMain.getMyPublicUserProfile();
                 getAvatar(me);
                 image.setImage(avatarImage);
