@@ -175,7 +175,7 @@ public class GameMediator {
             //last ship
             if (this.currentGame.getTemplateShips().size() == player.getShips().size()) {
                 if (this.dataFacade.getComfacade() != null) {
-                    this.dataFacade.getComfacade().sendShipsToEnnemy(player.getShips(), this.currentGame.getRecipients());
+                    this.dataFacade.getComfacade().sendShipsToEnnemy(player.getShips(), this.currentGame.getRecipients(player.getLightPublicUser().getId()));
                     checkPlayersReady();
                 }
             }
@@ -296,7 +296,7 @@ public class GameMediator {
                 pairReturn = this.currentGame.attack(player, coordinate, isTrueAttack);
 
                 // Forward to other players.
-                dataFacade.getComfacade().notifyNewCoordinates(new Mine(player, coordinate), currentGame.getRecipients());
+                dataFacade.getComfacade().notifyNewCoordinates(new Mine(player, coordinate), currentGame.getRecipients(player.getLightPublicUser().getId()));
 
                 //save with caretaker
                 if (!this.currentGame.isSave()) {
@@ -352,6 +352,7 @@ public class GameMediator {
                 //Test if this game is finished
                 //If this game is finished, leave the game
                 if (this.currentGame.getStatGame().getWinner() != null) {
+                    System.out.println("leave game");
                     this.leaveGame();
                 }
             }
@@ -382,9 +383,10 @@ public class GameMediator {
             System.out.println("current game is null");
         }
 
-        if (this.currentGame.getId().compareTo(id) == 0) {
+        if (this.currentGame.getId().equals(id)) {
 
             System.out.println("add Urole " + role);
+            if(this.currentGame.getPlayers().size() < 2 && role.equals("player")){
             this.getCurrentGame().addUser(user, role);
 
             if (this.dataFacade.getComfacade() != null) {
@@ -393,10 +395,18 @@ public class GameMediator {
                 this.dataFacade.getComfacade().joinGameResponse(true, user.getId(), this.currentGame.getStatGame());
 
             }
+            }
+            else
+            {
+                 this.dataFacade.getComfacade().joinGameResponse(false, id, null);
+            }
         } else {
 
             this.dataFacade.getComfacade().joinGameResponse(false, id, null);
         }
+        
+        
+         System.out.println("nombre de joueurs " + this.currentGame.getPlayers().size());
     }
 
     public void gameConnectionRequestGame(String id, String role) {
@@ -434,7 +444,7 @@ public class GameMediator {
             }
         }
 
-        Message msg = new Message(sender, text, this.currentGame.getRecipients());
+        Message msg = new Message(sender, text, this.currentGame.getRecipients(sender.getId()));
         ComFacade comFacade = this.dataFacade.getComfacade();
         if (comFacade != null) {
             comFacade.notifyNewMessage(msg);
