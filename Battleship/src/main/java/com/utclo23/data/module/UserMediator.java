@@ -384,6 +384,7 @@ public class UserMediator {
             if (comFacade != null) {
                 if (this.owner != null) {
                     comFacade.notifyUserSignedOut();
+                    this.getConnectedUsers().clear();
                 }
             }
 

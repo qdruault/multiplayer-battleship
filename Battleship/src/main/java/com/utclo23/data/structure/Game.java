@@ -134,10 +134,14 @@ public abstract class Game extends SerializableEntity {
 
     public Player ennemyOf(Player player) {
         Player ennemy = null;
+        
+        if(this.players.size() >= 2){
         if (player.getLightPublicUser().getId().equals(this.players.get(0).getLightPublicUser().getId())) {
             ennemy = this.players.get(1);
         } else {
             ennemy = this.players.get(0);
+        }
+        
         }
 
         return ennemy;
