@@ -309,7 +309,7 @@ public class GameMediator {
                     if (this.currentGame.isComputerGame()) {
                         //attack
 
-                        Mine m = this.currentGame.getComputerPlayer().randomMine();
+                        Mine m = this.currentGame.getComputerPlayer().randomMine(player.getShips(), this.currentGame);
                         this.forwardCoordinates(m);
 
                         boolean check = false;
@@ -320,7 +320,7 @@ public class GameMediator {
                                 check = true;
 
                                 if (this.currentGame.isShipDestroyed(ship, this.currentGame.getComputerPlayer().getMines())) {
-                                    this.currentGame.getComputerPlayer().loseFocus();
+                                    this.currentGame.getComputerPlayer().loseFocus(ship);
                                     System.out.println("DATA  TOTAL FOCUS LOST");
 
                                 } else {
