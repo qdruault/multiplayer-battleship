@@ -130,11 +130,11 @@ public class IpListController extends AbstractController{
                 // Update the list in the GUI
                 ipList.setItems(data);
             }else{
-                // TODO : open a pop up with the message : "This IP address already exists"
+                showErrorPopup("Error","This IP address already exists.", "");
             }
 
         } catch (UnknownHostException e){
-            // TODO : open a pop up with the message : "This IP address have a wrong format"
+            showErrorPopup("Error","This IP address has aN incorrect format.", "(" + e.getMessage() + ")");
         }
     }
     

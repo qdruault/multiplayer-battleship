@@ -14,8 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-
+import javafx.scene.control.ListView;
 /**
  * Controller of the network interface selection.
  * @author Louis
@@ -23,11 +22,17 @@ import javafx.scene.control.ComboBox;
 public class NetworkInterfaceChoiceController extends AbstractController {
     
     @FXML
-    ComboBox comboBox;
+    ListView listNetworks;
+    
+    @FXML
+    private void exit(ActionEvent event){
+        System.exit(0);
+    }
         
     @Override
     public void start(){
         lookForInterface();
+        listNetworks.getSelectionModel().select(0);
     }
     
     private void lookForInterface(){
@@ -36,7 +41,7 @@ public class NetworkInterfaceChoiceController extends AbstractController {
             while (interfaces.hasMoreElements()) {
                 NetworkInterface iface = interfaces.nextElement();
                 if (isValid(iface)){
-                    comboBox.getItems().add(iface);
+                    listNetworks.getItems().add(iface.getName());
                 }
             }
         } catch (SocketException e) {
@@ -47,7 +52,21 @@ public class NetworkInterfaceChoiceController extends AbstractController {
     @FXML 
     private void handleButtonValidate(ActionEvent event) throws Exception{
         Inet4Address usedIf;
-        NetworkInterface chosenIf = (NetworkInterface)comboBox.getValue(); 
+        String networkName = (String)listNetworks.getSelectionModel().getSelectedItem();
+        NetworkInterface chosenIf = NetworkInterface.getNetworkInterfaces().nextElement();
+        try {
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            while (interfaces.hasMoreElements()) {
+                NetworkInterface iface = interfaces.nextElement();
+                if (iface.getName().equals(networkName)){
+                    chosenIf = iface;
+                }
+            }
+        } catch (SocketException e) {
+            throw new RuntimeException(e);
+        }
+        
+        
         for(InterfaceAddress ifAddr : chosenIf.getInterfaceAddresses()){
             try{
                 usedIf = (Inet4Address) ifAddr.getAddress();

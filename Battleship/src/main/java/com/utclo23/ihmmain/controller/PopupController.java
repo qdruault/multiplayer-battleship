@@ -56,7 +56,7 @@ public class PopupController extends AbstractController{
                         );
             } 
         }
-        if(textnull == false){
+        if(!textnull){
             getIhmmain().controllerMap.get(SceneName.PLAYER_PROFILE.toString()).refresh();
             ((Node) (event.getSource())).getScene().getWindow().hide();
         }

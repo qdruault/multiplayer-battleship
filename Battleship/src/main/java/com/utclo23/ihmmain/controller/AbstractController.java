@@ -78,7 +78,15 @@ public class AbstractController {
      * @param message
      */
     public void showErrorPopup(String title, String header, String message){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        showPopup(title, header, message, Alert.AlertType.ERROR);
+    }
+    
+    public void showSuccessPopup(String title, String header, String message){
+        showPopup(title, header, message, Alert.AlertType.INFORMATION);
+    }
+    
+    public void showPopup(String title, String header, String message, Alert.AlertType type){
+        Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(message);
@@ -87,8 +95,7 @@ public class AbstractController {
         dialogPane.getStylesheets().add(getClass().getResource("/styles/ihmmain.css").toExternalForm());
         alert.showAndWait();
     }
-    
-    // TODO Check if the code works after disconnection
+
     protected Image retrievePlayerAvatar(){
         if (playerAvatar == null){
             byte[] thumbnail = getFacade().iDataIHMMain.getMyPublicUserProfile().getLightPublicUser().getAvatarThumbnail();
@@ -103,5 +110,10 @@ public class AbstractController {
             playerUsername = getFacade().iDataIHMMain.getMyPublicUserProfile().getPlayerName();
         } 
         return playerUsername;
+    }
+    
+    protected void cleanPlayerAvatar(){
+        playerAvatar = null;
+        playerUsername = null;
     }
 }

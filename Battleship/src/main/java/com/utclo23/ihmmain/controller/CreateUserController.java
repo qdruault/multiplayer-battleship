@@ -52,7 +52,7 @@ public class CreateUserController extends AbstractController{
     @FXML 
     private DatePicker birthDateField;
     
-    
+    private String emptyFields;
     // BUTTON HANDLERS
     
     /**
@@ -74,6 +74,9 @@ public class CreateUserController extends AbstractController{
             String lastName = lastNameField.getText();
             Date birthDate = Date.from(birthDateField.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
             createUser(userName, password, firstName, lastName, birthDate, avatarPath);
+        } else {
+            // Show popup error
+            showErrorPopup("Error", "Some required fields aren't filled", "Empty fields : " + emptyFields);
         }
     }
     /**
@@ -135,7 +138,7 @@ public class CreateUserController extends AbstractController{
                 Level.INFO,  "createUser method called.");
         try{
             getFacade().iDataIHMMain.createUser(userName, password, firstName, lastName, birthDate, avatarPath);
-            showErrorPopup("Success", "Your account was successfully created", "Back to the login screen.");
+            showSuccessPopup("Success", "Your account was successfully created", "Back to the login screen.");
             back();
         } catch(Exception e){
             showErrorPopup("Error", "We're sorry, but an error occured", e.getMessage());
@@ -151,25 +154,32 @@ public class CreateUserController extends AbstractController{
      */
     private boolean isAnyFieldEmpty(){
         
+        emptyFields = "";
         boolean fieldEmpty = false;
         
         if (isFieldEmpty(userNameField)){
             fieldEmpty = true;
+            emptyFields += "user name, ";
         }
         if (isFieldEmpty(passwordField)){
             fieldEmpty = true;
+            emptyFields += "password, ";
         }
         if (isFieldEmpty(firstNameField)){
             fieldEmpty = true;
+            emptyFields += "first name, ";
         }
         if (isFieldEmpty(lastNameField)){
             fieldEmpty = true;
+            emptyFields += "last name, ";
         }
         if (birthDateField.getValue() == null){
             fieldEmpty = true;
+            emptyFields += "date of birth, ";
         }
         if (avatarPath == null){
             fieldEmpty = true;
+            emptyFields += "avatar image";
         }
         
         return fieldEmpty;
