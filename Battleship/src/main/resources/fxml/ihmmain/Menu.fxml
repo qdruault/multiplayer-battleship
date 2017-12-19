@@ -63,7 +63,7 @@
                                 <Tooltip text="Click to see the list of connected users." />
                             </tooltip>
                         </Button>
-                        <Button fx:id="savedGameButton" alignment="CENTER" onAction="#toSavedGames" text="Watch Replys" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                        <Button fx:id="savedGameButton" maxWidth="Infinity" alignment="CENTER" onAction="#toSavedGames" text="Watch Replays" GridPane.halignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                             <tooltip>
                                 <Tooltip text="Click to see the list of connected users." />
                             </tooltip>
