@@ -66,7 +66,6 @@ public class IHMMainFacade implements IHMMainToIhmTable, IHMMainToData{
     @Override
     public void recievePublicUserProfile(PublicUser player) throws IOException {
        PlayerProfileController controller =(PlayerProfileController)ihmmain.controllerMap.get(SceneName.PLAYER_PROFILE.toString());
-       controller.recievePublicUser(player);
     }
 
     @Override

@@ -12,7 +12,9 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -211,75 +213,6 @@ public class PlayerProfileController extends AbstractController{
         popup.show();
     } 
     /**
-     * This method is for receiving the profile of other player asked by user.
-     * @param player: profile sent by Data for us to display
-     * @throws IOException 
-     */
-    public void recievePublicUser(PublicUser player) throws IOException{
-        if(isRunning()){
-            isLoading = false;
-            other = player;
-        }
-    }
-    /**
-     * This method is for waiting the profile.
-     * As soon as receive the profile sent by Data, skip the loading and refresh the page.
-     * @throws IOException 
-     */
-    public void loading() throws IOException{
-        isLoading = true;
-        if (isLoading){
-            //change the cursor
-            getIhmmain().primaryStage.getScene().setCursor(Cursor.WAIT);
-            
-            //create a wait task, check every 0.5s if the loading is finished, finish the waiting
-            Task<Void> wait;
-            wait = new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    try {
-                        while(isLoading){
-                            Logger.getLogger(
-                                    PlayerProfileController.class.getName()).log(
-                                            Level.INFO, "Waiting."
-                                    );
-                            Thread.sleep(500);
-                        }
-                    } catch (InterruptedException e) {
-                    }
-                    return null;
-                }
-            };
-            //if loading succed, call the refresh();
-            wait.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-                @Override
-                public void handle(WorkerStateEvent event) {
-                    isOther = true;
-                    try {
-                        getIhmmain().primaryStage.getScene().setCursor(Cursor.DEFAULT);
-                        getIhmmain().toPlayerProfile();
-                    } catch (IOException ex) {
-                        Logger.getLogger(
-                                PlayerProfileController.class.getName()).log(
-                                        Level.SEVERE, null, ex);
-                    }
-                }
-            });
-            //if loading failed
-            wait.setOnFailed(new EventHandler<WorkerStateEvent>() {
-                @Override
-                public void handle(WorkerStateEvent t){
-                    Logger.getLogger(
-                            PlayerProfileController.class.getName()).log(
-                                    Level.INFO,
-                                    "Loading task failed : {0}", t.toString()
-                            );
-                }
-            });
-            new Thread(wait).start();
-        }
-    }
-    /**
      * Get player's avatar
      * @param player:user self or other player
      */
@@ -296,12 +229,21 @@ public class PlayerProfileController extends AbstractController{
        }
        
     }
-    public void drawPieChart(PieChart chart){
+    public List<Integer> statTotal() throws DataException{
+        List<Integer> data = new ArrayList<>();
+        data.add(getFacade().iDataIHMMain.getNumberVictories());
+        data.add(getFacade().iDataIHMMain.getNumberDefeats());
+        data.add(getFacade().iDataIHMMain.getNumberAbandons());
+        return data;
+    }
+    public void drawPieChart(PieChart chart) throws DataException{
+        List<Integer> data = new ArrayList<>();
+        data = statTotal();
         //to do: get data from interface Data
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList( 
-        new PieChart.Data("Win", 15), 
-        new PieChart.Data("Loss", 5), 
-        new PieChart.Data("Abandonned", 0)
+        new PieChart.Data("Win", data.get(0)), 
+        new PieChart.Data("Loss", data.get(1)), 
+        new PieChart.Data("Abandonned", data.get(2))
         );
         chart.setData(pieChartData);
     }
@@ -329,8 +271,8 @@ public class PlayerProfileController extends AbstractController{
                 lastNameText.setText(me.getLastName());
                 birthdayText.setText(formatter.format(me.getBirthDate()));
                 drawPieChart(allMode);
-                drawPieChart(classical);
-                drawPieChart(belge);
+                //drawPieChart(classical);
+                //drawPieChart(belge);
             }
             catch(NullPointerException e){
                 e.printStackTrace();
@@ -339,6 +281,8 @@ public class PlayerProfileController extends AbstractController{
                                 Level.INFO,
                                 "[PlayerProfile] error - my profile is null."
                         );
+            } catch (DataException ex) {
+                Logger.getLogger(PlayerProfileController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         else{
