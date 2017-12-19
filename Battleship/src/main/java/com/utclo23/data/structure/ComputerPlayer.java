@@ -6,10 +6,8 @@
 package com.utclo23.data.structure;
 
 import com.utclo23.data.configuration.Configuration;
-import java.rmi.server.UID;
 import java.util.List;
 import java.util.Random;
-import javafx.util.Pair;
 
 /**
  *

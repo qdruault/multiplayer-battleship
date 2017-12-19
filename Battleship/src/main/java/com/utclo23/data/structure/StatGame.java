@@ -133,7 +133,7 @@ public class StatGame extends SerializableEntity{
         this.name = name;
         this.spectator = spectator;
         this.spectatorChat = spectatorChat;
-        this.players = new ArrayList<>();;
+        this.players = new ArrayList<>();
         this.winner = null;
         this.creator = creator;
  

@@ -25,8 +25,7 @@ public class Caretaker extends SerializableEntity{
     private int current;
 
     /**
-     * constructor
-     * @param mementoList 
+     * constructor 
      */
     public Caretaker() {
         this.mementoList = new ArrayList<>();

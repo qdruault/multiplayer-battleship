@@ -14,8 +14,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javafx.util.Pair;
@@ -315,7 +313,7 @@ public abstract class Game extends SerializableEntity {
         //reset
         this.messages.clear();
         for (Player p : players) {
-            p.getMines().clear();;
+            p.getMines().clear();
         }
 
         List<Event> events = memento.getState();

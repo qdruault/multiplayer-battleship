@@ -5,7 +5,6 @@
  */
 package com.utclo23.data.structure;
 
-import java.util.Comparator;
 import java.util.Date;
 
 /**

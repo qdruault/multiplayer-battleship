@@ -11,14 +11,10 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.Inet4Address;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import java.rmi.server.UID;
 import java.util.ArrayList;
@@ -107,6 +103,7 @@ public class UserMediator {
 
     /**
      * set facade
+     * @param dataFacade
      */
     public void setDataFacade(DataFacade dataFacade) {
         this.dataFacade = dataFacade;
@@ -313,7 +310,7 @@ public class UserMediator {
      *
      * @param username
      * @param password
-     * @throws Exception
+     * @throws com.utclo23.data.module.DataException
      */
     public void signIn(String username, String password) throws DataException {
 
@@ -376,6 +373,7 @@ public class UserMediator {
 
     /**
      * disconnection
+     * @throws com.utclo23.data.module.DataException
      */
     public void signOut() throws DataException {
         if (this.owner != null) {
@@ -536,7 +534,7 @@ public class UserMediator {
                 save();
 
                 // Create the Inet4Address list
-                List<Inet4Address> ips = new ArrayList<Inet4Address>();
+                List<Inet4Address> ips = new ArrayList<>();
                 for (String stringIp : discoveryNodes) {
 
                     Inet4Address inetIp = (Inet4Address) InetAddress.getByName(stringIp);

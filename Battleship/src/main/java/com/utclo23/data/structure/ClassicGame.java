@@ -28,9 +28,10 @@ public class ClassicGame extends Game{
      * @return 
      */
     
+    @Override
     public  List<Ship> getTemplateShips()
     {
-        List<Ship> ships = new ArrayList<Ship>();
+        List<Ship> ships = new ArrayList<>();
         ships.add(new Ship(ShipType.CARRIER, 5));
         ships.add(new Ship(ShipType.BATTLESHIP, 4));
         ships.add(new Ship(ShipType.CRUISER, 3));

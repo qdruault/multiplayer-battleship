@@ -78,7 +78,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     /**
      * Set the test mode
      *
-     * @param boolean the value to set to testMode parameter
+     * @param testMode if test mode or not
      */
     public void setTestMode(boolean testMode) {
         this.testMode = testMode;
@@ -391,6 +391,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      *
      * @return my owner profile
      */
+    @Override
     public Owner getMyOwnerProfile() {
 
         return this.userMediator.getMyOwnerProfile();
@@ -418,6 +419,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @param user the new user who has joined
      * @param id id of the stat game
      * @param role role of the new user
+     * @throws com.utclo23.data.module.DataException
      */
     @Override
     public void updateGameList(LightPublicUser user, String id, String role) throws DataException {
@@ -429,6 +431,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * Get ships to place
      *
      * @return the list of ships to place
+     * @throws com.utclo23.data.module.DataException
      *
      */
     @Override
@@ -446,8 +449,10 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * Set a given ship
      *
      * @param ship the ship to set
+     * @throws com.utclo23.data.module.DataException
      *
      */
+    @Override
     public void setShip(Ship ship) throws DataException {
         Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | set ship");
     
@@ -459,8 +464,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * Attack a given location
      *
      * @param coords the location to attack
-     * @param isTrueAttack true = this is a true attack ; false = this is just a
-     * test
+     * @param isAttack
      * @return Pair<Integer, Ship>
      * Integer = 0 if the mine is not in a right place ; Integer = 1 if the mine
      * is in the place of a ship. Ship = null if the ship isn't destroyed ; ship
@@ -573,7 +577,6 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * Get a user profile
      *
      * @param id the id of the user to get his profile
-     * @return the public user
      *
      */
     @Override
@@ -596,9 +599,12 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * Create a game
      *
      * @param name the name of the game created
+     * @param computerMode mode of game is computer
      * @param spectator are spectators allowed or not
      * @param spectatorChat are spectators allowed to chat or not
      * @param type type of the game created
+     * @return 
+     * @throws com.utclo23.data.module.DataException
      */
     @Override
     public Game createGame(String name, boolean computerMode, boolean spectator, boolean spectatorChat, GameType type) throws DataException {
@@ -666,6 +672,11 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         this.userMediator.setIPDiscovery(discoveryNodes);
     }
 
+    /**
+     *
+     * @param profile
+     */
+    @Override
     public void receivePublicUserProfile(PublicUser profile) {
         try {
             this.ihmMainFacade.recievePublicUserProfile(profile);

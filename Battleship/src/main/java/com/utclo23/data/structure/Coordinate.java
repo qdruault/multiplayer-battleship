@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package com.utclo23.data.structure;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

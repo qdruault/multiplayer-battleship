@@ -6,7 +6,6 @@
 package com.utclo23.data.structure;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.rmi.server.UID;
 import java.util.Date;
 
 /**

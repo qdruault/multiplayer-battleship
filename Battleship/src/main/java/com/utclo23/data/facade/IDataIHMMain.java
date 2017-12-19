@@ -8,7 +8,6 @@ package com.utclo23.data.facade;
 import com.utclo23.data.module.DataException;
 import com.utclo23.data.structure.*;
 import java.net.InterfaceAddress;
-import java.rmi.server.UID;
 import java.util.List;
 import java.util.Date;
 

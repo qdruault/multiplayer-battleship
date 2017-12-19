@@ -1,9 +1,7 @@
 package com.utclo23.data.module;
 
 import com.utclo23.com.ComFacade;
-import com.utclo23.data.configuration.Configuration;
 import com.utclo23.data.facade.DataFacade;
-import com.utclo23.data.structure.ComputerPlayer;
 import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.Event;
 import com.utclo23.data.structure.Game;
@@ -44,6 +42,7 @@ public class GameMediator {
 
     /**
      * Constructor
+     * @param dataFacade
      */
     public GameMediator(DataFacade dataFacade) {
 
@@ -68,9 +67,12 @@ public class GameMediator {
      * Create a game
      *
      * @param name
+     * @param computerMode if the game is played with computer
      * @param spectator
      * @param spectatorChat
      * @param type
+     * @return 
+     * @throws com.utclo23.data.module.DataException
      */
     public Game createGame(String name, boolean computerMode, boolean spectator, boolean spectatorChat, GameType type) throws DataException {
         //empty game name
@@ -106,7 +108,7 @@ public class GameMediator {
     /**
      * add a new game
      *
-     * @param game
+     * @param statgame state of new game
      */
     public void addNewGame(StatGame statgame) {
         if (!this.gamesMap.containsKey(statgame.getId())) {
@@ -264,6 +266,8 @@ public class GameMediator {
      * @param isTrueAttack
      * @return
      * @throws DataException
+     * @throws java.io.IOException
+     * @throws java.lang.ClassNotFoundException
      */
     public Pair<Integer, Ship> attack(Coordinate coordinate, boolean isTrueAttack) throws DataException, IOException, ClassNotFoundException {
 
@@ -371,6 +375,7 @@ public class GameMediator {
      * @param user the new user who has joined
      * @param id id of the stat game
      * @param role role of the new user
+     * @throws com.utclo23.data.module.DataException
      */
     public void updateGameList(LightPublicUser user, String id, String role) throws DataException {
         System.out.println("id " + id);
@@ -557,6 +562,7 @@ public class GameMediator {
 
     /**
      * Win if the game has no winner yet.
+     * @throws com.utclo23.data.module.DataException
      */
     public void defWin() throws DataException {
         if (this.currentGame == null) {

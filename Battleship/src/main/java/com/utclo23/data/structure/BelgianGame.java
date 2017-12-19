@@ -27,8 +27,9 @@ public class BelgianGame extends Game {
      * get templates of ships for belgian game
      * @return 
      */
+    @Override
     public List<Ship> getTemplateShips() {
-        List<Ship> ships = new ArrayList<Ship>();
+        List<Ship> ships = new ArrayList<>();
 
         ships.add(new Ship(ShipType.BATTLESHIP, 4));
         
