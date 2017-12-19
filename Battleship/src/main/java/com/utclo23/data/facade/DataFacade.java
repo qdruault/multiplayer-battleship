@@ -18,6 +18,7 @@ import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.data.structure.Message;
 import com.utclo23.data.structure.Mine;
 import com.utclo23.data.structure.Owner;
+import com.utclo23.data.structure.Player;
 import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.StatGame;
@@ -95,9 +96,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     /**
      * Constructor
      */
-    public DataFacade() {
-        System.out.println(this.getClass() + " Creation de la facade");
-
+    public DataFacade() {        
         /**
          * Construction of mediators by giving them a reference to this facade
          */
@@ -392,7 +391,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @return my owner profile
      */
     public Owner getMyOwnerProfile() {
-
+        
         return this.userMediator.getMyOwnerProfile();
 
     }
@@ -402,6 +401,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      *
      * @return my public profile
      */
+    
     @Override
     public PublicUser getMyPublicUserProfile() {
         try {
@@ -468,7 +468,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      *
      */
     @Override
-    public Pair<Integer, Ship> attack(Coordinate coords, boolean isAttack) {
+    public Pair<Integer, Ship> attack(Coordinate coords, boolean isAttack, Player playerWhoPutTheMine) {
         if(isAttack)
         {
             System.out.println("datafacade | attack "+coords.getX()+"-"+coords.getY());
@@ -476,10 +476,10 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         }
         
         try {
-            Pair<Integer, Ship> pairReturn = this.gameMediator.attack(coords, isAttack);
-            if(this.getComfacade() != null){
-                this.getComfacade().notifyNewCoordinates(this.gameMediator.getCurrentGame().getRecentMine(coords), this.gameMediator.getCurrentGame().getRecipients());
-            }
+
+            Pair<Integer, Ship> pairReturn = this.gameMediator.attack(coords, isAttack, playerWhoPutTheMine);
+            
+
             return pairReturn;
         } catch (Exception ex) {
             ex.printStackTrace();

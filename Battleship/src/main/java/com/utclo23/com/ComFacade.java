@@ -87,6 +87,7 @@ public class ComFacade {
                 new Thread(os).start();
             }
         }
+        KnownIPController.getInstance().getHashMap().clear();
     }
 
     /**
@@ -110,25 +111,23 @@ public class ComFacade {
      * @param mine is the new placed mine
      * @param recipients are the recipients of the new mine
      */
-    public void notifyNewCoordinates(Mine mine, List<LightPublicUser> recipients) {
-        
-        
+    public void notifyNewCoordinates(Mine mine, List<LightPublicUser> recipients) {             
         M_PlaceMine mPlaceMine = new M_PlaceMine(iDataCom.getMyPublicUserProfile(), mine);
-        for (LightPublicUser recipient : recipients) {
-           
+        System.out.println("recipients notify: " + recipients.size());
+        for (LightPublicUser recipient : recipients) {      
+            System.out.println("notifyNewCoordinates +" + recipient.getPlayerName());
             if (kIpCtrl.getHashMap().get(recipient.getId()) != null) {
                 Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), mPlaceMine);
-
                 new Thread(os).start();
             }
         }
     }
-        /**
-         * Called to notify everybody of the creation of a new game to update
-         * all users Data's module.
-         *
-         * @param game is the new created game
-         */
+    /**
+     * Called to notify everybody of the creation of a new game to update
+     * all users Data's module.
+     *
+     * @param game is the new created game
+     */
     public void notifyNewGame(StatGame game) {
         M_CreationGame mCreationGame = new M_CreationGame(iDataCom.getMyPublicUserProfile(), game);
         for (Inet4Address ip : kIpCtrl.getHashMap().values()) {

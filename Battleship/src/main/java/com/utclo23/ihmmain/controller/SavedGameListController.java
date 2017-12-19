@@ -6,7 +6,6 @@
 package com.utclo23.ihmmain.controller;
 
 import com.utclo23.data.structure.Game;
-import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.ihmmain.beans.StatGameBean;
 import java.io.IOException;
@@ -19,11 +18,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -38,6 +39,11 @@ public class SavedGameListController extends AbstractController{
     private Button watchButton;
     @FXML
     private ScrollPane gameListPane;
+    @FXML
+    private ImageView avatarImageView;
+    @FXML
+    private Label playerUsernameLabel;
+    
     private StatGameBean selectedGame;
     private TableView<StatGameBean> gameList;
     
@@ -53,6 +59,8 @@ public class SavedGameListController extends AbstractController{
         enableAllButtons();
         gameListPane.setFitToWidth(true);
         gameListPane.setFitToHeight(true);
+        avatarImageView.setImage(super.retrievePlayerAvatar());
+        playerUsernameLabel.setText(super.retrievePlayerUsername());
         refresh();
     }
 
@@ -124,14 +132,6 @@ public class SavedGameListController extends AbstractController{
                 for(Game game : savedGameList){
                     StatGame stat = game.getStatGame(); 
                     newGameList.add(new StatGameBean(stat));
-                }
-                if(savedGameList.isEmpty()){
-                    PublicUser me = getFacade().iDataIHMMain.getMyPublicUserProfile();
-                    StatGame fake = new StatGame();
-                    fake.setWinner(me.getLightPublicUser());
-                    fake.setName("Fake");
-                    fake.setId("111111");
-                    newGameList.add(new StatGameBean(fake));
                 }
             }catch(Exception e){
                 e.printStackTrace();

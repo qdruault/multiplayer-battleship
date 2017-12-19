@@ -454,7 +454,15 @@ public class InGameGUIController {
     * Function for switch different pane in starting turn for the current player
     */
     public void switchOpponnentPane() {
-        readyToAttack = !readyToAttack;
+        if (readyToAttack == true) {
+            System.out.println("A lui de jouer");
+            readyToAttack = false;
+        }
+        else {
+            System.out.println("A moi de jouer");
+            readyToAttack = true;
+        }
+        System.out.println("switchOpponnentPane : rdyToAttack : "  + readyToAttack);
         if (readyToAttack) {
             // We can now hover the opponent panes.
             for (Pane opponentPane : opponentPanes) {
@@ -579,6 +587,8 @@ public class InGameGUIController {
         if (gameStarted && readyToAttack) {
             // Only if a cell has been aimed.
             if (cellToAttack != null) {
+                System.out.println("onClickFire : rdyToAttack : "  + readyToAttack);
+
                 // Remove the highlight on the cell.
                 clickedPane.getStyleClass().removeAll("inGameGUI_selected_cell");
                 // Attack!
@@ -587,7 +597,7 @@ public class InGameGUIController {
                     // (the better would be for data to have the boolean information
                     // in a Mine returned with attack)
 
-                    Pair<Integer, Ship> fireResult = facade.getFacadeData().attack(cellToAttack, true);
+                    Pair<Integer, Ship> fireResult = facade.getFacadeData().attack(cellToAttack, true, this.myPlayer);
                     placeMine(cellToAttack, myPlayer);
 
                     // Update stats pannel
@@ -679,7 +689,7 @@ public class InGameGUIController {
         Node hitCell = getNodeByRowColumnIndex(coord.getY(), coord.getX(), grid);
         hitCell.setDisable(true);
 
-        Pair<Integer, Ship> attack_result = facade.getFacadeData().attack(coord, false);
+        Pair<Integer, Ship> attack_result = facade.getFacadeData().attack(coord, false, player);
         // TODO: Voir si il faut demander à data une méthode "attack" neutralisée,
         // on a besoin de pouvoir tester si une mine placée à un endroit provoque
         // une explosion sans aucun autre effet (ou dire à data de tester si le joueur
@@ -894,7 +904,7 @@ public class InGameGUIController {
                             facade.getFacadeData().leaveGame();
                         } else {
                             // Fake an attack.
-                            facade.getFacadeData().attack(new Coordinate(-1, -1), true);
+                            facade.getFacadeData().attack(new Coordinate(-1, -1), true, null);
 
                             // Increase the number of turns passed.
                             nbPassedTurns++;
@@ -1241,7 +1251,13 @@ public class InGameGUIController {
      * @param destroyedShip : the destroyed ship or null.
      */
     public void displayOpponentAttack(Coordinate coord, boolean touched, Ship destroyedShip) {
-        System.out.println("displayOpponentAttack");
+        System.out.println("displayOpponentAttack : rdyToAttack : "  + readyToAttack);
+        
+        // Return in case of fake attack
+        if (coord.getX() < 0 || coord.getY() < 0) { 
+            return;
+        }
+        
         // Get the cell.
         Node cell = getNodeByRowColumnIndex(coord.getY(), coord.getX(), playerGrid);
         // The opponent has touched my ship.

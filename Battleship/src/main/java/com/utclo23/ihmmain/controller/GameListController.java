@@ -8,7 +8,6 @@ package com.utclo23.ihmmain.controller;
 import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.data.structure.Player;
-import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.StatGame;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,6 +29,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
@@ -54,6 +54,10 @@ public class GameListController extends AbstractController{
 
     @FXML
     private ScrollPane gameListPane;
+    @FXML
+    private ImageView avatarImageView;
+    @FXML
+    private Label playerUsernameLabel;
     
     private StatGame selectedGame;
     private TableView<StatGame> gameList;
@@ -72,6 +76,8 @@ public class GameListController extends AbstractController{
         enableAllButtons();
         gameListPane.setFitToWidth(true);
         gameListPane.setFitToHeight(true);
+        avatarImageView.setImage(super.retrievePlayerAvatar());
+        playerUsernameLabel.setText(super.retrievePlayerUsername());
         refresh();
     }
 
@@ -178,25 +184,13 @@ public class GameListController extends AbstractController{
     @Override
     public void refresh(){
         if(isRunning() && !isLoading){
-            List<StatGame> newGameList = null;
+            List<StatGame> newGameList = new ArrayList<>();
             try{
                 newGameList = getFacade().iDataIHMMain.getGameList();
             }catch(Exception e){
                 e.printStackTrace();
             }
-            if(gameList == null || (newGameList != null && newGameList.isEmpty())){
-                newGameList = new ArrayList<>();
-                PublicUser me = getFacade().iDataIHMMain.getMyPublicUserProfile();
-                StatGame fake = new StatGame();
-                fake.setCreator(me.getLightPublicUser());
-                fake.setName("Fake");
-                newGameList.add(fake);
-                
-                StatGame fake2 = new StatGame();
-                fake.setCreator(me.getLightPublicUser());
-                fake.setName("Fake2");
-                newGameList.add(fake2);
-            }
+            
             ObservableList<StatGame> data = FXCollections.observableArrayList(newGameList);
             // Update the list in the GUI
             gameList.setItems(data);

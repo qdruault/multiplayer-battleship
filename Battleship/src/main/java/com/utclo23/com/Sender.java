@@ -52,7 +52,8 @@ public class Sender implements Runnable {
             out = new ObjectOutputStream(socket.getOutputStream());
             request.setIpSender(kIpCtrl.getMyInetAddress());
             out.writeObject(request);
-            Logger.getLogger(ComFacade.class.getName()).log(Level.INFO, null, "Message sent : " + request.getClass().toString());
+            //Logger.getLogger(ComFacade.class.getName()).log(Level.INFO, null, "Message sent : " + request.getClass().toString());
+            System.out.println("Message sent : " + request.getClass().toString() + " to "+ ip);
             out.close();
             socket.close();
         } catch (IOException ex) {

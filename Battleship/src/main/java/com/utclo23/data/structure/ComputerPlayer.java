@@ -7,8 +7,10 @@ package com.utclo23.data.structure;
 
 import com.utclo23.data.configuration.Configuration;
 import java.rmi.server.UID;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 import javafx.util.Pair;
 
 /**
@@ -17,38 +19,58 @@ import javafx.util.Pair;
  */
 public class ComputerPlayer extends Player {
 
+    private Stack<Coordinate> stackFocus;
     private Coordinate focus;
     private Coordinate oldFocus;
 
-    public void loseFocus()
-    {
+    public void loseFocus(Ship ship) {
+
+        List<Coordinate> list = new ArrayList<>();
+        for (Coordinate cf : this.stackFocus) {
+            for (Coordinate c : ship.getListCoord()) {
+                
+                if (cf.getX() == c.getX() && c.getY() == cf.getY()) {
+                    list.add(cf);
+                }
+            }
+
+        }
+        
+        for(Coordinate cf : list)
+        {
+            this.stackFocus.remove(cf);
+            System.out.println("remove focus");
+        }
+
+  
+
         this.oldFocus = null;
         this.focus = null;
     }
-    
+
     public ComputerPlayer() {
         super(LightPublicUser.generateComputerProfile());
         System.out.println("new Com player");
         this.focus = null;
         this.oldFocus = null;
+
+        this.stackFocus = new Stack<Coordinate>();
+
         this.setComputer(true);
 
     }
 
     public Coordinate getFocus() {
-        return focus;
+        if (!this.stackFocus.isEmpty()) {
+            return this.stackFocus.peek();
+        }
+        return null;
     }
 
     public void setFocus(Coordinate focus) {
-        if(focus!=null){
-        this.oldFocus = this.focus;
-        this.focus = focus;
+        if (focus != null) {
+            this.stackFocus.push(focus);
         }
-        else
-        {
-            this.focus = this.oldFocus;
-        }
-      
     }
 
     public Coordinate getOldFocus() {
@@ -59,8 +81,6 @@ public class ComputerPlayer extends Player {
         this.oldFocus = oldFocus;
     }
 
-    
-    
     @Override
     public void setShips(List<Ship> ships) {
         System.out.println("Data | set ships IA");
@@ -79,7 +99,7 @@ public class ComputerPlayer extends Player {
             do {
 
                 //choose a new location until empty
-                x = r.nextInt(Configuration.HEIGHT );
+                x = r.nextInt(Configuration.HEIGHT);
                 y = r.nextInt(Configuration.WIDTH);
 
                 if (tab[x][y] != 0 || (x + ship.getSize() >= Configuration.WIDTH && y + ship.getSize() >= Configuration.WIDTH)) {
@@ -159,7 +179,20 @@ public class ComputerPlayer extends Player {
         }
     }
 
-    public Mine randomMine() {
+    public Mine randomMine(List<Ship> shipsEnnemy, Game game) {
+        //get max size of remaining ships
+        int max = 0;
+        for (Ship ship : shipsEnnemy) {
+            int s = ship.getSize();
+            if (s > max && !game.isShipDestroyed(ship, this.getMines())) {
+                max = s;
+            }
+        }
+
+        max = Math.min(max, 4);
+
+        System.out.println("max ship " + max);
+
         System.out.println("computer plays... " + this.getMines().size());
         int[][] tab = new int[10][10];
 
@@ -190,79 +223,90 @@ public class ComputerPlayer extends Player {
         int x = 0, y = 0;
         boolean valid = true;
 
-        if (focus == null) {
+        if (this.stackFocus.isEmpty()) {
             //System.out.println("random method");
             Random r = new Random();
 
-            do { 
+            do {
                 valid = true;
                 //choose a new location until empty
-                x = r.nextInt(Configuration.WIDTH );
+                x = r.nextInt(Configuration.WIDTH);
                 y = r.nextInt(Configuration.WIDTH);
 
-                if (tab[x][y] != 0 || (x >= Configuration.WIDTH || y >= Configuration.WIDTH)) {
+                if (tab[x][y] != 0 || (x >= Configuration.WIDTH || y >= Configuration.WIDTH) || (x % max != 0 && y % max != 0)) {
                     valid = false;
                 }
 
-               //System.out.print(" ("+x+","+y+ ")="+tab[x][y]+" "+valid);
+                System.out.print(" (" + x + "," + y + ")=" + tab[x][y] + " " + valid + " " + (x % max != 0 && y % max != 0));
             } while (!valid);
 
         } else {
 
-             //System.out.println("focus method");
-            if ((focus.getX() + 1 >= Configuration.WIDTH || focus.getY() >= Configuration.WIDTH) ||  tab[focus.getX() + 1][focus.getY()] != 0 ) {
-                System.out.println("no x + 1");
-                if ((focus.getX() - 1 < 0 || focus.getY() >= Configuration.WIDTH) || tab[focus.getX() - 1][focus.getY()] != 0) {
-                    System.out.println("no x-1");
-                    if ((focus.getX() >= Configuration.WIDTH || focus.getY() + 1 >= Configuration.WIDTH)|| tab[focus.getX()][focus.getY() + 1] != 0) {
-                        System.out.println("no y+1");
-                        if ( (focus.getX() >= Configuration.WIDTH || focus.getY() - 1 < 0) || tab[focus.getX()][focus.getY() - 1] != 0) {
-                            System.out.println("no y-1");
-                            this.focus = null;
-                            this.oldFocus = null;
+            do {
 
-                            Random r = new Random();
+                this.focus = this.stackFocus.peek();
 
-                            do { 
+                System.out.println("FOCUS method");
 
-                                valid = true;
-                                //choose a new location until empty
-                                x = r.nextInt(Configuration.HEIGHT );
-                                y = r.nextInt(Configuration.WIDTH);
+                if ((focus.getX() + 1 >= Configuration.WIDTH || focus.getY() >= Configuration.WIDTH) || tab[focus.getX() + 1][focus.getY()] != 0) {
+                    System.out.println("no x + 1");
+                    if ((focus.getX() - 1 < 0 || focus.getY() >= Configuration.WIDTH) || tab[focus.getX() - 1][focus.getY()] != 0) {
+                        System.out.println("no x-1");
+                        if ((focus.getX() >= Configuration.WIDTH || focus.getY() + 1 >= Configuration.WIDTH) || tab[focus.getX()][focus.getY() + 1] != 0) {
+                            System.out.println("no y+1");
+                            if ((focus.getX() >= Configuration.WIDTH || focus.getY() - 1 < 0) || tab[focus.getX()][focus.getY() - 1] != 0) {
+                                System.out.println("no y-1");
+                                //this.focus = null;
+                                //this.oldFocus = null;
 
-                                if (tab[x][y] != 0 || (x >= Configuration.WIDTH || y >= Configuration.WIDTH)) {
+                                this.stackFocus.pop();
 
-                                    valid = false;
-                                }
-                                
-                                 //System.out.print(" ("+x+","+y+ ")="+tab[x][y]+" ");
-
-                            } while (!valid);
+                            } else {
+                                System.out.println("y-1");
+                                x = focus.getX();
+                                y = focus.getY() - 1;
+                            }
 
                         } else {
-                            System.out.println("y-1");
+                            System.out.println("y+1");
                             x = focus.getX();
-                            y = focus.getY() - 1;
+                            y = focus.getY() + 1;
                         }
-
                     } else {
-                        System.out.println("y+1");
-                        x = focus.getX();
-                        y = focus.getY() + 1;
+                        System.out.println("x-1");
+
+                        x = focus.getX() - 1;
+                        y = focus.getY();
                     }
                 } else {
-                    System.out.println("x-1");
-                    
-                    x = focus.getX() - 1;
+                    System.out.println("x+1");
+                    x = focus.getX() + 1;
                     y = focus.getY();
                 }
-            } else {
-                System.out.println("x+1");
-                x = focus.getX() + 1;
-                y = focus.getY();
-            }
-        }
 
+            } while (x == 0 && y == 0 && !this.stackFocus.isEmpty());
+
+            if (this.stackFocus.isEmpty() || (x == 0 && y == 0)) {
+
+                Random r = new Random();
+
+                do {
+
+                    valid = true;
+                    //choose a new location until empty
+                    x = r.nextInt(Configuration.HEIGHT);
+                    y = r.nextInt(Configuration.WIDTH);
+
+                    if (tab[x][y] != 0 || (x >= Configuration.WIDTH || y >= Configuration.WIDTH) || (x % max != 0 && y % max != 0)) {
+
+                        valid = false;
+                    }
+
+                    System.out.print(" (" + x + "," + y + ")=" + tab[x][y] + " ");
+                } while (!valid);
+            }
+
+        }
         Coordinate coordinate = new Coordinate(x, y);
 
         System.out.println("IA chooses " + x + "," + y);
@@ -270,6 +314,14 @@ public class ComputerPlayer extends Player {
         this.getMines().add(mine);
         return mine;
 
+    }
+
+    public Stack<Coordinate> getStackFocus() {
+        return stackFocus;
+    }
+
+    public void setStackFocus(Stack<Coordinate> stackFocus) {
+        this.stackFocus = stackFocus;
     }
 
 }

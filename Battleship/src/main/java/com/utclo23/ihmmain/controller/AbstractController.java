@@ -7,8 +7,10 @@ package com.utclo23.ihmmain.controller;
 
 import com.utclo23.ihmmain.IHMMain;
 import com.utclo23.ihmmain.facade.IHMMainFacade;
+import java.io.ByteArrayInputStream;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
+import javafx.scene.image.Image;
 
 /**
  * Upper class of all IHMMain controllers, contains IHMMain class.
@@ -21,6 +23,8 @@ public class AbstractController {
     private IHMMain ihmmain;
     private IHMMainFacade facade;
     private boolean isRunning;
+    private Image playerAvatar;
+    private String playerUsername;
 
     public IHMMainFacade getFacade() {
         return facade;
@@ -82,5 +86,22 @@ public class AbstractController {
         DialogPane dialogPane = alert.getDialogPane();
         dialogPane.getStylesheets().add(getClass().getResource("/styles/ihmmain.css").toExternalForm());
         alert.showAndWait();
+    }
+    
+    // TODO Check if the code works after disconnection
+    protected Image retrievePlayerAvatar(){
+        if (playerAvatar == null){
+            byte[] thumbnail = getFacade().iDataIHMMain.getMyPublicUserProfile().getLightPublicUser().getAvatarThumbnail();
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(thumbnail);
+            playerAvatar = new Image(inputStream);
+        }
+        return playerAvatar;
+    }
+    
+    protected String retrievePlayerUsername(){
+        if (playerUsername == null){
+            playerUsername = getFacade().iDataIHMMain.getMyPublicUserProfile().getPlayerName();
+        } 
+        return playerUsername;
     }
 }
