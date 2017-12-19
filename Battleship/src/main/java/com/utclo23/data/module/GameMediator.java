@@ -376,14 +376,13 @@ public class GameMediator {
      */
     public void updateGameList(LightPublicUser user, String id, String role) throws DataException {
         System.out.print("liste players");
-        
-        for(Player p : this.currentGame.getPlayers())
-        {
-            System.out.println(p.getLightPublicUser().getId()+" "+p.getLightPublicUser().getPlayerName());
+
+        for (Player p : this.currentGame.getPlayers()) {
+            System.out.println(p.getLightPublicUser().getId() + " " + p.getLightPublicUser().getPlayerName());
         }
-        
+
         System.out.println("-----------");
-        
+
         System.out.println("id " + id);
         if (user == null) {
             System.out.println("user is null");
@@ -396,27 +395,24 @@ public class GameMediator {
         if (this.currentGame.getId().equals(id)) {
 
             System.out.println("add Urole " + role);
-            if(true){
-            this.getCurrentGame().addUser(user, role);
+            if (true) {
+                this.getCurrentGame().addUser(user, role);
 
-            if (this.dataFacade.getComfacade() != null) {
+                if (this.dataFacade.getComfacade() != null) {
 
-                System.out.println("data join game resp");
-                this.dataFacade.getComfacade().joinGameResponse(true, user.getId(), this.currentGame.getStatGame());
+                    System.out.println("data join game resp");
+                    this.dataFacade.getComfacade().joinGameResponse(true, user.getId(), this.currentGame.getStatGame());
 
-            }
-            }
-            else
-            {
-                 this.dataFacade.getComfacade().joinGameResponse(false, id, null);
+                }
+            } else {
+                this.dataFacade.getComfacade().joinGameResponse(false, id, null);
             }
         } else {
 
             this.dataFacade.getComfacade().joinGameResponse(false, id, null);
         }
-        
-        
-         System.out.println("nombre de joueurs " + this.currentGame.getPlayers().size());
+
+        System.out.println("nombre de joueurs " + this.currentGame.getPlayers().size());
     }
 
     public void gameConnectionRequestGame(String id, String role) {
@@ -500,6 +496,17 @@ public class GameMediator {
 
     public void receptionGame(Game game) {
         System.out.println("reception game ... ");
+        Player player = null;
+
+        for (Player p : game.getPlayers()) {
+            if (p.getLightPublicUser().getId().equals(this.dataFacade.getUserMediator().getMyLightPublicUserProfile().getId()))
+                     {
+                player = p;
+            }
+        }
+        
+        game.setCurrentPlayer(player);
+
         this.currentGame = game;
         if (this.dataFacade.getIhmMainFacade() != null) {
 
@@ -544,7 +551,7 @@ public class GameMediator {
         if (!this.currentGame.isSave()) {
             this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
         }
-        
+
         if (this.dataFacade.getIhmTablefacade() != null) {
 
             this.dataFacade.getIhmTablefacade().feedBack(mine.getCoord(), touched, shipDestroyed);
@@ -695,27 +702,19 @@ public class GameMediator {
 
         }
     }
-    
-    public void next()
-    {
-        if(this.currentGame!= null)
-        {
-            if(this.currentGame.isSave())
-            {
-                Event event =   this.currentGame.getCaretaker().getMemento().getLastEvent();
-                if(event instanceof Mine)
-                {
+
+    public void next() {
+        if (this.currentGame != null) {
+            if (this.currentGame.isSave()) {
+                Event event = this.currentGame.getCaretaker().getMemento().getLastEvent();
+                if (event instanceof Mine) {
                     Mine mine = (Mine) event;
-                    if(this.dataFacade.getMyPublicUserProfile().getId().equals(mine.getOwner().getLightPublicUser().getId()))
-                    {
+                    if (this.dataFacade.getMyPublicUserProfile().getId().equals(mine.getOwner().getLightPublicUser().getId())) {
                         //equivalent of attack
-                       
-                        
-                    }
-                    else
-                    {
+
+                    } else {
                         //equivalent of forward
-                        
+
                     }
                 }
                 this.currentGame.getCaretaker().next();
