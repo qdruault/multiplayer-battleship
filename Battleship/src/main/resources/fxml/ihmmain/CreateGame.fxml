@@ -167,45 +167,29 @@
                                 <RowConstraints percentHeight="100.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <CheckBox fx:id="radioButtonAudience" mnemonicParsing="false" text="Audience" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
-                                <CheckBox fx:id="radioButtonChat" mnemonicParsing="false" text="Chat" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
-
+                                <CheckBox fx:id="radioButtonAudience" GridPane.columnIndex="0" GridPane.rowIndex="0" mnemonicParsing="false" text="Audience" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                <CheckBox fx:id="radioButtonChat" GridPane.columnIndex="1" GridPane.rowIndex="0" mnemonicParsing="false" text="Chat" GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>
                             </children>
-                        </GridPane>
-                        
+                        </GridPane>    
                     </children>
-                   
                 </GridPane>
-                
-                
-                
-                
-                
-                
-            <!-- FIN CORPS -->    
-                
-                
+            <!-- FIN CORPS -->
             </children>
-            
         </GridPane>
-        
-        
-        
-        
-        
-        <GridPane GridPane.rowIndex="4">
+        <GridPane GridPane.rowIndex = "4">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" percentWidth="30.0" />
-                <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
-                <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
-                <ColumnConstraints hgrow="SOMETIMES" percentWidth="30.0" />
+                <ColumnConstraints percentWidth="30.0" hgrow="SOMETIMES"/>
+                <ColumnConstraints percentWidth="15.0" hgrow="SOMETIMES"/>
+                <ColumnConstraints percentWidth="10.0" hgrow="SOMETIMES"/>
+                <ColumnConstraints percentWidth="15.0" hgrow="SOMETIMES"/>
+                <ColumnConstraints percentWidth="30.0" hgrow="SOMETIMES"/>
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints percentHeight="100.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Button onAction="#validateCreateGame" text="Create" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
-                <Button onAction="#back" text="Return" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />    
+                <Button GridPane.columnIndex="1" maxWidth="Infinity" GridPane.rowIndex="0"  onAction="#validateCreateGame" text="Create" GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>
+                <Button GridPane.columnIndex="3" maxWidth="Infinity" GridPane.rowIndex="0" onAction="#back" text="Return" GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>    
             </children>
         </GridPane>
       <ImageView fx:id="avatarImageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
@@ -213,12 +197,6 @@
             <Insets right="20.0" top="20.0" />
          </GridPane.margin>
       </ImageView>
-        
-
     </children>
-        
-        
-        
-   
-    
 </GridPane>
+

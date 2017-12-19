@@ -42,6 +42,7 @@ public class IHMMain {
     public IHMMainFacade facade;
     
     public void start(IHMMainFacade facade,Stage stage) throws Exception {
+
         sceneMap = new HashMap<>();
         controllerMap = new HashMap<>();
         activeSceneName = null;
@@ -49,6 +50,14 @@ public class IHMMain {
         primaryStage = stage;
         primaryStage.setWidth(1300);
         primaryStage.setHeight(800);
+
+        // Load the font for the css
+        try {
+            Font.loadFont(new FileInputStream(new File("./target/classes/styles/space_age.ttf")), 10);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PlayerListController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         //load all scenes when app starts
         for(SceneName scenename : SceneName.values()){
             String scenenameString = scenename.toString();
@@ -66,7 +75,7 @@ public class IHMMain {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PlayerListController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //add onClose event handler which handle the event when user clics X
+        //add onClose event handler which handle the event when user clicks X
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent we) {
