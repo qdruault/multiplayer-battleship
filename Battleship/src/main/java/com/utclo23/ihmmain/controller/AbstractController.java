@@ -24,6 +24,7 @@ public class AbstractController {
     private IHMMainFacade facade;
     private boolean isRunning;
     private Image playerAvatar;
+    private String playerUsername;
 
     public IHMMainFacade getFacade() {
         return facade;
@@ -95,5 +96,12 @@ public class AbstractController {
             playerAvatar = new Image(inputStream);
         }
         return playerAvatar;
+    }
+    
+    protected String retrievePlayerUsername(){
+        if (playerUsername == null){
+            playerUsername = getFacade().iDataIHMMain.getMyPublicUserProfile().getPlayerName();
+        } 
+        return playerUsername;
     }
 }

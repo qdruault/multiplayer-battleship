@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Line;
 
@@ -39,6 +40,8 @@ public class MenuController extends AbstractController{
     private Button savedGameButton;
     @FXML
     private ImageView avatarImageView;
+    @FXML
+    private Label playerUsernameLabel;
     
     /**
      * Go to the GUI which show the list of game and offer the possibility to create a game
@@ -116,5 +119,6 @@ public class MenuController extends AbstractController{
     
     public void start(){   
           avatarImageView.setImage(super.retrievePlayerAvatar());
+          playerUsernameLabel.setText(super.retrievePlayerUsername());
     }
 }
