@@ -5,7 +5,6 @@
  */
 package com.utclo23.ihmmain;
 
-import com.utclo23.data.module.DataException;
 import com.utclo23.ihmmain.constants.SceneName;
 import com.utclo23.ihmmain.controller.AbstractController;
 import com.utclo23.ihmmain.controller.PlayerProfileController;
@@ -43,9 +42,10 @@ public class IHMMain {
     public IHMMainFacade facade;
     
     public void start(IHMMainFacade facade,Stage stage) throws Exception {
-        sceneMap = new HashMap<String,Scene>();
-        controllerMap = new HashMap<String,AbstractController>();
+        sceneMap = new HashMap<>();
+        controllerMap = new HashMap<>();
         activeSceneName = null;
+        this.facade = facade;
         primaryStage = stage;
         primaryStage.setWidth(1300);
         primaryStage.setHeight(800);
