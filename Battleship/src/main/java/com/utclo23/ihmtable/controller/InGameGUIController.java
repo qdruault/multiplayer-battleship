@@ -266,6 +266,13 @@ public class InGameGUIController {
     private Timeline timer;
 
     /**
+    * The pane of chat.
+    */
+    @FXML
+    private Pane paneChat;
+
+    
+    /**
     * Set the IHM Table facade.
     * @param facade : IHM Table facade.
     */
@@ -416,16 +423,19 @@ public class InGameGUIController {
         myPlayer = facade.getFacadeData().getGame().getPlayer(facade.getFacadeData().getMyPublicUserProfile().getId());
         
         /**
-         * Binding of key "enter" for sending message in tchat
-         */
-        sendcontent.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            public void handle(KeyEvent ke) {
-                if (ke.getCode() == KeyCode.ENTER) {
-                    sendMessageOnGUI();
-                }
-            }
+        * Binding of key "enter" for sending message in tchat
+        */
+       sendcontent.setOnKeyPressed(new EventHandler<KeyEvent>() {
+           public void handle(KeyEvent ke) {
+               if (ke.getCode() == KeyCode.ENTER) {
+                   sendMessageOnGUI();
+               }
+           }
         });
-    
+       if(!facade.getFacadeData().getGame().getStatGame().isSpectatorChat()) {
+            paneChat.setOpacity(0);
+            paneChat.setDisable(true);
+        }
     }
 
     /**

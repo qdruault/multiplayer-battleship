@@ -200,7 +200,7 @@
                         </AnchorPane>
                         <HBox prefHeight="170.0" prefWidth="200.0">
                            <children>
-                              <AnchorPane HBox.hgrow="ALWAYS">
+                              <AnchorPane fx:id="paneChat" HBox.hgrow="ALWAYS">
                                  <children>
                                     <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
