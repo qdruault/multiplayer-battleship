@@ -227,6 +227,9 @@ public class UserMediator {
 
             //save user in json file
             save();
+            
+            //Disconnect the user
+            this.owner = null;
 
         }
     }
@@ -580,7 +583,7 @@ public class UserMediator {
 
         if (this.owner != null) {
 
-            //blank  password
+            //blank  
             if (playername.isEmpty()) {
                 throw new DataException("Data : error due to empty playername");
             }

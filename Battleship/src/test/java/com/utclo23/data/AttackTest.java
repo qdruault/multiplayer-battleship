@@ -33,10 +33,9 @@ public class AttackTest {
         try {
             df.createUser("Xiaodan", "123", "", "", new Date(), "");        
         } catch (Exception e) {    
-            e.printStackTrace();
-            df.signin("Xiaodan", "123");
+            e.printStackTrace();       
         }
-         
+         df.signin("Xiaodan", "123");
 
          df.createGame("TestAttack", false, true, true, GameType.CLASSIC);
          
@@ -114,9 +113,10 @@ public class AttackTest {
             df.createUser("Xiaodan", "123", "", "", new Date(), "");
         } catch (Exception e) {
             e.printStackTrace();
-            df.signin("Xiaodan", "123");
+            
         }
-         
+        df.signin("Xiaodan", "123"); 
+        
         df.createGame("TestAttack", false, true, true, GameType.CLASSIC);
          
         //Add another player
@@ -174,10 +174,10 @@ public class AttackTest {
         try {
             df.createUser("Xiaodan", "123", "", "", new Date(), "");
         } catch (Exception e) {
-            e.printStackTrace();
-            df.signin("Xiaodan", "123");
+            e.printStackTrace();            
         }
-         
+        df.signin("Xiaodan", "123");
+        
         df.createGame("TestAttack", false, true, true, GameType.CLASSIC);
          
         //Add another player
