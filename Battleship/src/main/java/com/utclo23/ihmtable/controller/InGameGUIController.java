@@ -217,6 +217,7 @@ public class InGameGUIController {
     * Number of turns where the player didn't play.
     */
     private int nbPassedTurns;
+    private int nbTotalPassedTurns;
 
     /**
     * Current player's stats
@@ -391,6 +392,7 @@ public class InGameGUIController {
 
         // Init the number of turns passed.
         nbPassedTurns = 0;
+        nbTotalPassedTurns = 0;
 
         // Init current player's stats of the match
         currentPlayerStats = new InGameStats();
@@ -903,11 +905,12 @@ public class InGameGUIController {
                         if (nbPassedTurns == 2) {
                             facade.getFacadeData().leaveGame();
                         } else {
-                            // Fake an attack.
-                            facade.getFacadeData().attack(new Coordinate(-1, -1), true, null);
-
                             // Increase the number of turns passed.
                             nbPassedTurns++;
+                            nbTotalPassedTurns--;
+                            
+                            // Fake an attack.
+                            facade.getFacadeData().attack(new Coordinate(nbTotalPassedTurns, nbTotalPassedTurns), true, null);
 
                             // Reinitialize chrono for the next turn
                             chronoTimeInit();
