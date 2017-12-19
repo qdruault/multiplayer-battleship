@@ -579,7 +579,7 @@ public class GameMediator {
         if (this.currentGame.isGameFinishedByEnnemy()) {
             //Sauvegarde à ajouter, que l'owner soit joueur ou pas.
             String status = this.getOwnerStatus();
-            if (status == "player") {
+            if (status.equals("player")) {
                 if (this.currentGame.getStatGame().getWinner() == null) {
                     this.giveUp();
                 }
