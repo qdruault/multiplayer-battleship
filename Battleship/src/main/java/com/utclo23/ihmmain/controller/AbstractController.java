@@ -24,8 +24,6 @@ public class AbstractController {
     private IHMMain ihmmain;
     private IHMMainFacade facade;
     private boolean isRunning;
-    private Image playerAvatar;
-    private String playerUsername;
 
     public IHMMainFacade getFacade() {
         return facade;
@@ -113,39 +111,22 @@ public class AbstractController {
     }
     
     /**
-     * When this method is called for the first time after a user loggin into the application,
-     * call data's method to get the proper avatar image.
+     * Call data's method to get the proper avatar image to display.
      * 
      * @return the currently connected user's avatar image.
      */
     protected Image retrievePlayerAvatar(){
-        if (playerAvatar == null){
-            byte[] thumbnail = getFacade().iDataIHMMain.getMyPublicUserProfile().getLightPublicUser().getAvatarThumbnail();
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(thumbnail);
-            playerAvatar = new Image(inputStream);
-        }
-        return playerAvatar;
+        byte[] thumbnail = getFacade().iDataIHMMain.getMyPublicUserProfile().getLightPublicUser().getAvatarThumbnail();
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(thumbnail);
+        return new Image(inputStream);
     }
     
     /**
-     * When this method is called for the first time after a user loggin into the application,
-     * call data's method to get the proper username.
+     * Call data's method to get the proper username to display.
      * 
      * @return the currently connected user's username.
      */
     protected String retrievePlayerUsername(){
-        if (playerUsername == null){
-            playerUsername = getFacade().iDataIHMMain.getMyPublicUserProfile().getPlayerName();
-        } 
-        return playerUsername;
-    }
-    
-    /**
-     * This method is called when a user disconnects from the application.
-     * Cleans the attributes gotten from data during the session and 
-     */
-    protected void cleanPlayerAvatar(){
-        playerAvatar = null;
-        playerUsername = null;
+        return getFacade().iDataIHMMain.getMyPublicUserProfile().getPlayerName();
     }
 }
