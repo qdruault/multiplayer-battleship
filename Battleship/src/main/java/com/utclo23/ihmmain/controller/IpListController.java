@@ -19,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -38,6 +39,9 @@ public class IpListController extends AbstractController{
     
     @FXML
     private ImageView avatarImageView;
+    
+    @FXML
+    private Label playerUsernameLabel;
     
     @FXML
     @Override
@@ -62,6 +66,7 @@ public class IpListController extends AbstractController{
         }
         getKnownIp();
         avatarImageView.setImage(super.retrievePlayerAvatar());
+        playerUsernameLabel.setText(super.retrievePlayerUsername());
     }
     
     /**

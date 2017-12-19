@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -23,6 +24,23 @@
     <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
+      <GridPane maxWidth="300.0" minWidth="60.0" prefWidth="60.0" GridPane.halignment="RIGHT">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label id="usernameLabel" fx:id="playerUsernameLabel" text="Label" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
+            <ImageView fx:id="avatarImageView1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <image>
+                  <Image url="@../../../../../../../../../Pictures/Capture2.PNG" />
+               </image>
+            </ImageView>
+         </children>
+      </GridPane>
       <Label id="pageTitleLabel" text="LIST OF IP" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
       <Line fx:id="lineDesign" endX="100.0" startX="-100.0" styleClass="lineDesign" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
       <TableView fx:id="ipList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />

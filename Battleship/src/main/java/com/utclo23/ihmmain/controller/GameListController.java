@@ -57,6 +57,8 @@ public class GameListController extends AbstractController{
     private ScrollPane gameListPane;
     @FXML
     private ImageView avatarImageView;
+    @FXML
+    private Label playerUsernameLabel;
     
     private StatGame selectedGame;
     private TableView<StatGame> gameList;
@@ -76,6 +78,7 @@ public class GameListController extends AbstractController{
         gameListPane.setFitToWidth(true);
         gameListPane.setFitToHeight(true);
         avatarImageView.setImage(super.retrievePlayerAvatar());
+        playerUsernameLabel.setText(super.retrievePlayerUsername());
         refresh();
     }
 

@@ -19,6 +19,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -41,6 +42,8 @@ public class SavedGameListController extends AbstractController{
     private ScrollPane gameListPane;
     @FXML
     private ImageView avatarImageView;
+    @FXML
+    private Label playerUsernameLabel;
     
     private StatGameBean selectedGame;
     private TableView<StatGameBean> gameList;
@@ -58,6 +61,7 @@ public class SavedGameListController extends AbstractController{
         gameListPane.setFitToWidth(true);
         gameListPane.setFitToHeight(true);
         avatarImageView.setImage(super.retrievePlayerAvatar());
+        playerUsernameLabel.setText(super.retrievePlayerUsername());
         refresh();
     }
 
