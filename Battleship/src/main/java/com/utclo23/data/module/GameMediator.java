@@ -352,8 +352,9 @@ public class GameMediator {
                 //Test if this game is finished
                 //If this game is finished, leave the game
                 if (this.currentGame.getStatGame().getWinner() != null) {
-                    System.out.println("leave game");
-                    this.leaveGame();
+
+                    this.defWin();
+
                 }
             }
 
@@ -484,7 +485,6 @@ public class GameMediator {
             if (this.currentGame.getStatGame().getWinner() == null) {
                 this.giveUp();
             }
-            this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
         }
         // this.currentGame = null;
     }
@@ -550,8 +550,8 @@ public class GameMediator {
                     this.giveUp();
                 }
                 this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
-                this.currentGame = null;
             }
+            this.dataFacade.getIhmTablefacade().finishGame(this.currentGame.getStatGame());
         }
 
     }
@@ -572,9 +572,11 @@ public class GameMediator {
         if (this.currentGame == null) {
             throw new DataException("Pas de partie en cours.");
         }
+        this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
         if (this.getCurrentGame().getWinner() == null) {
             this.win();
         }
+        this.dataFacade.getIhmTablefacade().finishGame(this.currentGame.getStatGame());
     }
 
     /**
