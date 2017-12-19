@@ -43,40 +43,42 @@
                         <RowConstraints percentHeight="14.2" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="30.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="30.0" />
                     </columnConstraints>
                     <children>
-                        <Button fx:id="playButton" onAction="#play" text="Play" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
+                        <Button fx:id="playButton" maxWidth="Infinity" onAction="#play" text="Play" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
                             <tooltip>
                                 <Tooltip text="Click to go to the page where you can create a game or join an existing one." />
                             </tooltip>
                         </Button>
-                        <Button fx:id="profileButton" onAction="#showProfile" text="Profile" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                        <Button fx:id="profileButton" maxWidth="Infinity" onAction="#showProfile" text="Profile" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                             <tooltip>
                                 <Tooltip text="Click to go to the page where you can see/edit your profile and see profiles of other players." />
                             </tooltip>
                         </Button>
-                        <Button fx:id="playerListButton" onAction="#showPlayerList" text="List of players" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                        <Button fx:id="playerListButton" maxWidth="Infinity" onAction="#showPlayerList" text="List of players" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                             <tooltip>
                                 <Tooltip text="Click to see the list of connected users." />
                             </tooltip>
                         </Button>
-                        <Button fx:id="savedGameButton" alignment="CENTER" onAction="#toSavedGames" text="Watch Replys" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                        <Button fx:id="savedGameButton" maxWidth="Infinity" alignment="CENTER" onAction="#toSavedGames" text="Watch Replays" GridPane.halignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                             <tooltip>
                                 <Tooltip text="Click to see the list of connected users." />
                             </tooltip>
                         </Button>
-                        <Button fx:id="ipListButton" onAction="#showIpList" text="List of IP" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                        <Button fx:id="ipListButton" maxWidth="Infinity" onAction="#showIpList" text="List of IP" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                             <tooltip>
                                 <Tooltip text="Click to see/edit the list of IP addresses." />
                             </tooltip>
                         </Button>
-                        <Button fx:id="disconnectButton" onAction="#disconnect" text="Disconnect" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                        <Button fx:id="disconnectButton" maxWidth="Infinity" onAction="#disconnect" text="Disconnect" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                             <tooltip>
                                 <Tooltip text="Click to logout." />
                             </tooltip>
                         </Button>
-                        <Button fx:id="exitButton" onAction="#exit" text="Exit" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+                        <Button fx:id="exitButton" maxWidth="Infinity" onAction="#exit" text="Exit" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
                             <tooltip>
                                 <Tooltip text="Click to close the application." />
                             </tooltip>

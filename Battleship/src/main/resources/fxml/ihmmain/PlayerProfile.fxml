@@ -27,7 +27,7 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="Avatar" mnemonicParsing="false" onAction="#editAvatar" text="Modify">
+                              <Button fx:id="avatar" mnemonicParsing="false" onAction="#editAvatar" text="Modify">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -45,17 +45,17 @@
                               <Label alignment="CENTER" text="Nickname" />
                               <Label fx:id="userID" text="--" GridPane.columnIndex="1" />
                               <Label text="First Name" GridPane.rowIndex="1" />
-                              <Label fx:id="firstName" text="--" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label fx:id="firstNameText" text="--" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <Label text="Last Name" GridPane.rowIndex="2" />
-                              <Label fx:id="lastName" text="--" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label fx:id="lastNameText" text="--" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <Label text="Birthday" GridPane.rowIndex="3" />
-                              <Label fx:id="birthday" text="--" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label fx:id="birthdayText" text="--" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <Label text="Password" GridPane.rowIndex="4" />
-                              <Button fx:id="PlayerName" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" />
-                              <Button fx:id="FirstName" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                              <Button fx:id="LastName" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                              <Button fx:id="Birthday" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                              <Button fx:id="Password" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                              <Button fx:id="playerName" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" />
+                              <Button fx:id="firstName" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <Button fx:id="lastName" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <Button fx:id="birthday" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <Button fx:id="password" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                               <Label />
                               <Label text="Nickname" />
                               <Label fx:id="birthday1" text="********" GridPane.columnIndex="1" GridPane.rowIndex="4" />

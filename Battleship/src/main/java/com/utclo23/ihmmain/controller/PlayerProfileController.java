@@ -10,6 +10,7 @@ import com.utclo23.data.structure.PublicUser;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.logging.Level;
@@ -52,11 +53,11 @@ public class PlayerProfileController extends AbstractController{
     @FXML
     public  Label userID;
     @FXML
-    private Label firstName;
+    private Label firstNameText;
     @FXML
-    private Label lastName;
+    private Label lastNameText;
     @FXML
-    private Label birthday;    
+    private Label birthdayText;    
     @FXML
     private TextField description;
     @FXML
@@ -68,17 +69,17 @@ public class PlayerProfileController extends AbstractController{
     @FXML
     private PieChart belge;
     @FXML
-    private Button PlayerName;
+    private Button playerName;
     @FXML
-    private Button FirstName;
+    private Button firstName;
     @FXML
-    private Button LastName;
+    private Button lastName;
     @FXML
-    private Button Birthday;
+    private Button birthday;
     @FXML
-    private Button Password;
+    private Button password;
     @FXML
-    private Button Avatar;
+    private Button avatar;
     @FXML
     private Button Description;
     private PublicUser me;
@@ -86,7 +87,9 @@ public class PlayerProfileController extends AbstractController{
     private boolean isOther; 
     private String attribut;
     private Image avatarImage;
-    
+    private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+ 
+   
     @FXML
     @Override
     public void start(){
@@ -151,7 +154,7 @@ public class PlayerProfileController extends AbstractController{
         final Stage primaryStage = getIhmmain().primaryStage;
         Stage popup = new Stage();
         popup.initOwner(primaryStage);
-        if("Birthday".equals(attribut)){
+        if("birthday".equals(attribut)){
             final DatePicker date = new DatePicker();
             Button back = new Button();
             Button submit = new Button(); 
@@ -234,12 +237,12 @@ public class PlayerProfileController extends AbstractController{
         chart.setData(pieChartData);
     }
     public void disableButton(){
-        PlayerName.setDisable(true);
-        FirstName.setDisable(true);
-        LastName.setDisable(true);
-        Birthday.setDisable(true);
-        Password.setDisable(true);
-        Avatar.setDisable(true);
+        playerName.setDisable(true);
+        firstName.setDisable(true);
+        lastName.setDisable(true);
+        birthday.setDisable(true);
+        password.setDisable(true);
+        avatar.setDisable(true);
         Description.setDisable(true);
     }
 
@@ -253,10 +256,10 @@ public class PlayerProfileController extends AbstractController{
                 me = getFacade().iDataIHMMain.getMyPublicUserProfile();
                 getAvatar(me);
                 image.setImage(avatarImage);
-                userID .setText(me.getLightPublicUser().getPlayerName());
-                firstName.setText(me.getFirstName());
-                lastName.setText(me.getLastName());
-                birthday.setText(me.getBirthDate().toString());
+                userID .setText(me.getPlayerName());
+                firstNameText.setText(me.getFirstName());
+                lastNameText.setText(me.getLastName());
+                birthdayText.setText(formatter.format(me.getBirthDate()));
                 drawPieChart(allMode);
                 drawPieChart(classical);
                 drawPieChart(belge);
@@ -275,10 +278,10 @@ public class PlayerProfileController extends AbstractController{
                 disableButton();
                 getAvatar(other);
                 image.setImage(avatarImage);
-                userID.setText(other.getLightPublicUser().getPlayerName());
-                firstName.setText(other.getFirstName());
-                lastName.setText(other.getLastName());
-                birthday.setText(other.getBirthDate().toString());
+                userID.setText(other.getPlayerName());
+                firstNameText.setText(other.getFirstName());
+                lastNameText.setText(other.getLastName());
+                birthdayText.setText(formatter.format(other.getBirthDate()));
             }
             catch(NullPointerException e){
                 Logger.getLogger(
