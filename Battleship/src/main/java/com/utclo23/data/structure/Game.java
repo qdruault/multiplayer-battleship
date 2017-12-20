@@ -88,7 +88,7 @@ public abstract class Game extends SerializableEntity {
      * @throws DataException
      */
     public void addUser(LightPublicUser user, String role) throws DataException {
-        System.out.println("inside addUser");
+        System.out.println("call addUser");
 
         role = role.toLowerCase();
 
@@ -111,9 +111,8 @@ public abstract class Game extends SerializableEntity {
                 throw new DataException("Data : already two players in this "
                         + "game, you can not add another one.");
             }*/
-        } else if (role.equals("spectator")) {
+        } else if (this.getStatGame().isSpectator() && role.equals("spectator")) {
             this.spectators.add(user);
-
             System.out.println("spectator " + user.getId());
 
         } else {
