@@ -555,11 +555,10 @@ public class GameMediator {
                 
                 touched = true;
                 if (this.currentGame.isShipDestroyed(s, mine.getOwner().getMines())) {
-                    shipDestroyed = s;
-                    
+                    shipDestroyed = s;                    
                     System.out.println("data "+mine.getOwner().getLightPublicUser().getPlayerName()+" destroyed ");
-                
-                    
+                    // Destroyed ship found.
+                    break;
                 }
                 
             }
