@@ -6,20 +6,24 @@
 package com.utclo23.com.messages;
 import com.utclo23.data.facade.IDataCom;
 import com.utclo23.data.structure.PublicUser;
-import java.util.Date;
+
 /**
- *
- * @author thibault
+ * M_Chat is a Message generated when a user sends a new chat message. 
+ * @author Thibault CHICHE 
  */
 public class M_Chat extends Message {
-    private com.utclo23.data.structure.Message message;
-    private Date timeStamp; 
+    private final com.utclo23.data.structure.Message message;
     
-    public M_Chat(PublicUser user, com.utclo23.data.structure.Message m, Date t){
+    /**
+     * Constructor.  
+     * @param user is the message's sender
+     * @param messageContent is the content of the message
+     */
+    public M_Chat(PublicUser user, com.utclo23.data.structure.Message messageContent){
         super(user);
-        message = m;
-        timeStamp = t;
+        message = messageContent;
     }
+    
     
     @Override
     public void callback(IDataCom iDataCom){

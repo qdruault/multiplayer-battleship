@@ -7,20 +7,22 @@ package com.utclo23.ihmmain.controller;
 
 import com.utclo23.ihmmain.IHMMain;
 import com.utclo23.ihmmain.facade.IHMMainFacade;
-import java.io.IOException;
+import java.io.ByteArrayInputStream;
+import javafx.scene.Cursor;
+import javafx.scene.control.Alert;
+import javafx.scene.control.DialogPane;
+import javafx.scene.image.Image;
 
 /**
- * upper class of all ihm-main controller class, contain IHMMain class
+ * Upper class of all IHMMain controllers, contains IHMMain class.
  * @author Linxuhao
  */
 public class AbstractController {
     /**
-     * the reference of ihmmain, to jump between scenes
+     * The reference of IHMMain used to jump between scenes.
      */
-    public IHMMain ihmmain;
-    
-    public IHMMainFacade facade;
-    
+    private IHMMain ihmmain;
+    private IHMMainFacade facade;
     private boolean isRunning;
 
     public IHMMainFacade getFacade() {
@@ -39,15 +41,21 @@ public class AbstractController {
         this.ihmmain = ihmmain;
     }
 
-    public boolean isIsRunning() {
+    public void setRunning(Boolean state) {
+        isRunning = state;
+    }
+        
+    public boolean isRunning() {
         return isRunning;
     }
     
-    public void init(){
-        stop();
+    /**
+     * Override this to initialize your controller.
+     */
+    public void start(){   
     }
     
-    public void start(){
+    public void run(){
         this.isRunning = true;
     }
     
@@ -56,9 +64,69 @@ public class AbstractController {
     }
     
     /**
-     * Override this method to refresh the page when isRunning is true
-     * @throws IOException 
+     * Override this method to refresh the page when isRunning is true.
      */
-    public void refresh() throws IOException {
+    public void refresh(){
+    }
+
+    /**
+     * Displays an error popup.
+     * Calls the generic showPopup method with the parameter AlertType.ERROR
+     * @param title
+     * @param header
+     * @param message
+     */
+    public void showErrorPopup(String title, String header, String message){
+        showPopup(title, header, message, Alert.AlertType.ERROR);
+    }
+    
+    /**
+     * Displays a success popup.
+     * Calls the generic showPopup method with the parameter AlertType.INFORMATION
+     * @param title
+     * @param header
+     * @param message
+     */
+    public void showSuccessPopup(String title, String header, String message){
+        showPopup(title, header, message, Alert.AlertType.INFORMATION);
+    }
+    
+    /**
+     * Displays a popup of different types depending on the type parameter.
+     * 
+     * @param title
+     * @param header
+     * @param message
+     * @param type
+     */
+    public void showPopup(String title, String header, String message, Alert.AlertType type){
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(message);
+        alert.setResizable(false);
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("/styles/ihmmain.css").toExternalForm());
+        alert.showAndWait();
+    }
+    
+    /**
+     * Call data's method to get the proper avatar image to display.
+     * 
+     * @return the currently connected user's avatar image.
+     */
+    protected Image retrievePlayerAvatar(){
+        byte[] thumbnail = getFacade().iDataIHMMain.getMyPublicUserProfile().getLightPublicUser().getAvatarThumbnail();
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(thumbnail);
+        return new Image(inputStream);
+    }
+    
+    /**
+     * Call data's method to get the proper username to display.
+     * 
+     * @return the currently connected user's username.
+     */
+    protected String retrievePlayerUsername(){
+        return getFacade().iDataIHMMain.getMyPublicUserProfile().getPlayerName();
     }
 }

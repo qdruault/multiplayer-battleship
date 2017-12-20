@@ -7,6 +7,7 @@ package com.utclo23.data.structure;
 
 
 import java.rmi.server.UID;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,7 +28,6 @@ public class StatGame extends SerializableEntity{
     private Game realGame;
     
     private boolean computerMode;
-    
     private boolean gameAbandonned;
     
  
@@ -123,21 +123,20 @@ public class StatGame extends SerializableEntity{
         this.spectatorChat = spectatorChat;
         this.winner = winner;
         this.creator = creator;
-        //this.realGame = realGame;
         this.gameAbandonned = gameAbandonned;
         this.computerMode = computerMode;
     }
     
-    public StatGame(String id, GameType type, String name, boolean computerMode, boolean spectator, boolean spectatorChat, LightPublicUser creator){
+    public StatGame(String id,  GameType type, String name, boolean computerMode, boolean spectator, boolean spectatorChat, LightPublicUser creator){
         this.id = id;
         this.type = type;
         this.name = name;
         this.spectator = spectator;
         this.spectatorChat = spectatorChat;
-        this.players = null;
+        this.players = new ArrayList<>();;
         this.winner = null;
         this.creator = creator;
-       // this.realGame = game;
+ 
         this.gameAbandonned = false;
         this.computerMode = computerMode;
     }

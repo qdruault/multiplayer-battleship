@@ -25,7 +25,7 @@ public class MainApp extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-
+        
         // DataFacade creation
         DataFacade dataFacade = new DataFacade();
         IDataCom iDataCom = dataFacade;
@@ -54,6 +54,9 @@ public class MainApp extends Application {
 
         // set link from IhmMain, Ihmtable and Communication Facade to Data
         dataFacade.setFacadeLinks(comFacade, iIHMTableToData, ihmMainFacade);
+        
+        // Just for IHM-Table tests, comment for real integration.
+        //ihmTableFacade.createInGameGUI(stage);
     }
 
     /**

@@ -7,118 +7,102 @@ package com.utclo23.com;
 
 import java.util.HashMap;
 import java.net.Inet4Address;
-import java.net.UnknownHostException;
 import com.utclo23.data.facade.IDataCom;
 import java.net.InterfaceAddress;
-import java.net.NetworkInterface;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
+ * Class containing a hashmap with UID and corresponding IP address of the known
+ * players. Singleton class,only one instance can be instantiate in the
+ * application.
  *
- * @author Thomas
+ * @author Thomas Michel
  */
 public class KnownIPController {
 
-    // All IP known by this node
     // TODO: add a lock on this one
     private final HashMap<String, Inet4Address> knownIp;
-    IDataCom iDataCom;
-    InterfaceAddress usedInterface;
-    // private constructor
+    protected IDataCom iDataCom;
+    private InterfaceAddress usedInterface;
+    
+    private static final int PORT = 25000;
+
     private KnownIPController() {
         knownIp = new HashMap<>();
     }
 
-    // SINGLETON
-    // Holder
+    /**
+     * Called to instantiate the unique instance of KnowIPController class in
+     * the application.
+     */
     private static class SingletonHolder {
+        private SingletonHolder(){
+            throw new IllegalStateException("Utility class");
+        }
 
-        private final static KnownIPController INSTANCE = new KnownIPController();
+        private static final KnownIPController INSTANCE = new KnownIPController();
     }
 
-    // Access point for unique INSTANCE of the singleton class
+    /**
+     * Called to return the unique INSTANCE of the singleton class
+     * KnownIPController.
+     *
+     * @return singleton instnce of KnowIPController
+     */
     public static KnownIPController getInstance() {
         return SingletonHolder.INSTANCE;
     }
-    
-    
-    public Inet4Address getMyInetAddress(){
-        return (Inet4Address)this.usedInterface.getAddress();
+
+    public Inet4Address getMyInetAddress() {
+        return (Inet4Address) this.usedInterface.getAddress();
     }
 
-    public void setUsedInterface(InterfaceAddress uif){
+    public void setUsedInterface(InterfaceAddress uif) {
         this.usedInterface = uif;
     }
-    
-    // used to put our own IP in the hashmap of IP
+
+    /**
+     * Called to put our own IP in attribute "knownIP" and initialize iDataCom
+     * attribute.
+     *
+     * @param iDataCom is the Value affected to attribute iDataCom of the class
+     */
     public void initIpList(IDataCom iDataCom) {
-        try {
-            this.iDataCom = iDataCom;
-            knownIp.put(
-                    iDataCom.getMyPublicUserProfile().getId(),
-                    (Inet4Address) Inet4Address.getLocalHost());
-        } catch (UnknownHostException e) {}
+        this.iDataCom = iDataCom;
+        knownIp.put(
+                iDataCom.getMyPublicUserProfile().getId(),
+                getMyInetAddress());
+
     }
 
-    public String getKeyFromValue(
-            HashMap<String, Inet4Address> tmphash,
-            Inet4Address value
-    ) {
-        String key = null;
-        for (Map.Entry<String, Inet4Address> entry : tmphash.entrySet()) {
-            if (value.equals(entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
-
+    /**
+     * Called to return attribute "knownIp" value without our own node.
+     *
+     * @return Hashmap value
+     */
     public HashMap<String, Inet4Address> getHashMap() {
-        try {
-            Inet4Address ourIpAddress = (Inet4Address) Inet4Address.getLocalHost();
-            HashMap<String, Inet4Address> tmphash = knownIp;
-            tmphash.remove(iDataCom.getMyPublicUserProfile().getLightPublicUser().getId());	// to avoid sending back our own Ip adress (cuz it already got it).
-            return tmphash;
-        } catch (UnknownHostException e) {
-            // No good
-            return null;
-        }
+        String id = iDataCom.getMyPublicUserProfile().getLightPublicUser().getId();
+        knownIp.remove(id);	// to avoid sending back our own Ip adress (cuz it already got it).
+        return knownIp;
     }
+    
+    
 
-    public HashMap<String, Inet4Address> getNewIpHashMap() {
-        DiscoveryController discoCtrl = DiscoveryController.getInstance();
-        try {
-            Inet4Address ourIpAddress = (Inet4Address) Inet4Address.getLocalHost();
-            HashMap<String, Inet4Address> tmphash = knownIp;
-            tmphash.remove(iDataCom.getMyPublicUserProfile().getLightPublicUser().getId());	// to avoid sending back our own Ip adress (cuz it already got it).
-            List<Inet4Address> getIpIssuedList = discoCtrl.getGetIpIssuedList();
-            String key;
-            for (int i = 0; i < getIpIssuedList.size(); i++) {
-                key = getKeyFromValue(tmphash, getIpIssuedList.get(i));
-                tmphash.remove(key);
-            }
-            return tmphash;
-        } catch (UnknownHostException e) {
-            // No good
-            return null;
-        }
-    }
-
+    /**
+     * Called to add a new node in the attribute "knownIP".
+     *
+     * @param id is the "id", of type string, of the new node
+     * @param ip is the Inet4address of the new node
+     */
     public void addNode(String id, Inet4Address ip) {
         knownIp.put(id, ip);
     }
-
-    public void addNonExistingNodes(HashMap<String, Inet4Address> hashToCheck) {
-        Iterator it = hashToCheck.entrySet().iterator();
-        while (it.hasNext()) {
-            HashMap.Entry pair = (HashMap.Entry) it.next();
-            if (!knownIp.containsKey(pair.getKey())) {
-                knownIp.put((String) pair.getKey(), (Inet4Address) pair.getValue());
-            }
-            it.remove(); // avoids a ConcurrentModificationException
-        }
+    
+    /**
+     * Acessor
+     * @return the network port number
+     */
+    public int getPort(){
+        return PORT;
     }
-
 }

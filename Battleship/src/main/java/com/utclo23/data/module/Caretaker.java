@@ -5,6 +5,7 @@
  */
 package com.utclo23.data.module;
 
+import com.utclo23.data.structure.SerializableEntity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * store mementos and reload it into game
  * @author Davy
  */
-public class Caretaker {
+public class Caretaker extends SerializableEntity{
     /**
      * list of memento
      */
@@ -41,6 +42,24 @@ public class Caretaker {
     {
         this.mementoList.add(mem);
     }
+
+    public List<Memento> getMementoList() {
+        return mementoList;
+    }
+
+    public void setMementoList(List<Memento> mementoList) {
+        this.mementoList = mementoList;
+    }
+
+    public int getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(int current) {
+        this.current = current;
+    }
+    
+    
     
     /**
      * get memento

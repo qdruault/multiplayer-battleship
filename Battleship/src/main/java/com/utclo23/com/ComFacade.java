@@ -5,16 +5,22 @@
  */
 package com.utclo23.com;
 
-import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.Mine;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.com.messages.*;
 import com.utclo23.data.facade.IDataCom;
+import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.LightPublicUser;
 import java.net.Inet4Address;
 import java.net.InterfaceAddress;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.Set;
 
 /**
  * Facade for the communication module
@@ -28,128 +34,213 @@ public class ComFacade {
      */
     protected IDataCom iDataCom;
 
-    private final DiscoveryController discoCtrl;
     private final KnownIPController kIpCtrl;
     private final Receiver receiver;
-    
+
     public ComFacade(IDataCom iDataCom) {
-        System.out.println(this.getClass() + " Creation de la facade");
         this.iDataCom = iDataCom;
-        discoCtrl = DiscoveryController.getInstance();
-        kIpCtrl = KnownIPController.getInstance(); // creation of KnownIPController
-        // TODO: Instanciate receiver
-        receiver = new Receiver(80, iDataCom);
+        kIpCtrl = KnownIPController.getInstance();
+        receiver = new Receiver(25000, iDataCom);
         new Thread(receiver).start();
+        Logger.getLogger(ComFacade.class.getName()).log(Level.INFO, null, "Facade created");
     }
 
-    public void setUsedInterface(InterfaceAddress uif){
+    public void setUsedInterface(InterfaceAddress uif) {
         kIpCtrl.setUsedInterface(uif);
     }
-    
-    // envoi au dest
-    public void sendShipsToEnnemy(List<Ship> listShips, PublicUser dest){
-        M_PlaceShip m_placeship = new M_PlaceShip(iDataCom.getMyPublicUserProfile(), listShips);
-        Sender os = new Sender(kIpCtrl.getHashMap().get(dest.getId()).getHostAddress(), 80, m_placeship);
-        new Thread(os).start();
-    }
 
-    // envoi à tout le monde
-    // c'est sendDiscovery qui fait ça en fait non ?
-    // dans le doute je l'implémente -> Thibault
-    public void notifyUserSignedIn(PublicUser user){
-        kIpCtrl.initIpList(iDataCom);
-        
-        /*M_Connexion m_connexion = new M_Connexion(user);
-        for(Inet4Address ip : kIpCtrl.getHashMap().values()){
-            Sender os = new Sender(ip.getHostAddress(), 80, m_connexion);
-            new Thread(os).start();
-        }*/
-    }
+    /**
+     * Called to send all ships coordinates to the other player of the game,
+     * after placing all ships on the board in order to update other player's
+     * Data module.
+     *
+     * @param listShips is the list of placed ships
+     * @param recipients is the player who must receive the ships coordinates
+     */
+    public void sendShipsToEnnemy(List<Ship> listShips, List<LightPublicUser> recipients) {
+        M_PlaceShip mPlaceship = new M_PlaceShip(iDataCom.getMyPublicUserProfile(), listShips);
+        for (LightPublicUser recipient : recipients) {
 
-    // envoi à tout le monde
-    public void notifyUserSignedOut(PublicUser user){
-        M_Deconnexion m_deconnexion = new M_Deconnexion(user);
-        for(Inet4Address ip : kIpCtrl.getHashMap().values()){
-            Sender os = new Sender(ip.getHostAddress(), 80, m_deconnexion);
-            new Thread(os).start();
-        }
-    }
-
-    // envoi à tout ceux présents dans le game
-    public void notifyNewMessage(com.utclo23.data.structure.Message message) {
-        M_Chat m_chat = new M_Chat(iDataCom.getMyPublicUserProfile(), message, message.getTimestamp());
-        for (LightPublicUser recipient : message.getRecipients()) {
-            Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), 80, m_chat);
-            new Thread(os).start();
-        }
-    }
-
-    // envoi à tout ceux dans le game
-    public void notifyNewCoordinates(Mine mine, List<LightPublicUser> recipients){
-        M_PlaceMine m_placemine = new M_PlaceMine(iDataCom.getMyPublicUserProfile(), mine);
-        for(LightPublicUser recipient : recipients){
-           Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), 80, m_placemine);
-           new Thread(os).start();
-        }
-    }
-
-    // à tout le monde
-    public void notifyNewGame(StatGame game){
-        M_CreationGame m_creationgame = new M_CreationGame(iDataCom.getMyPublicUserProfile(), game);
-        for(Inet4Address ip : kIpCtrl.getHashMap().values()){
-            Sender os = new Sender(ip.getHostAddress(), 80, m_creationgame);
-            new Thread(os).start();
-        }
-    }
-
-    // envoi à la machine qui a crée la game
-    public void connectionToGame(StatGame game){
-        M_JoinGame m_joingame = new M_JoinGame(iDataCom.getMyPublicUserProfile(), game);
-        Inet4Address adr = KnownIPController.getInstance().getHashMap().get(game.getCreator().getId());
-        Sender os = new Sender(adr.getHostAddress(), 80, m_joingame);
-        new Thread(os).start();
-    }
-
-    // envoi à tout ceux  qui sont dans la game logiquement, paramètre à revoir
-    public void leaveGame(PublicUser user){
-        M_LeaveGame m_leavegame = new M_LeaveGame(iDataCom.getMyPublicUserProfile());
-        for(Inet4Address ip : kIpCtrl.getHashMap().values()){
-            Sender os = new Sender(ip.getHostAddress(), 80, m_leavegame);
-            new Thread(os).start();
-        }
-    }
-
-    // envoi à tout le monde
-    public void sendDiscovery(PublicUser user, List<Inet4Address> listIpTarget) {
-        
-        for (int i = 0; i < listIpTarget.size(); i++) {
-            M_GetIP m_getIp = new M_GetIP(iDataCom.getMyPublicUserProfile());
-            Sender os = new Sender(listIpTarget.get(i).getHostAddress(), 80, m_getIp);
-            new Thread(os).start();
-            discoCtrl.addIP(listIpTarget.get(i));
-        }
-
-    }
-
-    // envoi à l'id
-    public void getPublicUserProfile(String id){
-        M_GetPlayerInfo m_getplayerinfo = new M_GetPlayerInfo(iDataCom.getMyPublicUserProfile());
-        Sender os = new Sender(kIpCtrl.getHashMap().get(id).getHostAddress(), 80, m_getplayerinfo);
-        new Thread(os).start();
-    }
-
-    // envoi à tout le monde si success
-    public void joinGameResponse (boolean success, String id, StatGame game){
-        /*M_JoinGameResponse m_joingameresponse = new M_JoinGameResponse(success);
-        if (success){
-            for(Inet4Address ip : kIpCtrl.getHashMap().values()){
-                Sender os = new Sender(ip.getHostAddress(), 80, m_joingameresponse);
+            if (kIpCtrl.getHashMap().get(recipient.getId()) != null) {
+                Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), mPlaceship);
                 new Thread(os).start();
             }
-        } else {
-            Sender os = new Sender(kIpCtrl.getHashMap().get(id).getHostAddress(), 80, m_joingameresponse);
-            new Thread(os).start();
-        }*/
+
+        }
     }
 
+    /**
+     * Called to initialize attribute kIpCtrl's knownIp hashmap.
+     */
+    public void notifyUserSignedIn() {
+        kIpCtrl.initIpList(iDataCom);
+    }
+
+    /**
+     * Called to send "log out" notification to everybody.
+     */
+    public void notifyUserSignedOut(){
+        M_Deconnection mDeconnection = new M_Deconnection(iDataCom.getMyPublicUserProfile());
+        for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
+            if (ip != null) {
+                Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), mDeconnection);
+                new Thread(os).start();
+            }
+        }
+        KnownIPController.getInstance().getHashMap().clear();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ComFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Called to send a chat message to all the recipients of the message.
+     *
+     * @param message is the message content and recipients
+     */
+    public void notifyNewMessage(com.utclo23.data.structure.Message message) {
+        M_Chat mChat = new M_Chat(iDataCom.getMyPublicUserProfile(), message);
+        for (LightPublicUser recipient : message.getRecipients()) {
+            if (kIpCtrl.getHashMap().get(recipient.getId()) != null) {
+                Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), mChat);
+                new Thread(os).start();
+            }
+        }
+    }
+
+    /**
+     * Called to send new mine to the other player and the spectators.
+     *
+     * @param mine is the new placed mine
+     * @param recipients are the recipients of the new mine
+     */
+    public void notifyNewCoordinates(Mine mine, List<LightPublicUser> recipients) {             
+        M_PlaceMine mPlaceMine = new M_PlaceMine(iDataCom.getMyPublicUserProfile(), mine);
+        System.out.println("recipients notify: " + recipients.size());
+        for (LightPublicUser recipient : recipients) {      
+            System.out.println("notifyNewCoordinates +" + recipient.getPlayerName());
+            if (kIpCtrl.getHashMap().get(recipient.getId()) != null) {
+                Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), mPlaceMine);
+                new Thread(os).start();
+            }
+        }
+    }
+    /**
+     * Called to notify everybody of the creation of a new game to update
+     * all users Data's module.
+     *
+     * @param game is the new created game
+     */
+    public void notifyNewGame(StatGame game) {
+        M_CreationGame mCreationGame = new M_CreationGame(iDataCom.getMyPublicUserProfile(), game);
+        for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
+            if (ip != null) {
+                Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), mCreationGame);
+                Thread thread = new Thread(os);
+                thread.start();
+            }
+        }
+    }
+
+    /**
+     * Called to send a request to join a specified game.
+     *
+     * @param game is a game the user wants to join
+     * @param role is player or spectator
+     */
+    public void connectionToGame(StatGame game, String role) {
+
+        M_JoinGame mJoinGame = new M_JoinGame(iDataCom.getMyPublicUserProfile(), game, role);
+        Inet4Address adr = KnownIPController.getInstance().getHashMap().get(game.getCreator().getId());
+        Sender os = new Sender(adr.getHostAddress(), kIpCtrl.getPort(), mJoinGame);
+        new Thread(os).start();
+    }
+
+    /**
+     * Called to send "leave game" notification to everybody.
+     */
+    public void leaveGame() {
+        M_LeaveGame mLeaveGame = new M_LeaveGame(iDataCom.getMyPublicUserProfile());
+        for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
+            if (ip != null) {
+                Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), mLeaveGame);
+                new Thread(os).start();
+            }
+        }
+    }
+
+    /**
+     * Called to launch network discovery.
+     *
+     * @param listIpTarget is the list of known ip targets
+     */
+    public void sendDiscovery(List<Inet4Address> listIpTarget) {
+        HashMap<String, Inet4Address> tmpHash = new HashMap(kIpCtrl.getHashMap());
+        tmpHash.put(iDataCom.getMyPublicUserProfile().getId(), kIpCtrl.getMyInetAddress());
+
+        List<LightPublicUser> tmp = new ArrayList(iDataCom.getConnectedUsers());
+        tmp.add(iDataCom.getMyPublicUserProfile().getLightPublicUser());
+
+        // Suppression des doublons et de nous même au cas où
+        // dans listIpTarget
+        Set set = new HashSet();
+        set.addAll(listIpTarget);
+        if (set.contains(kIpCtrl.getMyInetAddress())) {
+            set.remove(kIpCtrl.getMyInetAddress());
+        }
+        List<Inet4Address> newIpTarget = new ArrayList(set);
+
+        for (Inet4Address ipDest : newIpTarget) {
+            // On vérie si l'ip n'est pas déjà dans le hashMap         
+            if (!kIpCtrl.getHashMap().containsValue(ipDest)) {
+                List otherTargets = new ArrayList(newIpTarget);
+                otherTargets.remove(ipDest);
+
+                M_Bleu mBleu = new M_Bleu(iDataCom.getMyPublicUserProfile(),
+                        tmpHash, tmp, iDataCom.getGameList(), otherTargets);
+                Sender os = new Sender(ipDest.getHostAddress(), kIpCtrl.getPort(), mBleu);
+                new Thread(os).start();
+            }
+        }
+    }
+
+    /**
+     * Called to send a request to get detailed information of a specified user.
+     *
+     * @param id is the UID of the recipient
+     */
+    public void getPublicUserProfile(String id) {
+        M_GetPlayerInfo mGetPlayerInfo = new M_GetPlayerInfo(iDataCom.getMyPublicUserProfile());
+        Sender os = new Sender(kIpCtrl.getHashMap().get(id).getHostAddress(), kIpCtrl.getPort(), mGetPlayerInfo);
+        new Thread(os).start();
+    }
+
+    /**
+     * If success, send a 'join game' notification to everybody with the player
+     * who joined the game. Otherwise, the player who wanted to join the game is
+     * advertised that it failed.
+     *
+     * @param success is true if the player can join the game, false otherwise
+     * @param id is the UID of the player demanding to join the game
+     * @param game is the game in question
+     */
+    public void joinGameResponse(boolean success, String id, StatGame game) {
+        M_JoinGameResponse mJoinGameResponse = new M_JoinGameResponse(iDataCom.getMyPublicUserProfile(), success, game);
+
+        if (success) {
+            for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
+                if (ip != null) {
+                    Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), mJoinGameResponse);
+                    new Thread(os).start();
+                    Logger.getLogger(ComFacade.class.getName()).log(Level.INFO, null, "Send success joinGame");
+                }
+            }
+        } else {
+            Sender os = new Sender(kIpCtrl.getHashMap().get(id).getHostAddress(), kIpCtrl.getPort(), mJoinGameResponse);
+            new Thread(os).start();
+            Logger.getLogger(ComFacade.class.getName()).log(Level.INFO, null, "Fail joinGame");
+        }
+    }
 }

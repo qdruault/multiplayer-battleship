@@ -11,14 +11,10 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.Inet4Address;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import java.rmi.server.UID;
 import java.util.ArrayList;
@@ -62,8 +58,6 @@ public class UserMediator {
      * @param dataFacade reference to the facade
      */
     public UserMediator(DataFacade dataFacade) {
-        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Création du mediator");
-
         this.dataFacade = dataFacade;
         this.mapConnectedUser = new HashMap<>();
     }
@@ -166,6 +160,14 @@ public class UserMediator {
         }
         return publicUser;
     }
+    
+    public LightPublicUser getMyLightPublicUserProfile() {
+        LightPublicUser user = null;
+        if(this.owner != null) {
+            user = this.owner.getUserIdentity().getLightPublicUser();
+        }
+        return user;
+    }
 
     /**
      * create a user
@@ -225,6 +227,9 @@ public class UserMediator {
 
             //save user in json file
             save();
+            
+            //Disconnect the user
+            this.owner = null;
 
         }
     }
@@ -273,8 +278,8 @@ public class UserMediator {
             ComFacade comFacade = this.dataFacade.getComfacade();
             if (comFacade != null) {
                 if (this.owner != null) {
-                    comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
-                    comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+                    comFacade.notifyUserSignedOut();
+                    comFacade.notifyUserSignedIn();
                 }
             }
 
@@ -305,7 +310,7 @@ public class UserMediator {
      *
      * @param username
      * @param password
-     * @throws Exception
+     * @throws DataException
      */
     public void signIn(String username, String password) throws DataException {
 
@@ -332,6 +337,7 @@ public class UserMediator {
         try {
             user = mapper.readValue(userFile, Owner.class);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new DataException("Data : error in reading file");
         }
 
@@ -346,7 +352,7 @@ public class UserMediator {
             ComFacade comFacade = this.dataFacade.getComfacade();
             if (comFacade != null) {
                 if (this.owner != null) {
-                    comFacade.notifyUserSignedIn(this.owner.getUserIdentity());
+                    comFacade.notifyUserSignedIn();
 
                     Inet4Address ip;
 
@@ -359,7 +365,7 @@ public class UserMediator {
                             throw new DataException("Data : IP not valid");
                         }
                     }
-                    comFacade.sendDiscovery(owner.getUserIdentity(), listIpTarget);
+                    comFacade.sendDiscovery(listIpTarget);
                 }
             }
 
@@ -378,7 +384,8 @@ public class UserMediator {
             ComFacade comFacade = this.dataFacade.getComfacade();
             if (comFacade != null) {
                 if (this.owner != null) {
-                    comFacade.notifyUserSignedOut(this.owner.getUserIdentity());
+                    comFacade.notifyUserSignedOut();
+                    this.getConnectedUsers().clear();
                 }
             }
 
@@ -403,7 +410,7 @@ public class UserMediator {
             //save into a json file
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            mapper.writeValue(new File(path), owner);
+            mapper.writeValue(new File(path), owner);      
         } catch (Exception e) {
             throw new DataException("Data : error in save process"); //throw related error by using exception of DataModule
         }
@@ -420,9 +427,7 @@ public class UserMediator {
     public void addConnectedUser(LightPublicUser usr) {
         if (!this.mapConnectedUser.containsKey(usr.getId())) {
             this.mapConnectedUser.put(usr.getId(), usr);
-        } else {
-            throw new RuntimeException("User " + usr.getPlayerName() + " was already in the list of connected users.");
-        }
+        } 
     }
 
     /**
@@ -433,9 +438,7 @@ public class UserMediator {
     public void removeConnectedUser(LightPublicUser usr) {
         if (this.mapConnectedUser.containsKey(usr.getId())) {
             this.mapConnectedUser.remove(usr.getId());
-        } else {
-            throw new RuntimeException("There is no such user to remove form the list of connected users.");
-        }
+        } 
     }
 
     /**
@@ -532,14 +535,14 @@ public class UserMediator {
                 save();
 
                 // Create the Inet4Address list
-                List<Inet4Address> ips = new ArrayList<Inet4Address>();
+                List<Inet4Address> ips = new ArrayList<>();
                 for (String stringIp : discoveryNodes) {
 
                     Inet4Address inetIp = (Inet4Address) InetAddress.getByName(stringIp);
                     ips.add(inetIp);
                 }
                 if (!this.dataFacade.isTestMode() && this.getDataFacade().getComfacade() != null) {
-                    this.getDataFacade().getComfacade().sendDiscovery(this.owner.getUserIdentity(), ips);
+                    this.getDataFacade().getComfacade().sendDiscovery(ips);
                 }
             } else {
  
@@ -561,5 +564,280 @@ public class UserMediator {
             this.save();
 
         }
+    }
+    
+    /**
+     * Add a played game to the owner's played games list.
+     * 
+     * @param game 
+     */
+    public void addPlayedGame(StatGame game) {
+        this.owner.addPlayedGame(game);
+    }
+    
+       /**
+     * Update user
+     *
+     * @param playername
+     * @throws DataException
+     */
+    public void updatePlayername(String playername) throws DataException {
+
+        if (this.owner != null) {
+
+            //blank playername  
+            if (playername.isEmpty()) {
+                throw new DataException("Data : error due to empty playername");
+            }            
+
+            String oldPlayerName = this.owner.getUserIdentity().getLightPublicUser().getPlayerName();
+            if (!this.getDataFacade().isTestMode()) {
+                this.owner.getUserIdentity().getLightPublicUser().setPlayerName(playername);
+            }
+            
+
+            //remove old profile and add new one
+            //determine the path
+            try{
+                String path = Configuration.SAVE_DIR + File.separator + oldPlayerName + ".json";
+                File f = new File(path);                               
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            
+            save();
+            
+            //to check by data module
+            ComFacade comFacade = this.dataFacade.getComfacade();
+            if (comFacade != null) {
+                if (this.owner != null) {
+                    comFacade.notifyUserSignedOut();
+                    comFacade.notifyUserSignedIn();
+                }
+            }
+
+        } else {
+            throw new DataException("Data : error in updating");
+        }
+
+    }
+    
+    /**
+     *
+     * @param firstName
+     * @throws DataException
+     */
+    public void updateFirstname(String firstName) throws DataException {
+
+        if (this.owner != null) {
+
+            //blank  password
+            if (firstName.isEmpty()) {
+                throw new DataException("Data : error due to empty first name");
+            }
+            firstName = firstName.toUpperCase();          
+            this.owner.getUserIdentity().setFirstName(firstName);
+
+            save();
+
+            //remove old profile and add new one
+            //to check by data module
+            ComFacade comFacade = this.dataFacade.getComfacade();
+            if (comFacade != null) {
+                if (this.owner != null) {
+                    comFacade.notifyUserSignedOut();
+                    comFacade.notifyUserSignedIn();
+                }
+            }
+        } else {
+            throw new DataException("Data : error in updating");
+        }
+
+    }
+
+    public void updateLastname(String lastName) throws DataException {
+        if (this.owner != null) {
+
+            if (lastName.isEmpty()) {
+                throw new DataException("Data : error due to empty lastName");
+            }
+
+            lastName = lastName.toUpperCase();
+            this.owner.getUserIdentity().setLastName(lastName);
+
+            save();
+
+            //remove old profile and add new one
+            //to check by data module
+            ComFacade comFacade = this.dataFacade.getComfacade();
+            if (comFacade != null) {
+                if (this.owner != null) {
+                    comFacade.notifyUserSignedOut();
+                    comFacade.notifyUserSignedIn();
+                }
+            }
+
+        } else {
+            throw new DataException("Data : error in updating");
+        }
+
+    }
+    
+    /**
+     *
+     * @param birthDate
+     * @throws DataException
+     */
+    public void updateBirthdate(Date birthDate) throws DataException {
+
+        if (this.owner != null) {     
+            this.owner.getUserIdentity().setBirthDate(birthDate);
+            save();
+
+            ComFacade comFacade = this.dataFacade.getComfacade();
+            if (comFacade != null) {
+                if (this.owner != null) {
+                    comFacade.notifyUserSignedOut();
+                    comFacade.notifyUserSignedIn();
+                }
+            }
+
+        } else {
+            throw new DataException("Data : error in updating");
+        }
+
+    }
+    
+    /**
+     *
+     * @param fileImage
+     * @throws DataException
+     */
+    public void updateFileImage(String fileImage) throws DataException {
+
+        if (this.owner != null) {
+            if (!this.getDataFacade().isTestMode()) {
+                if (fileImage.isEmpty()) {
+                    throw new DataException("Data : error due to empty image");
+                }
+                this.owner.getUserIdentity().setAvatar(this.extractBytes(fileImage));
+                this.owner.getUserIdentity().getLightPublicUser().setAvatarThumbnail(this.createThumbnail(fileImage));
+
+            }      
+            save();
+
+            //remove old profile and add new one
+            //to check by data module
+            ComFacade comFacade = this.dataFacade.getComfacade();
+            if (comFacade != null) {
+                if (this.owner != null) {
+                    comFacade.notifyUserSignedOut();
+                    comFacade.notifyUserSignedIn();
+                }
+            }
+
+        } else {
+            throw new DataException("Data : error in updating");
+        }
+
+    }
+    
+    /**
+     *
+     * @param password
+     * @throws DataException
+     */
+    public void updatePassword(String password) throws DataException {
+
+        if (this.owner != null) {
+
+            //blank  password
+            if (password.isEmpty()) {
+                throw new DataException("Data : error due to empty playername or password");
+            }
+
+            this.owner.setPassword(password);
+            save();
+
+            //remove old profile and add new one
+            //to check by data module
+            ComFacade comFacade = this.dataFacade.getComfacade();
+            if (comFacade != null) {
+                if (this.owner != null) {
+                    comFacade.notifyUserSignedOut();
+                    comFacade.notifyUserSignedIn();
+                }
+            }
+
+        } else {
+            throw new DataException("Data : error in updating");
+        }
+
+    }
+
+    /**
+     *
+     * send number of victories
+     *
+     * @return int number of victories
+     * @throws DataException
+     */
+    public int getNumberVictories() throws DataException {
+        if(this.owner != null){
+        List<StatGame> games = this.getMyOwnerProfile().getPlayedGamesList() ;
+        LightPublicUser user = this.getMyLightPublicUserProfile() ; 
+        int nbVictories = 0;
+        for (StatGame g : games) {
+            if ((g.getWinner() == user) && !(g.isGameAbandonned())) {
+                nbVictories++ ;
+            }                
+        }
+        return nbVictories ; 
+        }
+        return 0;
+    }
+
+    /**
+     *
+     * send number of defeats
+     *
+     * @return int number of defeats
+     * @throws DataException
+     */
+    public int getNumberDefeats() throws DataException {
+        if(this.owner != null){
+        List<StatGame> games = this.getMyOwnerProfile().getPlayedGamesList() ;
+        LightPublicUser user = this.getMyLightPublicUserProfile() ; 
+        int nbDefeats = 0;
+        for (StatGame g : games) {
+            if ((g.getWinner() != user) && !(g.isGameAbandonned())) {
+                nbDefeats++ ;
+            }                
+        }
+        return nbDefeats ; 
+        }
+        return 0;
+    }
+    
+    /**
+     *
+     * send number of abandons
+     *
+     * @return int number of abandons
+     * @throws DataException
+     */
+    public int getNumberAbandons() throws DataException {
+        if(this.owner!=null){
+        List<StatGame> games = this.getMyOwnerProfile().getPlayedGamesList() ;
+        //LightPublicUser user = this.getMyLightPublicUserProfile() ; 
+        int nbAbandons = 0;
+        for (StatGame g : games) {
+            if ((g.getWinner() == null) && (g.isGameAbandonned())) {
+                nbAbandons++ ;
+            }                
+        }
+        return nbAbandons ; 
+        }
+        return 0;
     }
 }

@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Line?>
 
-<GridPane id="ipGrid" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.IpListController">
+<GridPane id="generalGrid" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../styles/ihmmain.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.IpListController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -18,22 +23,54 @@
     <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label text="LIST IP" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+      <GridPane maxWidth="300.0" minWidth="60.0" prefWidth="60.0" GridPane.halignment="RIGHT">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label id="usernameLabel" fx:id="playerUsernameLabel" text="Label" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
+            <ImageView fx:id="avatarImageView1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+         </children>
+      </GridPane>
+      <Label id="pageTitleLabel" text="LIST OF IP" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+      <Line fx:id="lineDesign" endX="100.0" startX="-100.0" styleClass="lineDesign" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
       <TableView fx:id="ipList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-      <Button fx:id="validateButton" mnemonicParsing="false" onAction="#validateList" text="VALIDATE AND RETURN" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+      <Button fx:id="validateButton" mnemonicParsing="false" onAction="#validateList" text="VALIDATE AND RETURN" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+            <tooltip>
+                <Tooltip text="Click to validate the changes and go back to the menu." />
+            </tooltip>
+      </Button>
       <GridPane GridPane.rowIndex="2">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField fx:id="ipAdressField" />
-            <Button fx:id="addRemoveButton" mnemonicParsing="false" onAction="#addRemoveIpAdress" prefHeight="25.0" text="ADD / REMOVE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <TextField fx:id="ipAddressField" GridPane.columnIndex="1">
+                <tooltip>
+                    <Tooltip text="Enter the IP address you want to add." />
+                </tooltip>
+            </TextField>
+            <Button fx:id="addRemoveButton" mnemonicParsing="false" onAction="#addIpAddress" prefHeight="25.0" text="ADD" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                <tooltip>
+                    <Tooltip text="Click to add the IP address." />
+                </tooltip>
+            </Button>
          </children>
       </GridPane>
-      <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refreshList" text="REFRESH" />
+      <ImageView fx:id="avatarImageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets right="20.0" top="20.0" />
+         </GridPane.margin>
+      </ImageView>
    </children>
 </GridPane>

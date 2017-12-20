@@ -6,6 +6,7 @@
 package com.utclo23.data.module;
 
 import com.utclo23.data.structure.Event;
+import com.utclo23.data.structure.SerializableEntity;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
  * Keep a state of a game
  * @author Davy
  */
-public class Memento {
+public class Memento extends SerializableEntity{
     /**
      * list of events (messages, ships)
      */
@@ -41,6 +42,20 @@ public class Memento {
      */
     public void setState(List<Event> state) {
         this.state = state;
+    }
+    
+    public Event getLastEvent()
+    {
+        Event max = this.state.get(0);
+        for(int i = 1; i< state.size(); ++i)
+        {
+            if(max!=null && max.getTimestamp().compareTo(state.get(i).getTimestamp()) < 0)
+            {
+                max = state.get(i);
+            }
+        }
+        
+        return max;
     }
     
 }

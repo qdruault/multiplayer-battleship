@@ -24,18 +24,31 @@ public interface IDataIHMMain {
     
     public List<StatGame> getGameList();
     
-    public Game createGame(String name, boolean computerMode, boolean spectator, boolean spectatorChat, GameType type);
+    public Game createGame(String name, boolean computerMode, boolean spectator, boolean spectatorChat, GameType type) throws DataException;
     public void signin(String username, String password) throws DataException;
     public void signOut() throws Exception;
     public List<LightPublicUser> getConnectedUsers();
     public PublicUser getMyPublicUserProfile();
 
+    public Owner getMyOwnerProfile();
+    
     public List<String> getIPDiscovery();
     public void setIPDiscovery(List<String> discoveryNodes) throws DataException;
     
     public void gameConnectionRequestGame(String id, String role);
-    
-     public void setNetworkInterface(InterfaceAddress net_interface) ;
+
+  
+    public void setNetworkInterface(InterfaceAddress net_interface) ;
+     
+    public void updatePlayername(String playername) throws DataException;
+    public void updateFirstname(String firstname) throws DataException;
+    public void updateLastname(String lastname) throws DataException;
+    public void updateBirthdate(Date birthdate) throws DataException;
+    public void updateFileImage(String fileImage) throws DataException;
+    public void updatePassword(String password) throws DataException;
+
+    public int getNumberVictories() throws DataException;
+    public int getNumberDefeats() throws DataException;
+    public int getNumberAbandons() throws DataException;
 
 }
-

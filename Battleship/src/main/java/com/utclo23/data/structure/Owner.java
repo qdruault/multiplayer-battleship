@@ -28,8 +28,6 @@ public class Owner extends SerializableEntity{
     private List<String> discoveryNodes;
     private List<Game> savedGamesList;
     private List<StatGame> playedGamesList;
-    private List<LightPublicUser> contactList;
-    private byte[] avatar;
     
     public Owner()
     {
@@ -154,16 +152,8 @@ public class Owner extends SerializableEntity{
         this.playedGamesList = playedGamesList;
     }
 
-    public List<LightPublicUser> getContactList() {
-        return contactList;
+    public void addPlayedGame(StatGame game) {
+        this.playedGamesList.add(game);
     }
-
-    public void setContactList(List<LightPublicUser> contactList) {
-        this.contactList = contactList;
-    }
-
-
-    
-    
     
 }

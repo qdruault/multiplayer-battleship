@@ -6,131 +6,201 @@
 package com.utclo23.ihmmain.controller;
 
 import com.utclo23.data.structure.LightPublicUser;
+import com.utclo23.data.structure.PublicUser;
 import java.io.IOException;
-import java.rmi.server.UID;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Duration;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 /**
- * The GUI that displays the list of connected users
+ * The GUI that displays the list of connected users.
  * @author calvezlo
  */
 public class PlayerListController extends AbstractController{
-    
-    @FXML
-    private Button lastButton;
-    
-    @FXML
-    private Button nextButton;
-    
-    @FXML
-    private Button returnButton;
-    
+
     @FXML
     private TableView<LightPublicUser> listPlayers;
+    
+    @FXML
+    private ImageView avatarImageView;
+    
+    @FXML
+    private Label playerUsernameLabel;
+    
+    private boolean isLoading;
+    
+    private PublicUser other;
 
     @FXML
     private void returnMenu(ActionEvent event) throws IOException{
-        ihmmain.toMenu();
+        getIhmmain().toMenu();
     }
     
-    @FXML
-    private void nextPage(ActionEvent event) throws IOException{
-        
-    }
-    
-    @FXML
-    private void lastPage(ActionEvent event) throws IOException{
-        
-    }
-    
-    /**
-     * This function is called at the beginning of the application.
+    /** 
+     * This method is called at the beginning of the application.
      * It loads the connected users and print them into the tableview.
      */
     @FXML
     @Override
     public void start(){
-        TableColumn idColumn = new TableColumn("ID");
-        idColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("id"));
-        idColumn.getStyleClass().add("cell-right");
+        isLoading = false;
+        other = null;
+        // The first display : we create the tableview
+        if(listPlayers.getColumns().isEmpty()){
+            TableColumn idColumn = new TableColumn("ID");
+            idColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("id"));
+            idColumn.getStyleClass().add("cell-left");
+            idColumn.getStyleClass().add("label");
+
+            TableColumn nameColumn = new TableColumn("NAME");
+            nameColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("playerName"));
+            nameColumn.getStyleClass().add("cell-right");
+            nameColumn.getStyleClass().add("label");
+
+            listPlayers.getColumns().addAll(idColumn, nameColumn);
+
+            // Columns take all the width of the window
+            listPlayers.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+            
+            avatarImageView.setImage(super.retrievePlayerAvatar());
+            playerUsernameLabel.setText(super.retrievePlayerUsername());
+        }
         
-        TableColumn nameColumn = new TableColumn("NAME");
-        nameColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("playerName"));
-        nameColumn.getStyleClass().add("cell-left");
-        
-        /* TODO Add this lines when data add avatar in LightPublicUser. Add avatarColum in listPlayers.getColumns().addAll(...);
-        TableColumn avatarColumn = new TableColumn("AVATAR");
-        avatarColumn.setCellValueFactory(new PropertyValueFactory<LightPublicUser, String>("avatarThumbnal"));*/
-        
-        listPlayers.getColumns().addAll(idColumn, nameColumn);
-        
-        // Columns take all the width of the window
-        listPlayers.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        
+        // Load the connected users
         getConnectedUsers();
-        
-        refresh();
     }
     
     /**
-     * This function update the list of connected users.
-     * It is launched at the beginning of the application and work in background
+     * This method is called by data module when a new player is connected.
      */
+    @Override
     public void refresh(){
-        // Service allows the GUI to create a task
-        final ScheduledService<Void> refreshService = new ScheduledService<Void>(){
-        
-            // Task is the task itself : it is the algorithm which run in background
-            @Override
-            protected Task<Void> createTask() {
-                
-                return new Task<Void>() {
-                
-                    @Override
-                    protected Void call() throws Exception {
-
-                        getConnectedUsers();
-
-                        return null;
-                    };
-                };
-            }
-        };
-        
-        // Refresh the list of players every 3 seconds
-        refreshService.setPeriod(Duration.seconds(3));
-        
-        // Launching the service which refresh the list of players
-        refreshService.start();
-        
+        if(isRunning()){
+            getConnectedUsers();
+        }
     }
     
     /**
-     * This function call the method of data to update the list of players
+     * This function calls the method of data to update the list of players.
      */
     private void getConnectedUsers(){
-        
-        if(facade != null){
+
+        if(getFacade() != null){
             // Call data method in order to collect connected users
-            ArrayList<LightPublicUser> connectedUsers = new ArrayList<LightPublicUser>(facade.iDataIHMMain.getConnectedUsers());
+            ArrayList<LightPublicUser> connectedUsers = new ArrayList<>(getFacade().iDataIHMMain.getConnectedUsers());
             ObservableList<LightPublicUser> data = FXCollections.observableArrayList(connectedUsers);
         
             // Update the list in the GUI
             listPlayers.setItems(data);
         }
-
     }
     
+    /**
+     * This function is called when the user click on a line in the tableview.
+     * @param event 
+     */
+    @FXML
+    public void clickItem(MouseEvent event){
+        if(event.getClickCount() == 2){
+            // Verify the list is not empty. If the list is empty, it's impossible to select an item
+            if(listPlayers.getSelectionModel().getSelectedItem() != null){
+                String id = listPlayers.getSelectionModel().getSelectedItem().getId();
+                try {
+                    if(!isLoading){
+                        getFacade().iDataIHMMain.askPublicUserProfile(id);
+                        loading();
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(PlayerListController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }    
+    
+    /**
+     * This method is for receiving the profile of other player asked by user.
+     * @param player: profile sent by Data for us to display
+     * @throws IOException 
+     */
+    public void recievePublicUser(PublicUser player) throws IOException{
+        if(isRunning()){
+            isLoading = false;
+            other = player;
+        }
+    }
+    /**
+     * This method is for waiting the profile.
+     * As soon as receive the profile sent by Data, skip the loading and refresh the page.
+     * @throws IOException 
+     */
+    public void loading() throws IOException{
+        isLoading = true;
+        if (isLoading){
+
+            //create a wait task, check every 0.5s if the loading is finished, finish the waiting
+            Task<Void> wait;
+            wait = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        while(isLoading){
+                            Logger.getLogger(
+                                    PlayerProfileController.class.getName()).log(
+                                            Level.INFO, "Waiting."
+                                    );
+                            Thread.sleep(500);
+                        }
+                    } catch (InterruptedException e) {
+                    }
+                    return null;
+                }
+            };
+            //if loading succed, call the refresh();
+            wait.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+                @Override
+                public void handle(WorkerStateEvent event) {
+                    try {
+                        if(other != null){
+                            getIhmmain().toOthersPlayerProfile(other);
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(
+                                PlayerProfileController.class.getName()).log(
+                                        Level.SEVERE, null, ex);
+                    }
+                }
+            });
+            //if loading failed
+            wait.setOnFailed(new EventHandler<WorkerStateEvent>() {
+                @Override
+                public void handle(WorkerStateEvent t){
+                    Logger.getLogger(
+                            PlayerProfileController.class.getName()).log(
+                                    Level.INFO,
+                                    "Loading task failed : {0}", t.toString()
+                            );
+                }
+            });
+            new Thread(wait).start();
+        }
+    }
+    
+    @Override
+    public void stop(){
+        setRunning(false);
+        isLoading = false;
+    }
 }
