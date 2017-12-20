@@ -481,7 +481,7 @@ public class GameMediator {
     public void forwardMessage(Message msg) {
         IIHMTableToData ihmTablefacade = this.dataFacade.getIhmTablefacade();
         if (ihmTablefacade != null) {
-            ihmTablefacade.printMessage(msg.getContent());
+            ihmTablefacade.printMessage(msg);
         }
     }
 

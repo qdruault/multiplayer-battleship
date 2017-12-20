@@ -42,8 +42,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.geometry.NodeOrientation;
+import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -86,6 +92,10 @@ public class InGameGUIController {
 
     @FXML
     private Button sendButton;
+    @FXML
+    private ListView<HBox> listView;
+    @FXML
+    private TextField sendcontent;
     @FXML
     private Button fireButton;
     @FXML
@@ -256,6 +266,13 @@ public class InGameGUIController {
     private Timeline timer;
 
     /**
+    * The pane of chat.
+    */
+    @FXML
+    private Pane paneChat;
+
+    
+    /**
     * Set the IHM Table facade.
     * @param facade : IHM Table facade.
     */
@@ -404,6 +421,26 @@ public class InGameGUIController {
         currentPlayer = facade.getFacadeData().getGame().getCurrentPlayer();
         // Get my player.
         myPlayer = facade.getFacadeData().getGame().getPlayer(facade.getFacadeData().getMyPublicUserProfile().getId());
+        
+        /**
+        * Binding of key "enter" for sending message in tchat
+        */
+       sendcontent.setOnKeyPressed(new EventHandler<KeyEvent>() {
+           public void handle(KeyEvent ke) {
+               if (ke.getCode() == KeyCode.ENTER) {
+                    retrieveInformationAndSendMessage();
+               }
+           }
+        });
+       
+       // If the chat is enabled for this game
+       // isSpectatorChat() is true if the chat is enabled in the game settings
+       if(!facade.getFacadeData().getGame().getStatGame().isSpectatorChat()) {
+            paneChat.setOpacity(0);
+            paneChat.setDisable(true);
+        }
+       
+        printMessageInChat("System", "Welcome to the game room !");
     }
 
     /**
@@ -806,6 +843,59 @@ public class InGameGUIController {
         alert.getDialogPane().setExpandableContent(expContent);
 
         alert.showAndWait();
+    }
+
+    /*
+    * Function called when you click on the send button of the chat
+    * It will send the message written in the textfield of the chat
+    * fx:controller="com.utclo23.ihmtable.controller.InGameGUIController" ==> all the windows 
+    */
+    @FXML
+    public void onClickSendButton(MouseEvent event) throws IOException {
+        retrieveInformationAndSendMessage();
+    }
+    
+    /**
+     * Retrieve information from the textfield of the chat, clear the textfield 
+     * and send the message to data
+     */
+    private void retrieveInformationAndSendMessage() {
+        String userName = myPlayer.getLightPublicUser().getPlayerName();
+        String text = retrieveAndClearMessage();
+        if (text != null) {
+            printMessageInChat(userName, text);
+            facade.getFacadeData().sendMessage(text);
+        }
+    }
+    
+    /**
+     * Retrieve the message from the textfield of the chat and clear it
+     * @return Text contained in the textfield of the chat
+     */
+    private String retrieveAndClearMessage() {
+        String text = null;
+        if(!sendcontent.getText().isEmpty()) {
+            text = sendcontent.getText();
+            sendcontent.clear();
+        }
+        return text;
+    }
+    
+    /**
+     * Create a message from the username and the message content, and display it
+     * in the chat
+     * @param userName Name of the player that sends this message
+     * @param msgContent Content of the message that has to be displayed
+     */
+    public void printMessageInChat(String userName, String msgContent) {
+
+        HBox chatBox = new HBox();
+        Text chatText = new Text(userName + " :: " + msgContent); 
+        chatBox.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+        chatText.setWrappingWidth(400);
+        chatBox.getChildren().add(chatText);
+        listView.getItems().add(chatBox);
+        sendcontent.clear();
     }
 
     private class AttackEvent implements EventHandler {
