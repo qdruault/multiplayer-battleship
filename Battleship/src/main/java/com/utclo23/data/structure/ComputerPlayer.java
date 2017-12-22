@@ -237,7 +237,7 @@ public class ComputerPlayer extends Player {
             System.out.println();
         }
 
-        int x = 0, y = 0;
+        int x = -1, y = -1;
         boolean valid = true;
 
         if (this.stackFocus.isEmpty()) {
@@ -344,9 +344,11 @@ public class ComputerPlayer extends Player {
 
             do {
 
+               // int security_loop = 0;
+                
+                
                 Coordinate focus = this.stackFocus.peek();
-
-                System.out.println("FOCUS method");
+                System.out.println("FOCUS method "+focus.getX()+" "+focus.getY());
                 if ((focus.getX() + dx >= Configuration.WIDTH || (focus.getY() + dy < 0) || (focus.getX() + dx < 0) || focus.getY() + dy >= Configuration.WIDTH) || tab[focus.getX() + dx][focus.getY() + dy] != 0) {
 
                     if ((focus.getX() + 1 >= Configuration.WIDTH || focus.getY() >= Configuration.WIDTH) || tab[focus.getX() + 1][focus.getY()] != 0) {
@@ -390,9 +392,14 @@ public class ComputerPlayer extends Player {
                     y = focus.getY() + dy;
                 }
 
-            } while (x == 0 && y == 0 && !this.stackFocus.isEmpty());
-
-            if (this.stackFocus.isEmpty() || (x == 0 && y == 0)) {
+                
+                
+                
+            } while (x == -1 && y == -1 && !this.stackFocus.isEmpty());
+            
+            //
+                  
+            if (this.stackFocus.isEmpty() || (x == -1 && y == -1)) {
 
                 Random r = new Random();
 
