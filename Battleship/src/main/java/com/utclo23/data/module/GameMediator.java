@@ -306,6 +306,14 @@ public class GameMediator {
                  //   this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
                 //}
 
+                
+                // If the current game is against comptuer and is the current player has finished : the game is finished!
+                if (this.currentGame.isComputerGame() && this.currentGame.isGameFinishedByCurrentPlayer()) {
+                    this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
+                    this.dataFacade.getIhmTablefacade().finishGame(this.currentGame.getStatGame());
+                    return null;
+                }
+        
                 //if creator of the game
                 if (this.currentGame.getStatGame().getCreator().getId().equals(this.dataFacade.getUserMediator().getMyPublicUserProfile().getId())) {
                     //if computer mode ?
@@ -593,12 +601,6 @@ public class GameMediator {
                 }
                 this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
             }
-            this.dataFacade.getIhmTablefacade().finishGame(this.currentGame.getStatGame());
-        }
-        
-        // If the current game is against comptuer and is the current player has finished : the game is finished!
-        if (this.currentGame.isComputerGame() && this.currentGame.isGameFinishedByCurrentPlayer()) {
-            this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
             this.dataFacade.getIhmTablefacade().finishGame(this.currentGame.getStatGame());
         }
     }
