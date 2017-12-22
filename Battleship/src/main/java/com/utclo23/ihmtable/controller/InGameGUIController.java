@@ -12,6 +12,7 @@ import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.Message;
 import com.utclo23.data.structure.Mine;
 import com.utclo23.data.structure.Player;
+import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.ShipType;
 import com.utclo23.ihmtable.structure.CoordinatesGenerator;
@@ -250,6 +251,11 @@ public class InGameGUIController {
      */
     private Player myPlayer;
     
+    /**
+     * Me if I'm a spectator.
+     */
+    private PublicUser mySpectator;
+    
 
     /**
      * True if playing review game
@@ -272,6 +278,7 @@ public class InGameGUIController {
     @FXML
     private Pane paneChat;
 
+    private boolean isSpectator = false;
     
     /**
     * Set the IHM Table facade.
@@ -317,111 +324,121 @@ public class InGameGUIController {
         shipsPictures.put(ShipType.DESTROYER,  "images/ship4.png");
         shipsPictures.put(ShipType.SUBMARINE,  "images/ship5.png");
 
-        // Player not able to fire
-        readyToAttack = false;
-        // Fill in the opponent grid.
-        opponentPanes = new ArrayList<>();
-        for (int col = 0; col < opponentGrid.getColumnConstraints().size(); col++) {
-            for (int row = 0; row < opponentGrid.getRowConstraints().size(); row++) {
-                // Create an empty pane.
-                Pane pane = new Pane();
-
-                // Add it to the list to store it.
-                opponentPanes.add(pane);
-                // Add a onClick event on it.
-                pane.setOnMouseClicked(new AttackEvent(row, col));
-                opponentGrid.add(pane, col, row);
-            }
-        }
-
-        // Fill in the player grid.
-        playerPanes = new ArrayList<>();
-        for (int col = 0; col < playerGrid.getColumnConstraints().size(); col++) {
-            for (int row = 0; row < playerGrid.getRowConstraints().size(); row++) {
-                // Create an empty pane.
-                Pane pane = new Pane();
-
-                // Add it to the list to store it.
-                playerPanes.add(pane);
-                // Add a CSS class to handle the hover effect.
-                pane.getStyleClass().add("inGameGUI_hover_cell");
-                // Add the click event on it.
-                pane.setOnMouseClicked(new ChooseCellEvent(row, col));
-                playerGrid.add(pane, col, row);
-            }
-        }
-
-        // Initialize the position of the ship to place.
-        shipToPlace = null;
-        startPosition = null;
-        endPosition = null;
-
-        try {
-            // Get the ships.
-            ships = facade.getFacadeData().getTemplateShips();
-        } catch (DataException ex) {
-            Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        //Add manually the button to set them up
-        mapBtnType = new HashMap<>();
-        mapBtnType.put(ShipType.BATTLESHIP, buttonImage1);
-        mapBtnType.put(ShipType.CARRIER, buttonImage2);
-        mapBtnType.put(ShipType.CRUISER, buttonImage3);
-        mapBtnType.put(ShipType.DESTROYER, buttonImage4);
-        mapBtnType.put(ShipType.SUBMARINE, buttonImage5);
-
-        //Map to count the number of ship / type
-        mapShipCount = new HashMap<>();
-        mapShipCount.put(ShipType.CARRIER,0);
-        mapShipCount.put(ShipType.BATTLESHIP,0);
-        mapShipCount.put(ShipType.CRUISER,0);
-        mapShipCount.put(ShipType.DESTROYER,0);
-        mapShipCount.put(ShipType.SUBMARINE,0);
-
-        //Fill the mapShipCount from the list of ships obtained from Data
-        for(int i = 0; i<ships.size();i++)
-        {
-            mapShipCount.put(ships.get(i).getType(),mapShipCount.get(ships.get(i).getType())+1);
-        }
-
-        //Set the number of available ship in the label of the buttons
-        mapBtnType.get(ShipType.CARRIER).setText(mapShipCount.get(ShipType.CARRIER).toString());
-        System.out.println("CARRIER : " + mapBtnType.get(ShipType.CARRIER).getText());
-        mapBtnType.get(ShipType.BATTLESHIP).setText(mapShipCount.get(ShipType.BATTLESHIP).toString());
-        System.out.println("BATTLE : " + mapBtnType.get(ShipType.BATTLESHIP).getText());
-        mapBtnType.get(ShipType.CRUISER).setText(mapShipCount.get(ShipType.CRUISER).toString());
-        System.out.println("CRUISER : " + mapBtnType.get(ShipType.CRUISER).getText());
-        mapBtnType.get(ShipType.DESTROYER).setText(mapShipCount.get(ShipType.DESTROYER).toString());
-        System.out.println("DESTROYER : " + mapBtnType.get(ShipType.DESTROYER).getText());
-        mapBtnType.get(ShipType.SUBMARINE).setText(mapShipCount.get(ShipType.SUBMARINE).toString());
-        System.out.println("SUBMARINE : " + mapBtnType.get(ShipType.SUBMARINE).getText());
-
-        // Example ships.
-        buttonImage1.setOnMouseClicked(new SelectShipEvent(ShipType.BATTLESHIP));
-        buttonImage2.setOnMouseClicked(new SelectShipEvent(ShipType.CARRIER));
-        buttonImage3.setOnMouseClicked(new SelectShipEvent(ShipType.CRUISER));
-        buttonImage4.setOnMouseClicked(new SelectShipEvent(ShipType.DESTROYER));
-        buttonImage5.setOnMouseClicked(new SelectShipEvent(ShipType.SUBMARINE));
-
-        // Start chrono.
-        initTimer();
-        chronoTimeInit();
-
-        // Init the number of turns passed.
-        nbPassedTurns = 0;
-        nbTotalPassedTurns = 0;
-
-        // Init current player's stats of the match
-        currentPlayerStats = new InGameStats();
-        // Init opponent's stats of the match
-        opponentStats = new InGameStats();
-        // Init pannel with values
-        updateStatsPannel();
         // Get the current player.
         currentPlayer = facade.getFacadeData().getGame().getCurrentPlayer();
         // Get my player.
         myPlayer = facade.getFacadeData().getGame().getPlayer(facade.getFacadeData().getMyPublicUserProfile().getId());
+        
+        // Spectator.
+        if (myPlayer == null) {
+            isSpectator = true;
+            mySpectator = facade.getFacadeData().getMyPublicUserProfile();
+        }
+        
+        // Player not able to fire
+        readyToAttack = false;
+        
+        if (!isSpectator) {
+            // Fill in the opponent grid.
+            opponentPanes = new ArrayList<>();
+            for (int col = 0; col < opponentGrid.getColumnConstraints().size(); col++) {
+                for (int row = 0; row < opponentGrid.getRowConstraints().size(); row++) {
+                    // Create an empty pane.
+                    Pane pane = new Pane();
+
+                    // Add it to the list to store it.
+                    opponentPanes.add(pane);
+                    // Add a onClick event on it.
+                    pane.setOnMouseClicked(new AttackEvent(row, col));
+                    opponentGrid.add(pane, col, row);
+                }
+            }
+
+            // Fill in the player grid.
+            playerPanes = new ArrayList<>();
+            for (int col = 0; col < playerGrid.getColumnConstraints().size(); col++) {
+                for (int row = 0; row < playerGrid.getRowConstraints().size(); row++) {
+                    // Create an empty pane.
+                    Pane pane = new Pane();
+
+                    // Add it to the list to store it.
+                    playerPanes.add(pane);
+                    // Add a CSS class to handle the hover effect.
+                    pane.getStyleClass().add("inGameGUI_hover_cell");
+                    // Add the click event on it.
+                    pane.setOnMouseClicked(new ChooseCellEvent(row, col));
+                    playerGrid.add(pane, col, row);
+                }
+            }
+
+            // Initialize the position of the ship to place.
+            shipToPlace = null;
+            startPosition = null;
+            endPosition = null;
+
+            try {
+                // Get the ships.
+                ships = facade.getFacadeData().getTemplateShips();
+            } catch (DataException ex) {
+                Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            //Add manually the button to set them up
+            mapBtnType = new HashMap<>();
+            mapBtnType.put(ShipType.BATTLESHIP, buttonImage1);
+            mapBtnType.put(ShipType.CARRIER, buttonImage2);
+            mapBtnType.put(ShipType.CRUISER, buttonImage3);
+            mapBtnType.put(ShipType.DESTROYER, buttonImage4);
+            mapBtnType.put(ShipType.SUBMARINE, buttonImage5);
+
+            //Map to count the number of ship / type
+            mapShipCount = new HashMap<>();
+            mapShipCount.put(ShipType.CARRIER,0);
+            mapShipCount.put(ShipType.BATTLESHIP,0);
+            mapShipCount.put(ShipType.CRUISER,0);
+            mapShipCount.put(ShipType.DESTROYER,0);
+            mapShipCount.put(ShipType.SUBMARINE,0);
+
+            //Fill the mapShipCount from the list of ships obtained from Data
+            for(int i = 0; i<ships.size();i++)
+            {
+                mapShipCount.put(ships.get(i).getType(),mapShipCount.get(ships.get(i).getType())+1);
+            }
+
+            //Set the number of available ship in the label of the buttons
+            mapBtnType.get(ShipType.CARRIER).setText(mapShipCount.get(ShipType.CARRIER).toString());
+            System.out.println("CARRIER : " + mapBtnType.get(ShipType.CARRIER).getText());
+            mapBtnType.get(ShipType.BATTLESHIP).setText(mapShipCount.get(ShipType.BATTLESHIP).toString());
+            System.out.println("BATTLE : " + mapBtnType.get(ShipType.BATTLESHIP).getText());
+            mapBtnType.get(ShipType.CRUISER).setText(mapShipCount.get(ShipType.CRUISER).toString());
+            System.out.println("CRUISER : " + mapBtnType.get(ShipType.CRUISER).getText());
+            mapBtnType.get(ShipType.DESTROYER).setText(mapShipCount.get(ShipType.DESTROYER).toString());
+            System.out.println("DESTROYER : " + mapBtnType.get(ShipType.DESTROYER).getText());
+            mapBtnType.get(ShipType.SUBMARINE).setText(mapShipCount.get(ShipType.SUBMARINE).toString());
+            System.out.println("SUBMARINE : " + mapBtnType.get(ShipType.SUBMARINE).getText());
+
+            // Example ships.
+            buttonImage1.setOnMouseClicked(new SelectShipEvent(ShipType.BATTLESHIP));
+            buttonImage2.setOnMouseClicked(new SelectShipEvent(ShipType.CARRIER));
+            buttonImage3.setOnMouseClicked(new SelectShipEvent(ShipType.CRUISER));
+            buttonImage4.setOnMouseClicked(new SelectShipEvent(ShipType.DESTROYER));
+            buttonImage5.setOnMouseClicked(new SelectShipEvent(ShipType.SUBMARINE));
+
+            // Start chrono.
+            initTimer();
+            chronoTimeInit();
+
+            // Init the number of turns passed.
+            nbPassedTurns = 0;
+            nbTotalPassedTurns = 0;
+
+            // Init current player's stats of the match
+            currentPlayerStats = new InGameStats();
+            // Init opponent's stats of the match
+            opponentStats = new InGameStats();
+            // Init pannel with values
+            updateStatsPannel();
+        }
         
         /**
         * Binding of key "enter" for sending message in tchat
@@ -870,7 +887,13 @@ public class InGameGUIController {
      * and send the message to data
      */
     private void retrieveInformationAndSendMessage() {
-        String userName = myPlayer.getLightPublicUser().getPlayerName();
+        String userName;
+        if (isSpectator) {
+            userName = mySpectator.getPlayerName();
+        } else {
+            userName = myPlayer.getLightPublicUser().getPlayerName();;
+        }
+        
         String text = retrieveAndClearMessage();
         if (text != null) {
             printMessageInChat(userName, text);
