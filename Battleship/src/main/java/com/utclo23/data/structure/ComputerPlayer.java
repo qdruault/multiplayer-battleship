@@ -250,8 +250,91 @@ public class ComputerPlayer extends Player {
                 x = r.nextInt(Configuration.WIDTH);
                 y = r.nextInt(Configuration.WIDTH);
 
-                if (tab[x][y] != 0 || (x >= Configuration.WIDTH || y >= Configuration.WIDTH) || (x % max != 0 && y % max != 0)) {
+                int a, b;
+                a = x - y;
+                a = a % max;
+                b = y - x;
+                b = b % max;
+
+                if (tab[x][y] != 0 || (x >= Configuration.WIDTH || y >= Configuration.WIDTH) || (a != 0 || b != 0)) {//(x % max != 0 && y % max != 0)) {
                     valid = false;
+                }
+
+                //still valid
+                if (valid) {
+                    boolean valid_line = true;
+                    if (x + max < Configuration.WIDTH && y < Configuration.WIDTH) {
+                        for (int i = 0; i < max; ++i) {
+                            if (tab[x + i][y] != 0) {
+                                valid_line = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!valid_line) {
+                        valid = false;
+                    } else {
+                        valid = true;
+                    }
+
+                    if (!valid) {
+                        valid_line = true;
+                        if (x < Configuration.WIDTH && y + max < Configuration.WIDTH) {
+                            for (int i = 0; i < max; ++i) {
+                                if (tab[x][y + i] != 0) {
+                                    valid_line = false;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (!valid_line) {
+                            valid = false;
+                        } else {
+                            valid = true;
+                        }
+
+                        if (!valid) {
+                            valid_line = true;
+                            if (x - max >= 0 && y < Configuration.WIDTH) {
+                                for (int i = 0; i < max; ++i) {
+                                    if (tab[x - i][y] != 0) {
+                                        valid_line = false;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (!valid_line) {
+                                valid = false;
+                            } else {
+                                valid = true;
+                            }
+
+                            if (!valid) {
+                                valid_line = true;
+                                if (y - max >= 0 && x < Configuration.WIDTH) {
+                                    for (int i = 0; i < max; ++i) {
+                                        if (tab[x][y - i] != 0) {
+                                            valid_line = false;
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                if (!valid_line) {
+                                    valid = false;
+                                } else {
+                                    valid = true;
+                                }
+
+                            }
+
+                        }
+
+                    }
+
                 }
 
                 System.out.print(" (" + x + "," + y + ")=" + tab[x][y] + " " + valid + " " + (x % max != 0 && y % max != 0));
@@ -264,7 +347,7 @@ public class ComputerPlayer extends Player {
                 Coordinate focus = this.stackFocus.peek();
 
                 System.out.println("FOCUS method");
-                if ((focus.getX() + dx >= Configuration.WIDTH || (focus.getY() + dy < 0)|| (focus.getX() + dx < 0) || focus.getY() + dy >= Configuration.WIDTH) || tab[focus.getX() + dx][focus.getY() + dy] != 0) {
+                if ((focus.getX() + dx >= Configuration.WIDTH || (focus.getY() + dy < 0) || (focus.getX() + dx < 0) || focus.getY() + dy >= Configuration.WIDTH) || tab[focus.getX() + dx][focus.getY() + dy] != 0) {
 
                     if ((focus.getX() + 1 >= Configuration.WIDTH || focus.getY() >= Configuration.WIDTH) || tab[focus.getX() + 1][focus.getY()] != 0) {
                         System.out.println("no x + 1");
@@ -304,7 +387,7 @@ public class ComputerPlayer extends Player {
                 } else {
                     System.out.println("dx dy");
                     x = focus.getX() + dx;
-                    y = focus.getY() +dy;
+                    y = focus.getY() + dy;
                 }
 
             } while (x == 0 && y == 0 && !this.stackFocus.isEmpty());
@@ -314,18 +397,99 @@ public class ComputerPlayer extends Player {
                 Random r = new Random();
 
                 do {
-
                     valid = true;
                     //choose a new location until empty
-                    x = r.nextInt(Configuration.HEIGHT);
+                    x = r.nextInt(Configuration.WIDTH);
                     y = r.nextInt(Configuration.WIDTH);
 
-                    if (tab[x][y] != 0 || (x >= Configuration.WIDTH || y >= Configuration.WIDTH) || (x % max != 0 && y % max != 0)) {
+                    int a, b;
+                    a = x - y;
+                    a = a % max;
+                    b = y - x;
+                    b = b % max;
 
+                    if (tab[x][y] != 0 || (x >= Configuration.WIDTH || y >= Configuration.WIDTH) || (a != 0 || b != 0)) {//(x % max != 0 && y % max != 0)) {
                         valid = false;
                     }
 
-                    System.out.print(" (" + x + "," + y + ")=" + tab[x][y] + " ");
+                    //still valid
+                    if (valid) {
+                        boolean valid_line = true;
+                        if (x + max < Configuration.WIDTH && y < Configuration.WIDTH) {
+                            for (int i = 0; i < max; ++i) {
+                                if (tab[x + i][y] != 0) {
+                                    valid_line = false;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (!valid_line) {
+                            valid = false;
+                        } else {
+                            valid = true;
+                        }
+
+                        if (!valid) {
+                            valid_line = true;
+                            if (x < Configuration.WIDTH && y + max < Configuration.WIDTH) {
+                                for (int i = 0; i < max; ++i) {
+                                    if (tab[x][y + i] != 0) {
+                                        valid_line = false;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (!valid_line) {
+                                valid = false;
+                            } else {
+                                valid = true;
+                            }
+
+                            if (!valid) {
+                                valid_line = true;
+                                if (x - max >= 0 && y < Configuration.WIDTH) {
+                                    for (int i = 0; i < max; ++i) {
+                                        if (tab[x - i][y] != 0) {
+                                            valid_line = false;
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                if (!valid_line) {
+                                    valid = false;
+                                } else {
+                                    valid = true;
+                                }
+
+                                if (!valid) {
+                                    valid_line = true;
+                                    if (y - max >= 0 && x < Configuration.WIDTH) {
+                                        for (int i = 0; i < max; ++i) {
+                                            if (tab[x][y - i] != 0) {
+                                                valid_line = false;
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    if (!valid_line) {
+                                        valid = false;
+                                    } else {
+                                        valid = true;
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                    System.out.print(" (" + x + "," + y + ")=" + tab[x][y] + " " + valid + " " + (x % max != 0 && y % max != 0));
                 } while (!valid);
             }
 

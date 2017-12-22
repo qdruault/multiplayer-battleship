@@ -390,15 +390,15 @@ public class GameMediator {
      * @param role role of the new user
      */
     public void updateGameList(LightPublicUser user, String id, String role) throws DataException {
-        System.out.print("liste players");
-
+        System.out.print("update gamelist "+user.getPlayerName()+" "+role+" "+id);
+        
         for (Player p : this.currentGame.getPlayers()) {
             System.out.println(p.getLightPublicUser().getId() + " " + p.getLightPublicUser().getPlayerName());
         }
 
         System.out.println("-----------");
-
         System.out.println("id " + id);
+        
         if (user == null) {
             System.out.println("user is null");
         }
@@ -408,13 +408,12 @@ public class GameMediator {
         }
 
         if (this.currentGame.getId().equals(id)) {
-
-            System.out.println("add Urole " + role);
+            System.out.println("add User role " + role);
             if (true) {
                 this.getCurrentGame().addUser(user, role);
 
-                if (this.dataFacade.getComfacade() != null) {
-
+                if (this.dataFacade.getComfacade() != null) 
+                {
                     System.out.println("data join game resp");
                     this.dataFacade.getComfacade().joinGameResponse(true, user.getId(), this.currentGame.getStatGame());
 
@@ -440,9 +439,7 @@ public class GameMediator {
                 game = this.gamesMap.get(id);
                 //send game
 
-                // 
-                System.out.println(" ROLE : " + role);
-              
+                System.out.println("send ROLE : " + role);
                 this.dataFacade.getComfacade().connectionToGame(game, role);
                 
             }
