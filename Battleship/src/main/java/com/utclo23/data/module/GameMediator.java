@@ -596,6 +596,7 @@ public class GameMediator {
             this.dataFacade.getIhmTablefacade().finishGame(this.currentGame.getStatGame());
         }
         
+        // If the current game is against comptuer and is the current player has finished : the game is finished!
         if (this.currentGame.isComputerGame() && this.currentGame.isGameFinishedByCurrentPlayer()) {
             this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
             this.dataFacade.getIhmTablefacade().finishGame(this.currentGame.getStatGame());
