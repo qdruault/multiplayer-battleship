@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Optional;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -773,23 +774,32 @@ public class InGameGUIController {
      */
     public void displayFinishPopup(String sMessage) {
 
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("End of the Game");
-        alert.setHeaderText(sMessage);
-        alert.setContentText("Do you want to save this game?");
+        final String message = sMessage;
+        
+        // Create a runLater Runnable so that the following code will be executed
+        // on the JavaFX thread and not in a random background thread
+        // To avoid crash
+        Platform.runLater(new Runnable() {
+            @Override public void run() {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("End of the Game");
+                alert.setHeaderText(message);
+                alert.setContentText("Do you want to save this game?");
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            // ... user chose OK
-            //facade.getFacadeData().save();
-        }
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    // ... user chose OK
+                    //facade.getFacadeData().save();
+                }
 
-        try {
-            // Go back to the menu.
-            facade.getFacadeIHMMain().toMenu();
-        } catch (IOException ex) {
-            Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                try {
+                    // Go back to the menu.
+                    facade.getFacadeIHMMain().toMenu();
+                } catch (IOException ex) {
+                    Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
     }
 
     /**
