@@ -677,7 +677,6 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
     @Override
     public void gameConnectionRequestGame(String id, String role) {
-
         System.out.println("GAME CONNECTION REQUEST GAME "+id+" "+role);
         this.gameMediator.gameConnectionRequestGame(id, role);
     }
