@@ -336,53 +336,59 @@ public class InGameGUIController {
         }
         
         // Player not able to fire
-        readyToAttack = false;
-        
-        if (!isSpectator) {
-            // Fill in the opponent grid.
-            opponentPanes = new ArrayList<>();
-            for (int col = 0; col < opponentGrid.getColumnConstraints().size(); col++) {
-                for (int row = 0; row < opponentGrid.getRowConstraints().size(); row++) {
-                    // Create an empty pane.
-                    Pane pane = new Pane();
+        readyToAttack = false;        
 
-                    // Add it to the list to store it.
-                    opponentPanes.add(pane);
-                    // Add a onClick event on it.
+        // Fill in the opponent grid.
+        opponentPanes = new ArrayList<>();
+        for (int col = 0; col < opponentGrid.getColumnConstraints().size(); col++) {
+            for (int row = 0; row < opponentGrid.getRowConstraints().size(); row++) {
+                // Create an empty pane.
+                Pane pane = new Pane();
+
+                // Add it to the list to store it.
+                opponentPanes.add(pane);
+                // Add a onClick event on it.
+                if (!isSpectator) {
                     pane.setOnMouseClicked(new AttackEvent(row, col));
-                    opponentGrid.add(pane, col, row);
                 }
+                
+                opponentGrid.add(pane, col, row);
             }
+        }
 
-            // Fill in the player grid.
-            playerPanes = new ArrayList<>();
-            for (int col = 0; col < playerGrid.getColumnConstraints().size(); col++) {
-                for (int row = 0; row < playerGrid.getRowConstraints().size(); row++) {
-                    // Create an empty pane.
-                    Pane pane = new Pane();
+        // Fill in the player grid.
+        playerPanes = new ArrayList<>();
+        for (int col = 0; col < playerGrid.getColumnConstraints().size(); col++) {
+            for (int row = 0; row < playerGrid.getRowConstraints().size(); row++) {
+                // Create an empty pane.
+                Pane pane = new Pane();
 
-                    // Add it to the list to store it.
-                    playerPanes.add(pane);
+                // Add it to the list to store it.
+                playerPanes.add(pane);
+                if (!isSpectator) {
                     // Add a CSS class to handle the hover effect.
                     pane.getStyleClass().add("inGameGUI_hover_cell");
                     // Add the click event on it.
                     pane.setOnMouseClicked(new ChooseCellEvent(row, col));
-                    playerGrid.add(pane, col, row);
                 }
+                
+                playerGrid.add(pane, col, row);
             }
+        }
 
-            // Initialize the position of the ship to place.
-            shipToPlace = null;
-            startPosition = null;
-            endPosition = null;
-
+        // Initialize the position of the ship to place.
+        shipToPlace = null;
+        startPosition = null;
+        endPosition = null;
+        
+        if (!isSpectator) {
             try {
                 // Get the ships.
                 ships = facade.getFacadeData().getTemplateShips();
             } catch (DataException ex) {
                 Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
             //Add manually the button to set them up
             mapBtnType = new HashMap<>();
             mapBtnType.put(ShipType.BATTLESHIP, buttonImage1);
@@ -437,7 +443,7 @@ public class InGameGUIController {
             // Init opponent's stats of the match
             opponentStats = new InGameStats();
             // Init pannel with values
-            updateStatsPannel();
+            updateStatsPannel(); 
         }
         
         /**
@@ -481,29 +487,42 @@ public class InGameGUIController {
     public void startGame() {
         // To know that the game is started.
         gameStarted = true;
-
-        // To know whose turn it is.
-        if (facade.getFacadeData().getGame().getCurrentPlayer().getLightPublicUser() == facade.getFacadeData().getMyPublicUserProfile().getLightPublicUser()) {
-            // I'm the first player to play.
-            readyToAttack = true;
+        
+        if (isSpectator) {
+            // Display all the ships on the board.
+            // Left board.
+            for (Ship leftShip : facade.getFacadeData().getGame().getPlayers().get(0).getShips()) {
+                putShipOnBoard(leftShip, playerGrid);
+            }
+            
+            // Right board.
+            for (Ship rightShip : facade.getFacadeData().getGame().getPlayers().get(1).getShips()) {
+                putShipOnBoard(rightShip, opponentGrid);
+            }
         } else {
-            // I'm not the first player to play.
-            readyToAttack = false;
-        }
+            // To know whose turn it is.
+            if (facade.getFacadeData().getGame().getCurrentPlayer().getLightPublicUser() == facade.getFacadeData().getMyPublicUserProfile().getLightPublicUser()) {
+                // I'm the first player to play.
+                readyToAttack = true;
+            } else {
+                // I'm not the first player to play.
+                readyToAttack = false;
+            }
+            
+            // We can no longer hover the player panes.
+            for (Pane playerPane : playerPanes) {
+                playerPane.getStyleClass().removeAll("inGameGUI_hover_cell");
+            }
 
-        // We can no longer hover the player panes.
-        for (Pane playerPane : playerPanes) {
-            playerPane.getStyleClass().removeAll("inGameGUI_hover_cell");
-        }
+            // We can now hover the opponent panes.
+            for (Pane opponentPane : opponentPanes) {
+                opponentPane.getStyleClass().add("inGameGUI_hover_cell");
+            }
 
-        // We can now hover the opponent panes.
-        for (Pane opponentPane : opponentPanes) {
-            opponentPane.getStyleClass().add("inGameGUI_hover_cell");
-        }
-
-        // Start the timer if it is my turn.
-        if(readyToAttack) {
-            restartChronoTime();
+            // Start the timer if it is my turn.
+            if(readyToAttack) {
+                restartChronoTime();
+            }
         }
     }
 
