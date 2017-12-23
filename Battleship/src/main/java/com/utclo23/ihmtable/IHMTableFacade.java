@@ -196,7 +196,8 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void feedBack(Coordinate coord, boolean touched, Ship destroyedShip) {
-        controller.displayOpponentAttack(coord, touched, destroyedShip);
+        controller.placeMine(coord,this.getFacadeData().getGame().getRecentMine(coord).getOwner());
+        //controller.displayOpponentAttack(coord, touched, destroyedShip);
         controller.timeToAttack();
     }
 

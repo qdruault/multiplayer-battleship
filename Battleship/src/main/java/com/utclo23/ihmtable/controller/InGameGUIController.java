@@ -653,6 +653,7 @@ public class InGameGUIController {
                 }
             }
 
+            listOfShipsOnTheGrid.put(ship, shipOnTheGrid);
             return shipOnTheGrid;
 
         } catch (Exception ex) {
@@ -786,10 +787,12 @@ public class InGameGUIController {
      * @param coord : where to place the mine
      * @param player : who places the mine
      */
-    private void placeMine(Coordinate coord, Player player)
+    public void placeMine(Coordinate coord, Player player)
     {
         // Select the right grid which depends on the player (TODO spectateur?)
         GridPane grid;
+        
+        //Cas non spectateur (J1 ou J2)
         if(player.getLightPublicUser().getId().equals(facade.getFacadeData().getMyPublicUserProfile().getId())) {
             grid = opponentGrid;
         } else {
@@ -813,12 +816,11 @@ public class InGameGUIController {
             if(destroyedShip != null) {
                 if (grid == opponentGrid) {
                     // Add ship picture on the opponent grid.
-                    Button destroyedShipImage = putShipOnBoard(destroyedShip, opponentGrid);
-                    listOfShipsOnTheGrid.put(destroyedShip, destroyedShipImage);
+                    putShipOnBoard(destroyedShip, opponentGrid);
                 }
 
                 // Change the CSS class of the cells.
-                destroyShip(destroyedShip, opponentGrid);
+                destroyShip(destroyedShip, grid);
             }
 
             // Reset the number of turns passed.
@@ -1349,12 +1351,11 @@ public class InGameGUIController {
 
                                     // No exception : Place the ship on the board.
                                     // Load the image.
-                                    Button shipOnTheGrid = new Button(shipsPictures.get(ship.getType()));
                                     //associate ship with its image on the grid
-                                    listOfShipsOnTheGrid.put(ship, shipOnTheGrid);
 
                                     // Put the image on the board
                                     putShipOnBoard(ship, playerGrid);
+                                
 
                                     // ATTENTION! Grid size is out of control!
                                     // setShip didn't return any exception so the ship is correctly placed -> Update the label on the left panel
