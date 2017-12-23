@@ -781,6 +781,31 @@ public class InGameGUIController {
 
         return result;
     }
+    
+     /**
+     * Get the Node in the grid according to its positions
+     * @param row
+     * @param column
+     * @param gridPane
+     * @param cssClass 
+     * @return
+     */
+    private Node getNodeByRowColumnIndexAndCSSClass(final int row, final int column, GridPane gridPane, String cssClass)
+    {
+        Node result = null;
+        ObservableList<Node> childrens = gridPane.getChildren();
+
+        for (Node node : childrens) {
+            if(node.hasProperties()) {
+                if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column && node.getStyleClass().contains(cssClass)) {
+                    result = node;
+                    break;                      
+                }
+            }
+        }
+
+        return result;
+    }
 
     /**
      * Generic method for placing a mine on the grid just with the coordinates
@@ -1476,18 +1501,15 @@ public class InGameGUIController {
 
         // Change the CSS class of the cells.
         for (Coordinate coordinate : ship.getListCoord()) {
-            Node node = getNodeByRowColumnIndex(coordinate.getY(), coordinate.getX(), grid);
-            if(node.getStyleClass().toString().contains("inGameGUI_touched_cell"))
+            Node node = getNodeByRowColumnIndexAndCSSClass(coordinate.getY(), coordinate.getX(), grid, "inGameGUI_touched_cell");
+            if(node.getStyleClass().contains("inGameGUI_touched_cell"))
             {
                 node.getStyleClass().removeAll("inGameGUI_touched_cell");
                 node.getStyleClass().add("inGameGUI_destroyed_cell");
                 node.toFront();
-                System.out.println(coordinate.getY() + "," + coordinate.getX() + " a changé");
+                //System.out.println(coordinate.getY() + "," + coordinate.getX() + " a changé");
             }
-            else
-            {
-                System.out.println("BAD CELL SELECTION");
-            }
+            
         }
     }
 }
