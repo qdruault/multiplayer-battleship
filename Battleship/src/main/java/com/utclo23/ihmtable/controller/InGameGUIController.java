@@ -1477,10 +1477,17 @@ public class InGameGUIController {
         // Change the CSS class of the cells.
         for (Coordinate coordinate : ship.getListCoord()) {
             Node node = getNodeByRowColumnIndex(coordinate.getY(), coordinate.getX(), grid);
-            node.getStyleClass().removeAll("inGameGUI_touched_cell");
-            node.getStyleClass().add("inGameGUI_destroyed_cell");
-            node.toFront();
-            System.out.println(coordinate.getY() + "," + coordinate.getX() + " a changé");
+            if(node.getStyleClass().toString().contains("inGameGUI_touched_cell"))
+            {
+                node.getStyleClass().removeAll("inGameGUI_touched_cell");
+                node.getStyleClass().add("inGameGUI_destroyed_cell");
+                node.toFront();
+                System.out.println(coordinate.getY() + "," + coordinate.getX() + " a changé");
+            }
+            else
+            {
+                System.out.println("BAD CELL SELECTION");
+            }
         }
     }
 }
