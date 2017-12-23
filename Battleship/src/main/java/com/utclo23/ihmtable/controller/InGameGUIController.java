@@ -1471,6 +1471,7 @@ public class InGameGUIController {
     {
         // Change the opacity.
         listOfShipsOnTheGrid.get(ship).setOpacity(0.5);
+        listOfShipsOnTheGrid.get(ship).toBack();
 
         // Change the CSS class of the cells.
         for (Coordinate coordinate : ship.getListCoord()) {
@@ -1478,6 +1479,7 @@ public class InGameGUIController {
             node.getStyleClass().removeAll("inGameGUI_touched_cell");
             node.getStyleClass().add("inGameGUI_destroyed_cell");
             node.toFront();
+            System.out.println(coordinate.getY() + "," + coordinate.getX() + " a changé");
         }
     }
 }
