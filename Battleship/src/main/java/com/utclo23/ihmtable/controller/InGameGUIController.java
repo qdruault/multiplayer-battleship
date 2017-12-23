@@ -827,6 +827,7 @@ public class InGameGUIController {
             // Ship missed!
             hitCell.getStyleClass().add("inGameGUI_missed_cell");
         }
+        hitCell.toFront();
     }
 
     /**
@@ -1448,7 +1449,8 @@ public class InGameGUIController {
             // The opponent has missed.
             cell.getStyleClass().add("inGameGUI_missed_cell");
         }
-
+        cell.toFront();
+        
         // Ship destroyed.
         if (destroyedShip != null) {
             // Change the CSS class of the cells.
@@ -1475,6 +1477,7 @@ public class InGameGUIController {
             Node node = getNodeByRowColumnIndex(coordinate.getY(), coordinate.getX(), grid);
             node.getStyleClass().removeAll("inGameGUI_touched_cell");
             node.getStyleClass().add("inGameGUI_destroyed_cell");
+            node.toFront();
         }
     }
 }
