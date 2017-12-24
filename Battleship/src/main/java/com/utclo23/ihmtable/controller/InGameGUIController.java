@@ -793,7 +793,7 @@ public class InGameGUIController {
             if(node.hasProperties()) {
                 if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column && node.getStyleClass().contains(cssClass)) {
                     result = node;
-                    break;                      
+                    break;
                 }
             }
         }
@@ -1504,14 +1504,13 @@ public class InGameGUIController {
         // Change the CSS class of the cells.
         for (Coordinate coordinate : ship.getListCoord()) {
             Node node = getNodeByRowColumnIndexAndCSSClass(coordinate.getY(), coordinate.getX(), grid, "inGameGUI_touched_cell");
-            if(node.getStyleClass().contains("inGameGUI_touched_cell"))
+            if(node != null && node.getStyleClass().contains("inGameGUI_touched_cell"))
             {
                 node.getStyleClass().removeAll("inGameGUI_touched_cell");
                 node.getStyleClass().add("inGameGUI_destroyed_cell");
                 node.toFront();
                 //System.out.println(coordinate.getY() + "," + coordinate.getX() + " a changé");
             }
-            
         }
     }
 }
