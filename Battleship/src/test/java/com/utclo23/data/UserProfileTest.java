@@ -5,22 +5,6 @@
  */
 package com.utclo23.data;
 
-import com.utclo23.data.facade.DataFacade;
-import com.utclo23.data.module.DataException;
-import com.utclo23.data.structure.Owner;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import static org.junit.Assert.fail;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
-
 /**
  *
  * @author Quentin

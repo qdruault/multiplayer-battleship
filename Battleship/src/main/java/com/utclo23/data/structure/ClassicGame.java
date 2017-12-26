@@ -15,11 +15,21 @@ import java.util.List;
  */
 public class ClassicGame extends Game{
 
+    /**
+     *
+     */
     public ClassicGame()
     {
         super();
     }
     
+    /**
+     *
+     * @param statGame
+     * @param players
+     * @param spectators
+     * @param messages
+     */
     public ClassicGame(StatGame statGame, List<Player> players, List<LightPublicUser> spectators, List<Message> messages) {
         super(statGame, players, spectators, messages);       
         
@@ -34,7 +44,7 @@ public class ClassicGame extends Game{
     
     public  List<Ship> getTemplateShips()
     {
-        List<Ship> ships = new ArrayList<Ship>();
+        List<Ship> ships = new ArrayList<>();
         ships.add(new Ship(ShipType.CARRIER, 5));
         ships.add(new Ship(ShipType.BATTLESHIP, 4));
         ships.add(new Ship(ShipType.CRUISER, 3));

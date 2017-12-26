@@ -24,14 +24,12 @@ import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.ihmmain.facade.IHMMainFacade;
 
-import com.utclo23.ihmtable.IHMTableFacade;
 import com.utclo23.ihmtable.IIHMTableToData;
 
-import java.io.IOException;
 import java.io.File;
 import java.io.IOException;
 import java.net.InterfaceAddress;
-import java.net.NetworkInterface;
+import java.util.ArrayList;
 
 import java.util.List;
 import java.util.Date;
@@ -270,16 +268,13 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     @Override
     public void leaveGame() {
         Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | leave game");
-        
-        PublicUser user = this.userMediator.getMyPublicUserProfile();
-       
-        
+                
         this.comfacade.leaveGame();
         this.gameMediator.leaveGame();
         try {
             this.ihmMainFacade.toMenu();
         } catch (IOException ex) {
-            ex.printStackTrace();
+              Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data "+ex.getMessage());
         }
         
         this.opponentHasLeftGame();
@@ -296,7 +291,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
             try {
                 this.gameMediator.defWin();
             } catch (DataException e) {
-                //Rien a priori.
+                   Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data "+e.getMessage());
             }
             this.gameMediator.leaveGame();
             this.ihmTablefacade.opponentHasLeftGame();
@@ -347,8 +342,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         try {
             this.ihmMainFacade.refreshUserList();
         } catch (Exception ex) {
-            ex.printStackTrace();
-            // Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex.getMessage());
+            Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, ex.getMessage());
         }
 
     }
@@ -366,8 +360,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         try {
             this.ihmMainFacade.refreshUserList();
         } catch (Exception ex) {
-            ex.printStackTrace();
-            //Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex.getMessage());
+            Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, ex.getMessage());
         }
 
     }
@@ -404,11 +397,9 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     
     @Override
     public PublicUser getMyPublicUserProfile() {
-        try {
+       
             return this.userMediator.getMyPublicUserProfile();
-        } catch (Exception e) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
+        
     }
 
     /**
@@ -469,21 +460,15 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public Pair<Integer, Ship> attack(Coordinate coords, boolean isAttack, Player playerWhoPutTheMine) {
-        if(isAttack)
-        {
-            System.out.println("datafacade | attack "+coords.getX()+"-"+coords.getY());
-     
-        }
+       
         
         try {
 
-            Pair<Integer, Ship> pairReturn = this.gameMediator.attack(coords, isAttack, playerWhoPutTheMine);
+            return  this.gameMediator.attack(coords, isAttack, playerWhoPutTheMine);
             
-
-            return pairReturn;
         } catch (Exception ex) {
-            ex.printStackTrace();
-            return null;
+             Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | "+ex.getMessage());
+             return null;
         }
     }
 
@@ -496,7 +481,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public List<Event> getPreviousBoard() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new ArrayList<Event>();
     }
 
     /**
@@ -506,9 +491,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public List<Event> getNextBoard() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-           
-        return null;
+      return new ArrayList<Event>();
     }
 
     /**
@@ -670,22 +653,21 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         try {
             this.ihmMainFacade.recievePublicUserProfile(profile);
         } catch (IOException ex) {
-            ex.printStackTrace();
-//Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+           Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, ex.getMessage());
         }
     }
 
     @Override
     public void gameConnectionRequestGame(String id, String role) {
-        System.out.println("GAME CONNECTION REQUEST GAME "+id+" "+role);
+        
         this.gameMediator.gameConnectionRequestGame(id, role);
     }
 
     @Override
-    public void setNetworkInterface(InterfaceAddress net_interface) {
+    public void setNetworkInterface(InterfaceAddress netinterface) {
 
         if (this.getComfacade() != null) {
-            this.getComfacade().setUsedInterface(net_interface);
+            this.getComfacade().setUsedInterface(netinterface);
         }
     }
 

@@ -6,12 +6,12 @@
 package com.utclo23.data.structure;
 
 import com.utclo23.data.configuration.Configuration;
-import java.rmi.server.UID;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 import java.util.Random;
-import java.util.Stack;
-import javafx.util.Pair;
+
 
 /**
  *
@@ -19,11 +19,15 @@ import javafx.util.Pair;
  */
 public class ComputerPlayer extends Player {
 
-    private Stack<Coordinate> stackFocus;
+    private Deque<Coordinate> stackFocus;
 
     private int dx;
     private int dy;
 
+    /**
+     *
+     * @param ship
+     */
     public void loseFocus(Ship ship) {
 
         List<Coordinate> list = new ArrayList<>();
@@ -42,24 +46,29 @@ public class ComputerPlayer extends Player {
 
         for (Coordinate cf : list) {
             this.stackFocus.remove(cf);
-            System.out.println("remove focus");
         }
 
     }
 
+    /**
+     *
+     */
     public ComputerPlayer() {
         super(LightPublicUser.generateComputerProfile());
-        System.out.println("new Com player");
 
         dx = 0;
         dy = 0;
 
-        this.stackFocus = new Stack<Coordinate>();
+        this.stackFocus = new ArrayDeque<>();
 
         this.setComputer(true);
 
     }
 
+    /**
+     *
+     * @return
+     */
     public Coordinate getFocus() {
         if (!this.stackFocus.isEmpty()) {
             return this.stackFocus.peek();
@@ -67,6 +76,10 @@ public class ComputerPlayer extends Player {
         return null;
     }
 
+    /**
+     *
+     * @param focus
+     */
     public void setFocus(Coordinate focus) {
         if (focus != null) {
             if (!this.stackFocus.isEmpty()) {
@@ -76,31 +89,33 @@ public class ComputerPlayer extends Player {
                     dy = 0;
                 }
 
-                if (oldFocus.getX() < focus.getX()) {
+                else if (oldFocus.getX() < focus.getX()) {
                     dx = -1;
                     dy = 0;
                 }
 
-                if (oldFocus.getY() > focus.getY()) {
+                else if (oldFocus.getY() > focus.getY()) {
                     dy = -1;
                     dx = 0;
                 }
 
-                if (oldFocus.getY() < focus.getY()) {
+                else if (oldFocus.getY() < focus.getY()) {
                     dy = 1;
                     dx = 0;
                 }
 
-            } else {
-
             }
+            
             this.stackFocus.push(focus);
         }
     }
 
+    /**
+     *
+     * @param ships
+     */
     @Override
     public void setShips(List<Ship> ships) {
-        System.out.println("Data | set ships IA");
         int[][] tab = new int[10][10];
         for (int i = 0; i < Configuration.WIDTH; ++i) {
             for (int j = 0; j < Configuration.WIDTH; ++j) {
@@ -148,8 +163,6 @@ public class ComputerPlayer extends Player {
 
             } while (!valid);
 
-            System.out.println("Data | IA setting ships - start pos " + x + "," + y);
-            System.out.println("Data | size : " + ship.getSize());
 
             //fill 
             if ((x + ship.getSize() < Configuration.WIDTH)) {
@@ -168,34 +181,20 @@ public class ComputerPlayer extends Player {
                 }
             }
 
-            System.out.println("Data | IA add ship");
             this.getShips().add(ship); //add ship
 
-            for (int i = 0; i < Configuration.WIDTH; ++i) {
-                for (int j = 0; j < Configuration.WIDTH; ++j) {
-                    if (tab[j][i] == 0) {
-                        System.out.print("~ ");
-                    } else {
-                        System.out.print("@ ");
-                    }
-                }
-                System.out.println();
-            }
+            
         }
 
-        System.out.println("Data | IA finishes to set up");
-        for (int i = 0; i < Configuration.WIDTH; ++i) {
-            for (int j = 0; j < Configuration.WIDTH; ++j) {
-                if (tab[j][i] == 0) {
-                    System.out.print("~ ");
-                } else {
-                    System.out.print("@ ");
-                }
-            }
-            System.out.println();
-        }
+       
     }
 
+    /**
+     *
+     * @param shipsEnnemy
+     * @param game
+     * @return
+     */
     public Mine randomMine(List<Ship> shipsEnnemy, Game game) {
         //get max size of remaining ships
         int max = 0;
@@ -208,9 +207,7 @@ public class ComputerPlayer extends Player {
 
         max = Math.min(max, 4);
 
-        System.out.println("max ship " + max);
 
-        System.out.println("computer plays... " + this.getMines().size());
         int[][] tab = new int[10][10];
 
         for (int i = 0; i < Configuration.WIDTH; ++i) {
@@ -225,17 +222,7 @@ public class ComputerPlayer extends Player {
 
         }
 
-        System.out.println("IA mines ");
-        for (int i = 0; i < Configuration.WIDTH; ++i) {
-            for (int j = 0; j < Configuration.WIDTH; ++j) {
-                if (tab[j][i] == 0) {
-                    System.out.print("~ ");
-                } else {
-                    System.out.print("X ");
-                }
-            }
-            System.out.println();
-        }
+      
 
         int x = -1, y = -1;
         boolean valid = true;
@@ -256,74 +243,74 @@ public class ComputerPlayer extends Player {
                 b = y - x;
                 b = b % max;
 
-                if (tab[x][y] != 0 || (x >= Configuration.WIDTH || y >= Configuration.WIDTH) || (a != 0 || b != 0)) {//(x % max != 0 && y % max != 0)) {
+                if (tab[x][y] != 0 || (x >= Configuration.WIDTH || y >= Configuration.WIDTH) || (a != 0 || b != 0)) {
                     valid = false;
                 }
 
                 //still valid
                 if (valid) {
-                    boolean valid_line = true;
+                    boolean validLine = true;
                     if (x + max < Configuration.WIDTH && y < Configuration.WIDTH) {
                         for (int i = 0; i < max; ++i) {
                             if (tab[x + i][y] != 0) {
-                                valid_line = false;
+                                validLine = false;
                                 break;
                             }
                         }
                     }
 
-                    if (!valid_line) {
+                    if (!validLine) {
                         valid = false;
                     } else {
                         valid = true;
                     }
 
                     if (!valid) {
-                        valid_line = true;
+                        validLine = true;
                         if (x < Configuration.WIDTH && y + max < Configuration.WIDTH) {
                             for (int i = 0; i < max; ++i) {
                                 if (tab[x][y + i] != 0) {
-                                    valid_line = false;
+                                    validLine = false;
                                     break;
                                 }
                             }
                         }
 
-                        if (!valid_line) {
+                        if (!validLine) {
                             valid = false;
                         } else {
                             valid = true;
                         }
 
                         if (!valid) {
-                            valid_line = true;
+                            validLine = true;
                             if (x - max >= 0 && y < Configuration.WIDTH) {
                                 for (int i = 0; i < max; ++i) {
                                     if (tab[x - i][y] != 0) {
-                                        valid_line = false;
+                                        validLine = false;
                                         break;
                                     }
                                 }
                             }
 
-                            if (!valid_line) {
+                            if (!validLine) {
                                 valid = false;
                             } else {
                                 valid = true;
                             }
 
                             if (!valid) {
-                                valid_line = true;
+                                validLine = true;
                                 if (y - max >= 0 && x < Configuration.WIDTH) {
                                     for (int i = 0; i < max; ++i) {
                                         if (tab[x][y - i] != 0) {
-                                            valid_line = false;
+                                            validLine = false;
                                             break;
                                         }
                                     }
                                 }
 
-                                if (!valid_line) {
+                                if (!validLine) {
                                     valid = false;
                                 } else {
                                     valid = true;
@@ -337,57 +324,45 @@ public class ComputerPlayer extends Player {
 
                 }
 
-                System.out.print(" (" + x + "," + y + ")=" + tab[x][y] + " " + valid + " " + (x % max != 0 && y % max != 0));
             } while (!valid);
 
         } else {
 
             do {
 
-               // int security_loop = 0;
-                
                 
                 Coordinate focus = this.stackFocus.peek();
-                System.out.println("FOCUS method "+focus.getX()+" "+focus.getY());
                 if ((focus.getX() + dx >= Configuration.WIDTH || (focus.getY() + dy < 0) || (focus.getX() + dx < 0) || focus.getY() + dy >= Configuration.WIDTH) || tab[focus.getX() + dx][focus.getY() + dy] != 0) {
 
                     if ((focus.getX() + 1 >= Configuration.WIDTH || focus.getY() >= Configuration.WIDTH) || tab[focus.getX() + 1][focus.getY()] != 0) {
-                        System.out.println("no x + 1");
                         if ((focus.getX() - 1 < 0 || focus.getY() >= Configuration.WIDTH) || tab[focus.getX() - 1][focus.getY()] != 0) {
-                            System.out.println("no x-1");
                             if ((focus.getX() >= Configuration.WIDTH || focus.getY() + 1 >= Configuration.WIDTH) || tab[focus.getX()][focus.getY() + 1] != 0) {
-                                System.out.println("no y+1");
-                                if ((focus.getX() >= Configuration.WIDTH || focus.getY() - 1 < 0) || tab[focus.getX()][focus.getY() - 1] != 0) {
-                                    System.out.println("no y-1");
-                                    //this.focus = null;
+                                if ((focus.getX() >= Configuration.WIDTH || focus.getY() - 1 < 0) || tab[focus.getX()][focus.getY() - 1] != 0) { //this.focus = null;
+                                    //this.oldFocus = null;
+                                                                        //this.focus = null;
                                     //this.oldFocus = null;
 
                                     this.stackFocus.pop();
 
                                 } else {
-                                    System.out.println("y-1");
                                     x = focus.getX();
                                     y = focus.getY() - 1;
                                 }
 
                             } else {
-                                System.out.println("y+1");
                                 x = focus.getX();
                                 y = focus.getY() + 1;
                             }
                         } else {
-                            System.out.println("x-1");
 
                             x = focus.getX() - 1;
                             y = focus.getY();
                         }
                     } else {
-                        System.out.println("x+1");
                         x = focus.getX() + 1;
                         y = focus.getY();
                     }
                 } else {
-                    System.out.println("dx dy");
                     x = focus.getX() + dx;
                     y = focus.getY() + dy;
                 }
@@ -415,74 +390,74 @@ public class ComputerPlayer extends Player {
                     b = y - x;
                     b = b % max;
 
-                    if (tab[x][y] != 0 || (x >= Configuration.WIDTH || y >= Configuration.WIDTH) || (a != 0 || b != 0)) {//(x % max != 0 && y % max != 0)) {
+                    if (tab[x][y] != 0 || (x >= Configuration.WIDTH || y >= Configuration.WIDTH) || (a != 0 || b != 0)) {
                         valid = false;
                     }
 
                     //still valid
                     if (valid) {
-                        boolean valid_line = true;
+                        boolean validLine = true;
                         if (x + max < Configuration.WIDTH && y < Configuration.WIDTH) {
                             for (int i = 0; i < max; ++i) {
                                 if (tab[x + i][y] != 0) {
-                                    valid_line = false;
+                                    validLine = false;
                                     break;
                                 }
                             }
                         }
 
-                        if (!valid_line) {
+                        if (!validLine) {
                             valid = false;
                         } else {
                             valid = true;
                         }
 
                         if (!valid) {
-                            valid_line = true;
+                            validLine = true;
                             if (x < Configuration.WIDTH && y + max < Configuration.WIDTH) {
                                 for (int i = 0; i < max; ++i) {
                                     if (tab[x][y + i] != 0) {
-                                        valid_line = false;
+                                        validLine = false;
                                         break;
                                     }
                                 }
                             }
 
-                            if (!valid_line) {
+                            if (!validLine) {
                                 valid = false;
                             } else {
                                 valid = true;
                             }
 
                             if (!valid) {
-                                valid_line = true;
+                                validLine = true;
                                 if (x - max >= 0 && y < Configuration.WIDTH) {
                                     for (int i = 0; i < max; ++i) {
                                         if (tab[x - i][y] != 0) {
-                                            valid_line = false;
+                                            validLine = false;
                                             break;
                                         }
                                     }
                                 }
 
-                                if (!valid_line) {
+                                if (!validLine) {
                                     valid = false;
                                 } else {
                                     valid = true;
                                 }
 
                                 if (!valid) {
-                                    valid_line = true;
+                                    validLine = true;
                                     if (y - max >= 0 && x < Configuration.WIDTH) {
                                         for (int i = 0; i < max; ++i) {
                                             if (tab[x][y - i] != 0) {
-                                                valid_line = false;
+                                                validLine = false;
                                                 break;
                                             }
                                         }
                                     }
 
-                                    if (!valid_line) {
+                                    if (!validLine) {
                                         valid = false;
                                     } else {
                                         valid = true;
@@ -496,25 +471,31 @@ public class ComputerPlayer extends Player {
 
                     }
 
-                    System.out.print(" (" + x + "," + y + ")=" + tab[x][y] + " " + valid + " " + (x % max != 0 && y % max != 0));
                 } while (!valid);
             }
 
         }
         Coordinate coordinate = new Coordinate(x, y);
 
-        System.out.println("IA chooses " + x + "," + y);
         Mine mine = new Mine(this, coordinate);
         this.getMines().add(mine);
         return mine;
 
     }
 
-    public Stack<Coordinate> getStackFocus() {
+    /**
+     *
+     * @return
+     */
+    public Deque<Coordinate> getStackFocus() {
         return stackFocus;
     }
 
-    public void setStackFocus(Stack<Coordinate> stackFocus) {
+    /**
+     *
+     * @param stackFocus
+     */
+    public void setStackFocus(Deque<Coordinate> stackFocus) {
         this.stackFocus = stackFocus;
     }
 

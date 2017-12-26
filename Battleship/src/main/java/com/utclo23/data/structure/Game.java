@@ -6,7 +6,7 @@
 package com.utclo23.data.structure;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.utclo23.data.module.Caretaker;
+
 import com.utclo23.data.module.DataException;
 import com.utclo23.data.module.Memento;
 import java.io.ByteArrayInputStream;
@@ -15,8 +15,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+
 import java.util.List;
 
 import javafx.util.Pair;
@@ -34,48 +33,78 @@ public abstract class Game extends SerializableEntity {
     private List<LightPublicUser> spectators;
     private List<Message> messages;
     private boolean save;
-    //private Caretaker caretaker;
+
 
     private Player currentPlayer;
 
+    /**
+     *
+     * @param players
+     */
     public void setPlayers(List<Player> players) {
         this.players = players;
     }
 
+    /**
+     *
+     * @param spectators
+     */
     public void setSpectators(List<LightPublicUser> spectators) {
         this.spectators = spectators;
     }
 
+    /**
+     *
+     * @param messages
+     */
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
 
+    /**
+     *
+     * @param statGame
+     * @param players
+     * @param spectators
+     * @param messages
+     */
     public Game(StatGame statGame, List<Player> players, List<LightPublicUser> spectators, List<Message> messages) {
         this.statGame = statGame;
-        this.statGame.setRealGame(this);
-
+       
         this.save = false;
 
         this.players = players;
         this.spectators = spectators;
 
         this.messages = messages;
+        
+        if(!this.players.isEmpty()){
         this.currentPlayer = players.get(0);
-        /* creation of caretaker */
-        //this.caretaker = new Caretaker();
+        }
+          
+         this.statGame.setRealGame(this);
 
     }
 
+    /**
+     *
+     */
     public Game() {
         
     }
 
-    
-    
+    /**
+     *
+     * @return
+     */
     public boolean isSave() {
         return save;
     }
 
+    /**
+     *
+     * @param save
+     */
     public void setSave(boolean save) {
         this.save = save;
     }
@@ -88,32 +117,24 @@ public abstract class Game extends SerializableEntity {
      * @throws DataException
      */
     public void addUser(LightPublicUser user, String role) throws DataException {
-        System.out.println("call addUser");
-
+ 
         role = role.toLowerCase();
 
         if (role.equals("player")) {
 
-            if (this.players == null) {
-                System.out.println("players == null");
-            }
+          
 
             if (this.players.size() <= 1) {
 
                 Player player = new Player(user);
                 this.players.add(player);
-                System.out.println("player " + player.getLightPublicUser().getId());
+               
 
             }
-            /*else 
-            {
-                
-                throw new DataException("Data : already two players in this "
-                        + "game, you can not add another one.");
-            }*/
+            
         } else if (this.getStatGame().isSpectator() && role.equals("spectator")) {
             this.spectators.add(user);
-            System.out.println("spectator " + user.getId());
+           
 
         } else {
             throw new DataException("Data : given role is not known.");
@@ -121,36 +142,59 @@ public abstract class Game extends SerializableEntity {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Player> getPlayers() {
         return players;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<LightPublicUser> getSpectators() {
         return spectators;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Message> getMessages() {
         return messages;
     }
 
+    /**
+     *
+     * @return
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
-     @JsonIgnore
+    /**
+     *
+     * @return
+     */
+    @JsonIgnore
     public boolean isReady() {
         return this.players.size() == 2;
     }
 
+    /**
+     *
+     */
     public void nextTurn() {
-        /*if (this.isReady() && this.currentPlayer == null) {
-            this.currentPlayer = this.players.get(0);
-        } else {
 
-            this.currentPlayer = this.ennemyOf(currentPlayer);
-        }*/
     }
 
+    /**
+     *
+     * @param player
+     * @return
+     */
     public Player ennemyOf(Player player) {
         Player ennemy = null;
 
@@ -166,6 +210,11 @@ public abstract class Game extends SerializableEntity {
         return ennemy;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Player getPlayer(String id) {
         Player player = null;
         for (Player p : this.players) {
@@ -177,33 +226,47 @@ public abstract class Game extends SerializableEntity {
         return player;
     }
 
-    public List<LightPublicUser> getRecipients(String id_current_player) {
+    /**
+     *
+     * @param idCurrentPlayer
+     * @return
+     */
+    public List<LightPublicUser> getRecipients(String idCurrentPlayer) {
         List<LightPublicUser> listRecipients = new ArrayList<>();
 
         for (int i = 0; i < this.getPlayers().size(); ++i) {
 
-            if (!(this.getPlayers().get(i).isComputer()) && !this.getPlayers().get(i).getLightPublicUser().getPlayerName().equals(id_current_player)) {
+            if (!(this.getPlayers().get(i).isComputer()) && !this.getPlayers().get(i).getLightPublicUser().getPlayerName().equals(idCurrentPlayer)) {
                 listRecipients.add(this.getPlayers().get(i).getLightPublicUser());
-            } else {
-                System.out.println("delete " + this.getPlayers().get(i).getLightPublicUser().getPlayerName());
-            }
+            } 
         }
 
         listRecipients.addAll(this.getSpectators());
 
-        System.out.println(">recipients " + listRecipients.size());
-        return listRecipients;
+       return listRecipients;
     }
 
+    /**
+     *
+     * @return
+     */
     public StatGame getStatGame() {
         return statGame;
     }
 
+    /**
+     *
+     * @return
+     */
     @JsonIgnore
     public String getId() {
         return this.statGame.getId();
     }
 
+    /**
+     *
+     * @param statGame
+     */
     public void setStatGame(StatGame statGame) {
         this.statGame = statGame;
     }
@@ -215,23 +278,33 @@ public abstract class Game extends SerializableEntity {
      */
     public abstract List<Ship> getTemplateShips();
 
-     @JsonIgnore
+    /**
+     *
+     * @param <T>
+     * @param src
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    @JsonIgnore
     // This is for deep copy of a List
     public static <T> List<T> deepCopy(List<T> src) throws IOException, ClassNotFoundException {
-        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-        ObjectOutputStream out = new ObjectOutputStream(byteOut);
-        out.writeObject(src);
-
-        ByteArrayInputStream byteIn = new ByteArrayInputStream(byteOut.toByteArray());
-        ObjectInputStream in = new ObjectInputStream(byteIn);
-        @SuppressWarnings("unchecked")
-        List<T> dest = (List<T>) in.readObject();
-        return dest;
+     
+        return new ArrayList<>(src);
     }
 
-     @JsonIgnore
+    /**
+     *
+     * @param player
+     * @param coordinate
+     * @param isTrueAttack
+     * @return
+     * @throws DataException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    @JsonIgnore
     public Pair<Integer, Ship> attack(Player player, Coordinate coordinate, boolean isTrueAttack) throws DataException, IOException, ClassNotFoundException {
-        System.out.println("exec attack of " + player.getLightPublicUser().getPlayerName() + " " + isTrueAttack);
         //Create mine
         Mine mine = new Mine(player, coordinate);
 
@@ -243,14 +316,13 @@ public abstract class Game extends SerializableEntity {
         Ship shipReturn = null;
 
         //Get player opponent
-        Player playerOpponent = null;
-        playerOpponent = ennemyOf(player);
+        Player playerOpponent = ennemyOf(player);
         //Get opponent's ships
         if (playerOpponent == null) {
             throw new DataException("Data : player opponent doesn't exist");
         }
         List<Ship> shipsOpponent = playerOpponent.getShips();
-        if (shipsOpponent.size() == 0) {
+        if (shipsOpponent.isEmpty()) {
             throw new DataException("Data : player opponent didn't set any ship");
         }
 
@@ -264,7 +336,7 @@ public abstract class Game extends SerializableEntity {
                 }
             }
             if (succeedAttack == 1) {
-                System.out.println("data => touched ");
+               
 
                 break;
             }
@@ -274,18 +346,18 @@ public abstract class Game extends SerializableEntity {
 
             //Change the state of MineResult according to value of succeedAttack
             if (succeedAttack == 1) {
-                System.out.println("Data | good attack");
+             
                 mine.setResult(MineResult.SUCCESS);
                 //Add mine to player
                 player.getMines().add(mine);
                 //If is not in right place, shipReturn = null
                 if (isShipDestroyed(shipTouch, player.getMines())) {
-                    System.out.println("Data | very  good attack");
+                 
                     shipReturn = shipTouch;
                 }
             } else {
                 mine.setResult(MineResult.FAILURE);
-                System.out.println("Data | bad attack");
+               
                 //Add mine to player
                 player.getMines().add(mine);
             }
@@ -311,60 +383,18 @@ public abstract class Game extends SerializableEntity {
         return attackShip;
     }
 
-     @JsonIgnore
-    public Memento saveStateToMemento() {
-        //notify caretaker
-        List<Event> events = new ArrayList<>();
 
-        //Add msgs
-        events.addAll(this.messages);
-        for (Player p : players) {
-            events.addAll(p.getMines());
-        }
 
-        //creation of memento
-        Memento memento = new Memento(events);
-        return memento;
-    }
-
-    /*  public ComputerPlayer getComputerPlayer()
-    {
-        ComputerPlayer cp = null;
-        for(Player p : this.players)
-        {
-            if(p.isComputer())
-            {
-                cp = (ComputerPlayer) p;
-            }
-        }
-        return cp;
-    }*/
-     @JsonIgnore
-    public void restoreStateToMemento(Memento memento) {
-        //reset
-        this.messages.clear();
-        for (Player p : players) {
-            p.getMines().clear();;
-        }
-
-        List<Event> events = memento.getState();
-        for (Event e : events) {
-            if (e instanceof Message) {
-                Message m = (Message) e;
-                this.messages.add(m);
-            } else if (e instanceof Mine) {
-                Mine m = (Mine) e;
-                m.getOwner().getMines().add(m);
-            }
-
-        }
-    }
-
-     @JsonIgnore
+    /**
+     *
+     * @param coordinate
+     * @return
+     */
+    @JsonIgnore
     /* to get the mine added in attack */
     public Mine getRecentMine(Coordinate coordinate) {
-        List<Player> players = this.players;
-        for (Player play : players) {
+        List<Player> playersList = this.players;
+        for (Player play : playersList) {
             Mine minePlayer = play.getMines().get(play.getMines().size() - 1);
             Coordinate coorMine = minePlayer.getCoord();
             if (coorMine.getX() == coordinate.getX() && coorMine.getY() == coordinate.getY()) {
@@ -374,16 +404,13 @@ public abstract class Game extends SerializableEntity {
         return null;
     }
 
-    /* public Caretaker getCaretaker() {
-        return caretaker;
-    }
 
-    public void setCaretaker(Caretaker caretaker) {
-        this.caretaker = caretaker;
-    }
+    /**
+     *
+     * @param player
      */
+
     public void setCurrentPlayer(Player player) {
-        System.err.println("SET CURRENT PLAYER **********************************************************");
         this.currentPlayer = player;
     }
 
@@ -466,8 +493,7 @@ public abstract class Game extends SerializableEntity {
             }
         }
 
-        System.out.println("Data : State by player : " + this.currentPlayer.getLightPublicUser().getPlayerName() + " " + gameFinished);
-        return gameFinished;
+       return gameFinished;
     }
 
     /**
@@ -486,8 +512,7 @@ public abstract class Game extends SerializableEntity {
             }
         }
 
-        System.out.println("Data : State by ennemy : " + this.currentPlayer.getLightPublicUser().getPlayerName() + " " + gameFinished);
-        return gameFinished;
+      return gameFinished;
     }
 
     /**
@@ -523,7 +548,7 @@ public abstract class Game extends SerializableEntity {
         boolean isPlayer = false;
         while (i.hasNext() && !isPlayer) {
             String playerID = i.next().getLightPublicUser().getId();
-            if (playerID == userID) {
+            if (playerID.equals(userID)) {
                 isPlayer = true;
             }
         }
@@ -543,7 +568,7 @@ public abstract class Game extends SerializableEntity {
         boolean isSpectator = false;
         while (i.hasNext() && !isSpectator) {
             String specID = i.next().getId();
-            if (specID == userID) {
+            if (specID.equals(userID)) {
                 isSpectator = true;
             }
         }
@@ -559,6 +584,10 @@ public abstract class Game extends SerializableEntity {
         return (this.getPlayers().get(0).isComputer() || this.getPlayers().get(1).isComputer());
     }
 
+    /**
+     *
+     * @return
+     */
     @JsonIgnore
     public ComputerPlayer getComputerPlayer() {
         for (int i = 0; i < players.size(); i++) {

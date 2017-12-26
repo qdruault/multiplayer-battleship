@@ -3,9 +3,8 @@ package com.utclo23.data.module;
 import com.utclo23.com.ComFacade;
 import com.utclo23.data.configuration.Configuration;
 import com.utclo23.data.facade.DataFacade;
-import com.utclo23.data.structure.ComputerPlayer;
 import com.utclo23.data.structure.Coordinate;
-import com.utclo23.data.structure.Event;
+
 import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.GameType;
 import com.utclo23.data.structure.LightPublicUser;
@@ -21,7 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.util.Pair;
@@ -36,14 +35,16 @@ public class GameMediator {
     /**
      * reference to the data facade
      */
-    private DataFacade dataFacade;
-    private Map<String, StatGame> gamesMap;
-    private GameFactory gameFactory;
+    private final DataFacade dataFacade;
+    private final Map<String, StatGame> gamesMap;
+    private final GameFactory gameFactory;
 
     private Game currentGame;
 
     /**
      * Constructor
+     *
+     * @param dataFacade
      */
     public GameMediator(DataFacade dataFacade) {
 
@@ -55,10 +56,18 @@ public class GameMediator {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public Game getCurrentGame() {
         return currentGame;
     }
 
+    /**
+     *
+     * @param currentGame
+     */
     public void setCurrentGame(Game currentGame) {
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Data | ");
         this.currentGame = currentGame;
@@ -71,6 +80,7 @@ public class GameMediator {
      * @param spectator
      * @param spectatorChat
      * @param type
+     * @return
      */
     public Game createGame(String name, boolean computerMode, boolean spectator, boolean spectatorChat, GameType type) throws DataException {
         //empty game name
@@ -90,10 +100,7 @@ public class GameMediator {
         //to Com : notify a new game
         ComFacade comFacade = this.dataFacade.getComfacade();
         if (comFacade != null && game != null) {
-            System.out.println("notify");
             comFacade.notifyNewGame(game.getStatGame());
-        } else {
-            System.out.println("no notify");
         }
 
         //set current game
@@ -106,36 +113,45 @@ public class GameMediator {
     /**
      * add a new game
      *
+     * @param statgame
      * @param game
      */
     public void addNewGame(StatGame statgame) {
         if (!this.gamesMap.containsKey(statgame.getId())) {
             this.gamesMap.put(statgame.getId(), statgame);
-        } else {
-            throw new RuntimeException("Game " + statgame.getName() + " was already in the list of game.");
         }
     }
 
     /**
      * Get a game in gamesMap.
      *
+     * @param id
      * @param ID UID of the targeted game
      * @return StatGame representing the targeted game
      */
-    public StatGame getGame(String ID) {
-        StatGame game = this.gamesMap.get(ID);
-        return game;
+    public StatGame getGame(String id) {
+        return this.gamesMap.get(id);
+
     }
 
     /* get list of games
      *
      * @return list of games
      */
+    /**
+     *
+     * @return
+     */
     public List<StatGame> getGamesList() {
-        List<StatGame> listGame = new ArrayList<>(this.gamesMap.values());
-        return listGame;
+        return new ArrayList<>(this.gamesMap.values());
+
     }
 
+    /**
+     *
+     * @param ship
+     * @throws DataException
+     */
     public void setPlayerShip(Ship ship) throws DataException {
         if (this.currentGame != null) {
             String id = this.dataFacade.getMyPublicUserProfile().getId();
@@ -173,11 +189,9 @@ public class GameMediator {
             player.getShips().add(ship);
 
             //last ship
-            if (this.currentGame.getTemplateShips().size() == player.getShips().size()) {
-                if (this.dataFacade.getComfacade() != null) {
-                    this.dataFacade.getComfacade().sendShipsToEnnemy(player.getShips(), this.currentGame.getRecipients(player.getLightPublicUser().getPlayerName()));
-                    checkPlayersReady();
-                }
+            if (this.currentGame.getTemplateShips().size() == player.getShips().size() && this.dataFacade.getComfacade() != null) {
+                this.dataFacade.getComfacade().sendShipsToEnnemy(player.getShips(), this.currentGame.getRecipients(player.getLightPublicUser().getPlayerName()));
+                checkPlayersReady();
             }
 
         } else {
@@ -189,75 +203,6 @@ public class GameMediator {
     /**
      *
      */
-    public void setComputerShips() {
-        Player cPlayer = this.currentGame.getComputerPlayer();
-        List<Ship> listShips = this.currentGame.getTemplateShips();
-        for (int s = 0; s < listShips.size(); s++) {
-            craftCoordinates(listShips, listShips.get(s));
-        }
-    }
-
-    /**
-     * Gives a random position to a ship.
-     *
-     * @param previousShips
-     * @param ship
-     */
-    private void craftCoordinates(List<Ship> previousShips, Ship ship) {
-        List<List<Coordinate>> allCoords = this.createAvailableCoordinates(previousShips, ship);
-        Random r = new Random();
-        int position = r.nextInt(allCoords.size());
-        ship.setListCoord(allCoords.get(position));
-    }
-
-    private List<List<Coordinate>> createAvailableCoordinates(List<Ship> previousShips, Ship ship) {
-        int size = ship.getSize();
-        List<List<Coordinate>> returnList = new ArrayList();
-        for (int x = 0; x < 10; x++) {
-            for (int y = 0; y < 10; y++) {
-                Coordinate c = new Coordinate(x, y);
-                if (c.isAllowed(previousShips)) {
-
-                    //Crafting the West -> East coordinates.
-                    List<Coordinate> coordsWE = new ArrayList();
-                    coordsWE.add(new Coordinate(x, y));
-                    boolean allowed = true;
-                    for (int s = 0; s < previousShips.size(); s++) {
-                        Coordinate cSuite = new Coordinate(x + s, y);
-                        if (!cSuite.isAllowed(previousShips)) {
-                            allowed = false;
-                            break;
-                        } else {
-                            coordsWE.add(cSuite);
-                        }
-                    }
-                    if (allowed) {
-                        returnList.add(coordsWE);
-                    }
-
-                    //Crafting the South->North coordinates.
-                    List<Coordinate> coordsSN = new ArrayList();
-                    coordsSN.add(new Coordinate(x, y));
-                    allowed = true;
-                    for (int s = 0; s < previousShips.size(); s++) {
-                        Coordinate cSuite = new Coordinate(x, y + s);
-                        if (!cSuite.isAllowed(previousShips)) {
-                            allowed = false;
-                            break;
-                        } else {
-                            coordsSN.add(cSuite);
-                        }
-                    }
-                    if (allowed) {
-                        returnList.add(coordsSN);
-                    }
-                }
-            }
-
-        }
-        return returnList;
-    }
-
     /**
      *
      * @param coordinate
@@ -265,14 +210,14 @@ public class GameMediator {
      * @param playerWhoPutTheMine
      * @return
      * @throws DataException
+     * @throws java.lang.ClassNotFoundException
      */
     public Pair<Integer, Ship> attack(Coordinate coordinate, boolean isTrueAttack, Player playerWhoPutTheMine) throws DataException, IOException, ClassNotFoundException {
         if (this.currentGame != null) {
-            if(coordinate.getX()==-1 && coordinate.getY()==-1){
-                return new Pair(0,null);
+            if (coordinate.getX() == -1 && coordinate.getY() == -1) {
+                return new Pair(0, null);
             }
             Player player = this.currentGame.getCurrentPlayer();
-            System.out.println("ATTACK CURRENT PLAYER " + player.getLightPublicUser().getPlayerName());
 
             Pair<Integer, Ship> pairReturn;
             if (player == null) {
@@ -281,12 +226,10 @@ public class GameMediator {
 
             //return the result of the attack
             //if isTrueAttack=1, then add mine to player ; otherwise, that is just a test, no stat of mine
-            if (isTrueAttack == true) {
-                System.out.println("--------------------------------------------------");
-                System.out.println("Data | True attack -------------------------------");
+            if (isTrueAttack) {
                 //check if mine already used at current location
                 List<Mine> mines = player.getMines();
-                if (mines.size() > 0) {
+                if (!mines.isEmpty()) {
                     for (int i = 0; i < mines.size(); i++) {
                         Mine mine = mines.get(i);
                         if (mine.getCoord().getX() == coordinate.getX() && mine.getCoord().getY() == coordinate.getY()) {
@@ -301,76 +244,56 @@ public class GameMediator {
                 // Forward to other players.
                 dataFacade.getComfacade().notifyNewCoordinates(new Mine(player, coordinate), currentGame.getRecipients(player.getLightPublicUser().getPlayerName()));
 
-                //save with caretaker
-               // if (!this.currentGame.isSave()) {
-                 //   this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
-                //}
-
-                
                 // If the current game is against comptuer and is the current player has finished : the game is finished!
                 if (this.currentGame.isComputerGame() && this.currentGame.isGameFinishedByCurrentPlayer()) {
                     this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
                     this.dataFacade.getIhmTablefacade().finishGame(this.currentGame.getStatGame());
                     return null;
                 }
-        
+
                 //if creator of the game
-                if (this.currentGame.getStatGame().getCreator().getId().equals(this.dataFacade.getUserMediator().getMyPublicUserProfile().getId())) {
-                    //if computer mode ?
-                    if (this.currentGame.isComputerGame()) {
-                        //attack
+                if (this.currentGame.getStatGame().getCreator().getId().equals(this.dataFacade.getUserMediator().getMyPublicUserProfile().getId()) && this.currentGame.isComputerGame()) {
+                    //attack
 
-                        Mine m = this.currentGame.getComputerPlayer().randomMine(player.getShips(), this.currentGame);
-                        this.forwardCoordinates(m);
+                    Mine m = this.currentGame.getComputerPlayer().randomMine(player.getShips(), this.currentGame);
+                    this.forwardCoordinates(m);
 
-                        boolean check = false;
-                        for (Ship ship : this.currentGame.getCurrentPlayer().getShips()) {
-                            if (this.currentGame.isShipTouched(ship, m)) {
+                    boolean check = false;
+                    for (Ship ship : this.currentGame.getCurrentPlayer().getShips()) {
+                        if (this.currentGame.isShipTouched(ship, m)) {
 
-                                this.currentGame.getComputerPlayer().setFocus(m.getCoord());
-                                check = true;
+                            this.currentGame.getComputerPlayer().setFocus(m.getCoord());
+                            check = true;
 
-                                if (this.currentGame.isShipDestroyed(ship, this.currentGame.getComputerPlayer().getMines())) {
-                                    this.currentGame.getComputerPlayer().loseFocus(ship);
-                                    System.out.println("DATA  TOTAL FOCUS LOST");
+                            if (this.currentGame.isShipDestroyed(ship, this.currentGame.getComputerPlayer().getMines())) {
+                                this.currentGame.getComputerPlayer().loseFocus(ship);
 
-                                } else {
-                                    System.out.println("DATA  FOCUS ON " + m.getCoord().getX() + "," + m.getCoord().getY());
-                                }
-                            }
-
-                        }
-
-                        if (!check) {
-
-                            this.currentGame.getComputerPlayer().setFocus(null);
-                            System.out.println("DATA  FOCUS  LOST  ");
-                            if (this.currentGame.getComputerPlayer().getFocus() != null) {
-                                System.out.println("NEW FOCUS  " + this.currentGame.getComputerPlayer().getFocus().getX() + "," + this.currentGame.getComputerPlayer().getFocus().getY());
                             }
                         }
 
                     }
+
+                    if (!check) {
+
+                        this.currentGame.getComputerPlayer().setFocus(null);
+                        if (this.currentGame.getComputerPlayer().getFocus() != null) {
+                        }
+                    }
+
                 }
 
             } else {
                 // In the case of a test, that's possible that the current player is not
                 // the right player to test the mine (that means the enemy of the player 
                 // is the right person to test the mine)
-                if(playerWhoPutTheMine!=null){
+                if (playerWhoPutTheMine != null) {
                     pairReturn = this.currentGame.attack(playerWhoPutTheMine, coordinate, isTrueAttack);
-                }else{
+                } else {
                     pairReturn = this.currentGame.attack(player, coordinate, isTrueAttack);
-                }
-              
-                
-                if (pairReturn.getKey() == 0 && pairReturn.getValue() == null) {
-                    //pairReturn = this.currentGame.attack(this.currentGame.ennemyOf(player), coordinate, isTrueAttack);
                 }
 
             }
 
-            //this.currentGame.nextTurn();
             if (isTrueAttack && !this.currentGame.isComputerGame()) {
                 //Test if this game is finished
                 //If this game is finished, leave the game
@@ -380,8 +303,6 @@ public class GameMediator {
 
                 }
             }
-
-            System.out.println("--------------------------------------------------");
 
             return pairReturn;
         } else {
@@ -396,47 +317,39 @@ public class GameMediator {
      * @param user the new user who has joined
      * @param id id of the stat game
      * @param role role of the new user
+     * @throws com.utclo23.data.module.DataException
      */
     public void updateGameList(LightPublicUser user, String id, String role) throws DataException {
-        System.out.print("update gamelist "+user.getPlayerName()+" "+role+" "+id);
-        
-        for (Player p : this.currentGame.getPlayers()) {
-            System.out.println(p.getLightPublicUser().getId() + " " + p.getLightPublicUser().getPlayerName());
-        }
 
-        System.out.println("-----------");
-        System.out.println("id " + id);
-        
+      
+
         if (user == null) {
-            System.out.println("user is null");
+            throw new DataException("error in Data");
         }
 
-        if (this.currentGame == null) {
-            System.out.println("current game is null");
-        }
+     
 
         if (this.currentGame.getId().equals(id)) {
-            System.out.println("add User role " + role);
-            if (true) {
-                this.getCurrentGame().addUser(user, role);
 
-                if (this.dataFacade.getComfacade() != null) 
-                {
-                    System.out.println("data join game resp");
-                    this.dataFacade.getComfacade().joinGameResponse(true, user.getId(), this.currentGame.getStatGame());
+            this.getCurrentGame().addUser(user, role);
 
-                }
-            } else {
-                this.dataFacade.getComfacade().joinGameResponse(false, id, null);
+            if (this.dataFacade.getComfacade() != null) {
+                this.dataFacade.getComfacade().joinGameResponse(true, user.getId(), this.currentGame.getStatGame());
+
             }
+
         } else {
 
             this.dataFacade.getComfacade().joinGameResponse(false, id, null);
         }
 
-        System.out.println("nombre de joueurs " + this.currentGame.getPlayers().size());
     }
 
+    /**
+     *
+     * @param id
+     * @param role
+     */
     public void gameConnectionRequestGame(String id, String role) {
 
         role = role.toLowerCase();
@@ -446,10 +359,8 @@ public class GameMediator {
             if (this.gamesMap.containsKey(id)) {
                 game = this.gamesMap.get(id);
                 //send game
-
-                System.out.println("send ROLE : " + role);
                 this.dataFacade.getComfacade().connectionToGame(game, role);
-                
+
             }
 
         }
@@ -507,16 +418,19 @@ public class GameMediator {
         this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
         //Sauvegarde à ajouter, que l'owner soit joueur ou pas.
         String status = this.getOwnerStatus();
-        if (status == "player") {
+        if (status.equals(Configuration.PLAYER)) {
             if (this.currentGame.getStatGame().getWinner() == null) {
                 this.giveUp();
             }
         }
-        // this.currentGame = null;
+
     }
 
+    /**
+     *
+     * @param game
+     */
     public void receptionGame(Game game) {
-        System.out.println("reception game ... ");
         Player player = null;
 
         for (Player p : game.getPlayers()) {
@@ -530,12 +444,14 @@ public class GameMediator {
         this.currentGame = game;
         if (this.dataFacade.getIhmMainFacade() != null) {
 
-            System.out.println("give to ihm ... ");
             this.dataFacade.getIhmMainFacade().receptionGame(game);
         }
 
     }
 
+    /**
+     *
+     */
     public void connectionImpossible() {
         if (this.dataFacade.getIhmMainFacade() != null) {
             this.dataFacade.getIhmMainFacade().connectionImpossible();
@@ -549,41 +465,26 @@ public class GameMediator {
      * @param mine the mine placed
      */
     public void forwardCoordinates(Mine mine) {
-        System.out.println("FORWARD COORDINATES "+mine.getOwner().getLightPublicUser().getPlayerName()+" "+mine.getCoord().getX()+","+mine.getCoord().getY());
-        List<Ship> ships = this.currentGame.ennemyOf(mine.getOwner()).getShips();//this.currentGame.getCurrentPlayer().getShips();
+        List<Ship> ships = this.currentGame.ennemyOf(mine.getOwner()).getShips();
         Ship shipDestroyed = null;
         boolean touched = false;
         for (Ship s : ships) {
             if (this.currentGame.isShipTouched(s, mine)) {
-                
-                System.out.println("data "+mine.getOwner().getLightPublicUser().getPlayerName()+" touched "+mine.getCoord().getX()+","+mine.getCoord().getY());
-                
+
                 touched = true;
                 if (this.currentGame.isShipDestroyed(s, mine.getOwner().getMines())) {
-                    shipDestroyed = s;                    
-                    System.out.println("data "+mine.getOwner().getLightPublicUser().getPlayerName()+" destroyed ");
+                    shipDestroyed = s;
                     // Destroyed ship found.
                     break;
                 }
-                
+
             }
-        }
-        
-        if(touched)
-        {
-             System.out.println("attack manqué ");
-            
         }
 
         //Add mine to local game
         if (!this.currentGame.isComputerGame()) {
             this.currentGame.ennemyOf(this.currentGame.getCurrentPlayer()).getMines().add(mine);
         }
-
-        //save
-       // if (!this.currentGame.isSave()) {
-       //     this.currentGame.getCaretaker().add(this.currentGame.saveStateToMemento());
-       // }
 
         if (this.dataFacade.getIhmTablefacade() != null) {
             this.dataFacade.getIhmTablefacade().feedBack(mine.getCoord(), touched, shipDestroyed);
@@ -592,10 +493,9 @@ public class GameMediator {
 
         if (this.currentGame.isGameFinishedByEnnemy()) {
             //Sauvegarde à ajouter, que l'owner soit joueur ou pas.
-         
+
             String status = this.getOwnerStatus();
-               System.out.println("status = "+status);
-            if (status.equals("player")) {
+            if (status.equals(Configuration.PLAYER)) {
                 if (this.currentGame.getStatGame().getWinner() == null) {
                     this.giveUp();
                 }
@@ -616,6 +516,8 @@ public class GameMediator {
 
     /**
      * Win if the game has no winner yet.
+     *
+     * @throws com.utclo23.data.module.DataException
      */
     public void defWin() throws DataException {
         if (this.currentGame == null) {
@@ -625,7 +527,7 @@ public class GameMediator {
         if (this.getCurrentGame().getWinner() == null) {
             this.win();
         }
-        
+
         this.dataFacade.getIhmTablefacade().finishGame(this.currentGame.getStatGame());
     }
 
@@ -671,23 +573,27 @@ public class GameMediator {
     public String getUserStatus(LightPublicUser user) {
         String status = null;
         if (this.currentGame.isPlayer(user)) {
-            status = "player";
+            status = Configuration.PLAYER;
         } else if (this.currentGame.isSpectator(user)) {
-            status = "spectator";
+            status = Configuration.SPECTATOR;
         }
         return status;
 
     }
 
+    /**
+     *
+     * @param ships
+     */
     public void setEnnemyShips(List<Ship> ships) {
         // Check game is instanciated
         if (this.currentGame != null) {
             if (!ships.isEmpty()) {
                 // retrieve the id of the player that put the ships
-                String player_id = ships.get(0).getOwner().getLightPublicUser().getId();
+                String playerid = ships.get(0).getOwner().getLightPublicUser().getId();
 
                 // Retrieve the player that put the ships
-                Player p = this.currentGame.getPlayer(player_id);
+                Player p = this.currentGame.getPlayer(playerid);
 
                 // Set the ships
                 p.setShips(ships);
@@ -717,7 +623,6 @@ public class GameMediator {
                 this.dataFacade.getIhmTablefacade().notifyGameReady();
             }
         } else {
-            System.out.println("Data | IA game");
             boolean ready = false;
             for (Player player : this.currentGame.getPlayers()) {
                 // If their ships are placed.
@@ -729,15 +634,15 @@ public class GameMediator {
 
             if (ready) //notify IA to place ships
             {
-                System.out.println("Data | IA turn set ships");
                 this.currentGame.getComputerPlayer().setShips(this.currentGame.getTemplateShips());
                 this.dataFacade.getIhmTablefacade().notifyGameReady();
             }
         }
     }
 
-    public void next() {
-       
-    }
+    /**
+     *
+     */
+  
 
 }

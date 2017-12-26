@@ -11,7 +11,6 @@ import com.utclo23.data.module.GameFactory;
 import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.GameType;
 import com.utclo23.data.structure.LightPublicUser;
-import com.utclo23.data.structure.Player;
 import java.io.IOException;
 import org.junit.Rule;
 import org.junit.Test;

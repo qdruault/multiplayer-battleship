@@ -10,5 +10,14 @@ package com.utclo23.data.structure;
  * @author lucillefargeau
  */
 public enum GameType {
-    CLASSIC, BELGIAN
+
+    /**
+     *
+     */
+    CLASSIC, 
+
+    /**
+     *
+     */
+    BELGIAN
 }

@@ -10,7 +10,6 @@ import com.utclo23.data.structure.Mine;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.com.messages.*;
 import com.utclo23.data.facade.IDataCom;
-import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.LightPublicUser;
 import java.net.Inet4Address;
 import java.net.InterfaceAddress;

@@ -68,8 +68,8 @@ public class UserMediator {
      * @return
      */
     public List<LightPublicUser> getConnectedUsers() {
-        List<LightPublicUser> listConnectedUser = new ArrayList<>(this.mapConnectedUser.values());
-        return listConnectedUser;
+        return  new ArrayList<>(this.mapConnectedUser.values());
+  
     }
 
     /**
@@ -113,7 +113,7 @@ public class UserMediator {
      * @return Byte array
      * @throws IOException
      */
-    private byte[] extractBytes(String imageName) throws DataException {
+    private byte[] extractBytes(String imageName) {
         String format = "jpg"; //jpg by default
         byte[] imageInByte = null;
 
@@ -129,7 +129,7 @@ public class UserMediator {
             Iterator<ImageReader> imageReaders = ImageIO.getImageReaders(iis);
 
             while (imageReaders.hasNext()) {
-                ImageReader reader = (ImageReader) imageReaders.next();
+                ImageReader reader =  imageReaders.next();
                 format = reader.getFormatName();
             }
 
@@ -138,9 +138,7 @@ public class UserMediator {
             ImageIO.write(bufferedImage, format, baos);
             imageInByte = baos.toByteArray();
 
-            //BufferedImage imgbck = ImageIO.read(new ByteArrayInputStream(imageInByte));
-            //File outputfile = new File("D:\\Fabien Boucaud\\Pictures\\markertest.PNG");
-            //ImageIO.write(imgbck, format, outputfile);
+       
         } catch (IOException ex) {
             Logger.getLogger(UserMediator.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -161,6 +159,10 @@ public class UserMediator {
         return publicUser;
     }
     
+    /**
+     *
+     * @return
+     */
     public LightPublicUser getMyLightPublicUserProfile() {
         LightPublicUser user = null;
         if(this.owner != null) {
@@ -184,15 +186,14 @@ public class UserMediator {
 
         //blank playername or password
         if (playerName.isEmpty() || password.isEmpty()) {
-            throw new DataException("Data : error due to empty playername or password");
+            throw new DataException("Data : error due to  playername or password");
         }
 
         //determine the parth
         String path = Configuration.SAVE_DIR + File.separator + playerName + ".json";
 
         //all uppercase
-        //playerName = playerName.toUpperCase();
-        // password = password.toUpperCase();
+
         firstName = firstName.toUpperCase();
         lastName = lastName.toUpperCase();
 
@@ -315,8 +316,7 @@ public class UserMediator {
     public void signIn(String username, String password) throws DataException {
 
         //uppercase
-        //username = username.toUpperCase();
-        //password = password.toUpperCase();
+   
         //already connected
         if (this.owner != null) {
             throw new DataException("Data : already connected"); //throw related error
@@ -337,7 +337,7 @@ public class UserMediator {
         try {
             user = mapper.readValue(userFile, Owner.class);
         } catch (Exception e) {
-            e.printStackTrace();
+      
             throw new DataException("Data : error in reading file");
         }
 
@@ -470,7 +470,7 @@ public class UserMediator {
             Iterator<ImageReader> imageReaders = ImageIO.getImageReaders(iis);
 
             while (imageReaders.hasNext()) {
-                ImageReader reader = (ImageReader) imageReaders.next();
+                ImageReader reader =  imageReaders.next();
                 format = reader.getFormatName();
             }
 
@@ -555,6 +555,11 @@ public class UserMediator {
 
     }
 
+    /**
+     *
+     * @param game
+     * @throws DataException
+     */
     public void saveGame(Game game) throws DataException {
         if (this.owner != null) {
             game.prepareToBeSaved();
@@ -590,20 +595,14 @@ public class UserMediator {
                 throw new DataException("Data : error due to empty playername");
             }            
 
-            String oldPlayerName = this.owner.getUserIdentity().getLightPublicUser().getPlayerName();
+           
             if (!this.getDataFacade().isTestMode()) {
                 this.owner.getUserIdentity().getLightPublicUser().setPlayerName(playername);
             }
             
 
             //remove old profile and add new one
-            //determine the path
-            try{
-                String path = Configuration.SAVE_DIR + File.separator + oldPlayerName + ".json";
-                File f = new File(path);                               
-            }catch(Exception e){
-                e.printStackTrace();
-            }
+          
             
             save();
             
@@ -655,6 +654,11 @@ public class UserMediator {
 
     }
 
+    /**
+     *
+     * @param lastName
+     * @throws DataException
+     */
     public void updateLastname(String lastName) throws DataException {
         if (this.owner != null) {
 
@@ -753,7 +757,7 @@ public class UserMediator {
 
             //blank  password
             if (password.isEmpty()) {
-                throw new DataException("Data : error due to empty playername or password");
+                throw new DataException("Data : error due to empty  password");
             }
 
             this.owner.setPassword(password);
@@ -782,7 +786,7 @@ public class UserMediator {
      * @return int number of victories
      * @throws DataException
      */
-    public int getNumberVictories() throws DataException {
+    public int getNumberVictories()  {
         if(this.owner != null){
         List<StatGame> games = this.getMyOwnerProfile().getPlayedGamesList() ;
         LightPublicUser user = this.getMyLightPublicUserProfile() ; 
@@ -804,7 +808,7 @@ public class UserMediator {
      * @return int number of defeats
      * @throws DataException
      */
-    public int getNumberDefeats() throws DataException {
+    public int getNumberDefeats()  {
         if(this.owner != null){
         List<StatGame> games = this.getMyOwnerProfile().getPlayedGamesList() ;
         LightPublicUser user = this.getMyLightPublicUserProfile() ; 
@@ -826,7 +830,7 @@ public class UserMediator {
      * @return int number of abandons
      * @throws DataException
      */
-    public int getNumberAbandons() throws DataException {
+    public int getNumberAbandons() {
         if(this.owner!=null){
         List<StatGame> games = this.getMyOwnerProfile().getPlayedGamesList() ;
         //LightPublicUser user = this.getMyLightPublicUserProfile() ; 

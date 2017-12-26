@@ -8,7 +8,6 @@ package com.utclo23.data.facade;
 import com.utclo23.data.module.DataException;
 import com.utclo23.data.structure.*;
 import java.net.InterfaceAddress;
-import java.rmi.server.UID;
 import java.util.List;
 import java.util.Date;
 
@@ -26,7 +25,7 @@ public interface IDataIHMMain {
     
     public Game createGame(String name, boolean computerMode, boolean spectator, boolean spectatorChat, GameType type) throws DataException;
     public void signin(String username, String password) throws DataException;
-    public void signOut() throws Exception;
+    public void signOut() throws DataException;
     public List<LightPublicUser> getConnectedUsers();
     public PublicUser getMyPublicUserProfile();
 
@@ -38,7 +37,7 @@ public interface IDataIHMMain {
     public void gameConnectionRequestGame(String id, String role);
 
   
-    public void setNetworkInterface(InterfaceAddress net_interface) ;
+    public void setNetworkInterface(InterfaceAddress netinterface) ;
      
     public void updatePlayername(String playername) throws DataException;
     public void updateFirstname(String firstname) throws DataException;
