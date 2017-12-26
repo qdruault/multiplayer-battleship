@@ -1185,10 +1185,6 @@ void onClickFire(MouseEvent event) {
     * Function for initialize chrono
     */
     private void chronoTimeInit() {
-        // Stop the timer.
-        if (timer != null) {
-            timer.stop();
-        }
         switch (nbPassedTurns) {
             case 0:
                 countdown = 30;
