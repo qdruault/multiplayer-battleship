@@ -709,9 +709,6 @@ public class InGameGUIController {
                     Pair<Integer, Ship> fireResult = facade.getFacadeData().attack(cellToAttack, true, this.myPlayer);
                     placeMine(cellToAttack, myPlayer);
 
-                    // Update stats pannel
-                    currentPlayerStats.turnPlayed((fireResult.getKey() == 1), (fireResult.getValue() != null));
-                    updateStatsPannel();
 
                     // Reinitialize chrono for the next turn.
                     chronoTimeInit();
@@ -852,6 +849,17 @@ public class InGameGUIController {
             hitCell.getStyleClass().add("inGameGUI_missed_cell");
         }
         hitCell.toFront();
+        
+        
+        // Update stats pannel
+        InGameStats statsToUpdate = null;
+        if(grid == opponentGrid){
+            statsToUpdate = opponentStats;}
+        else{
+            statsToUpdate = this.currentPlayerStats;
+        }
+        statsToUpdate.turnPlayed(attack_result.getKey() == 1, (attack_result.getValue() != null));
+        updateStatsPannel();
     }
 
     /**
@@ -1480,9 +1488,6 @@ public class InGameGUIController {
             destroyShip(destroyedShip, playerGrid);
         }
 
-        // Update stats pannel
-        opponentStats.turnPlayed(touched, (destroyedShip != null));
-        updateStatsPannel();
     }
 
     /**
