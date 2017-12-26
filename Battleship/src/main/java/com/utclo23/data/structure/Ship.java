@@ -60,6 +60,10 @@ public class Ship extends SerializableEntity{
      *
      */
     public Ship() {
+        this.type = ShipType.BATTLESHIP;
+        this.size = 0;
+        this.owner = null;
+        this.listCoord = new ArrayList<>();
     }
      
     /**
@@ -146,8 +150,7 @@ public class Ship extends SerializableEntity{
     public boolean equals(Object obj) {
         
         boolean check = true;
-        if (this != obj)
-            check = false;
+       
        
      
         if (null==obj || getClass() != obj.getClass())

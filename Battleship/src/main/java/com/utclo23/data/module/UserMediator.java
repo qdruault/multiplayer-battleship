@@ -101,6 +101,7 @@ public class UserMediator {
 
     /**
      * set facade
+     * @param dataFacade
      */
     public void setDataFacade(DataFacade dataFacade) {
         this.dataFacade = dataFacade;
@@ -374,6 +375,7 @@ public class UserMediator {
 
     /**
      * disconnection
+     * @throws com.utclo23.data.module.DataException
      */
     public void signOut() throws DataException {
         if (this.owner != null) {
@@ -784,7 +786,6 @@ public class UserMediator {
      * send number of victories
      *
      * @return int number of victories
-     * @throws DataException
      */
     public int getNumberVictories()  {
         if(this.owner != null){
@@ -806,7 +807,6 @@ public class UserMediator {
      * send number of defeats
      *
      * @return int number of defeats
-     * @throws DataException
      */
     public int getNumberDefeats()  {
         if(this.owner != null){
@@ -828,7 +828,6 @@ public class UserMediator {
      * send number of abandons
      *
      * @return int number of abandons
-     * @throws DataException
      */
     public int getNumberAbandons() {
         if(this.owner!=null){

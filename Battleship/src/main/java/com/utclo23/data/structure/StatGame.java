@@ -9,6 +9,7 @@ package com.utclo23.data.structure;
 import java.rmi.server.UID;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -190,31 +191,7 @@ public class StatGame extends SerializableEntity{
         this.gameAbandonned = gameAbandonned;
     }
 
-    /**
-     *
-     * @param type
-     * @param name
-     * @param players
-     * @param computerMode
-     * @param spectator
-     * @param spectatorChat
-     * @param winner
-     * @param creator
-     * @param gameAbandonned
-     */
-    public StatGame(GameType type, String name, List<Player> players, boolean computerMode, boolean spectator, boolean spectatorChat, LightPublicUser winner, LightPublicUser creator,  boolean gameAbandonned) {
-        this.id = new UID().toString();
-        
-        this.type = type;
-        this.name = name;
-        this.players = players;
-        this.spectator = spectator;
-        this.spectatorChat = spectatorChat;
-        this.winner = winner;
-        this.creator = creator;
-        this.gameAbandonned = gameAbandonned;
-        this.computerMode = computerMode;
-    }
+
     
     /**
      *
@@ -244,6 +221,7 @@ public class StatGame extends SerializableEntity{
      *
      */
     public StatGame() {
+        this.id = UUID.randomUUID().toString();
     }
 
     /**

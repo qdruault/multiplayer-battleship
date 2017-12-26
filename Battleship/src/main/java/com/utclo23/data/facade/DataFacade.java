@@ -77,16 +77,25 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     /**
      * Set the test mode
      *
+     * @param testMode
      * @param boolean the value to set to testMode parameter
      */
     public void setTestMode(boolean testMode) {
         this.testMode = testMode;
     }
 
+    /**
+     *
+     * @return
+     */
     public IHMMainFacade getIhmMainFacade() {
         return ihmMainFacade;
     }
 
+    /**
+     *
+     * @return
+     */
     public IIHMTableToData getIhmTablefacade() {
         return ihmTablefacade;
     }
@@ -120,6 +129,12 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         return comfacade;
     }
 
+    /**
+     *
+     * @param comFacade
+     * @param ihmTableToData
+     * @param ihmMainFacade
+     */
     public void setFacadeLinks(
             ComFacade comFacade,
             IIHMTableToData ihmTableToData,
@@ -226,13 +241,14 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Data | new game received");
 
         this.gameMediator.addNewGame(game);
+        if(!this.testMode){
 
         try {
             this.ihmMainFacade.refreshGameList();
         } catch (IOException ex) {
             Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex.getMessage());
         }
-
+        }
     }
 
     /**
@@ -450,8 +466,6 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * Attack a given location
      *
      * @param coords the location to attack
-     * @param isTrueAttack true = this is a true attack ; false = this is just a
-     * test
      * @return Pair<Integer, Ship>
      * Integer = 0 if the mine is not in a right place ; Integer = 1 if the mine
      * is in the place of a ship. Ship = null if the ship isn't destroyed ; ship
@@ -556,7 +570,6 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * Get a user profile
      *
      * @param id the id of the user to get his profile
-     * @return the public user
      *
      */
     @Override
@@ -649,6 +662,10 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         this.userMediator.setIPDiscovery(discoveryNodes);
     }
 
+    /**
+     *
+     * @param profile
+     */
     public void receivePublicUserProfile(PublicUser profile) {
         try {
             this.ihmMainFacade.recievePublicUserProfile(profile);
@@ -657,12 +674,21 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @param role
+     */
     @Override
     public void gameConnectionRequestGame(String id, String role) {
         
         this.gameMediator.gameConnectionRequestGame(id, role);
     }
 
+    /**
+     *
+     * @param netinterface
+     */
     @Override
     public void setNetworkInterface(InterfaceAddress netinterface) {
 
@@ -671,6 +697,11 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         }
     }
 
+    /**
+     *
+     * @param game
+     * @throws DataException
+     */
     @Override
     public void receptionGame(Game game) throws DataException {
            Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | reception game");
@@ -686,11 +717,20 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
     }
 
+    /**
+     *
+     * @throws DataException
+     */
     @Override
     public void connectionImpossible() throws DataException {
         this.gameMediator.connectionImpossible();
     }
 
+    /**
+     *
+     * @param gameid
+     * @return
+     */
     @Override
     public List<Ship> getInitialBoardFromGameId(String gameid) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

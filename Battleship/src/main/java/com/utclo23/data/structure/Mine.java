@@ -30,6 +30,9 @@ public class Mine extends Event {
      *
      */
     public Mine() {
+        this.result = MineResult.UNKNOWN; 
+        this.owner= null;
+        this.coord = null;
     }
     
     /**

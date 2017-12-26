@@ -77,10 +77,12 @@ public class GameMediator {
      * Create a game
      *
      * @param name
+     * @param computerMode
      * @param spectator
      * @param spectatorChat
      * @param type
      * @return
+     * @throws com.utclo23.data.module.DataException
      */
     public Game createGame(String name, boolean computerMode, boolean spectator, boolean spectatorChat, GameType type) throws DataException {
         //empty game name
@@ -114,7 +116,6 @@ public class GameMediator {
      * add a new game
      *
      * @param statgame
-     * @param game
      */
     public void addNewGame(StatGame statgame) {
         if (!this.gamesMap.containsKey(statgame.getId())) {
@@ -126,7 +127,6 @@ public class GameMediator {
      * Get a game in gamesMap.
      *
      * @param id
-     * @param ID UID of the targeted game
      * @return StatGame representing the targeted game
      */
     public StatGame getGame(String id) {
@@ -210,6 +210,7 @@ public class GameMediator {
      * @param playerWhoPutTheMine
      * @return
      * @throws DataException
+     * @throws java.io.IOException
      * @throws java.lang.ClassNotFoundException
      */
     public Pair<Integer, Ship> attack(Coordinate coordinate, boolean isTrueAttack, Player playerWhoPutTheMine) throws DataException, IOException, ClassNotFoundException {

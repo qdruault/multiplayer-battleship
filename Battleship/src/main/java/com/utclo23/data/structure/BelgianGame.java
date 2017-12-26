@@ -57,6 +57,7 @@ public class BelgianGame extends Game {
         ships.add(new Ship(ShipType.SUBMARINE, 1));
         ships.add(new Ship(ShipType.SUBMARINE, 1));
 
+        
         return ships;
     }
 }

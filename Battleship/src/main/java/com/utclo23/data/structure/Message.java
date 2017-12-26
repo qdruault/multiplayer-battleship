@@ -5,6 +5,7 @@
  */
 package com.utclo23.data.structure;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,6 +41,10 @@ public class Message extends Event{
      *
      */
     public Message() {
+        this.recipients = new ArrayList<>();
+        this.content = "";
+        this.sender = null;
+        
     }
 
     /**

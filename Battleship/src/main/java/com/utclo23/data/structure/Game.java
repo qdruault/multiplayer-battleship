@@ -8,12 +8,8 @@ package com.utclo23.data.structure;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.utclo23.data.module.DataException;
-import com.utclo23.data.module.Memento;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -90,6 +86,7 @@ public abstract class Game extends SerializableEntity {
      *
      */
     public Game() {
+        this.players = new ArrayList<>();
         
     }
 
