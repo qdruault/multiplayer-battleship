@@ -304,7 +304,7 @@ public class InGameGUIController {
         buttonImage3.setDisable(true);
         buttonImage4.setDisable(true);
         buttonImage5.setDisable(true);
-        sendButton.setDisable(false);
+        //sendButton.setDisable(false);
         fireButton.setDisable(true);
         menuButton.setDisable(false);
         playerGrid.setDisable(false);
@@ -438,13 +438,15 @@ public class InGameGUIController {
             nbPassedTurns = 0;
             nbTotalPassedTurns = 0;
 
-            // Init current player's stats of the match
-            currentPlayerStats = new InGameStats();
-            // Init opponent's stats of the match
-            opponentStats = new InGameStats();
-            // Init pannel with values
-            updateStatsPannel();
         }
+        
+        
+        // Init current player's stats of the match
+        currentPlayerStats = new InGameStats();
+        // Init opponent's stats of the match
+        opponentStats = new InGameStats();
+        // Init pannel with values
+        updateStatsPannel();
 
         /**
         * Binding of key "enter" for sending message in tchat
@@ -808,7 +810,7 @@ public class InGameGUIController {
      */
     public void placeMine(Coordinate coord, Player player)
     {
-        System.out.println("TABLE: ON PLACE UNE MINE EN " + coord.getX() + " " + coord.getY());
+        //System.out.println("TABLE: ON PLACE UNE MINE EN " + coord.getX() + " " + coord.getY());
         // Select the right grid which depends on the player
         GridPane grid;
         
@@ -824,7 +826,7 @@ public class InGameGUIController {
         //Cas spectateur
         else
         {
-            if(player == facade.getFacadeData().getGame().getCurrentPlayer()) //Current Player is J1 (cf Slack)
+            if(player == facade.getFacadeData().getGame().getPlayers().get(0)) //Current Player is J1 (cf Slack)
             {
                 grid = playerGrid; //J1 on the left Grid for spectator
             }
@@ -838,7 +840,12 @@ public class InGameGUIController {
         Node hitCell = getNodeByRowColumnIndex(coord.getY(), coord.getX(), grid);
         hitCell.setDisable(true);
 
+        
         Pair<Integer, Ship> attack_result = facade.getFacadeData().attack(coord, false, player);
+        if(attack_result == null)
+        {
+            throw new UnsupportedOperationException("ERROR: attack returned null ");
+        }
         // TODO: Voir si il faut demander à data une méthode "attack" neutralisée,
         // on a besoin de pouvoir tester si une mine placée à un endroit provoque
         // une explosion sans aucun autre effet (ou dire à data de tester si le joueur
@@ -849,9 +856,9 @@ public class InGameGUIController {
             // Check if the ship is destroyed.
             Ship destroyedShip = attack_result.getValue();
             if(destroyedShip != null) {
-                if (grid == opponentGrid) {
+                if (grid == opponentGrid || isSpectator) {
                     // Add ship picture on the opponent grid.
-                    putShipOnBoard(destroyedShip, opponentGrid);
+                    putShipOnBoard(destroyedShip, grid);
                 }
 
                 // Change the CSS class of the cells.
@@ -1457,6 +1464,7 @@ public class InGameGUIController {
     */
     public void loadGame(Game game)
     {
+        System.out.println("TABLE: ON LIT UNE GAME PAR UN SPECTATEUR");
         
         // Place ships (disabled to avoid cheating)
         /*for (Player player : game.getPlayers()) {

@@ -135,6 +135,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void showGame() {
+        System.out.println("TABLE: SHOWGAME START");
         //Créer la fenêtre
         FXMLLoader paneLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
         Parent pane;
@@ -153,14 +154,16 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
         }
         
        //Gérer les cas spectateur/utilisateur standard
-        boolean startSpectateur = false;
+        boolean startSpectateur = true;
         Game game = facadeData.getGame();
         LightPublicUser user = facadeData.getMyPublicUserProfile().getLightPublicUser();
-        for(int i=0;i<game.getSpectators().size() && !startSpectateur;++i)
-            if(game.getSpectators().get(i).getId() == user.getId())
-                startSpectateur = true;
+        for(int i=0;i<game.getPlayers().size() && !startSpectateur;++i)
+            if(game.getPlayers().get(i).getLightPublicUser().getId() == user.getId())
+                startSpectateur = false;
+        System.out.println(startSpectateur);
         if(startSpectateur && controller != null)
         {
+           System.out.println("TABLE: SPECTATEUR ARRIVE");
            controller.refreshBoardForSpectator();
            controller.loadGame(game);
         }

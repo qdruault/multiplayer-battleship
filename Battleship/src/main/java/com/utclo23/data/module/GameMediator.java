@@ -218,7 +218,7 @@ public class GameMediator {
             if (coordinate.getX() == -1 && coordinate.getY() == -1) {
                 return new Pair(0, null);
             }
-            Player player = this.currentGame.getCurrentPlayer();
+            Player player = playerWhoPutTheMine;
 
             Pair<Integer, Ship> pairReturn;
             if (player == null) {
