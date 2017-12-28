@@ -808,14 +808,30 @@ public class InGameGUIController {
      */
     public void placeMine(Coordinate coord, Player player)
     {
-        // Select the right grid which depends on the player (TODO spectateur?)
+        System.out.println("TABLE: ON PLACE UNE MINE EN " + coord.getX() + " " + coord.getY());
+        // Select the right grid which depends on the player
         GridPane grid;
         
         //Cas non spectateur (J1 ou J2)
-        if(player.getLightPublicUser().getId().equals(facade.getFacadeData().getMyPublicUserProfile().getId())) {
-            grid = opponentGrid;
-        } else {
-            grid = playerGrid;
+        if(!isSpectator)
+        {
+            if(player.getLightPublicUser().getId().equals(facade.getFacadeData().getMyPublicUserProfile().getId())) {
+                grid = opponentGrid;
+            } else {
+                grid = playerGrid;
+            }
+        }
+        //Cas spectateur
+        else
+        {
+            if(player == facade.getFacadeData().getGame().getCurrentPlayer()) //Current Player is J1 (cf Slack)
+            {
+                grid = playerGrid; //J1 on the left Grid for spectator
+            }
+            else
+            {
+                grid = opponentGrid; //J2 on the right grid
+            }
         }
 
         // Select the node in the grid and disable it when we lanch the attack
@@ -1437,16 +1453,17 @@ public class InGameGUIController {
 
     /**
     * Method for loading a game
-    * @param game Game object (from saved game or for a second player / spectator)
+    * @param game Game object (for spectator)
     */
     public void loadGame(Game game)
     {
-        // Place ships.
-        for (Player player : game.getPlayers()) {
+        
+        // Place ships (disabled to avoid cheating)
+        /*for (Player player : game.getPlayers()) {
             for (Ship ship : player.getShips()) {
-                //placeShip(ship, player);
+                //placeShip(ship, player); use putShipOnBoard
             }
-        }
+        }*/
 
         // Place mines.
         for (Player player : game.getPlayers()) {
