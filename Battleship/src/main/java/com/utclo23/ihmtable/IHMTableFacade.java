@@ -8,6 +8,8 @@ package com.utclo23.ihmtable;
 import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.data.facade.IDataIHMTable;
+import com.utclo23.data.structure.Game;
+import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.Message;
 import com.utclo23.ihmmain.facade.IHMMainToIhmTable;
@@ -133,6 +135,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void showGame() {
+        System.out.println("TABLE: SHOWGAME START");
         //Créer la fenêtre
         FXMLLoader paneLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
         Parent pane;
@@ -151,21 +154,22 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
         }
         
        //Gérer les cas spectateur/utilisateur standard
-       /* boolean startSpectateur = false;
+        boolean startSpectateur = true;
         Game game = facadeData.getGame();
         LightPublicUser user = facadeData.getMyPublicUserProfile().getLightPublicUser();
-        for(int i=0;i<game.getSpectators().size() && !startSpectateur;++i)
-            if(game.getSpectators().get(i).getId() == user.getId())
-                startSpectateur = true;
+        for(int i=0;i<game.getPlayers().size() && !startSpectateur;++i)
+            if(game.getPlayers().get(i).getLightPublicUser().getId() == user.getId())
+                startSpectateur = false;
+        System.out.println(startSpectateur);
         if(startSpectateur && controller != null)
         {
+           System.out.println("TABLE: SPECTATEUR ARRIVE");
            controller.refreshBoardForSpectator();
            controller.loadGame(game);
         }
-        */
+        
 
             
-        throw new UnsupportedOperationException("En cours");
     }
 
     /**
@@ -196,6 +200,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void feedBack(Coordinate coord, boolean touched, Ship destroyedShip) {
+        System.out.println("TABLE: ON RECOIT UNE DEMANDE DE PLACEMENT DE MINE");
         controller.placeMine(coord,this.getFacadeData().getGame().getRecentMine(coord).getOwner());
         //controller.displayOpponentAttack(coord, touched, destroyedShip);
         controller.timeToAttack();
