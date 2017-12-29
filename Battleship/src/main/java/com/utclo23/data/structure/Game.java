@@ -492,19 +492,19 @@ public abstract class Game extends SerializableEntity {
     /**
      * test if the game is finished
      *
+     * @param ennemy
      * @return boolean true if game finished false otherwise
      */
      @JsonIgnore
-    public boolean isGameFinishedByEnnemy() {
-        List<Mine> mines = this.ennemyOf(this.currentPlayer).getMines();
-        List<Ship> ships = this.currentPlayer.getShips();
+    public boolean isGameFinishedByEnnemy(Player ennemy) {
+        List<Mine> mines = this.ennemyOf(this.ennemyOf(ennemy)).getMines();
+        List<Ship> ships = this.ennemyOf(ennemy).getShips();
         boolean gameFinished = true;
         for (Ship s : ships) {
             if (!isShipDestroyed(s, mines)) {
                 gameFinished = false;
             }
         }
-
       return gameFinished;
     }
 

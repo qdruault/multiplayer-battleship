@@ -851,6 +851,7 @@ public class InGameGUIController {
         //Cas non spectateur (J1 ou J2)
         if(!isSpectator)
         {
+            System.out.println("Je suis pas un spectateur");
             if(player.getLightPublicUser().getId().equals(facade.getFacadeData().getMyPublicUserProfile().getId())) {
                 grid = opponentGrid;
             } else {
@@ -860,7 +861,9 @@ public class InGameGUIController {
         //Cas spectateur
         else
         {
-            if(player == facade.getFacadeData().getGame().getPlayers().get(0)) //Current Player is J1 (cf Slack)
+            
+             System.out.println("Je suis  un spectateur");
+            if(player.equals(facade.getFacadeData().getGame().getPlayers().get(0))) //Current Player is J1 (cf Slack)
             {
                 grid = playerGrid; //J1 on the left Grid for spectator
             }
@@ -1148,7 +1151,10 @@ public class InGameGUIController {
     private void restartChronoTime() {
         System.out.println("restartcronotime");
         chronoTimeInit();
-        timer.playFromStart();
+        if(timer!=null){
+            timer.playFromStart();
+        }
+        
     }
 
     /**

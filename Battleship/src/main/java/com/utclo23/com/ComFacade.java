@@ -117,9 +117,9 @@ public class ComFacade {
      */
     public void notifyNewCoordinates(Mine mine, List<LightPublicUser> recipients) {             
         M_PlaceMine mPlaceMine = new M_PlaceMine(iDataCom.getMyPublicUserProfile(), mine);
-        System.out.println("recipients notify: " + recipients.size());
+        System.out.println("recipients new coordinates notify: " + recipients.size());
         for (LightPublicUser recipient : recipients) {      
-            System.out.println("notifyNewCoordinates +" + recipient.getPlayerName());
+            System.out.println("notifyNewCoordinates +" + recipient.getPlayerName()+" mine "+mine.getCoord().getX()+" "+mine.getCoord().getY());
             if (kIpCtrl.getHashMap().get(recipient.getId()) != null) {
                 Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), mPlaceMine);
                 new Thread(os).start();

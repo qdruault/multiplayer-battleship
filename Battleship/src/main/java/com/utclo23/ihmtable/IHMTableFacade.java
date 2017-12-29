@@ -18,6 +18,7 @@ import java.io.IOException;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -199,11 +200,20 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      * @param destroyedShip : destroyed ship or null.
      */
     @Override
-    public void feedBack(Coordinate coord, boolean touched, Ship destroyedShip) {
-        System.out.println("TABLE: ON RECOIT UNE DEMANDE DE PLACEMENT DE MINE");
-        controller.placeMine(coord,this.getFacadeData().getGame().getRecentMine(coord).getOwner());
-        //controller.displayOpponentAttack(coord, touched, destroyedShip);
-        controller.timeToAttack();
+    public void feedBack(final Coordinate coord, boolean touched, Ship destroyedShip) {
+        
+        final Coordinate coordFinal = coord;
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run() {
+                System.out.println("TABLE: ON RECOIT UNE DEMANDE DE PLACEMENT DE MINE");
+                 controller.placeMine(coordFinal,IHMTableFacade.this.getFacadeData().getGame().getRecentMine(coord).getOwner());
+                //controller.displayOpponentAttack(coord, touched, destroyedShip);
+                controller.timeToAttack();
+                
+            }
+       
+        });
     }
 
     /**

@@ -333,6 +333,7 @@ public class GameMediator {
 
             if (role.equals("spectator") || (role.equals("player") && this.currentGame.getPlayers().size() < 2)) {
 
+                Logger.getLogger(this.getClass().toString()).info(user.getPlayerName()+" role "+role);
                 this.getCurrentGame().addUser(user, role);
 
                 if (this.dataFacade.getComfacade() != null) {
@@ -422,11 +423,12 @@ public class GameMediator {
      * Exit current game.
      */
     public void leaveGame() {
-        //Sauvegarde à ajouter.
-        this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
+        
         //Sauvegarde à ajouter, que l'owner soit joueur ou pas.
         String status = this.getOwnerStatus();
         if (status.equals(Configuration.PLAYER)) {
+            //Sauvegarde à ajouter.
+             this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
             if (this.currentGame.getStatGame().getWinner() == null) {
                 this.giveUp();
             }
@@ -473,6 +475,7 @@ public class GameMediator {
      * @param mine the mine placed
      */
     public void forwardCoordinates(Mine mine) {
+        System.out.println("forward coordinate "+mine.getOwner().getLightPublicUser().getPlayerName()+" mine "+mine.getCoord().getX()+" "+mine.getCoord().getY());
         List<Ship> ships = this.currentGame.ennemyOf(mine.getOwner()).getShips();
         Ship shipDestroyed = null;
         boolean touched = false;
@@ -497,7 +500,7 @@ public class GameMediator {
 
         }
 
-        if (this.currentGame.isGameFinishedByEnnemy()) {
+        if (this.currentGame.isGameFinishedByEnnemy(mine.getOwner())) {
             //Sauvegarde à ajouter, que l'owner soit joueur ou pas.
 
             String status = this.getOwnerStatus();
