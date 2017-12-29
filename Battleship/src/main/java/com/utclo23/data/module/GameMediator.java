@@ -607,7 +607,12 @@ public class GameMediator {
                 // Set the ships
                 p.setShips(ships);
 
-                checkPlayersReady();
+                
+                if(!this.getOwnerStatus().equals("spectator"))
+                {
+                     checkPlayersReady();
+                }
+               
             }
         }
     }
