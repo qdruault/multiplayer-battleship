@@ -552,6 +552,8 @@ public class InGameGUIController {
             }
         }
     }
+    
+    
     /**
      * Function to place a ship on the grid with its corresponding image
      * @param ship : the ship to place
@@ -578,7 +580,7 @@ public class InGameGUIController {
             AnchorPane.setBottomAnchor(shipOnTheGrid, 0.0);
             AnchorPane.setLeftAnchor(shipOnTheGrid, 0.0);
             AnchorPane.setRightAnchor(shipOnTheGrid, 0.0);
-
+            wrapper.toBack();
             wrapper.getChildren().addAll(shipOnTheGrid);
             double cellSizeW = (grid.getWidth()-11)/10;
             double cellSizeH = (grid.getWidth()-11)/10;
@@ -803,6 +805,38 @@ public class InGameGUIController {
         return result;
     }
 
+    
+    
+    /**
+     * Place a mine graphically 
+     * @param x
+     * @param y
+     * @param class : css class associated
+     */
+    private void placeMineGraphics(GridPane grid, int x, int y, String classcss)
+    {
+        Button b = new Button();
+        
+        b.setStyle("-fx-background-color: none;"
+                   + "-fx-background-repeat: stretch;"
+                   + "-fx-background-position: center center;"
+                   + "-fx-background-size: 100% 100%;");
+
+        //Anchorpane en wrapper pour resize automatiquement le button
+        AnchorPane wrapper = new AnchorPane();
+        AnchorPane.setTopAnchor(b, 0.0);
+        AnchorPane.setBottomAnchor(b, 0.0);
+        AnchorPane.setLeftAnchor(b, 0.0);
+        AnchorPane.setRightAnchor(b, 0.0);
+        wrapper.toFront();
+
+        wrapper.getChildren().addAll(b);
+        b.getStyleClass().add(classcss);
+        b.toFront();
+        grid.add(wrapper,x, y);
+    }
+    
+    
     /**
      * Generic method for placing a mine on the grid just with the coordinates
      * @param coord : where to place the mine
@@ -852,7 +886,8 @@ public class InGameGUIController {
         // en local est le currentPlayer)
         if (attack_result.getKey() == 1) {
             // Ship Touched!
-            hitCell.getStyleClass().add("inGameGUI_touched_cell");
+            placeMineGraphics(grid, coord.getX(), coord.getY(), "inGameGUI_touched_cell");
+            
             // Check if the ship is destroyed.
             Ship destroyedShip = attack_result.getValue();
             if(destroyedShip != null) {
@@ -868,8 +903,7 @@ public class InGameGUIController {
             // Reset the number of turns passed.
             nbPassedTurns = 0;
         } else {
-            // Ship missed!
-            hitCell.getStyleClass().add("inGameGUI_missed_cell");
+            placeMineGraphics(grid,coord.getX(), coord.getY(), "inGameGUI_missed_cell");
         }
         hitCell.toFront();
         
@@ -1527,15 +1561,10 @@ public class InGameGUIController {
         listOfShipsOnTheGrid.get(ship).toBack();
 
         // Change the CSS class of the cells.
-        for (Coordinate coordinate : ship.getListCoord()) {
-            Node node = getNodeByRowColumnIndexAndCSSClass(coordinate.getY(), coordinate.getX(), grid, "inGameGUI_touched_cell");
-            if(node != null && node.getStyleClass().contains("inGameGUI_touched_cell"))
-            {
-                node.getStyleClass().removeAll("inGameGUI_touched_cell");
-                node.getStyleClass().add("inGameGUI_destroyed_cell");
-                node.toFront();
-                //System.out.println(coordinate.getY() + "," + coordinate.getX() + " a changé");
-            }
+        for (Coordinate coord : ship.getListCoord()) {
+            placeMineGraphics(grid,coord.getX(), coord.getY(), "inGameGUI_destroyed_cell");
+              
+            
         }
     }
 }
