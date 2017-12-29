@@ -259,6 +259,9 @@ public class GameMediator {
                     Mine m = this.currentGame.getComputerPlayer().randomMine(player.getShips(), this.currentGame);
                     this.forwardCoordinates(m);
 
+                    // Forward to other players.
+                    dataFacade.getComfacade().notifyNewCoordinates(m, currentGame.getRecipients(player.getLightPublicUser().getPlayerName()));
+
                     boolean check = false;
                     for (Ship ship : this.currentGame.getCurrentPlayer().getShips()) {
                         if (this.currentGame.isShipTouched(ship, m)) {
@@ -322,21 +325,25 @@ public class GameMediator {
      */
     public void updateGameList(LightPublicUser user, String id, String role) throws DataException {
 
-      
-
         if (user == null) {
             throw new DataException("error in Data");
         }
 
-     
-
         if (this.currentGame.getId().equals(id)) {
 
-            this.getCurrentGame().addUser(user, role);
+            if (role.equals("spectator") || (role.equals("player") && this.currentGame.getPlayers().size() < 2)) {
 
-            if (this.dataFacade.getComfacade() != null) {
-                this.dataFacade.getComfacade().joinGameResponse(true, user.getId(), this.currentGame.getStatGame());
+                this.getCurrentGame().addUser(user, role);
 
+                if (this.dataFacade.getComfacade() != null) {
+                    this.dataFacade.getComfacade().joinGameResponse(true, user.getId(), this.currentGame.getStatGame());
+
+                }
+
+            }
+            else
+            {
+                this.dataFacade.getComfacade().joinGameResponse(false, id, null);
             }
 
         } else {
@@ -482,10 +489,8 @@ public class GameMediator {
             }
         }
 
-        //Add mine to local game
-        if (!this.currentGame.isComputerGame()) {
-            this.currentGame.ennemyOf(this.currentGame.getCurrentPlayer()).getMines().add(mine);
-        }
+        //Add mine to local player
+        this.currentGame.ennemyOf(this.currentGame.ennemyOf(mine.getOwner())).getMines().add(mine);
 
         if (this.dataFacade.getIhmTablefacade() != null) {
             this.dataFacade.getIhmTablefacade().feedBack(mine.getCoord(), touched, shipDestroyed);
@@ -644,6 +649,4 @@ public class GameMediator {
     /**
      *
      */
-  
-
 }

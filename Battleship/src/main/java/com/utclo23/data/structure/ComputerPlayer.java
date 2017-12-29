@@ -478,7 +478,7 @@ public class ComputerPlayer extends Player {
         Coordinate coordinate = new Coordinate(x, y);
 
         Mine mine = new Mine(this, coordinate);
-        this.getMines().add(mine);
+        //this.getMines().add(mine);
         return mine;
 
     }
