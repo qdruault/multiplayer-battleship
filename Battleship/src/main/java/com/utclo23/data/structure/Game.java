@@ -198,7 +198,6 @@ public abstract class Game extends SerializableEntity {
             } else {
                 ennemy = this.players.get(0);
             }
-
         }
 
         return ennemy;

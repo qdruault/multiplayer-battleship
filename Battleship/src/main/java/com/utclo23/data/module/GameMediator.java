@@ -479,6 +479,10 @@ public class GameMediator {
         List<Ship> ships = this.currentGame.ennemyOf(mine.getOwner()).getShips();
         Ship shipDestroyed = null;
         boolean touched = false;
+        
+        //Add mine to local player
+        this.currentGame.getPlayer(mine.getOwner().getLightPublicUser().getId()).getMines().add(mine);
+        
         for (Ship s : ships) {
             if (this.currentGame.isShipTouched(s, mine)) {
 
@@ -488,20 +492,17 @@ public class GameMediator {
                     // Destroyed ship found.
                     break;
                 }
-
             }
         }
 
-        //Add mine to local player
-        this.currentGame.ennemyOf(this.currentGame.ennemyOf(mine.getOwner())).getMines().add(mine);
-
+       
         if (this.dataFacade.getIhmTablefacade() != null) {
             this.dataFacade.getIhmTablefacade().feedBack(mine.getCoord(), touched, shipDestroyed);
 
         }
 
         if (this.currentGame.isGameFinishedByEnnemy(mine.getOwner())) {
-            //Sauvegarde à ajouter, que l'owner soit joueur ou pas.
+            
 
             String status = this.getOwnerStatus();
             if (status.equals(Configuration.PLAYER)) {
@@ -658,7 +659,7 @@ public class GameMediator {
             if (ready) //notify IA to place ships
             {
                 Player ennemy = this.currentGame.ennemyOf(this.currentGame.getComputerPlayer());
-                this.currentGame.getComputerPlayer().setShips(this.currentGame.getTemplateShips());
+                this.currentGame.getComputerPlayer().setIAShips(this.currentGame.getTemplateShips());
                 this.dataFacade.getComfacade().sendShipsToEnnemy( this.currentGame.getComputerPlayer().getShips(), this.currentGame.getRecipients(ennemy.getLightPublicUser().getPlayerName()));
                 
                 
