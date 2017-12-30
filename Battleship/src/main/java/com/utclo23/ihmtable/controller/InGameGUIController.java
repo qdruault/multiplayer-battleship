@@ -304,7 +304,7 @@ public class InGameGUIController {
         buttonImage3.setDisable(true);
         buttonImage4.setDisable(true);
         buttonImage5.setDisable(true);
-        sendButton.setDisable(false);
+        //sendButton.setDisable(false);
         fireButton.setDisable(true);
         menuButton.setDisable(false);
         playerGrid.setDisable(false);
@@ -438,13 +438,15 @@ public class InGameGUIController {
             nbPassedTurns = 0;
             nbTotalPassedTurns = 0;
 
-            // Init current player's stats of the match
-            currentPlayerStats = new InGameStats();
-            // Init opponent's stats of the match
-            opponentStats = new InGameStats();
-            // Init pannel with values
-            updateStatsPannel();
         }
+        
+        
+        // Init current player's stats of the match
+        currentPlayerStats = new InGameStats();
+        // Init opponent's stats of the match
+        opponentStats = new InGameStats();
+        // Init pannel with values
+        updateStatsPannel();
 
         /**
         * Binding of key "enter" for sending message in tchat
@@ -550,6 +552,8 @@ public class InGameGUIController {
             }
         }
     }
+    
+    
     /**
      * Function to place a ship on the grid with its corresponding image
      * @param ship : the ship to place
@@ -576,7 +580,7 @@ public class InGameGUIController {
             AnchorPane.setBottomAnchor(shipOnTheGrid, 0.0);
             AnchorPane.setLeftAnchor(shipOnTheGrid, 0.0);
             AnchorPane.setRightAnchor(shipOnTheGrid, 0.0);
-
+            wrapper.toBack();
             wrapper.getChildren().addAll(shipOnTheGrid);
             double cellSizeW = (grid.getWidth()-11)/10;
             double cellSizeH = (grid.getWidth()-11)/10;
@@ -691,7 +695,7 @@ public class InGameGUIController {
     * @param event
     */
     @FXML
-    void onClickFire(MouseEvent event) {
+void onClickFire(MouseEvent event) {
         // Prevent to click if the game is not started and/or turn of the current player
         if (gameStarted && readyToAttack) {
             // Only if a cell has been aimed.
@@ -801,6 +805,38 @@ public class InGameGUIController {
         return result;
     }
 
+    
+    
+    /**
+     * Place a mine graphically 
+     * @param x
+     * @param y
+     * @param class : css class associated
+     */
+    private void placeMineGraphics(GridPane grid, int x, int y, String classcss)
+    {
+        Button b = new Button();
+        
+        b.setStyle("-fx-background-color: none;"
+                   + "-fx-background-repeat: stretch;"
+                   + "-fx-background-position: center center;"
+                   + "-fx-background-size: 100% 100%;");
+
+        //Anchorpane en wrapper pour resize automatiquement le button
+        AnchorPane wrapper = new AnchorPane();
+        AnchorPane.setTopAnchor(b, 0.0);
+        AnchorPane.setBottomAnchor(b, 0.0);
+        AnchorPane.setLeftAnchor(b, 0.0);
+        AnchorPane.setRightAnchor(b, 0.0);
+        wrapper.toFront();
+
+        wrapper.getChildren().addAll(b);
+        b.getStyleClass().add(classcss);
+        b.toFront();
+        grid.add(wrapper,x, y);
+    }
+    
+    
     /**
      * Generic method for placing a mine on the grid just with the coordinates
      * @param coord : where to place the mine
@@ -808,34 +844,59 @@ public class InGameGUIController {
      */
     public void placeMine(Coordinate coord, Player player)
     {
-        // Select the right grid which depends on the player (TODO spectateur?)
+        //System.out.println("TABLE: ON PLACE UNE MINE EN " + coord.getX() + " " + coord.getY());
+        // Select the right grid which depends on the player
         GridPane grid;
         
         //Cas non spectateur (J1 ou J2)
-        if(player.getLightPublicUser().getId().equals(facade.getFacadeData().getMyPublicUserProfile().getId())) {
-            grid = opponentGrid;
-        } else {
-            grid = playerGrid;
+        if(!isSpectator)
+        {
+            System.out.println("Je suis pas un spectateur");
+            if(player.getLightPublicUser().getId().equals(facade.getFacadeData().getMyPublicUserProfile().getId())) {
+                grid = opponentGrid;
+            } else {
+                grid = playerGrid;
+            }
+        }
+        //Cas spectateur
+        else
+        {
+            
+             System.out.println("Je suis  un spectateur");
+            if(player.equals(facade.getFacadeData().getGame().getPlayers().get(0))) //Current Player is J1 (cf Slack)
+            {
+                grid = playerGrid; //J1 on the left Grid for spectator
+            }
+            else
+            {
+                grid = opponentGrid; //J2 on the right grid
+            }
         }
 
         // Select the node in the grid and disable it when we lanch the attack
         Node hitCell = getNodeByRowColumnIndex(coord.getY(), coord.getX(), grid);
         hitCell.setDisable(true);
 
+        
         Pair<Integer, Ship> attack_result = facade.getFacadeData().attack(coord, false, player);
+        if(attack_result == null)
+        {
+            throw new UnsupportedOperationException("ERROR: attack returned null ");
+        }
         // TODO: Voir si il faut demander à data une méthode "attack" neutralisée,
         // on a besoin de pouvoir tester si une mine placée à un endroit provoque
         // une explosion sans aucun autre effet (ou dire à data de tester si le joueur
         // en local est le currentPlayer)
         if (attack_result.getKey() == 1) {
             // Ship Touched!
-            hitCell.getStyleClass().add("inGameGUI_touched_cell");
+            placeMineGraphics(grid, coord.getX(), coord.getY(), "inGameGUI_touched_cell");
+            
             // Check if the ship is destroyed.
             Ship destroyedShip = attack_result.getValue();
             if(destroyedShip != null) {
-                if (grid == opponentGrid) {
+                if (grid == opponentGrid || isSpectator) {
                     // Add ship picture on the opponent grid.
-                    putShipOnBoard(destroyedShip, opponentGrid);
+                    putShipOnBoard(destroyedShip, grid);
                 }
 
                 // Change the CSS class of the cells.
@@ -845,8 +906,7 @@ public class InGameGUIController {
             // Reset the number of turns passed.
             nbPassedTurns = 0;
         } else {
-            // Ship missed!
-            hitCell.getStyleClass().add("inGameGUI_missed_cell");
+            placeMineGraphics(grid,coord.getX(), coord.getY(), "inGameGUI_missed_cell");
         }
         hitCell.toFront();
         
@@ -1091,7 +1151,10 @@ public class InGameGUIController {
     private void restartChronoTime() {
         System.out.println("restartcronotime");
         chronoTimeInit();
-        timer.playFromStart();
+        if(timer!=null){
+            timer.playFromStart();
+        }
+        
     }
 
     /**
@@ -1437,16 +1500,18 @@ public class InGameGUIController {
 
     /**
     * Method for loading a game
-    * @param game Game object (from saved game or for a second player / spectator)
+    * @param game Game object (for spectator)
     */
     public void loadGame(Game game)
     {
-        // Place ships.
-        for (Player player : game.getPlayers()) {
+        System.out.println("TABLE: ON LIT UNE GAME PAR UN SPECTATEUR");
+        
+        // Place ships (disabled to avoid cheating)
+        /*for (Player player : game.getPlayers()) {
             for (Ship ship : player.getShips()) {
-                //placeShip(ship, player);
+                //placeShip(ship, player); use putShipOnBoard
             }
-        }
+        }*/
 
         // Place mines.
         for (Player player : game.getPlayers()) {
@@ -1502,15 +1567,10 @@ public class InGameGUIController {
         listOfShipsOnTheGrid.get(ship).toBack();
 
         // Change the CSS class of the cells.
-        for (Coordinate coordinate : ship.getListCoord()) {
-            Node node = getNodeByRowColumnIndexAndCSSClass(coordinate.getY(), coordinate.getX(), grid, "inGameGUI_touched_cell");
-            if(node != null && node.getStyleClass().contains("inGameGUI_touched_cell"))
-            {
-                node.getStyleClass().removeAll("inGameGUI_touched_cell");
-                node.getStyleClass().add("inGameGUI_destroyed_cell");
-                node.toFront();
-                //System.out.println(coordinate.getY() + "," + coordinate.getX() + " a changé");
-            }
+        for (Coordinate coord : ship.getListCoord()) {
+            placeMineGraphics(grid,coord.getX(), coord.getY(), "inGameGUI_destroyed_cell");
+              
+            
         }
     }
 }

@@ -21,4 +21,5 @@ public interface IIHMTableToData {
     public void finishGame(StatGame stGame);
     public void opponentHasLeftGame();
     public void connectionLostWithOpponent();
+    public void spectatorLeaveGame();
 }

@@ -114,8 +114,9 @@ public class ComputerPlayer extends Player {
      *
      * @param ships
      */
-    @Override
-    public void setShips(List<Ship> ships) {
+    
+    public void setIAShips(List<Ship> ships) {
+        System.out.println("IA SETTING SHIPS (IF YOU ARE SPECTATOR --> IT IS BIG PROBLEM");
         int[][] tab = new int[10][10];
         for (int i = 0; i < Configuration.WIDTH; ++i) {
             for (int j = 0; j < Configuration.WIDTH; ++j) {
@@ -181,7 +182,10 @@ public class ComputerPlayer extends Player {
                 }
             }
 
+            
+            ship.setOwner(this);
             this.getShips().add(ship); //add ship
+            
 
             
         }
@@ -478,7 +482,7 @@ public class ComputerPlayer extends Player {
         Coordinate coordinate = new Coordinate(x, y);
 
         Mine mine = new Mine(this, coordinate);
-        this.getMines().add(mine);
+        //this.getMines().add(mine);
         return mine;
 
     }

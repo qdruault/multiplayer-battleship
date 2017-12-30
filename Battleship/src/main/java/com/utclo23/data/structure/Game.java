@@ -29,8 +29,7 @@ public abstract class Game extends SerializableEntity {
     private List<LightPublicUser> spectators;
     private List<Message> messages;
     private boolean save;
-
-
+    
     private Player currentPlayer;
 
     /**
@@ -119,17 +118,15 @@ public abstract class Game extends SerializableEntity {
 
         if (role.equals("player")) {
 
-          
-
             if (this.players.size() <= 1) {
 
                 Player player = new Player(user);
                 this.players.add(player);
-               
 
             }
             
         } else if (this.getStatGame().isSpectator() && role.equals("spectator")) {
+            System.out.println("SPECTATOR "+user.getPlayerName());
             this.spectators.add(user);
            
 
@@ -201,7 +198,6 @@ public abstract class Game extends SerializableEntity {
             } else {
                 ennemy = this.players.get(0);
             }
-
         }
 
         return ennemy;
@@ -232,13 +228,12 @@ public abstract class Game extends SerializableEntity {
         List<LightPublicUser> listRecipients = new ArrayList<>();
 
         for (int i = 0; i < this.getPlayers().size(); ++i) {
-
             if (!(this.getPlayers().get(i).isComputer()) && !this.getPlayers().get(i).getLightPublicUser().getPlayerName().equals(idCurrentPlayer)) {
                 listRecipients.add(this.getPlayers().get(i).getLightPublicUser());
             } 
         }
 
-        listRecipients.addAll(this.getSpectators());
+       listRecipients.addAll(this.getSpectators());
 
        return listRecipients;
     }
@@ -496,19 +491,19 @@ public abstract class Game extends SerializableEntity {
     /**
      * test if the game is finished
      *
+     * @param ennemy
      * @return boolean true if game finished false otherwise
      */
      @JsonIgnore
-    public boolean isGameFinishedByEnnemy() {
-        List<Mine> mines = this.ennemyOf(this.currentPlayer).getMines();
-        List<Ship> ships = this.currentPlayer.getShips();
+    public boolean isGameFinishedByEnnemy(Player ennemy) {
+        List<Mine> mines = this.ennemyOf(this.ennemyOf(ennemy)).getMines();
+        List<Ship> ships = this.ennemyOf(ennemy).getShips();
         boolean gameFinished = true;
         for (Ship s : ships) {
             if (!isShipDestroyed(s, mines)) {
                 gameFinished = false;
             }
         }
-
       return gameFinished;
     }
 
@@ -538,7 +533,7 @@ public abstract class Game extends SerializableEntity {
      * @param user
      * @return
      */
-     @JsonIgnore
+    @JsonIgnore
     public boolean isPlayer(LightPublicUser user) {
         String userID = user.getId();
         Iterator<Player> i = this.players.iterator();

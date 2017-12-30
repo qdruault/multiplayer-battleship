@@ -38,6 +38,23 @@ public class Player extends SerializableEntity{
      */
     public Player() {
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Player)
+        {
+            Player p2 = (Player) obj;
+            if(this.getLightPublicUser().getId().equals(p2.getLightPublicUser().getId()))
+            {
+                return true;
+            }
+            
+            
+        }
+        return false;
+    }
+    
+    
     
     /**
      *
