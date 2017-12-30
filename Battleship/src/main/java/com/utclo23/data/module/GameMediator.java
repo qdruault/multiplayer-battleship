@@ -441,20 +441,26 @@ public class GameMediator {
      * @param game
      */
     public void receptionGame(Game game) {
+        System.out.println("refresh game");
         Player player = null;
 
         for (Player p : game.getPlayers()) {
             if (p.getLightPublicUser().getId().equals(this.dataFacade.getUserMediator().getMyLightPublicUserProfile().getId())) {
                 player = p;
+                break;
             }
         }
 
         game.setCurrentPlayer(player);
-
-        this.currentGame = game;
-        if (this.dataFacade.getIhmMainFacade() != null) {
-
+               
+        //do one time
+        if ((this.currentGame!=null && !this.currentGame.getId().equals(game.getId())|| this.currentGame ==null) && this.dataFacade.getIhmMainFacade() != null) {
+            this.currentGame = game;
             this.dataFacade.getIhmMainFacade().receptionGame(game);
+        }
+        else
+        {
+             this.currentGame = game;
         }
 
     }
