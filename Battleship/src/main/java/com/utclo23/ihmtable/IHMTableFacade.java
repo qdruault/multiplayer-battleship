@@ -224,6 +224,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
     public void finishGame(StatGame stGame) {
         String sMessage;
         // Game lost.
+       
         if(!stGame.getWinner().getPlayerName().equals(facadeData.getMyPublicUserProfile().getPlayerName()))
         {
             sMessage = "Defeat! You should train against AI! Hahahah!";
@@ -244,6 +245,15 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
         controller.displayFinishPopup("Your opponent has left this game!");
     }
 
+    @Override
+    public void spectatorLeaveGame()
+    {
+        try {
+            this.getFacadeIHMMain().toMenu();
+        } catch (IOException ex) {
+            Logger.getLogger(IHMTableFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * Connection has been lost with your opponent.
      */

@@ -181,7 +181,10 @@ public class ComputerPlayer extends Player {
                 }
             }
 
+            
+            ship.setOwner(this);
             this.getShips().add(ship); //add ship
+            
 
             
         }

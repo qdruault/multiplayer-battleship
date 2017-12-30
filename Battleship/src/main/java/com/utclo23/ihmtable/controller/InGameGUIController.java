@@ -695,7 +695,7 @@ public class InGameGUIController {
     * @param event
     */
     @FXML
-    void onClickFire(MouseEvent event) {
+void onClickFire(MouseEvent event) {
         // Prevent to click if the game is not started and/or turn of the current player
         if (gameStarted && readyToAttack) {
             // Only if a cell has been aimed.

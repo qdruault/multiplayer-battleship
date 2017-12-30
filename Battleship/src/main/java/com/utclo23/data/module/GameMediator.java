@@ -510,7 +510,12 @@ public class GameMediator {
                 }
                 this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
             }
+            else
+            {
+                this.currentGame.getStatGame().setWinner(mine.getOwner().getLightPublicUser());
+            }
             this.dataFacade.getIhmTablefacade().finishGame(this.currentGame.getStatGame());
+            
         }
     }
 
@@ -595,6 +600,8 @@ public class GameMediator {
      * @param ships
      */
     public void setEnnemyShips(List<Ship> ships) {
+        System.out.println("ENNEMY SHIPS "+ships.get(0).getOwner().getLightPublicUser().getPlayerName());
+        
         // Check game is instanciated
         if (this.currentGame != null) {
             if (!ships.isEmpty()) {
@@ -606,6 +613,8 @@ public class GameMediator {
 
                 // Set the ships
                 p.setShips(ships);
+                
+                System.out.println("ADD TO "+p.getLightPublicUser().getPlayerName());
 
                 
                 if(!this.getOwnerStatus().equals("spectator"))
@@ -648,7 +657,11 @@ public class GameMediator {
 
             if (ready) //notify IA to place ships
             {
+                Player ennemy = this.currentGame.ennemyOf(this.currentGame.getComputerPlayer());
                 this.currentGame.getComputerPlayer().setShips(this.currentGame.getTemplateShips());
+                this.dataFacade.getComfacade().sendShipsToEnnemy( this.currentGame.getComputerPlayer().getShips(), this.currentGame.getRecipients(ennemy.getLightPublicUser().getPlayerName()));
+                
+                
                 this.dataFacade.getIhmTablefacade().notifyGameReady();
             }
         }

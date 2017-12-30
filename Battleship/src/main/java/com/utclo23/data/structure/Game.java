@@ -534,7 +534,7 @@ public abstract class Game extends SerializableEntity {
      * @param user
      * @return
      */
-     @JsonIgnore
+    @JsonIgnore
     public boolean isPlayer(LightPublicUser user) {
         String userID = user.getId();
         Iterator<Player> i = this.players.iterator();
