@@ -215,9 +215,7 @@ public class GameMediator {
      */
     public Pair<Integer, Ship> attack(Coordinate coordinate, boolean isTrueAttack, Player playerWhoPutTheMine) throws DataException, IOException, ClassNotFoundException {
         if (this.currentGame != null) {
-            if (coordinate.getX() == -1 && coordinate.getY() == -1) {
-                return new Pair(0, null);
-            }
+           
             Player player = playerWhoPutTheMine;
 
             Pair<Integer, Ship> pairReturn;

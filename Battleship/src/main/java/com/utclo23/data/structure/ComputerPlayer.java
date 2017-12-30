@@ -41,12 +41,20 @@ public class ComputerPlayer extends Player {
 
         }
 
-        dx = 0;
-        dy = 0;
+        dx = -dx;
+        dy = -dy;
 
         for (Coordinate cf : list) {
             this.stackFocus.remove(cf);
         }
+        
+        Deque<Coordinate> tmp = new ArrayDeque<>();
+        while(!this.stackFocus.isEmpty())
+        {
+            tmp.push(this.stackFocus.pop());
+        }
+        
+        this.stackFocus = tmp;
 
     }
 
@@ -107,6 +115,21 @@ public class ComputerPlayer extends Player {
             }
             
             this.stackFocus.push(focus);
+        }
+        else
+        {
+            dx = -dx;
+            dy = -dy;
+            
+            Deque<Coordinate> tmp = new ArrayDeque<>();
+            while(!this.stackFocus.isEmpty())
+            {
+                tmp.push(this.stackFocus.pop());
+            }
+
+            this.stackFocus = tmp;
+                       
+            
         }
     }
 

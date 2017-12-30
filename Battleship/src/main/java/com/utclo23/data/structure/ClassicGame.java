@@ -45,11 +45,11 @@ public class ClassicGame extends Game{
     public  List<Ship> getTemplateShips()
     {
         List<Ship> ships = new ArrayList<>();
-        ships.add(new Ship(ShipType.CARRIER, 5));
-        ships.add(new Ship(ShipType.BATTLESHIP, 4));
+        ships.add(new Ship(ShipType.CARRIER, 4));
+        ships.add(new Ship(ShipType.BATTLESHIP, 5));
         ships.add(new Ship(ShipType.CRUISER, 3));
         ships.add(new Ship(ShipType.SUBMARINE, 2));
-        ships.add(new Ship(ShipType.DESTROYER, 1));
+        ships.add(new Ship(ShipType.DESTROYER, 3));
       
         return ships;
         
