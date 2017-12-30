@@ -73,6 +73,16 @@ public class InGameGUIController {
 
     //association ship <=> image
     Map<Ship, Button> listOfShipsOnTheGrid = new HashMap<Ship, Button>();
+    
+    //Memorize destroyed ships so that spectators don't count their destruction multiple times while replaying an ongoing game
+    ArrayList<Ship> listOfDestroyedShips = new ArrayList<Ship>();
+    
+    //Associative Map (not HashMap because hashcode different with Coordinate) foreach grid
+    ArrayList<Coordinate> minesCoordinatesGrid1 = new ArrayList<Coordinate>();
+    ArrayList<AnchorPane> minesAnchorPaneGrid1 = new ArrayList<AnchorPane>();
+    ArrayList<Coordinate> minesCoordinatesGrid2 = new ArrayList<Coordinate>();
+    ArrayList<AnchorPane> minesAnchorPaneGrid2 = new ArrayList<AnchorPane>();
+    
 
     /**
     * IHMTable façade
@@ -815,6 +825,43 @@ void onClickFire(MouseEvent event) {
      */
     private void placeMineGraphics(GridPane grid, int x, int y, String classcss)
     {
+        //Setup the arrayList for the selected grid for mine record
+        ArrayList<Coordinate> minesCoordinates = new ArrayList<Coordinate>();
+        ArrayList<AnchorPane> minesAnchorPane = new ArrayList<AnchorPane>();
+        if(grid == opponentGrid)
+        {
+            minesCoordinates = minesCoordinatesGrid1;
+            minesAnchorPane = minesAnchorPaneGrid1;
+        }
+        else
+        {
+            minesCoordinates = minesCoordinatesGrid2;
+            minesAnchorPane = minesAnchorPaneGrid2;
+        }
+        
+        //Si une mine est déjà présente (cas spectateur rejoint en cours)
+        Coordinate coord = new Coordinate(x,y);
+        if(minesCoordinates.contains(coord))
+        {
+            int index = minesCoordinates.indexOf(coord);
+            AnchorPane a = minesAnchorPane.get(index);
+            Button b = (Button)a.getChildren().get(a.getChildren().size()-1);
+            if(b.getStyleClass().contains("inGameGUI_destroyed_cell")) //if ship destroyed, do nothing
+                return;
+            else if(b.getStyleClass().contains("inGameGUI_touched_cell") && classcss.equals("inGameGUI_touched_cell")) //if mine already placed, do nothing
+                return;
+            else if(b.getStyleClass().contains("inGameGUI_touched_cell") && classcss.equals("inGameGUI_destroyed_cell"))   //Si bateau non détruit, on la supprime
+            {
+                grid.getChildren().remove(a);
+                minesCoordinates.remove(index);
+                minesAnchorPane.remove(index);
+            }
+                
+        }
+        
+        
+        
+        //Ajout d'une mine (image d'une mine dans un bouton)
         Button b = new Button();
         
         b.setStyle("-fx-background-color: none;"
@@ -834,6 +881,8 @@ void onClickFire(MouseEvent event) {
         b.getStyleClass().add(classcss);
         b.toFront();
         grid.add(wrapper,x, y);
+        minesCoordinates.add(coord);
+        minesAnchorPane.add(wrapper);
     }
     
     
@@ -877,24 +926,26 @@ void onClickFire(MouseEvent event) {
         Node hitCell = getNodeByRowColumnIndex(coord.getY(), coord.getX(), grid);
         hitCell.setDisable(true);
 
-        
+        //Launch the attack
         Pair<Integer, Ship> attack_result = facade.getFacadeData().attack(coord, false, player);
-        if(attack_result == null)
+        if(attack_result == null) //Can't handle null
         {
             throw new UnsupportedOperationException("ERROR: attack returned null ");
         }
-        // TODO: Voir si il faut demander à data une méthode "attack" neutralisée,
-        // on a besoin de pouvoir tester si une mine placée à un endroit provoque
-        // une explosion sans aucun autre effet (ou dire à data de tester si le joueur
-        // en local est le currentPlayer)
-        if (attack_result.getKey() == 1) {
+        
+        //data from attack
+        boolean touched = attack_result.getKey() == 1;
+        boolean newShipDestroyed = attack_result.getValue() != null && !listOfDestroyedShips.contains(attack_result.getValue());
+        
+        //If a mine did touch
+        if (touched) {
             // Ship Touched!
             placeMineGraphics(grid, coord.getX(), coord.getY(), "inGameGUI_touched_cell");
             
             // Check if the ship is destroyed.
             Ship destroyedShip = attack_result.getValue();
             if(destroyedShip != null) {
-                if (grid == opponentGrid || isSpectator) {
+                if ((grid == opponentGrid || isSpectator) && !listOfShipsOnTheGrid.containsKey(destroyedShip)) {
                     // Add ship picture on the opponent grid.
                     putShipOnBoard(destroyedShip, grid);
                 }
@@ -918,7 +969,7 @@ void onClickFire(MouseEvent event) {
         else{
             statsToUpdate = this.currentPlayerStats;
         }
-        statsToUpdate.turnPlayed(attack_result.getKey() == 1, (attack_result.getValue() != null));
+        statsToUpdate.turnPlayed(touched, newShipDestroyed);
         updateStatsPannel();
     }
 
@@ -1562,15 +1613,20 @@ void onClickFire(MouseEvent event) {
      */
     private void destroyShip(Ship ship, GridPane grid)
     {
-        // Change the opacity.
-        listOfShipsOnTheGrid.get(ship).setOpacity(0.5);
-        listOfShipsOnTheGrid.get(ship).toBack();
+        if(!listOfDestroyedShips.contains(ship))
+        {
+                // Change the opacity.
+            listOfShipsOnTheGrid.get(ship).setOpacity(0.5);
+            listOfShipsOnTheGrid.get(ship).toBack();
+            listOfDestroyedShips.add(ship);
 
-        // Change the CSS class of the cells.
-        for (Coordinate coord : ship.getListCoord()) {
-            placeMineGraphics(grid,coord.getX(), coord.getY(), "inGameGUI_destroyed_cell");
-              
-            
+            // Change the CSS class of the cells.
+            for (Coordinate coord : ship.getListCoord()) {
+                placeMineGraphics(grid,coord.getX(), coord.getY(), "inGameGUI_destroyed_cell");
+
+
+            }
         }
+        
     }
 }
