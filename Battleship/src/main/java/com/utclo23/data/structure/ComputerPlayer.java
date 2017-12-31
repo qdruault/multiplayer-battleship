@@ -12,7 +12,6 @@ import java.util.Deque;
 import java.util.List;
 import java.util.Random;
 
-
 /**
  *
  * @author lucillefargeau
@@ -47,13 +46,12 @@ public class ComputerPlayer extends Player {
         for (Coordinate cf : list) {
             this.stackFocus.remove(cf);
         }
-        
+
         Deque<Coordinate> tmp = new ArrayDeque<>();
-        while(!this.stackFocus.isEmpty())
-        {
+        while (!this.stackFocus.isEmpty()) {
             tmp.push(this.stackFocus.pop());
         }
-        
+
         this.stackFocus = tmp;
 
     }
@@ -95,41 +93,31 @@ public class ComputerPlayer extends Player {
                 if (oldFocus.getX() > focus.getX()) {
                     dx = -1;
                     dy = 0;
-                }
-
-                else if (oldFocus.getX() < focus.getX()) {
+                } else if (oldFocus.getX() < focus.getX()) {
                     dx = -1;
                     dy = 0;
-                }
-
-                else if (oldFocus.getY() > focus.getY()) {
+                } else if (oldFocus.getY() > focus.getY()) {
                     dy = -1;
                     dx = 0;
-                }
-
-                else if (oldFocus.getY() < focus.getY()) {
+                } else if (oldFocus.getY() < focus.getY()) {
                     dy = 1;
                     dx = 0;
                 }
 
             }
-            
+
             this.stackFocus.push(focus);
-        }
-        else
-        {
+        } else {
             dx = -dx;
             dy = -dy;
-            
+
             Deque<Coordinate> tmp = new ArrayDeque<>();
-            while(!this.stackFocus.isEmpty())
-            {
+            while (!this.stackFocus.isEmpty()) {
                 tmp.push(this.stackFocus.pop());
             }
 
             this.stackFocus = tmp;
-                       
-            
+
         }
     }
 
@@ -137,7 +125,6 @@ public class ComputerPlayer extends Player {
      *
      * @param ships
      */
-    
     public void setIAShips(List<Ship> ships) {
         System.out.println("IA SETTING SHIPS (IF YOU ARE SPECTATOR --> IT IS BIG PROBLEM");
         int[][] tab = new int[10][10];
@@ -187,7 +174,6 @@ public class ComputerPlayer extends Player {
 
             } while (!valid);
 
-
             //fill 
             if ((x + ship.getSize() < Configuration.WIDTH)) {
                 for (int i = 0; i < ship.getSize(); ++i) {
@@ -205,15 +191,11 @@ public class ComputerPlayer extends Player {
                 }
             }
 
-            
             ship.setOwner(this);
             this.getShips().add(ship); //add ship
-            
 
-            
         }
 
-       
     }
 
     /**
@@ -224,16 +206,6 @@ public class ComputerPlayer extends Player {
      */
     public Mine randomMine(List<Ship> shipsEnnemy, Game game) {
         //get max size of remaining ships
-        int max = 0;
-        for (Ship ship : shipsEnnemy) {
-            int s = ship.getSize();
-            if (s > max && !game.isShipDestroyed(ship, this.getMines())) {
-                max = s;
-            }
-        }
-
-        max = Math.min(max, 4);
-
 
         int[][] tab = new int[10][10];
 
@@ -249,7 +221,24 @@ public class ComputerPlayer extends Player {
 
         }
 
-      
+        Coordinate coordinate = null;
+
+        int max = 0;
+        for (Ship ship : shipsEnnemy) {
+            int s = ship.getSize();
+            if (s > max && !game.isShipDestroyed(ship, this.getMines())) {
+                max = s;
+
+                for (Coordinate c : ship.getListCoord()) {
+                    if (tab[c.getX()][c.getY()] != 1) {
+                        coordinate = c;
+                        break;
+                    }
+                }
+            }
+        }
+
+        max = Math.min(max, 4);
 
         int x = -1, y = -1;
         boolean valid = true;
@@ -257,46 +246,29 @@ public class ComputerPlayer extends Player {
         if (this.stackFocus.isEmpty()) {
             //System.out.println("random method");
             Random r = new Random();
+            if (r.nextInt(5) != 1) {
+                do {
+                    valid = true;
+                    //choose a new location until empty
+                    x = r.nextInt(Configuration.WIDTH);
+                    y = r.nextInt(Configuration.WIDTH);
 
-            do {
-                valid = true;
-                //choose a new location until empty
-                x = r.nextInt(Configuration.WIDTH);
-                y = r.nextInt(Configuration.WIDTH);
+                    int a, b;
+                    a = x - y;
+                    a = a % max;
+                    b = y - x;
+                    b = b % max;
 
-                int a, b;
-                a = x - y;
-                a = a % max;
-                b = y - x;
-                b = b % max;
-
-                if (tab[x][y] != 0 || (x >= Configuration.WIDTH || y >= Configuration.WIDTH) || (a != 0 || b != 0)) {
-                    valid = false;
-                }
-
-                //still valid
-                if (valid) {
-                    boolean validLine = true;
-                    if (x + max < Configuration.WIDTH && y < Configuration.WIDTH) {
-                        for (int i = 0; i < max; ++i) {
-                            if (tab[x + i][y] != 0) {
-                                validLine = false;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!validLine) {
+                    if (tab[x][y] != 0 || (x >= Configuration.WIDTH || y >= Configuration.WIDTH) || (a != 0 || b != 0)) {
                         valid = false;
-                    } else {
-                        valid = true;
                     }
 
-                    if (!valid) {
-                        validLine = true;
-                        if (x < Configuration.WIDTH && y + max < Configuration.WIDTH) {
+                    //still valid
+                    if (valid) {
+                        boolean validLine = true;
+                        if (x + max < Configuration.WIDTH && y < Configuration.WIDTH) {
                             for (int i = 0; i < max; ++i) {
-                                if (tab[x][y + i] != 0) {
+                                if (tab[x + i][y] != 0) {
                                     validLine = false;
                                     break;
                                 }
@@ -311,9 +283,9 @@ public class ComputerPlayer extends Player {
 
                         if (!valid) {
                             validLine = true;
-                            if (x - max >= 0 && y < Configuration.WIDTH) {
+                            if (x < Configuration.WIDTH && y + max < Configuration.WIDTH) {
                                 for (int i = 0; i < max; ++i) {
-                                    if (tab[x - i][y] != 0) {
+                                    if (tab[x][y + i] != 0) {
                                         validLine = false;
                                         break;
                                     }
@@ -328,9 +300,9 @@ public class ComputerPlayer extends Player {
 
                             if (!valid) {
                                 validLine = true;
-                                if (y - max >= 0 && x < Configuration.WIDTH) {
+                                if (x - max >= 0 && y < Configuration.WIDTH) {
                                     for (int i = 0; i < max; ++i) {
-                                        if (tab[x][y - i] != 0) {
+                                        if (tab[x - i][y] != 0) {
                                             validLine = false;
                                             break;
                                         }
@@ -343,21 +315,41 @@ public class ComputerPlayer extends Player {
                                     valid = true;
                                 }
 
+                                if (!valid) {
+                                    validLine = true;
+                                    if (y - max >= 0 && x < Configuration.WIDTH) {
+                                        for (int i = 0; i < max; ++i) {
+                                            if (tab[x][y - i] != 0) {
+                                                validLine = false;
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    if (!validLine) {
+                                        valid = false;
+                                    } else {
+                                        valid = true;
+                                    }
+
+                                }
+
                             }
 
                         }
 
                     }
 
-                }
-
-            } while (!valid);
+                } while (!valid);
+            } else {
+                x = coordinate.getX();
+                y = coordinate.getY();
+            }
 
         } else {
 
             do {
 
-                
                 Coordinate focus = this.stackFocus.peek();
                 if ((focus.getX() + dx >= Configuration.WIDTH || (focus.getY() + dy < 0) || (focus.getX() + dx < 0) || focus.getY() + dy >= Configuration.WIDTH) || tab[focus.getX() + dx][focus.getY() + dy] != 0) {
 
@@ -366,7 +358,7 @@ public class ComputerPlayer extends Player {
                             if ((focus.getX() >= Configuration.WIDTH || focus.getY() + 1 >= Configuration.WIDTH) || tab[focus.getX()][focus.getY() + 1] != 0) {
                                 if ((focus.getX() >= Configuration.WIDTH || focus.getY() - 1 < 0) || tab[focus.getX()][focus.getY() - 1] != 0) { //this.focus = null;
                                     //this.oldFocus = null;
-                                                                        //this.focus = null;
+                                    //this.focus = null;
                                     //this.oldFocus = null;
 
                                     this.stackFocus.pop();
@@ -394,13 +386,9 @@ public class ComputerPlayer extends Player {
                     y = focus.getY() + dy;
                 }
 
-                
-                
-                
             } while (x == -1 && y == -1 && !this.stackFocus.isEmpty());
-            
+
             //
-                  
             if (this.stackFocus.isEmpty() || (x == -1 && y == -1)) {
 
                 Random r = new Random();
@@ -502,7 +490,7 @@ public class ComputerPlayer extends Player {
             }
 
         }
-        Coordinate coordinate = new Coordinate(x, y);
+        coordinate = new Coordinate(x, y);
 
         Mine mine = new Mine(this, coordinate);
         //this.getMines().add(mine);
