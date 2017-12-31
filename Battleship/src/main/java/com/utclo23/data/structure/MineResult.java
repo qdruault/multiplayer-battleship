@@ -11,6 +11,19 @@ package com.utclo23.data.structure;
  */
 public enum MineResult {
    
-    SUCCESS, FAILURE, UNKNOWN
+    /**
+     *
+     */
+    SUCCESS, 
+
+    /**
+     *
+     */
+    FAILURE, 
+
+    /**
+     *
+     */
+    UNKNOWN
     
 }

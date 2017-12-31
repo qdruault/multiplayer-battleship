@@ -224,6 +224,7 @@ public class GameListController extends AbstractController{
     @FXML
     private void watchSelectedGame(ActionEvent event){
         if(selectedGame != null){
+            System.out.println("ihm main watch request");
             getFacade().iDataIHMMain.gameConnectionRequestGame(selectedGame.getId(), "spectator");
             loadingScreen();
         }

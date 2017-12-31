@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package com.utclo23.data.structure;
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 
 /**
@@ -15,22 +15,54 @@ public class Coordinate extends SerializableEntity{
     private int x;
     private int y;
 
+    /**
+     *
+     */
+    public Coordinate() {
+    }
+
+    /**
+     *
+     * @return
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getY() {
         return y;
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     *
+     * @param x
+     */
     public void setX(int x) {
         this.x = x;
     }
 
+    /**
+     *
+     * @param y
+     */
     public void setY(int y) {
         this.y = y;
     }
 
+    /**
+     *
+     * @param x
+     * @param y
+     */
     public Coordinate(int x, int y) {
         this.x = x;
         this.y = y;
@@ -56,6 +88,7 @@ public class Coordinate extends SerializableEntity{
      * @param ships
      * @return 
      */
+    @JsonIgnore
     public boolean isAllowed(List<Ship> ships) {
         if(!this.isInBoard()) {
             return false;
@@ -74,6 +107,7 @@ public class Coordinate extends SerializableEntity{
      * Ckecks if the coordinate is within the board.
      * @return 
      */
+    @JsonIgnore
     private boolean isInBoard() {
         return (x < 10 && x >= 0 && y < 10 && y >= 0);
     }
