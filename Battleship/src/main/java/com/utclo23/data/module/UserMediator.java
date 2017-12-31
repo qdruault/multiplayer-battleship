@@ -338,7 +338,7 @@ public class UserMediator {
         try {
             user = mapper.readValue(userFile, Owner.class);
         } catch (Exception e) {
-      
+            Logger.getLogger("log").info(e.getMessage());
             throw new DataException("Data : error in reading file");
         }
 

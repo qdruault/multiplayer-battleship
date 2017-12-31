@@ -419,7 +419,17 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     @Override
     public PublicUser getMyPublicUserProfile() {
 
-        return this.userMediator.getMyPublicUserProfile();
+        PublicUser usr = this.userMediator.getMyPublicUserProfile();
+        try {
+            usr.setNumberDefeats(this.getNumberDefeats());
+
+            usr.setNumberVictories(this.getNumberVictories());
+            usr.setNumberAbandons(this.getNumberAbandons());
+
+        } catch (DataException ex) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return usr;
 
     }
 

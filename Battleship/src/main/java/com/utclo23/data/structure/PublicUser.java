@@ -12,19 +12,60 @@ import java.util.Date;
  *
  * @author Davy
  */
-public class PublicUser extends SerializableEntity{
+public class PublicUser extends SerializableEntity {
+
     private LightPublicUser lightPublicUser;
     private String lastName;
     private String firstName;
     private Date birthDate;
     private byte[] avatar;
 
+    @JsonIgnore
+    private int numberDefeats;
+    @JsonIgnore
+    private int numberVictories;
+    @JsonIgnore
+    private int numberAbandons;
+
+    @JsonIgnore
+    public int getNumberDefeats() {
+        return numberDefeats;
+    }
+
+    @JsonIgnore
+    public void setNumberDefeats(int nbLost) {
+        this.numberDefeats = nbLost;
+    }
+
+    @JsonIgnore
+    public int getNumberVictories() {
+        return numberVictories;
+    }
+
+    @JsonIgnore
+        public void setNumberVictories(int nbWin) {
+        this.numberVictories = nbWin;
+    }
+
+    @JsonIgnore
+    public int getNumberAbandons() {
+        return numberAbandons;
+    }
+
+    @JsonIgnore
+    public void setNumberAbandons(int nbOther) {
+        this.numberAbandons = nbOther;
+    }
+
     /**
      *
      */
     public PublicUser() {
+        this.numberDefeats = 0;
+        this.numberVictories = 0;
+        this.numberAbandons = 0;
     }
-    
+
     /**
      *
      * @param lightPublicUser
@@ -32,11 +73,15 @@ public class PublicUser extends SerializableEntity{
      * @param firstName
      * @param birthDate
      */
-    public PublicUser(LightPublicUser lightPublicUser, String lastName, String firstName, Date birthDate){
+    public PublicUser(LightPublicUser lightPublicUser, String lastName, String firstName, Date birthDate) {
         this.lightPublicUser = lightPublicUser;
         this.lastName = lastName;
         this.firstName = firstName;
         this.birthDate = birthDate;
+
+        this.numberDefeats = 0;
+        this.numberAbandons = 0;
+        this.numberVictories = 0;
     }
 
     /**
@@ -102,28 +147,26 @@ public class PublicUser extends SerializableEntity{
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
-    
+
     /**
      *
      * @return
      */
     @JsonIgnore
-    public String getId()
-    {
+    public String getId() {
         return this.getLightPublicUser().getId();
-  
+
     }
-    
+
     /**
      *
      * @return
      */
     @JsonIgnore
-    public String getPlayerName()
-    {
+    public String getPlayerName() {
         return this.getLightPublicUser().getPlayerName();
     }
-    
+
     /**
      *
      * @return
