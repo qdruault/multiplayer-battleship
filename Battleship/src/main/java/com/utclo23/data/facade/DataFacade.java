@@ -722,8 +722,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @throws DataException
      */
     @Override
-    public int getNumberVictories() throws DataException {
-        return this.userMediator.getNumberVictories() ;
+    public int getNumberVictories(GameType type) throws DataException {
+        return this.userMediator.getNumberVictories(type) ;
     }
 
     /**
@@ -734,8 +734,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @throws DataException
      */
     @Override
-    public int getNumberDefeats() throws DataException {
-        return this.userMediator.getNumberDefeats() ;
+    public int getNumberDefeats(GameType type) throws DataException {
+        return this.userMediator.getNumberDefeats(type) ;
     }
     
     /**
@@ -746,7 +746,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @throws DataException
      */
     @Override
-    public int getNumberAbandons() throws DataException {
-        return this.userMediator.getNumberAbandons() ;
+    public int getNumberAbandons(GameType type) throws DataException {
+        return this.userMediator.getNumberAbandons(type) ;
     }
 }

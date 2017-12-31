@@ -47,8 +47,8 @@ public interface IDataIHMMain {
     public void updateFileImage(String fileImage) throws DataException;
     public void updatePassword(String password) throws DataException;
 
-    public int getNumberVictories() throws DataException;
-    public int getNumberDefeats() throws DataException;
-    public int getNumberAbandons() throws DataException;
+    public int getNumberVictories(GameType type) throws DataException;
+    public int getNumberDefeats(GameType type) throws DataException;
+    public int getNumberAbandons(GameType type) throws DataException;
 
 }
