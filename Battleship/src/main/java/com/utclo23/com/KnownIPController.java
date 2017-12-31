@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.net.Inet4Address;
 import com.utclo23.data.facade.IDataCom;
 import java.net.InterfaceAddress;
-import java.util.Iterator;
 
 /**
  * Class containing a hashmap with UID and corresponding IP address of the known

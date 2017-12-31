@@ -5,20 +5,6 @@
  */
 package com.utclo23.data;
 
-import com.utclo23.data.facade.DataFacade;
-import com.utclo23.data.module.DataException;
-import com.utclo23.data.structure.Coordinate;
-import com.utclo23.data.structure.GameType;
-import com.utclo23.data.structure.LightPublicUser;
-import com.utclo23.data.structure.Player;
-import com.utclo23.data.structure.Ship;
-import com.utclo23.data.structure.ShipType;
-import com.utclo23.data.structure.Mine;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import javafx.util.Pair;
-
 /**
  * Test the function attack
  * @author wuxiaodan

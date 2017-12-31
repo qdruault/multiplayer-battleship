@@ -5,7 +5,6 @@
  */
 package com.utclo23.data.structure;
 
-import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -16,14 +15,25 @@ public abstract class Event extends SerializableEntity{
    
     private Date timestamp;
 
+    /**
+     *
+     */
     public Event() {
         this.timestamp = new Date();
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getTimestamp() {
         return timestamp;
     }
 
+    /**
+     *
+     * @param timestamp
+     */
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }  
