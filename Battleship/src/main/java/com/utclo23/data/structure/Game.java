@@ -573,7 +573,7 @@ public abstract class Game extends SerializableEntity {
      */
      @JsonIgnore
     public boolean isComputerGame() {
-        return (this.getPlayers().get(0).isComputer() || this.getPlayers().get(1).isComputer());
+        return (this.getPlayers().get(0).isComputer() || (this.getPlayers().size()==2 && this.getPlayers().get(1).isComputer()));
     }
 
     /**

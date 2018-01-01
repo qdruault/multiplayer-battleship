@@ -215,7 +215,7 @@ public class GameMediator {
      */
     public Pair<Integer, Ship> attack(Coordinate coordinate, boolean isTrueAttack, Player playerWhoPutTheMine) throws DataException, IOException, ClassNotFoundException {
         if (this.currentGame != null) {
-           
+
             Player player = playerWhoPutTheMine;
 
             Pair<Integer, Ship> pairReturn;
@@ -331,7 +331,7 @@ public class GameMediator {
 
             if (role.equals("spectator") || (role.equals("player") && this.currentGame.getPlayers().size() < 2)) {
 
-                Logger.getLogger(this.getClass().toString()).info(user.getPlayerName()+" role "+role);
+                Logger.getLogger(this.getClass().toString()).info(user.getPlayerName() + " role " + role);
                 this.getCurrentGame().addUser(user, role);
 
                 if (this.dataFacade.getComfacade() != null) {
@@ -339,9 +339,7 @@ public class GameMediator {
 
                 }
 
-            }
-            else
-            {
+            } else {
                 this.dataFacade.getComfacade().joinGameResponse(false, id, null);
             }
 
@@ -421,12 +419,12 @@ public class GameMediator {
      * Exit current game.
      */
     public void leaveGame() {
-        
+
         //Sauvegarde à ajouter, que l'owner soit joueur ou pas.
         String status = this.getOwnerStatus();
         if (status.equals(Configuration.PLAYER)) {
             //Sauvegarde à ajouter.
-             this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
+            this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
             if (this.currentGame.getStatGame().getWinner() == null) {
                 this.giveUp();
             }
@@ -450,15 +448,13 @@ public class GameMediator {
         }
 
         game.setCurrentPlayer(player);
-               
+
         //do one time
-        if ((this.currentGame!=null && !this.currentGame.getId().equals(game.getId())|| this.currentGame ==null) && this.dataFacade.getIhmMainFacade() != null) {
+        if ((this.currentGame != null && !this.currentGame.getId().equals(game.getId()) || this.currentGame == null) && this.dataFacade.getIhmMainFacade() != null) {
             this.currentGame = game;
             this.dataFacade.getIhmMainFacade().receptionGame(game);
-        }
-        else
-        {
-             this.currentGame = game;
+        } else {
+            this.currentGame = game;
         }
 
     }
@@ -479,14 +475,14 @@ public class GameMediator {
      * @param mine the mine placed
      */
     public void forwardCoordinates(Mine mine) {
-        System.out.println("forward coordinate "+mine.getOwner().getLightPublicUser().getPlayerName()+" mine "+mine.getCoord().getX()+" "+mine.getCoord().getY());
+        System.out.println("forward coordinate " + mine.getOwner().getLightPublicUser().getPlayerName() + " mine " + mine.getCoord().getX() + " " + mine.getCoord().getY());
         List<Ship> ships = this.currentGame.ennemyOf(mine.getOwner()).getShips();
         Ship shipDestroyed = null;
         boolean touched = false;
-        
+
         //Add mine to local player
         this.currentGame.getPlayer(mine.getOwner().getLightPublicUser().getId()).getMines().add(mine);
-        
+
         for (Ship s : ships) {
             if (this.currentGame.isShipTouched(s, mine)) {
 
@@ -499,14 +495,12 @@ public class GameMediator {
             }
         }
 
-       
         if (this.dataFacade.getIhmTablefacade() != null) {
             this.dataFacade.getIhmTablefacade().feedBack(mine.getCoord(), touched, shipDestroyed);
 
         }
 
         if (this.currentGame.isGameFinishedByEnnemy(mine.getOwner())) {
-            
 
             String status = this.getOwnerStatus();
             if (status.equals(Configuration.PLAYER)) {
@@ -514,13 +508,11 @@ public class GameMediator {
                     this.giveUp();
                 }
                 this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
-            }
-            else
-            {
+            } else {
                 this.currentGame.getStatGame().setWinner(mine.getOwner().getLightPublicUser());
             }
             this.dataFacade.getIhmTablefacade().finishGame(this.currentGame.getStatGame());
-            
+
         }
     }
 
@@ -530,7 +522,8 @@ public class GameMediator {
     private void giveUp() {
         String ownerID = this.dataFacade.getUserMediator().getMyPublicUserProfile().getId();
         Player opponent = this.currentGame.ennemyOf(this.currentGame.getPlayer(ownerID));
-        this.currentGame.getStatGame().setWinner(opponent.getLightPublicUser());
+        
+        if(opponent!=null) this.currentGame.getStatGame().setWinner(opponent.getLightPublicUser());
     }
 
     /**
@@ -605,8 +598,8 @@ public class GameMediator {
      * @param ships
      */
     public void setEnnemyShips(List<Ship> ships) {
-        System.out.println("ENNEMY SHIPS "+ships.get(0).getOwner().getLightPublicUser().getPlayerName());
-        
+        System.out.println("ENNEMY SHIPS " + ships.get(0).getOwner().getLightPublicUser().getPlayerName());
+
         // Check game is instanciated
         if (this.currentGame != null) {
             if (!ships.isEmpty()) {
@@ -618,15 +611,13 @@ public class GameMediator {
 
                 // Set the ships
                 p.setShips(ships);
-                
-                System.out.println("ADD TO "+p.getLightPublicUser().getPlayerName());
 
-                
-                if(!this.getOwnerStatus().equals("spectator"))
-                {
-                     checkPlayersReady();
+                System.out.println("ADD TO " + p.getLightPublicUser().getPlayerName());
+
+                if (!this.getOwnerStatus().equals("spectator")) {
+                    checkPlayersReady();
                 }
-               
+
             }
         }
     }
@@ -636,38 +627,38 @@ public class GameMediator {
      */
     private void checkPlayersReady() {
         // If the 2 players are ready, notify IHM Table.
-
-        if (!this.currentGame.isComputerGame()) {
-            boolean ready = true;
-            for (Player player : this.currentGame.getPlayers()) {
-                // If their ships are placed.
-                if (this.currentGame.getTemplateShips().size() != player.getShips().size()) {
-                    ready = false;
-                    break;
+        if (this.currentGame.getPlayers().size() == 2) {
+            if (!this.currentGame.isComputerGame()) {
+                boolean ready = true;
+                for (Player player : this.currentGame.getPlayers()) {
+                    // If their ships are placed.
+                    if (this.currentGame.getTemplateShips().size() != player.getShips().size()) {
+                        ready = false;
+                        break;
+                    }
                 }
-            }
 
-            if (ready) {
-                this.dataFacade.getIhmTablefacade().notifyGameReady();
-            }
-        } else {
-            boolean ready = false;
-            for (Player player : this.currentGame.getPlayers()) {
-                // If their ships are placed.
-                if (this.currentGame.getTemplateShips().size() == player.getShips().size()) {
-                    ready = true;
-                    break;
+                if (ready) {
+                    this.dataFacade.getIhmTablefacade().notifyGameReady();
                 }
-            }
+            } else {
+                boolean ready = false;
+                for (Player player : this.currentGame.getPlayers()) {
+                    // If their ships are placed.
+                    if (this.currentGame.getTemplateShips().size() == player.getShips().size()) {
+                        ready = true;
+                        break;
+                    }
+                }
 
-            if (ready) //notify IA to place ships
-            {
-                Player ennemy = this.currentGame.ennemyOf(this.currentGame.getComputerPlayer());
-                this.currentGame.getComputerPlayer().setIAShips(this.currentGame.getTemplateShips());
-                this.dataFacade.getComfacade().sendShipsToEnnemy( this.currentGame.getComputerPlayer().getShips(), this.currentGame.getRecipients(ennemy.getLightPublicUser().getPlayerName()));
-                
-                
-                this.dataFacade.getIhmTablefacade().notifyGameReady();
+                if (ready) //notify IA to place ships
+                {
+                    Player ennemy = this.currentGame.ennemyOf(this.currentGame.getComputerPlayer());
+                    this.currentGame.getComputerPlayer().setIAShips(this.currentGame.getTemplateShips());
+                    this.dataFacade.getComfacade().sendShipsToEnnemy(this.currentGame.getComputerPlayer().getShips(), this.currentGame.getRecipients(ennemy.getLightPublicUser().getPlayerName()));
+
+                    this.dataFacade.getIhmTablefacade().notifyGameReady();
+                }
             }
         }
     }
