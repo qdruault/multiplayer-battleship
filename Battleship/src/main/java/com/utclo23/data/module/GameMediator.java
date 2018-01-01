@@ -98,7 +98,9 @@ public class GameMediator {
 
         //creat Game for realGame
         Game game = this.gameFactory.createGame(name, creator, computerMode, spectator, spectatorChat, type);
-
+        this.addNewGame(game.getStatGame()); 
+        
+        
         //to Com : notify a new game
         ComFacade comFacade = this.dataFacade.getComfacade();
         if (comFacade != null && game != null) {
