@@ -244,6 +244,11 @@ public class ComFacade {
         }
     }
     
+    /**
+     * Called to remove a game given in parameter in the game's list of all
+     * connected users
+     * @param idGame is the game to remove
+     */
     public void removeGame(String idGame){
         M_RemoveGame m_RemoveGame = new M_RemoveGame(iDataCom.getMyPublicUserProfile(), idGame);
         for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
