@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -291,7 +292,11 @@ public class GameMediator {
                         if (this.currentGame.getComputerPlayer().getFocus() != null) {
                         }
                     }
-
+                    
+                    Random r = new Random();
+                    if(r.nextInt(5)==1){
+                        this.sendMessageIA();
+                    }
                 }
 
             } else {
@@ -391,7 +396,7 @@ public class GameMediator {
         LightPublicUser sender = this.dataFacade.getMyPublicUserProfile().getLightPublicUser();
 
         //check if sender is spectator and if chat is allowed for spectators
-        if (this.currentGame.getSpectators().contains(sender)) {
+        if (this.currentGame.getSpectators().contains(sender) || this.currentGame.getRecipients("").contains(sender) ) {
             if (!this.currentGame.getStatGame().isSpectatorChat()) {
                 return;
             }
@@ -404,6 +409,40 @@ public class GameMediator {
         }
     }
 
+    public void sendMessageIA() {
+        System.out.println("IA send message");
+        List<String> punchlines = new ArrayList<String>();
+        punchlines.add("Tu vas bientôt perdre !");
+        punchlines.add("Tu as autant de chance de gagner que d'avoir A en LO23");
+        punchlines.add("zZz zZz Je m'ennuie avec toi. Tu joues mal.");
+        punchlines.add("Tu crois pouvoir battre une IA ?");
+        punchlines.add("LOL");
+        
+        Random r = new Random();
+        int i = r.nextInt(punchlines.size());
+        String text = punchlines.get(i);
+        
+        //get information of sender
+        LightPublicUser sender = this.currentGame.getComputerPlayer().getLightPublicUser();
+
+        //check if sender is spectator and if chat is allowed for spectators
+        
+            if (!this.currentGame.getStatGame().isSpectatorChat()) {
+                return;
+            }
+        
+
+        Message msg = new Message(sender, text, this.currentGame.getRecipients(this.dataFacade.getMyPublicUserProfile().getPlayerName()));
+        ComFacade comFacade = this.dataFacade.getComfacade();
+        if (comFacade != null) {
+            comFacade.notifyNewMessage(msg);
+        }
+        
+        this.forwardMessage(msg);
+        System.out.println("IA send message end");
+    }
+
+    
     /**
      * Forward a message
      *
