@@ -168,7 +168,7 @@ public class ComFacade {
                 Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), mLeaveGame);
                 new Thread(os).start();
             }
-        }
+        }       
     }
 
     /**
@@ -241,6 +241,17 @@ public class ComFacade {
             Sender os = new Sender(kIpCtrl.getHashMap().get(id).getHostAddress(), kIpCtrl.getPort(), mJoinGameResponse);
             new Thread(os).start();
             Logger.getLogger(ComFacade.class.getName()).log(Level.INFO, null, "Fail joinGame");
+        }
+    }
+    
+    public void removeGame(String idGame){
+        M_RemoveGame m_RemoveGame = new M_RemoveGame(iDataCom.getMyPublicUserProfile(), idGame);
+        for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
+            if (ip != null) {
+                Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), m_RemoveGame);
+                Thread thread = new Thread(os);
+                thread.start();
+            }
         }
     }
 }
