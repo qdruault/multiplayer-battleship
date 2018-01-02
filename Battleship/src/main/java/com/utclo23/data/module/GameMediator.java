@@ -528,6 +528,16 @@ public class GameMediator {
         if(opponent!=null) this.currentGame.getStatGame().setWinner(opponent.getLightPublicUser());
     }
 
+    
+    public void  removeGame(String id)
+    {
+        if(this.gamesMap.containsKey(id))
+        {
+            this.gamesMap.remove(id);
+            Logger.getLogger("GameMediator").info("delete "+id);
+        }
+    }
+    
     /**
      * Win if the game has no winner yet.
      *

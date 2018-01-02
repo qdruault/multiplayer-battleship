@@ -20,7 +20,7 @@ public interface IDataCom {
      * @param game
      */
     public void addNewGame(StatGame game);
-
+    public void removeGame(String id);
     /**
      *
      * @param ships
