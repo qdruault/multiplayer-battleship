@@ -98,9 +98,8 @@ public class GameMediator {
 
         //creat Game for realGame
         Game game = this.gameFactory.createGame(name, creator, computerMode, spectator, spectatorChat, type);
-        this.addNewGame(game.getStatGame()); 
-        
-        
+        this.addNewGame(game.getStatGame());
+
         //to Com : notify a new game
         ComFacade comFacade = this.dataFacade.getComfacade();
         if (comFacade != null && game != null) {
@@ -249,6 +248,15 @@ public class GameMediator {
                 if (this.currentGame.isComputerGame() && this.currentGame.isGameFinishedByCurrentPlayer()) {
                     this.dataFacade.getUserMediator().addPlayedGame(this.currentGame.getStatGame());
                     this.dataFacade.getIhmTablefacade().finishGame(this.currentGame.getStatGame());
+
+                    //if creator => delete game
+                    if (this.currentGame.getStatGame().getCreator().getId().equals(this.dataFacade.getMyPublicUserProfile().getId())) {
+                        Logger.getLogger(GameMediator.class.getName()).info("delete game by creator after leave game");
+                        this.dataFacade.getComfacade().removeGame(this.currentGame.getId());
+                        this.removeGame(this.getCurrentGame().getId());
+
+                    }
+
                     return null;
                 }
 
@@ -430,17 +438,16 @@ public class GameMediator {
             if (this.currentGame.getStatGame().getWinner() == null) {
                 this.giveUp();
             }
-            
+
             //if creator => delete game
-            if(this.currentGame.getStatGame().getCreator().getId().equals(this.dataFacade.getMyPublicUserProfile().getId()))
-            {
+            if (this.currentGame.getStatGame().getCreator().getId().equals(this.dataFacade.getMyPublicUserProfile().getId())) {
                 Logger.getLogger(GameMediator.class.getName()).info("delete game by creator after leave game");
                 this.dataFacade.getComfacade().removeGame(this.currentGame.getId());
-                
+
                 this.removeGame(this.getCurrentGame().getId());
-                
+
             }
-            
+
         }
 
     }
@@ -526,6 +533,14 @@ public class GameMediator {
             }
             this.dataFacade.getIhmTablefacade().finishGame(this.currentGame.getStatGame());
 
+            //if creator => delete game
+            if (this.currentGame.getStatGame().getCreator().getId().equals(this.dataFacade.getMyPublicUserProfile().getId())) {
+                Logger.getLogger(GameMediator.class.getName()).info("delete game by creator after leave game");
+                this.dataFacade.getComfacade().removeGame(this.currentGame.getId());
+                this.removeGame(this.getCurrentGame().getId());
+
+            }
+
         }
     }
 
@@ -535,20 +550,19 @@ public class GameMediator {
     private void giveUp() {
         String ownerID = this.dataFacade.getUserMediator().getMyPublicUserProfile().getId();
         Player opponent = this.currentGame.ennemyOf(this.currentGame.getPlayer(ownerID));
-        
-        if(opponent!=null) this.currentGame.getStatGame().setWinner(opponent.getLightPublicUser());
-    }
 
-    
-    public void  removeGame(String id)
-    {
-        if(this.gamesMap.containsKey(id))
-        {
-            this.gamesMap.remove(id);
-            Logger.getLogger("GameMediator").info("delete "+id);
+        if (opponent != null) {
+            this.currentGame.getStatGame().setWinner(opponent.getLightPublicUser());
         }
     }
-    
+
+    public void removeGame(String id) {
+        if (this.gamesMap.containsKey(id)) {
+            this.gamesMap.remove(id);
+            Logger.getLogger("GameMediator").info("delete " + id);
+        }
+    }
+
     /**
      * Win if the game has no winner yet.
      *
