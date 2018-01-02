@@ -158,13 +158,14 @@ public class ComFacade {
     }
 
     /**
-     * Called to send "leave game" notification to everybody.
+     * Called to send "leave game" notification to all users in the game.
+     * @param recipients: receivers of the notification
      */
-    public void leaveGame() {
+    public void leaveGame(List<LightPublicUser> recipients) {
         M_LeaveGame mLeaveGame = new M_LeaveGame(iDataCom.getMyPublicUserProfile());
-        for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
-            if (ip != null) {
-                Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), mLeaveGame);
+        for (LightPublicUser recipient : recipients) {      
+            if (kIpCtrl.getHashMap().get(recipient.getId()) != null) {
+                Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), mLeaveGame);
                 new Thread(os).start();
             }
         }
