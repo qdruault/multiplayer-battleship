@@ -430,6 +430,17 @@ public class GameMediator {
             if (this.currentGame.getStatGame().getWinner() == null) {
                 this.giveUp();
             }
+            
+            //if creator => delete game
+            if(this.currentGame.getStatGame().getCreator().getId().equals(this.dataFacade.getMyPublicUserProfile().getId()))
+            {
+                Logger.getLogger(GameMediator.class.getName()).info("delete game by creator after leave game");
+                this.dataFacade.getComfacade().removeGame(this.currentGame.getId());
+                
+                this.removeGame(this.getCurrentGame().getId());
+                
+            }
+            
         }
 
     }
