@@ -93,7 +93,6 @@ public class PlayerProfileController extends AbstractController{
     private List<Integer> dataBelgian;
     private List<Integer> dataTotal;
     private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
- 
    
     @FXML
     @Override
