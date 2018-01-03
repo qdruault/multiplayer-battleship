@@ -6,6 +6,7 @@
 package com.utclo23.ihmmain.controller;
 
 import com.utclo23.data.module.DataException;
+import com.utclo23.data.structure.GameType;
 import com.utclo23.data.structure.PublicUser;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -35,6 +36,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -80,13 +82,18 @@ public class PlayerProfileController extends AbstractController{
     private Button avatar;
     @FXML
     private Button Description;
+    @FXML
+    private GridPane stat;
+    
     private PublicUser me;
     private PublicUser other;
     private boolean isOther; 
     private String attribut;
     private Image avatarImage;
     private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
- 
+    private List<Integer> dataClassic;
+    private List<Integer> dataBelge;
+    private List<Integer> dataAll;
    
     @FXML
     @Override
@@ -225,17 +232,43 @@ public class PlayerProfileController extends AbstractController{
        }
        
     }
-    public List<Integer> statTotal() throws DataException{
+    public List<Integer> getData(GameType type) throws DataException{
         List<Integer> data = new ArrayList<>();
-        data.add(getFacade().iDataIHMMain.getNumberVictories());
-        data.add(getFacade().iDataIHMMain.getNumberDefeats());
-        data.add(getFacade().iDataIHMMain.getNumberAbandons());
+        data.add(getFacade().iDataIHMMain.getNumberVictories(type));
+        data.add(getFacade().iDataIHMMain.getNumberDefeats(type));
+        data.add(getFacade().iDataIHMMain.getNumberAbandons(type));
+        data.add(data.get(0)+data.get(1)+data.get(2));
         return data;
     }
-    public void drawPieChart(PieChart chart) throws DataException{
+    public List<Integer> getDataAll() throws DataException{
         List<Integer> data = new ArrayList<>();
-        data = statTotal();
-        //to do: get data from interface Data
+        data.add(dataClassic.get(0)+dataBelge.get(0));
+        data.add(dataClassic.get(1)+dataBelge.get(1));
+        data.add(dataClassic.get(2)+dataBelge.get(2));
+        data.add(dataClassic.get(3)+dataBelge.get(3));
+        return data;
+    }
+    //data1 total data2 classical data3 belge
+    public void loadStat(List<Integer> data1,List<Integer> data2,List<Integer> data3){
+        int i;
+        int j;
+        int index = 0;
+        data1.addAll(data2);
+        data1.addAll(data3);//0 1 2 3 4 5 6 7 8
+        for (j=1;j<4;j++){
+            for (i=1;i<5;i++){
+                Label value = new Label();
+                value.setText(data1.get(index).toString());
+                stat.add(value, i, j);
+                index++;
+            }
+        }
+        //test
+        for (int v:data1){
+            System.out.println(v);
+        }
+    }
+    public void drawPieChart(PieChart chart, List<Integer> data) throws DataException{
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList( 
         new PieChart.Data("Win", data.get(0)), 
         new PieChart.Data("Loss", data.get(1)), 
@@ -268,9 +301,13 @@ public class PlayerProfileController extends AbstractController{
                 firstNameText.setText(me.getFirstName());
                 lastNameText.setText(me.getLastName());
                 birthdayText.setText(formatter.format(me.getBirthDate()));
-                drawPieChart(allMode);
-                //drawPieChart(classical);
-                //drawPieChart(belge);
+                dataClassic = getData(GameType.CLASSIC); 
+                dataBelge = getData(GameType.BELGIAN); 
+                dataAll = getDataAll();
+                loadStat(dataAll,dataClassic,dataBelge);
+                drawPieChart(allMode,dataAll);
+                drawPieChart(classical,dataClassic);
+                drawPieChart(belge,dataBelge);
             }
             catch(NullPointerException e){
                 e.printStackTrace();
