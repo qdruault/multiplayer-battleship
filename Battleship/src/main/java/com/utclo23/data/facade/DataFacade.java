@@ -284,7 +284,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     @Override
     public void leaveGame() {
         String role = this.gameMediator.getOwnerStatus();
-        if (!role.equals("spectator") && this.gameMediator.getCurrentGame()!=null) {
+        if (!role.equals("spectator") && this.gameMediator.getCurrentGame() != null) {
             Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | leave game");
 
             this.comfacade.leaveGame(this.gameMediator.getCurrentGame().getRecipients(this.getMyPublicUserProfile().getPlayerName()));
@@ -308,7 +308,6 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     public void opponentHasLeftGame() {
         Logger.getLogger(DataFacade.class.getName()).info("data | opponent has left");
 
-        
         if (!this.gameMediator.isFinishedGame()) {
             try {
                 this.gameMediator.defWin();
@@ -319,10 +318,9 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
             this.ihmTablefacade.opponentHasLeftGame();
         }
     }
-    
+
     @Override
-    public void removeGame(String id)
-    {
+    public void removeGame(String id) {
         this.gameMediator.removeGame(id);
     }
 
@@ -426,14 +424,16 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     public PublicUser getMyPublicUserProfile() {
 
         PublicUser usr = this.userMediator.getMyPublicUserProfile();
-        try {
-            usr.setNumberDefeatsClassic(this.getNumberDefeatsClassic());
+        if (usr != null) {
+            try {
+               usr.setNumberDefeatsClassic(this.getNumberDefeatsClassic());
 
             usr.setNumberVictoriesClassic(this.getNumberVictoriesClassic());
             usr.setNumberAbandonsClassic(this.getNumberAbandonsClassic());
 
-        } catch (DataException ex) {
-            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (DataException ex) {
+                Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return usr;
 
