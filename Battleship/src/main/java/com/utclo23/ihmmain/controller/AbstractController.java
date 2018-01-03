@@ -8,7 +8,6 @@ package com.utclo23.ihmmain.controller;
 import com.utclo23.ihmmain.IHMMain;
 import com.utclo23.ihmmain.facade.IHMMainFacade;
 import java.io.ByteArrayInputStream;
-import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;

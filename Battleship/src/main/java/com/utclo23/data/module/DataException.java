@@ -14,6 +14,10 @@ import com.utclo23.battleship.GameException;
 public class DataException extends GameException 
 {
 
+    /**
+     *
+     * @param message
+     */
     public DataException(String message) {
         super(message);
     }

@@ -8,6 +8,8 @@ package com.utclo23.ihmtable;
 import com.utclo23.data.structure.Coordinate;
 import com.utclo23.data.structure.StatGame;
 import com.utclo23.data.facade.IDataIHMTable;
+import com.utclo23.data.structure.Game;
+import com.utclo23.data.structure.LightPublicUser;
 import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.Message;
 import com.utclo23.ihmmain.facade.IHMMainToIhmTable;
@@ -16,6 +18,7 @@ import java.io.IOException;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -133,6 +136,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void showGame() {
+        System.out.println("TABLE: SHOWGAME START");
         //Créer la fenêtre
         FXMLLoader paneLoader = new FXMLLoader(getClass().getResource(FXML_PATH));
         Parent pane;
@@ -151,21 +155,22 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
         }
         
        //Gérer les cas spectateur/utilisateur standard
-       /* boolean startSpectateur = false;
+        boolean startSpectateur = true;
         Game game = facadeData.getGame();
         LightPublicUser user = facadeData.getMyPublicUserProfile().getLightPublicUser();
-        for(int i=0;i<game.getSpectators().size() && !startSpectateur;++i)
-            if(game.getSpectators().get(i).getId() == user.getId())
-                startSpectateur = true;
+        for(int i=0;i<game.getPlayers().size() && !startSpectateur;++i)
+            if(game.getPlayers().get(i).getLightPublicUser().getId() == user.getId())
+                startSpectateur = false;
+        System.out.println(startSpectateur);
         if(startSpectateur && controller != null)
         {
+           System.out.println("TABLE: SPECTATEUR ARRIVE");
            controller.refreshBoardForSpectator();
            controller.loadGame(game);
         }
-        */
+        
 
             
-        throw new UnsupportedOperationException("En cours");
     }
 
     /**
@@ -195,9 +200,20 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      * @param destroyedShip : destroyed ship or null.
      */
     @Override
-    public void feedBack(Coordinate coord, boolean touched, Ship destroyedShip) {
-        controller.displayOpponentAttack(coord, touched, destroyedShip);
-        controller.timeToAttack();
+    public void feedBack(final Coordinate coord, boolean touched, Ship destroyedShip) {
+        
+        final Coordinate coordFinal = coord;
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run() {
+                System.out.println("TABLE: ON RECOIT UNE DEMANDE DE PLACEMENT DE MINE");
+                 controller.placeMine(coordFinal,IHMTableFacade.this.getFacadeData().getGame().getRecentMine(coord).getOwner());
+                //controller.displayOpponentAttack(coord, touched, destroyedShip);
+                controller.timeToAttack();
+                
+            }
+       
+        });
     }
 
     /**
@@ -208,6 +224,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
     public void finishGame(StatGame stGame) {
         String sMessage;
         // Game lost.
+       
         if(!stGame.getWinner().getPlayerName().equals(facadeData.getMyPublicUserProfile().getPlayerName()))
         {
             sMessage = "Defeat! You should train against AI! Hahahah!";
@@ -228,6 +245,15 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
         controller.displayFinishPopup("Your opponent has left this game!");
     }
 
+    @Override
+    public void spectatorLeaveGame()
+    {
+        try {
+            this.getFacadeIHMMain().toMenu();
+        } catch (IOException ex) {
+            Logger.getLogger(IHMTableFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * Connection has been lost with your opponent.
      */

@@ -25,9 +25,19 @@ import java.util.ArrayList;
  * 
  */
 public class GameFactory {
-    public GameFactory(){
-        
-    }
+
+ 
+
+    /**
+     *
+     * @param name
+     * @param creator
+     * @param computerMode
+     * @param spectator
+     * @param spectatorChat
+     * @param type
+     * @return
+     */
     public Game createGame(String name, LightPublicUser creator,  boolean computerMode, boolean spectator, boolean spectatorChat, GameType type){
         //create stat game
         String id = new UID().toString();
@@ -41,7 +51,6 @@ public class GameFactory {
         
         if(computerMode)
         {
-            System.out.println("Data | computer mode");
             //add second player
             Player j2 = new ComputerPlayer();
             j2.setComputer(true);
@@ -50,10 +59,9 @@ public class GameFactory {
         }
         
         
-        System.out.println("player number : "+players.size());
         
         List<LightPublicUser> spectators = new ArrayList<>();
-        //spectators.add(creator);
+   
         
         StatGame statGame = new StatGame(id, type, name, computerMode, spectator, spectatorChat, creator);
                 

@@ -17,13 +17,20 @@ public class LightPublicUser extends SerializableEntity{
     private String playerName;
     private byte[] avatarThumbnail;
 
+    /**
+     *
+     */
     public LightPublicUser() {
         this.id ="";
         this.playerName ="";
         
     }
 
-     @JsonIgnore
+    /**
+     *
+     * @return
+     */
+    @JsonIgnore
     public static LightPublicUser generateComputerProfile()
     {
         String id = new UID().toString();

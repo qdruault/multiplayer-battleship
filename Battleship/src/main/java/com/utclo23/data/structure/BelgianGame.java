@@ -15,11 +15,21 @@ import java.util.List;
  */
 public class BelgianGame extends Game {
 
+    /**
+     *
+     * @param statGame
+     * @param players
+     * @param spectators
+     * @param messages
+     */
     public BelgianGame(StatGame statGame, List<Player> players, List<LightPublicUser> spectators, List<Message> messages) {
         super(statGame, players, spectators, messages);           
         
     }
 
+    /**
+     *
+     */
     public BelgianGame() {
         super();
     }
@@ -31,7 +41,7 @@ public class BelgianGame extends Game {
      * @return 
      */
     public List<Ship> getTemplateShips() {
-        List<Ship> ships = new ArrayList<Ship>();
+        List<Ship> ships = new ArrayList<>();
 
         ships.add(new Ship(ShipType.BATTLESHIP, 4));
         
@@ -47,6 +57,7 @@ public class BelgianGame extends Game {
         ships.add(new Ship(ShipType.SUBMARINE, 1));
         ships.add(new Ship(ShipType.SUBMARINE, 1));
 
+        
         return ships;
     }
 }

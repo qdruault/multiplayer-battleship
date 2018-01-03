@@ -29,6 +29,9 @@ public class Owner extends SerializableEntity{
     private List<Game> savedGamesList;
     private List<StatGame> playedGamesList;
     
+    /**
+     *
+     */
     public Owner()
     {
         this.discoveryNodes = new ArrayList<>();
@@ -37,10 +40,18 @@ public class Owner extends SerializableEntity{
         
     }
     
+    /**
+     *
+     * @return
+     */
     public PublicUser getUserIdentity() {
         return userIdentity;
     }
 
+    /**
+     *
+     * @param userIdentity
+     */
     public void setUserIdentity(PublicUser userIdentity) {
         this.userIdentity = userIdentity;
     }
@@ -118,40 +129,74 @@ public class Owner extends SerializableEntity{
         }
     }
     
-    
-    
+    /**
+     *
+     * @return
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     *
+     * @param password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<String> getDiscoveryNodes() {
         return discoveryNodes;
     }
 
+    /**
+     *
+     * @param discoveryNodes
+     */
     public void setDiscoveryNodes(List<String> discoveryNodes) {
         this.discoveryNodes = discoveryNodes;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Game> getSavedGamesList() {
         return savedGamesList;
     }
 
+    /**
+     *
+     * @param savedGamesList
+     */
     public void setSavedGamesList(List<Game> savedGamesList) {
         this.savedGamesList = savedGamesList;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<StatGame> getPlayedGamesList() {
         return playedGamesList;
     }
 
+    /**
+     *
+     * @param playedGamesList
+     */
     public void setPlayedGamesList(List<StatGame> playedGamesList) {
         this.playedGamesList = playedGamesList;
     }
 
+    /**
+     *
+     * @param game
+     */
     public void addPlayedGame(StatGame game) {
         this.playedGamesList.add(game);
     }
