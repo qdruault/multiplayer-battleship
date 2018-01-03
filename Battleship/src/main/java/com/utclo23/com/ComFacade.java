@@ -158,16 +158,17 @@ public class ComFacade {
     }
 
     /**
-     * Called to send "leave game" notification to everybody.
+     * Called to send "leave game" notification to all users in the game.
+     * @param recipients: receivers of the notification
      */
-    public void leaveGame() {
+    public void leaveGame(List<LightPublicUser> recipients) {
         M_LeaveGame mLeaveGame = new M_LeaveGame(iDataCom.getMyPublicUserProfile());
-        for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
-            if (ip != null) {
-                Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), mLeaveGame);
+        for (LightPublicUser recipient : recipients) {      
+            if (kIpCtrl.getHashMap().get(recipient.getId()) != null) {
+                Sender os = new Sender(kIpCtrl.getHashMap().get(recipient.getId()).getHostAddress(), kIpCtrl.getPort(), mLeaveGame);
                 new Thread(os).start();
             }
-        }
+        }       
     }
 
     /**
@@ -240,6 +241,22 @@ public class ComFacade {
             Sender os = new Sender(kIpCtrl.getHashMap().get(id).getHostAddress(), kIpCtrl.getPort(), mJoinGameResponse);
             new Thread(os).start();
             Logger.getLogger(ComFacade.class.getName()).log(Level.INFO, null, "Fail joinGame");
+        }
+    }
+    
+    /**
+     * Called to remove a game given in parameter in the game's list of all
+     * connected users
+     * @param idGame is the game to remove
+     */
+    public void removeGame(String idGame){
+        M_RemoveGame m_RemoveGame = new M_RemoveGame(iDataCom.getMyPublicUserProfile(), idGame);
+        for (Inet4Address ip : kIpCtrl.getHashMap().values()) {
+            if (ip != null) {
+                Sender os = new Sender(ip.getHostAddress(), kIpCtrl.getPort(), m_RemoveGame);
+                Thread thread = new Thread(os);
+                thread.start();
+            }
         }
     }
 }

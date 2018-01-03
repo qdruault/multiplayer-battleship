@@ -72,7 +72,10 @@ public class CreateGameController extends AbstractController{
         
         // Default values
         radioButtonClassical.setSelected(true);
-        radioButtonComputer.setSelected(true);        
+        radioButtonComputer.setSelected(true);  
+        
+        radioButtonChat.setSelected(true);
+        radioButtonAudience.setSelected(true);
     }
     
     public void start(){   

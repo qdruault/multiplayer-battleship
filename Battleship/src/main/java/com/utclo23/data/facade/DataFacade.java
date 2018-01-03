@@ -284,10 +284,10 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     @Override
     public void leaveGame() {
         String role = this.gameMediator.getOwnerStatus();
-        if (!role.equals("spectator")) {
+        if (!role.equals("spectator") && this.gameMediator.getCurrentGame()!=null) {
             Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | leave game");
 
-            this.comfacade.leaveGame();
+            this.comfacade.leaveGame(this.gameMediator.getCurrentGame().getRecipients(this.getMyPublicUserProfile().getPlayerName()));
             this.gameMediator.leaveGame();
             try {
                 this.ihmMainFacade.toMenu();
@@ -308,7 +308,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     public void opponentHasLeftGame() {
         Logger.getLogger(DataFacade.class.getName()).info("data | opponent has left");
 
-        String role = this.gameMediator.getOwnerStatus();
+        
         if (!this.gameMediator.isFinishedGame()) {
             try {
                 this.gameMediator.defWin();
@@ -318,6 +318,12 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
             this.gameMediator.leaveGame();
             this.ihmTablefacade.opponentHasLeftGame();
         }
+    }
+    
+    @Override
+    public void removeGame(String id)
+    {
+        this.gameMediator.removeGame(id);
     }
 
     /**
@@ -419,7 +425,17 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     @Override
     public PublicUser getMyPublicUserProfile() {
 
-        return this.userMediator.getMyPublicUserProfile();
+        PublicUser usr = this.userMediator.getMyPublicUserProfile();
+        try {
+            usr.setNumberDefeats(this.getNumberDefeats());
+
+            usr.setNumberVictories(this.getNumberVictories());
+            usr.setNumberAbandons(this.getNumberAbandons());
+
+        } catch (DataException ex) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return usr;
 
     }
 
