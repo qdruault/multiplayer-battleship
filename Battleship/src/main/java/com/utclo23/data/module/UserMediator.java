@@ -366,7 +366,7 @@ public class UserMediator {
                             throw new DataException("Data : IP not valid");
                         }
                     }
-                    comFacade.sendDiscovery(listIpTarget);
+                    //comFacade.sendDiscovery(listIpTarget);
                 }
             }
 
