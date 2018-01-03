@@ -284,7 +284,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     @Override
     public void leaveGame() {
         String role = this.gameMediator.getOwnerStatus();
-        if (!role.equals("spectator") && this.gameMediator.getCurrentGame()!=null) {
+        if (!role.equals("spectator") && this.gameMediator.getCurrentGame() != null) {
             Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | leave game");
 
             this.comfacade.leaveGame(this.gameMediator.getCurrentGame().getRecipients(this.getMyPublicUserProfile().getPlayerName()));
@@ -308,7 +308,6 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     public void opponentHasLeftGame() {
         Logger.getLogger(DataFacade.class.getName()).info("data | opponent has left");
 
-        
         if (!this.gameMediator.isFinishedGame()) {
             try {
                 this.gameMediator.defWin();
@@ -319,10 +318,9 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
             this.ihmTablefacade.opponentHasLeftGame();
         }
     }
-    
+
     @Override
-    public void removeGame(String id)
-    {
+    public void removeGame(String id) {
         this.gameMediator.removeGame(id);
     }
 
@@ -426,14 +424,16 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
     public PublicUser getMyPublicUserProfile() {
 
         PublicUser usr = this.userMediator.getMyPublicUserProfile();
-        try {
-            usr.setNumberDefeats(this.getNumberDefeats());
+        if (usr != null) {
+            try {
+               usr.setNumberDefeatsClassic(this.getNumberDefeatsClassic());
 
-            usr.setNumberVictories(this.getNumberVictories());
-            usr.setNumberAbandons(this.getNumberAbandons());
+            usr.setNumberVictoriesClassic(this.getNumberVictoriesClassic());
+            usr.setNumberAbandonsClassic(this.getNumberAbandonsClassic());
 
-        } catch (DataException ex) {
-            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (DataException ex) {
+                Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return usr;
 
@@ -762,9 +762,12 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @return int number of victories
      * @throws DataException
      */
-    @Override
-    public int getNumberVictories(GameType type) throws DataException {
-        return this.userMediator.getNumberVictories(type) ;
+
+    public int getNumberVictoriesClassic() throws DataException {
+        return this.userMediator.getNumberVictoriesClassic();
+    }
+    public int getNumberVictoriesBelgian() throws DataException {
+        return this.userMediator.getNumberVictoriesBelgian();
     }
 
     /**
@@ -774,9 +777,12 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @return int number of defeats
      * @throws DataException
      */
-    @Override
-    public int getNumberDefeats(GameType type) throws DataException {
-        return this.userMediator.getNumberDefeats(type) ;
+
+    public int getNumberDefeatsClassic() throws DataException {
+        return this.userMediator.getNumberDefeatsClassic();
+    }
+    public int getNumberDefeatsBelgian() throws DataException {
+        return this.userMediator.getNumberDefeatsBelgian();
     }
 
     /**
@@ -786,8 +792,11 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @return int number of abandons
      * @throws DataException
      */
-    @Override
-    public int getNumberAbandons(GameType type) throws DataException {
-        return this.userMediator.getNumberAbandons(type) ;
+    
+    public int getNumberAbandonsClassic() throws DataException {
+        return this.userMediator.getNumberAbandonsClassic();
+    }
+    public int getNumberAbandonsBelgian() throws DataException {
+        return this.userMediator.getNumberAbandonsBelgian();
     }
 }

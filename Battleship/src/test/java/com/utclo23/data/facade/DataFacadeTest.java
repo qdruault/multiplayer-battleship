@@ -365,7 +365,7 @@ public class DataFacadeTest {
         DataFacade instance = new DataFacade();
         instance.signin("DAVIDK", "PASSWORD");
         int expResult = 0;
-        int result = instance.getNumberVictories();
+        int result = instance.getNumberVictoriesClassic();
         assertEquals(expResult, result);
         
     }
@@ -379,7 +379,7 @@ public class DataFacadeTest {
         DataFacade instance = new DataFacade();
         instance.signin("DAVIDK", "PASSWORD");
         int expResult = 0;
-        int result = instance.getNumberDefeats();
+        int result = instance.getNumberDefeatsClassic();
         assertEquals(expResult, result);
         
     }
@@ -393,7 +393,7 @@ public class DataFacadeTest {
         DataFacade instance = new DataFacade();
         instance.signin("DAVIDK", "PASSWORD");
         int expResult = 0;
-        int result = instance.getNumberAbandons();
+        int result = instance.getNumberAbandonsClassic();
         assertEquals(expResult, result);
         
     }

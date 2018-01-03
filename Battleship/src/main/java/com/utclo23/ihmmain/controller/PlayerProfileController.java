@@ -84,16 +84,15 @@ public class PlayerProfileController extends AbstractController{
     private Button Description;
     @FXML
     private GridPane stat;
-    
     private PublicUser me;
     private PublicUser other;
     private boolean isOther; 
     private String attribut;
     private Image avatarImage;
-    private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     private List<Integer> dataClassic;
-    private List<Integer> dataBelge;
-    private List<Integer> dataAll;
+    private List<Integer> dataBelgian;
+    private List<Integer> dataTotal;
+    private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
    
     @FXML
     @Override
@@ -232,49 +231,68 @@ public class PlayerProfileController extends AbstractController{
        }
        
     }
-    public List<Integer> getData(GameType type) throws DataException{
+    public List<Integer> getData(PublicUser player,GameType type) throws DataException{
         List<Integer> data = new ArrayList<>();
-        data.add(getFacade().iDataIHMMain.getNumberVictories(type));
-        data.add(getFacade().iDataIHMMain.getNumberDefeats(type));
-        data.add(getFacade().iDataIHMMain.getNumberAbandons(type));
-        data.add(data.get(0)+data.get(1)+data.get(2));
+        if (type == GameType.CLASSIC){
+            data.add(player.getNumberVictoriesClassic());
+            data.add(player.getNumberDefeatsClassic());
+            data.add(player.getNumberAbandonsClassic());
+            data.add(data.get(0)+data.get(1)+data.get(2));
+        }else if (type == GameType.BELGIAN){
+            data.add(player.getNumberVictoriesBelgian());
+            data.add(player.getNumberDefeatsBelgian());
+            data.add(player.getNumberAbandonsBelgian());
+            data.add(data.get(0)+data.get(1)+data.get(2));
+        }
         return data;
     }
-    public List<Integer> getDataAll() throws DataException{
+    public List<Integer> getTotal( List<Integer> data1, List<Integer> data2){
         List<Integer> data = new ArrayList<>();
-        data.add(dataClassic.get(0)+dataBelge.get(0));
-        data.add(dataClassic.get(1)+dataBelge.get(1));
-        data.add(dataClassic.get(2)+dataBelge.get(2));
-        data.add(dataClassic.get(3)+dataBelge.get(3));
+        int i = 0;
+        for (int a : data1){
+            data.add(data1.get(i)+data2.get(i));
+            i++;
+        }
         return data;
     }
-    //data1 total data2 classical data3 belge
-    public void loadStat(List<Integer> data1,List<Integer> data2,List<Integer> data3){
-        int i;
-        int j;
-        int index = 0;
-        data1.addAll(data2);
-        data1.addAll(data3);//0 1 2 3 4 5 6 7 8
-        for (j=1;j<4;j++){
-            for (i=1;i<5;i++){
-                Label value = new Label();
-                value.setText(data1.get(index).toString());
-                stat.add(value, i, j);
-                index++;
-            }
-        }
-        //test
-        for (int v:data1){
-            System.out.println(v);
-        }
-    }
-    public void drawPieChart(PieChart chart, List<Integer> data) throws DataException{
+    
+    public void drawPieChart(PieChart chart,List<Integer> data) throws DataException{
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList( 
         new PieChart.Data("Win", data.get(0)), 
         new PieChart.Data("Loss", data.get(1)), 
         new PieChart.Data("Abandonned", data.get(2))
         );
         chart.setData(pieChartData);
+    }
+    public void loadStat(List<Integer> data1, List<Integer> data2,List<Integer> data3){
+        int i;
+        int j;
+        int index = 0;
+        boolean firstTime = true;
+        ObservableList<Node> children = stat.getChildren();
+        data1.addAll(data2);
+        data1.addAll(data3);
+        if (children.size()>8){
+            System.out.println("here!!!!!!!!!!!!!");
+            firstTime = false;
+        }
+        for (j=1;j<4;j++){
+            for (i=1;i<5;i++){
+                if (firstTime == true){
+                    Label value = new Label();
+                    value.setText(data1.get(index).toString());
+                    stat.add(value, i, j);
+                }
+                else{
+                    for (Node node : children) {
+                        if (GridPane.getColumnIndex(node) == i && GridPane.getRowIndex(node) == j) {
+                           ((Label)node).setText(data1.get(index).toString());
+                        }
+                    }    
+                }
+                index++;
+            }
+        }
     }
     public void disableButton(){
         playerName.setDisable(true);
@@ -285,7 +303,7 @@ public class PlayerProfileController extends AbstractController{
         avatar.setDisable(true);
         Description.setDisable(true);
     }
-
+   
     /**
      * Initializes all the info of profile.
      */
@@ -301,13 +319,15 @@ public class PlayerProfileController extends AbstractController{
                 firstNameText.setText(me.getFirstName());
                 lastNameText.setText(me.getLastName());
                 birthdayText.setText(formatter.format(me.getBirthDate()));
-                dataClassic = getData(GameType.CLASSIC); 
-                dataBelge = getData(GameType.BELGIAN); 
-                dataAll = getDataAll();
-                loadStat(dataAll,dataClassic,dataBelge);
-                drawPieChart(allMode,dataAll);
+                
+                //get data
+                dataClassic = getData(me,GameType.CLASSIC);
+                dataBelgian = getData(me,GameType.BELGIAN);
+                dataTotal = getTotal(dataClassic,dataBelgian);
+                loadStat(dataClassic,dataBelgian,dataTotal);
+                drawPieChart(allMode,dataTotal);
                 drawPieChart(classical,dataClassic);
-                drawPieChart(belge,dataBelge);
+                drawPieChart(belge,dataBelgian);
             }
             catch(NullPointerException e){
                 e.printStackTrace();
@@ -318,7 +338,7 @@ public class PlayerProfileController extends AbstractController{
                         );
             } catch (DataException ex) {
                 Logger.getLogger(PlayerProfileController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } 
         }
         else{
             try{
@@ -329,13 +349,22 @@ public class PlayerProfileController extends AbstractController{
                 firstNameText.setText(other.getFirstName());
                 lastNameText.setText(other.getLastName());
                 birthdayText.setText(formatter.format(other.getBirthDate()));
-            }
-            catch(NullPointerException e){
+                //get data
+                dataClassic = getData(other,GameType.CLASSIC);
+                dataBelgian = getData(other,GameType.BELGIAN);
+                dataTotal = getTotal(dataClassic,dataBelgian);
+                loadStat(dataClassic,dataBelgian,dataTotal);
+                drawPieChart(allMode,dataTotal);
+                drawPieChart(classical,dataClassic);
+                drawPieChart(belge,dataBelgian);
+            }catch(NullPointerException e){
                 Logger.getLogger(
-                        PlayerProfileController.class.getName()).log(Level.INFO,
-                        "[PlayerProfile] - error - other profile is null."
-                        );
-            }
+                    PlayerProfileController.class.getName()).log(Level.INFO,
+                    "[PlayerProfile] - error - other profile is null."
+                );
+            } catch (DataException ex) {
+                Logger.getLogger(PlayerProfileController.class.getName()).log(Level.SEVERE, null, ex);
+            } 
         }
     }
     

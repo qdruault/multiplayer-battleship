@@ -164,8 +164,45 @@ public interface IDataIHMMain {
      */
     public void updatePassword(String password) throws DataException;
 
-    public int getNumberVictories(GameType type) throws DataException;
-    public int getNumberDefeats(GameType type) throws DataException;
-    public int getNumberAbandons(GameType type) throws DataException;
+    /**
+     *
+     * @return
+     * @throws DataException
+     */
+    public int getNumberVictoriesClassic() throws DataException;
 
+    /**
+     *
+     * @return
+     * @throws DataException
+     */
+    public int getNumberDefeatsClassic() throws DataException;
+
+    /**
+     *
+     * @return
+     * @throws DataException
+     */
+    public int getNumberAbandonsClassic() throws DataException;
+   
+    /**
+     *
+     * @return
+     * @throws DataException
+     */
+    public int getNumberVictoriesBelgian() throws DataException;
+
+    /**
+     *
+     * @return
+     * @throws DataException
+     */
+    public int getNumberDefeatsBelgian() throws DataException;
+
+    /**
+     *
+     * @return
+     * @throws DataException
+     */
+    public int getNumberAbandonsBelgian() throws DataException;
 }

@@ -783,17 +783,31 @@ public class UserMediator {
 
     /**
      *
-     * send number of victories
+     * send number of victories:mode classical
      *
      * @return int number of victories
      */
-    public int getNumberVictories(GameType type) throws DataException {
+    public int getNumberVictoriesClassic()  {
         if(this.owner != null){
         List<StatGame> games = this.getMyOwnerProfile().getPlayedGamesList() ;
         LightPublicUser user = this.getMyLightPublicUserProfile() ; 
         int nbVictories = 0;
         for (StatGame g : games) {
-            if ((g.getType() == type) && (g.getWinner() == user) && !(g.isGameAbandonned())) {
+            if ((g.getType() == GameType.CLASSIC) && (g.getWinner() == user) && !(g.isGameAbandonned())) {
+                nbVictories++ ;
+            }                
+        }
+        return nbVictories ; 
+        }
+        return 0;
+    }
+    public int getNumberVictoriesBelgian()  {
+        if(this.owner != null){
+        List<StatGame> games = this.getMyOwnerProfile().getPlayedGamesList() ;
+        LightPublicUser user = this.getMyLightPublicUserProfile() ; 
+        int nbVictories = 0;
+        for (StatGame g : games) {
+            if ((g.getType() == GameType.BELGIAN) && (g.getWinner() == user) && !(g.isGameAbandonned())) {
                 nbVictories++ ;
             }                
         }
@@ -804,17 +818,17 @@ public class UserMediator {
 
     /**
      *
-     * send number of defeats
+     * send number of defeats:mode classical
      *
      * @return int number of defeats
      */
-    public int getNumberDefeats(GameType type) throws DataException {
+    public int getNumberDefeatsClassic()  {
         if(this.owner != null){
         List<StatGame> games = this.getMyOwnerProfile().getPlayedGamesList() ;
         LightPublicUser user = this.getMyLightPublicUserProfile() ; 
         int nbDefeats = 0;
         for (StatGame g : games) {
-            if ((g.getType() == type) && (g.getWinner() != user) && !(g.isGameAbandonned())) {
+            if ((g.getType() == GameType.CLASSIC) && (g.getWinner() != user) && !(g.isGameAbandonned())) {
                 nbDefeats++ ;
             }                
         }
@@ -823,19 +837,50 @@ public class UserMediator {
         return 0;
     }
     
+     public int getNumberDefeatsBelgian()  {
+        if(this.owner != null){
+        List<StatGame> games = this.getMyOwnerProfile().getPlayedGamesList() ;
+        LightPublicUser user = this.getMyLightPublicUserProfile() ; 
+        int nbDefeats = 0;
+        for (StatGame g : games) {
+            if ((g.getType() == GameType.BELGIAN) && (g.getWinner() != user) && !(g.isGameAbandonned())) {
+                nbDefeats++ ;
+            }                
+        }
+        return nbDefeats ; 
+        }
+        return 0;
+    }
+    
+    
+    
     /**
      *
      * send number of abandons
      *
      * @return int number of abandons
      */
-    public int getNumberAbandons(GameType type) throws DataException {
+    public int getNumberAbandonsClassic() {
         if(this.owner!=null){
         List<StatGame> games = this.getMyOwnerProfile().getPlayedGamesList() ;
         //LightPublicUser user = this.getMyLightPublicUserProfile() ; 
         int nbAbandons = 0;
         for (StatGame g : games) {
-            if ((g.getType() == type) && (g.getWinner() == null) && (g.isGameAbandonned())) {
+            if ((g.getType() == GameType.CLASSIC) && (g.getWinner() == null) && (g.isGameAbandonned())) {
+                nbAbandons++ ;
+            }                
+        }
+        return nbAbandons ; 
+        }
+        return 0;
+    }
+    public int getNumberAbandonsBelgian() {
+        if(this.owner!=null){
+        List<StatGame> games = this.getMyOwnerProfile().getPlayedGamesList() ;
+        //LightPublicUser user = this.getMyLightPublicUserProfile() ; 
+        int nbAbandons = 0;
+        for (StatGame g : games) {
+            if ((g.getType() == GameType.BELGIAN) && (g.getWinner() == null) && (g.isGameAbandonned())) {
                 nbAbandons++ ;
             }                
         }
