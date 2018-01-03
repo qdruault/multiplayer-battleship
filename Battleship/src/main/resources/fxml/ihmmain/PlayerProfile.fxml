@@ -130,46 +130,23 @@
                   <Insets left="90.0" />
                </GridPane.margin>
             </Label>
-            <GridPane prefHeight="125.0" prefWidth="368.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <GridPane fx:id="stat" prefHeight="125.0" prefWidth="368.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <children>
-                  <Label text="Total" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label text="Classical Mode" GridPane.rowIndex="2">
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label text="Belge Mode" GridPane.rowIndex="3">
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label text="Played" GridPane.columnIndex="1" />
-                  <Label text="Win" GridPane.columnIndex="2" />
-                  <Label text="Loss" GridPane.columnIndex="3" />
-                  <Label text="Abandoned" GridPane.columnIndex="4" />
-                  <Label prefHeight="17.0" prefWidth="0.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label text="0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label text="0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label text="0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <Label text="0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <Label text="0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                  <Label text="0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                  <Label text="0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                  <Label text="0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                  <Label text="0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                  <Label text="0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                  <Label text="0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                  <Label GridPane.columnIndex="1" />
+                  <Label text="Classical" GridPane.rowIndex="1" />
+                  <Label text="Belgian" GridPane.rowIndex="2" />
+                  <Label text="Total" GridPane.rowIndex="3" />
+                  <Label text="Win" GridPane.columnIndex="1" />
+                  <Label text="Loss" GridPane.columnIndex="2" />
+                  <Label text="Abandoned" GridPane.columnIndex="3" />
+                  <Label text="Played" GridPane.columnIndex="4" />
                </children>
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="121.50106811523438" minWidth="10.0" prefWidth="106.39501953125" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.50106811523438" minWidth="10.0" prefWidth="62.55302429199219" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="103.73809814453125" minWidth="10.0" prefWidth="47.079010009765625" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="99.23699951171875" minWidth="10.0" prefWidth="45.920989990234375" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="108.71102905273438" minWidth="10.0" prefWidth="106.55300903320312" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.50106811523438" minWidth="10.0" prefWidth="43.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="103.73809814453125" minWidth="10.0" prefWidth="40.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="99.23699951171875" minWidth="10.0" prefWidth="81.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="108.71102905273438" minWidth="10.0" prefWidth="56.0" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -209,7 +186,7 @@
                <children>
                   <PieChart fx:id="allMode" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" title="All Mode" titleSide="BOTTOM" />
                   <PieChart fx:id="classical" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" title="Classical" titleSide="BOTTOM" GridPane.columnIndex="1" />
-                  <PieChart fx:id="belge" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" title="Belge" titleSide="BOTTOM" GridPane.columnIndex="2" />
+                  <PieChart fx:id="belge" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" title="Belgian" titleSide="BOTTOM" GridPane.columnIndex="2" />
                </children>
             </GridPane>
          </children>

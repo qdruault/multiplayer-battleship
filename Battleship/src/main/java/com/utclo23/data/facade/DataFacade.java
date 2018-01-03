@@ -427,10 +427,10 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
         PublicUser usr = this.userMediator.getMyPublicUserProfile();
         try {
-            usr.setNumberDefeats(this.getNumberDefeats());
+            usr.setNumberDefeatsClassic(this.getNumberDefeatsClassic());
 
-            usr.setNumberVictories(this.getNumberVictories());
-            usr.setNumberAbandons(this.getNumberAbandons());
+            usr.setNumberVictoriesClassic(this.getNumberVictoriesClassic());
+            usr.setNumberAbandonsClassic(this.getNumberAbandonsClassic());
 
         } catch (DataException ex) {
             Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
@@ -762,9 +762,12 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @return int number of victories
      * @throws DataException
      */
-    @Override
-    public int getNumberVictories() throws DataException {
-        return this.userMediator.getNumberVictories();
+
+    public int getNumberVictoriesClassic() throws DataException {
+        return this.userMediator.getNumberVictoriesClassic();
+    }
+    public int getNumberVictoriesBelgian() throws DataException {
+        return this.userMediator.getNumberVictoriesBelgian();
     }
 
     /**
@@ -774,9 +777,12 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @return int number of defeats
      * @throws DataException
      */
-    @Override
-    public int getNumberDefeats() throws DataException {
-        return this.userMediator.getNumberDefeats();
+
+    public int getNumberDefeatsClassic() throws DataException {
+        return this.userMediator.getNumberDefeatsClassic();
+    }
+    public int getNumberDefeatsBelgian() throws DataException {
+        return this.userMediator.getNumberDefeatsBelgian();
     }
 
     /**
@@ -786,8 +792,11 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      * @return int number of abandons
      * @throws DataException
      */
-    @Override
-    public int getNumberAbandons() throws DataException {
-        return this.userMediator.getNumberAbandons();
+    
+    public int getNumberAbandonsClassic() throws DataException {
+        return this.userMediator.getNumberAbandonsClassic();
+    }
+    public int getNumberAbandonsBelgian() throws DataException {
+        return this.userMediator.getNumberAbandonsBelgian();
     }
 }

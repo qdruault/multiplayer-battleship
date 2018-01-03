@@ -21,49 +21,81 @@ public class PublicUser extends SerializableEntity {
     private byte[] avatar;
 
     @JsonIgnore
-    private int numberDefeats;
+    private int numberDefeatsClassic;
     @JsonIgnore
-    private int numberVictories;
+    private int numberVictoriesClassic;
     @JsonIgnore
-    private int numberAbandons;
+    private int numberAbandonsClassic;
+    @JsonIgnore
+    private int numberDefeatsBelgian;
+    @JsonIgnore
+    private int numberVictoriesBelgian;
+    @JsonIgnore
+    private int numberAbandonsBelgian;
 
     @JsonIgnore
-    public int getNumberDefeats() {
-        return numberDefeats;
+    public int getNumberDefeatsClassic() {
+        return numberDefeatsClassic;
+    }
+    @JsonIgnore
+    public int getNumberDefeatsBelgian() {
+        return numberDefeatsBelgian;
     }
 
     @JsonIgnore
-    public void setNumberDefeats(int nbLost) {
-        this.numberDefeats = nbLost;
+    public void setNumberDefeatsClassic(int nbLost) {
+        this.numberDefeatsClassic = nbLost;
+    }
+    @JsonIgnore
+    public void setNumberDefeatsBelgian(int nbLost) {
+        this.numberDefeatsBelgian = nbLost;
     }
 
     @JsonIgnore
-    public int getNumberVictories() {
-        return numberVictories;
+    public int getNumberVictoriesClassic() {
+        return numberVictoriesClassic;
+    }
+    @JsonIgnore
+    public int getNumberVictoriesBelgian() {
+        return numberVictoriesBelgian;
     }
 
     @JsonIgnore
-        public void setNumberVictories(int nbWin) {
-        this.numberVictories = nbWin;
+        public void setNumberVictoriesClassic(int nbWin) {
+        this.numberVictoriesClassic = nbWin;
+    }
+    @JsonIgnore
+        public void setNumberVictoriesBelgian(int nbWin) {
+        this.numberVictoriesBelgian = nbWin;
     }
 
     @JsonIgnore
-    public int getNumberAbandons() {
-        return numberAbandons;
+    public int getNumberAbandonsClassic() {
+        return numberAbandonsClassic;
     }
-
     @JsonIgnore
-    public void setNumberAbandons(int nbOther) {
-        this.numberAbandons = nbOther;
+    public int getNumberAbandonsBelgian() {
+        return numberAbandonsBelgian;
+    }
+    @JsonIgnore
+    public void setNumberAbandonsClassic(int nbOther) {
+        this.numberAbandonsClassic = nbOther;
+    }
+    @JsonIgnore
+    public void setNumberAbandonsBelgian(int nbOther) {
+        this.numberAbandonsBelgian = nbOther;
     }
 
     /**
      *
      */
     public PublicUser() {
-        this.numberDefeats = 0;
-        this.numberVictories = 0;
-        this.numberAbandons = 0;
+        this.numberDefeatsClassic = 0;
+        this.numberDefeatsBelgian = 0;
+        this.numberVictoriesClassic = 0;
+        this.numberVictoriesBelgian = 0;
+        this.numberAbandonsClassic = 0;
+        this.numberAbandonsBelgian = 0;
     }
 
     /**
@@ -79,9 +111,12 @@ public class PublicUser extends SerializableEntity {
         this.firstName = firstName;
         this.birthDate = birthDate;
 
-        this.numberDefeats = 0;
-        this.numberAbandons = 0;
-        this.numberVictories = 0;
+        this.numberDefeatsClassic = 0;
+        this.numberAbandonsClassic= 0;
+        this.numberVictoriesClassic = 0;
+        this.numberDefeatsBelgian = 0;
+        this.numberAbandonsBelgian= 0;
+        this.numberVictoriesBelgian = 0;
     }
 
     /**
