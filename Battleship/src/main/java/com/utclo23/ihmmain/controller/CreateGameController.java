@@ -5,7 +5,6 @@
  */
 package com.utclo23.ihmmain.controller;
 import com.utclo23.data.module.DataException;
-import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.GameType;
 import java.io.IOException;
 import javafx.event.ActionEvent;
@@ -16,7 +15,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
-import javax.swing.JOptionPane;
 
 /**
  * Controll of the createGame page.
@@ -26,40 +24,31 @@ import javax.swing.JOptionPane;
 public class CreateGameController extends AbstractController{
     ToggleGroup mode;
     ToggleGroup enemy;
-    
+   
     @FXML
     RadioButton radioButtonClassical;
-    
     @FXML
     RadioButton  radioButtonBelge;
-    
     @FXML
     RadioButton  radioButtonComputer;
-    
     @FXML
     RadioButton  radioButtonPlayer;
-    
     @FXML 
     CheckBox radioButtonAudience;
-    
     @FXML 
     CheckBox radioButtonChat;
-    
     @FXML
     TextField gameNameField;
-    
     @FXML
-    private ImageView avatarImageView;
-    
-   @FXML 
-   private Label playerUsernameLabel;
-    
-    @FXML
+    private ImageView avatarImageView; 
+    @FXML 
+    private Label playerUsernameLabel;
     
     /**
      * This function is called at the oppening of the page.
      * It affects default values to Mode and Enemy and create the toggle groups
      */
+    @FXML
     public void initialize(){
         // Toggle Group
         mode = new ToggleGroup();
@@ -104,15 +93,13 @@ public class CreateGameController extends AbstractController{
     private void validateCreateGame(ActionEvent event){
         String names = gameNameField.getText();
         gameNameField.setStyle("");
-        JOptionPane msg = new JOptionPane();
         if (!names.isEmpty()){
             GameType modes = (((RadioButton) mode.getSelectedToggle()).getText()).equals("CLASSIC") ? GameType.CLASSIC : GameType.BELGIAN;
             boolean enemys = (((RadioButton) enemy.getSelectedToggle()).getText()).equals("Computer");
             boolean chats = radioButtonChat.isSelected();
             boolean audiences = radioButtonAudience.isSelected();
             try{
-                Game newGame = getFacade().iDataIHMMain.createGame(names, enemys, audiences, chats, modes);
-                //msg.showMessageDialog(null, "Game created", "Information", JOptionPane.INFORMATION_MESSAGE);
+                getFacade().iDataIHMMain.createGame(names, enemys, audiences, chats, modes);
                 getFacade().iIHMTableToIHMMain.createInGameGUI(getIhmmain().primaryStage);
 
             }catch (DataException e){

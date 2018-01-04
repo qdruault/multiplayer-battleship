@@ -11,49 +11,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Line?>
-
-<!--    
-    <columnConstraints>
-        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
-        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
-        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
-        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
-        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
-    </columnConstraints>   
-         
-    <rowConstraints>
-        <RowConstraints percentHeight="35.0" vgrow="SOMETIMES" />
-        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-        <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
-    </rowConstraints>
-
-    <children>
-        <Label id="pageTitleLabel" GridPane.columnIndex="2" GridPane.rowIndex="1" text="Create a game" textAlignment="CENTER" />
-        
-        <Label id="formLabel" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="2" text="Name" />
-        <TextField fx:id="gameNameField" GridPane.columnIndex="2" GridPane.rowIndex="2" prefHeight="25.0" prefWidth="166.0" />
-        
-        <Label id="formLabel" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="3" text="Mode" />
-        <RadioButton fx:id="radioButtonClassical" alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="3" mnemonicParsing="false" text="CLASSIC" />
-        <RadioButton fx:id="radioButtonBelge" alignment="CENTER_RIGHT" GridPane.columnIndex="3" GridPane.rowIndex="3" mnemonicParsing="false" text="BELGIAN" />
-        
-        <Label id="formLabel" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="4" text="Enemy" />
-        <RadioButton fx:id="radioButtonComputer" alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="4" mnemonicParsing="false" text="Computer" />
-        <RadioButton fx:id="radioButtonPlayer" alignment="CENTER_RIGHT" GridPane.columnIndex="3" GridPane.rowIndex="4" mnemonicParsing="false" text="Player" />
-        
-        <CheckBox fx:id="radioButtonAudience" GridPane.columnIndex="2" GridPane.rowIndex="5" mnemonicParsing="false" text="Audience" />
-        <CheckBox fx:id="radioButtonChat" GridPane.columnIndex="3" GridPane.rowIndex="5" mnemonicParsing="false" text="Chat" />
-        
-        <Button GridPane.columnIndex="2" GridPane.rowIndex="6" mnemonicParsing="false" onAction="#validateCreateGame" text="Create" />
-        <Button GridPane.columnIndex="3" GridPane.rowIndex="6" mnemonicParsing="false" onAction="#back" text="Return" />
-    </children>
--->
+<?import javafx.scene.control.*?>
 
 <GridPane id="generalGrid" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600" minWidth="800" prefHeight="768" prefWidth="1368" stylesheets="@../../styles/ihmmain.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.CreateGameController">
-
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" />
     </columnConstraints>
@@ -65,22 +25,21 @@
         <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
     </rowConstraints>  
     <children>
-      <GridPane maxWidth="300.0" minWidth="60.0" prefWidth="60.0" GridPane.halignment="RIGHT">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-         <children>
-            <Label id="usernameLabel" fx:id="playerUsernameLabel" text="Label" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
-            <ImageView fx:id="avatarImageView1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-         </children>
-      </GridPane>
+        <GridPane maxWidth="300.0" minWidth="60.0" prefWidth="60.0" GridPane.halignment="RIGHT">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label id="usernameLabel" fx:id="playerUsernameLabel" text="Label" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
+                <ImageView fx:id="avatarImageView1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            </children>
+        </GridPane>
         <Label id="pageTitleLabel" text="Create a game" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
         <Line fx:id="lineDesign" endX="100.0" startX="-100.0" styleClass="lineDesign" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
-        
         <GridPane GridPane.rowIndex="2">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" percentWidth="30.0" />
@@ -91,28 +50,21 @@
                 <RowConstraints percentHeight="100.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                
             <!-- DEBUT CORPS -->
-                
                 <GridPane id="frameButton" GridPane.columnIndex="1">
-                
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
                         <ColumnConstraints hgrow="SOMETIMES" percentWidth="80.0" />
                         <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
                     </columnConstraints>   
-         
                     <rowConstraints>
                         <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
                         <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
                         <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
                         <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
                     </rowConstraints>
-
                     <children>
-                        
                         <GridPane GridPane.columnIndex="1" GridPane.rowIndex="0">
-                            
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" percentWidth="33.0" />
                                 <ColumnConstraints hgrow="SOMETIMES" percentWidth="67.0" />
@@ -122,7 +74,11 @@
                             </rowConstraints>
                             <children>
                                 <Label id="formLabel" alignment="CENTER_RIGHT" text="Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                                <TextField fx:id="gameNameField" prefHeight="25.0" prefWidth="166.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />  
+                                <TextField fx:id="gameNameField" prefHeight="25.0" prefWidth="166.0" GridPane.columnIndex="1" GridPane.rowIndex="0" >
+                                    <tooltip>
+                                        <Tooltip text="Enter game's name."/>
+                                    </tooltip>
+                                </TextField>
                             </children>
                         </GridPane>
                         
@@ -137,8 +93,16 @@
                             </rowConstraints>
                             <children>
                                 <Label id="formLabel" alignment="CENTER_RIGHT" text="Mode" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                                <RadioButton fx:id="radioButtonClassical" alignment="CENTER_RIGHT" mnemonicParsing="false" text="CLASSIC" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                                <RadioButton fx:id="radioButtonBelge" alignment="CENTER_RIGHT" mnemonicParsing="false" text="BELGIAN" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                <RadioButton fx:id="radioButtonClassical" alignment="CENTER_RIGHT" mnemonicParsing="false" text="CLASSIC" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                    <tooltip>
+                                        <Tooltip text="Select if you want to play a classic game."/>
+                                    </tooltip>
+                                </RadioButton>
+                                <RadioButton fx:id="radioButtonBelge" GridPane.halignment="RIGHT" mnemonicParsing="false" text="BELGIAN" GridPane.columnIndex="2" GridPane.rowIndex="0" >
+                                    <tooltip>
+                                        <Tooltip text="Select if you want to play a Belgian game."/>
+                                    </tooltip>
+                                </RadioButton>
                             </children>
                         </GridPane>
                         
@@ -153,8 +117,16 @@
                             </rowConstraints>
                             <children>
                                 <Label id="formLabel" alignment="CENTER_RIGHT" text="Enemy" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                                <RadioButton fx:id="radioButtonComputer" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Computer" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                                <RadioButton fx:id="radioButtonPlayer" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Player" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                <RadioButton fx:id="radioButtonComputer" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Computer" GridPane.columnIndex="1" GridPane.rowIndex="0" >
+                                    <tooltip>
+                                        <Tooltip text="Select if you want to play against the computer."/>
+                                    </tooltip>
+                                </RadioButton>
+                                <RadioButton fx:id="radioButtonPlayer" GridPane.halignment="RIGHT" mnemonicParsing="false" text="Player" GridPane.columnIndex="2" GridPane.rowIndex="0" >
+                                    <tooltip>
+                                        <Tooltip text="Select if you want to play against an other player."/>
+                                    </tooltip>
+                                </RadioButton>
                             </children>
                         </GridPane>
                         
@@ -167,8 +139,16 @@
                                 <RowConstraints percentHeight="100.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <CheckBox fx:id="radioButtonAudience" GridPane.columnIndex="0" GridPane.rowIndex="0" mnemonicParsing="false" text="Audience" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                <CheckBox fx:id="radioButtonChat" GridPane.columnIndex="1" GridPane.rowIndex="0" mnemonicParsing="false" text="Chat" GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>
+                                <CheckBox fx:id="radioButtonAudience" GridPane.columnIndex="0" GridPane.rowIndex="0" mnemonicParsing="false" text="Audience" GridPane.halignment="CENTER" GridPane.valignment="CENTER" >
+                                    <tooltip>
+                                        <Tooltip text="Check to allow viewers."/>
+                                    </tooltip>
+                                </CheckBox>
+                                <CheckBox fx:id="radioButtonChat" GridPane.columnIndex="1" GridPane.rowIndex="0" mnemonicParsing="false" text="Chat" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                    <tooltip>
+                                        <Tooltip text="Check to activate chat."/>
+                                    </tooltip>
+                                </CheckBox>
                             </children>
                         </GridPane>    
                     </children>
@@ -188,15 +168,23 @@
                 <RowConstraints percentHeight="100.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Button GridPane.columnIndex="1" maxWidth="Infinity" GridPane.rowIndex="0"  onAction="#validateCreateGame" text="Create" GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>
-                <Button GridPane.columnIndex="3" maxWidth="Infinity" GridPane.rowIndex="0" onAction="#back" text="Return" GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>    
+                <Button GridPane.columnIndex="1" maxWidth="Infinity" GridPane.rowIndex="0"  onAction="#validateCreateGame" text="Create" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                    <tooltip>
+                        <Tooltip text="Click to create the game."/>
+                    </tooltip>
+                </Button>
+                <Button GridPane.columnIndex="3" maxWidth="Infinity" GridPane.rowIndex="0" onAction="#back" text="Return" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                    <tooltip>
+                        <Tooltip text="Click to go back to the menu."/>
+                    </tooltip>
+                </Button>    
             </children>
         </GridPane>
-      <ImageView fx:id="avatarImageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
-         <GridPane.margin>
-            <Insets right="20.0" top="20.0" />
-         </GridPane.margin>
-      </ImageView>
+        <ImageView fx:id="avatarImageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+            <GridPane.margin>
+                <Insets right="20.0" top="20.0" />
+            </GridPane.margin>
+        </ImageView>
     </children>
 </GridPane>
 
