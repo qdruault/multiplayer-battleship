@@ -43,12 +43,12 @@
                 <Tooltip text="Click to create a new local player account."/>
             </tooltip>
         </Button>
-        <Button fx:id="exitButton" onAction="#exitAction" text="Exit" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.halignment="CENTER" maxWidth="Infinity">
+        <Button fx:id="exitButton" onAction="#exitAction" text="Exit" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.halignment="CENTER" maxWidth="Infinity">
             <tooltip>
                 <Tooltip text="Click to exit the application."/>
             </tooltip>
         </Button>
-        <Button fx:id="loginButton" defaultButton="true" onAction="#loginAction" text="Login" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.halignment="CENTER" maxWidth="Infinity">
+        <Button fx:id="loginButton" defaultButton="true" onAction="#loginAction" text="Login" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.halignment="CENTER" maxWidth="Infinity">
             <tooltip>
                 <Tooltip text="Click to login once your username and password have been completed."/>
             </tooltip>

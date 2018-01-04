@@ -217,6 +217,7 @@
 }
 
 .list-cell {
+    -fx-alignment: center;
     -fx-background-color: #0D2E45;;
     -fx-background-radius: 15px;
     -fx-text-fill: white;
@@ -225,4 +226,9 @@
 /*Change the border color in case of error on textfield*/
 .borderError{
     -fx-border-color: #ef8d00;
+}
+
+#statGrid {
+    -fx-border-radius: 15px;
+    -fx-border-color: #ef8d00;   
 }

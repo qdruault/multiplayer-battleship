@@ -39,11 +39,27 @@
         <Label id="pageTitleLabel" text="LIST OF IP" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
         <Line fx:id="lineDesign" endX="100.0" startX="-100.0" styleClass="lineDesign" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
         <TableView fx:id="ipList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-        <Button fx:id="validateButton" mnemonicParsing="false" onAction="#validateList" text="VALIDATE AND RETURN" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
-            <tooltip>
-                <Tooltip text="Click to validate the changes and go back to the menu." />
-            </tooltip>
-        </Button>
+        
+        <!-- -->
+        <GridPane id="ManageGrid" GridPane.rowIndex="3">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="35" />
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="30" />
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="35" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints percentHeight="100.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Button fx:id="validateButton" maxWidth="Infinity" mnemonicParsing="false" onAction="#validateList" text="VALIDATE AND RETURN" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                    <tooltip>
+                        <Tooltip text="Click to validate the changes and go back to the menu." />
+                    </tooltip>
+                </Button>
+            </children>
+        </GridPane>        
+                
+            <!-- -->
         <GridPane GridPane.rowIndex="2">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
