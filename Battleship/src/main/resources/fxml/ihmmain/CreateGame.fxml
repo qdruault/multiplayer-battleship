@@ -173,7 +173,7 @@
                         <Tooltip text="Click to create the game."/>
                     </tooltip>
                 </Button>
-                <Button GridPane.columnIndex="3" maxWidth="Infinity" GridPane.rowIndex="0" onAction="#back" text="Return" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                <Button GridPane.columnIndex="3" maxWidth="Infinity" GridPane.rowIndex="0" onAction="#back" text="RETURN" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                     <tooltip>
                         <Tooltip text="Click to go back to the menu."/>
                     </tooltip>
