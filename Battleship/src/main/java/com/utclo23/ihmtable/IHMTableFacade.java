@@ -233,9 +233,10 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
             if(controller.isSpectator)
             {
                 sMessage = winner.concat("won the game!");
+            }else{
+                // Game won.
+                sMessage = "Victory! I'm proud of you General!";
             }
-            // Game won.
-            sMessage = "Victory! I'm proud of you General!";
         }
         // Display popup.
         controller.displayFinishPopup(sMessage);
