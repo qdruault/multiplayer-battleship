@@ -267,6 +267,13 @@ public class PlayerProfileController extends AbstractController{
         new PieChart.Data("Abandonned", data.get(2))
         );
         chart.setData(pieChartData);
+        int i = 0;
+        for (PieChart.Data eData: pieChartData){
+            Node node = eData.getNode();
+            node.getStyleClass().setAll("chart-pie", "data" + i, "default-color"+i%11);
+            //node.setStyle( "-fx-pie-color: #adff2f;");
+            i++;
+        }
     }
     public void loadStat(List<Integer> data1, List<Integer> data2,List<Integer> data3){
         int i;
