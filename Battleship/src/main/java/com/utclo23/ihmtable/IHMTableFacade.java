@@ -161,7 +161,10 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
         LightPublicUser user = facadeData.getMyPublicUserProfile().getLightPublicUser();
         for(int i=0;i<game.getPlayers().size() && startSpectateur;++i)
             if(game.getPlayers().get(i).getLightPublicUser().getId().equals(user.getId()))
-                startSpectateur = false;
+            {
+                System.out.println(game.getPlayers().get(i).getLightPublicUser().getId() + " " + user.getId());
+                startSpectateur = false;                
+            }
         System.out.println(startSpectateur);
         if(startSpectateur && controller != null)
         {
