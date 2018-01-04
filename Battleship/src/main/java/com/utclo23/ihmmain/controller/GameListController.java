@@ -61,8 +61,9 @@ public class GameListController extends AbstractController{
     
     private StatGame selectedGame;
     private TableView<StatGame> gameList;
-    private Boolean isLoading;
+    private boolean isLoading;
     private Game receivedGame; //game received with asynchronous load
+    private boolean isGameSelected;
     
     /**
      * Method called at the beginning of the application.
@@ -74,6 +75,7 @@ public class GameListController extends AbstractController{
         createGameListTableView();
         addOnMoussClickEventOnGameList();
         enableAllButtons();
+        selectedGame = null;
         gameListPane.setFitToWidth(true);
         gameListPane.setFitToHeight(true);
         avatarImageView.setImage(super.retrievePlayerAvatar());
@@ -89,7 +91,7 @@ public class GameListController extends AbstractController{
             @Override
             public void handle(MouseEvent event) {
                 Node node = ((Node) event.getTarget()).getParent();
-                TableRow row;
+                TableRow row = null;
                 if(!(node instanceof TableView)){
                     if (node instanceof TableRow){
                         row = (TableRow) node;
@@ -99,16 +101,20 @@ public class GameListController extends AbstractController{
                         if(node.getParent() instanceof TableRow){
                             row = (TableRow) node.getParent();
                         }else{
-                            row = (TableRow) node.getParent().getParent();
+                            if(node.getParent().getParent() instanceof TableRow){
+                                row = (TableRow) node.getParent().getParent();
+                            } 
                         }
                     }
-                    StatGame selected = (StatGame)row.getItem();
-                    selectedGame = selected;
+                    if(row != null){
+                        StatGame selected = (StatGame)row.getItem();
+                        selectedGame = selected;
+                    }
                 }
             }
         });
     }
-
+    
     /**
      * Create the table of games.
      */
@@ -190,7 +196,6 @@ public class GameListController extends AbstractController{
             }catch(Exception e){
                 e.printStackTrace();
             }
-            
             ObservableList<StatGame> data = FXCollections.observableArrayList(newGameList);
             // Update the list in the GUI
             gameList.setItems(data);
@@ -213,6 +218,8 @@ public class GameListController extends AbstractController{
         if(selectedGame != null){
             getFacade().iDataIHMMain.gameConnectionRequestGame(selectedGame.getId(), "player");
             loadingScreen();
+        }else{
+            showSuccessPopup("Please select a game","Please select a game to join","Create a game or Find a friend and add his ip if you don't have any game in list");
         }
     }
 
@@ -224,8 +231,11 @@ public class GameListController extends AbstractController{
     @FXML
     private void watchSelectedGame(ActionEvent event){
         if(selectedGame != null){
+            System.out.println("ihm main watch request");
             getFacade().iDataIHMMain.gameConnectionRequestGame(selectedGame.getId(), "spectator");
             loadingScreen();
+        }else{
+            showSuccessPopup("Please select a game","Please select a game to watch","Find a friend and add his ip if you don't have any game in list");
         }
     }
     

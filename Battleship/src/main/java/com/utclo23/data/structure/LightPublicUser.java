@@ -5,6 +5,7 @@
  */
 package com.utclo23.data.structure;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.rmi.server.UID;
 
 /**
@@ -16,12 +17,20 @@ public class LightPublicUser extends SerializableEntity{
     private String playerName;
     private byte[] avatarThumbnail;
 
+    /**
+     *
+     */
     public LightPublicUser() {
         this.id ="";
         this.playerName ="";
         
     }
 
+    /**
+     *
+     * @return
+     */
+    @JsonIgnore
     public static LightPublicUser generateComputerProfile()
     {
         String id = new UID().toString();
