@@ -95,6 +95,7 @@ public class IHMMain {
     }
     
     public void toMenu() throws IOException{
+        primaryStage.setTitle("Battle Ship");
         toScene(SceneName.MENU);
     }
     
