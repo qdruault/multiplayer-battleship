@@ -377,7 +377,9 @@ public class UserMediator {
         this.mapConnectedUser.clear();
         
         try {
+            if(this.dataFacade.getIhmMainFacade()!=null){
             this.dataFacade.getIhmMainFacade().refreshUserList();
+            }
         } catch (IOException ex) {
             Logger.getLogger(UserMediator.class.getName()).log(Level.SEVERE, null, ex);
         }
