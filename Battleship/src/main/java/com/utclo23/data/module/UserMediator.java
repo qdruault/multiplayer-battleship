@@ -333,6 +333,8 @@ public class UserMediator {
 
         ObjectMapper mapper = new ObjectMapper();
 
+        
+        
         //retrieval
         Owner user = null;
         try {
@@ -371,6 +373,15 @@ public class UserMediator {
             }
 
         }
+        
+        this.mapConnectedUser.clear();
+        
+        try {
+            this.dataFacade.getIhmMainFacade().refreshUserList();
+        } catch (IOException ex) {
+            Logger.getLogger(UserMediator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /**
