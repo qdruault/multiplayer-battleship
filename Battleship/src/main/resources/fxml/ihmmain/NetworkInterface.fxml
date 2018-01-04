@@ -13,7 +13,6 @@
 
 
 <GridPane id="generalGrid" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600" minWidth="800" prefHeight="768" prefWidth="1368" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.NetworkInterfaceChoiceController" stylesheets="@../../styles/ihmmain.css">
-
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES"/>
     </columnConstraints>
@@ -37,18 +36,9 @@
                 <RowConstraints percentHeight="100.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-
-            <!-- DEBUT CORPS -->
-            <ListView fx:id="listNetworks" GridPane.halignment="CENTER" GridPane.columnIndex="1" GridPane.valignment="CENTER" />
-
+                <ListView fx:id="listNetworks" GridPane.halignment="CENTER" GridPane.columnIndex="1" GridPane.valignment="CENTER" />
             </children>
-
         </GridPane>
-
-
-
-
-
         <GridPane GridPane.rowIndex = "4">
             <columnConstraints>
                 <ColumnConstraints percentWidth="30.0" hgrow="SOMETIMES"/>
