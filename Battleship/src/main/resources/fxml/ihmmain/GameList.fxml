@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Line?>
 
 <GridPane id="generalGrid" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../styles/ihmmain.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.GameListController">
     <columnConstraints>
@@ -20,7 +21,8 @@
         <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <Label text="Games" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+        <Label id="pageTitleLabel" text="Games" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+        <Line fx:id="lineDesign" endX="100.0" startX="-100.0" styleClass="lineDesign" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
         <ScrollPane id="gameListPane" fx:id="gameListPane" fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
         <GridPane id="ManageGrid" GridPane.rowIndex="2">
             <columnConstraints>

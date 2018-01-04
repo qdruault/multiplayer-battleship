@@ -32,7 +32,7 @@
                 <ImageView fx:id="avatarImageView1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
             </children>
         </GridPane>
-        <Label text="Replays" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+        <Label id="pageTitleLabel" text="Replays" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
         <ScrollPane id="gameListPane" fx:id="gameListPane" fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
         <GridPane id="ManageGrid" GridPane.rowIndex="2">
             <columnConstraints>
