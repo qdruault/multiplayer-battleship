@@ -119,14 +119,15 @@ public abstract class Game extends SerializableEntity {
         if (role.equals("player")) {
 
             if (this.players.size() <= 1) {
-
                 Player player = new Player(user);
                 this.players.add(player);
+                
+                System.out.println("ADD AS USER "+user.getPlayerName());
 
             }
             
         } else if (this.getStatGame().isSpectator() && role.equals("spectator")) {
-            System.out.println("SPECTATOR "+user.getPlayerName());
+            System.out.println("ADD AS SPECTATOR "+user.getPlayerName());
             this.spectators.add(user);
            
 

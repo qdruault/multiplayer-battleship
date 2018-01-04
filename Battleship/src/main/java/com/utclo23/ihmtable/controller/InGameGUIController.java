@@ -339,10 +339,22 @@ public class InGameGUIController {
         // Get my player.
         myPlayer = facade.getFacadeData().getGame().getPlayer(facade.getFacadeData().getMyPublicUserProfile().getId());
 
+        
+        for(Player p : facade.getFacadeData().getGame().getPlayers())
+        {
+            System.out.println(p);
+        }
         // Spectator.
         if (myPlayer == null) {
+            
+            System.out.println("je suis spectator");
+           
             isSpectator = true;
             mySpectator = facade.getFacadeData().getMyPublicUserProfile();
+        }
+        else
+        {
+             System.out.println("je suis player");
         }
 
         // Player not able to fire

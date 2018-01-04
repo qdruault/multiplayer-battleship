@@ -258,7 +258,7 @@ public class GameMediator {
 
                     }
 
-                    return null;
+                    return pairReturn;
                 }
 
                 //if creator of the game
@@ -294,7 +294,7 @@ public class GameMediator {
                     }
                     
                     Random r = new Random();
-                    if(r.nextInt(5)==1){
+                    if(r.nextInt(6)==1){
                         this.sendMessageIA();
                     }
                 }
@@ -414,9 +414,24 @@ public class GameMediator {
         List<String> punchlines = new ArrayList<String>();
         punchlines.add("Tu vas bientôt perdre !");
         punchlines.add("Tu as autant de chance de gagner que d'avoir A en LO23");
-        punchlines.add("zZz zZz Je m'ennuie avec toi. Tu joues mal.");
+        punchlines.add("Tu es bien parti pour avoir F en bataille navale");
+        punchlines.add("Votre résultat à l'UV BATAILLE NAVALE : F, INSUFFISANT");
         punchlines.add("Tu crois pouvoir battre une IA ?");
+        punchlines.add("Il y'a deux types d'hommes ceux qui bossent le projet et ceux qui en profite pour jouer à la bataille navale. Tu te situes où ?");
         punchlines.add("LOL");
+        punchlines.add("NullPointerException line UserMediator:325\n Tu as eu peur !");
+        punchlines.add("Bonne chance pour la soutenance");
+        punchlines.add("Qu\'est ce qu\'une blonde se teintant les cheveux en brun? De l\'intelligence artificielle !");
+        punchlines.add("J'ai jamais vu un joueur aussi faible.");
+        punchlines.add("J'ai planté. Encore un problème de DATA --'");
+        punchlines.add("12 personnes pour faire cette IHM ? :o");
+        punchlines.add("Je suis bien codé. Merci DATA <3");
+        punchlines.add("RIP");
+        punchlines.add("Pourquoi tout le jeu est en anglais sauf moi ?");
+        punchlines.add("Le comble d'un joueur de bataille navale ? De gagner contre moi.");
+        punchlines.add("Aie...");
+        punchlines.add("><");
+        punchlines.add("Je t'aurais un de ces jours.");
         
         Random r = new Random();
         int i = r.nextInt(punchlines.size());

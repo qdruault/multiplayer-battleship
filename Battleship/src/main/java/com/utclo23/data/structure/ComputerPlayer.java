@@ -246,7 +246,7 @@ public class ComputerPlayer extends Player {
         if (this.stackFocus.isEmpty()) {
             //System.out.println("random method");
             Random r = new Random();
-            if (r.nextInt(6) != 1) {
+            if (r.nextInt(7) != 1) {
                 do {
                     valid = true;
                     //choose a new location until empty

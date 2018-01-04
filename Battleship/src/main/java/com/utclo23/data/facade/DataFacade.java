@@ -283,6 +283,7 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
      */
     @Override
     public void leaveGame() {
+        System.out.println("leave game");
         String role = this.gameMediator.getOwnerStatus();
         if (!role.equals("spectator") && this.gameMediator.getCurrentGame() != null) {
             Logger.getLogger(DataFacade.class.getName()).log(Level.INFO, null, "data | leave game");
@@ -297,6 +298,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
 
             this.opponentHasLeftGame();
         } else {
+            
+            System.out.println("leave spectator ");
             this.ihmTablefacade.spectatorLeaveGame();
         }
     }
@@ -426,10 +429,13 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         PublicUser usr = this.userMediator.getMyPublicUserProfile();
         if (usr != null) {
             try {
-               usr.setNumberDefeatsClassic(this.getNumberDefeatsClassic());
-
+            usr.setNumberDefeatsClassic(this.getNumberDefeatsClassic());
             usr.setNumberVictoriesClassic(this.getNumberVictoriesClassic());
             usr.setNumberAbandonsClassic(this.getNumberAbandonsClassic());
+            
+            usr.setNumberDefeatsBelgian(this.getNumberDefeatsBelgian());
+            usr.setNumberVictoriesBelgian(this.getNumberVictoriesBelgian());
+            usr.setNumberAbandonsBelgian(this.getNumberAbandonsBelgian());
 
             } catch (DataException ex) {
                 Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);

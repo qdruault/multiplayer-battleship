@@ -156,10 +156,11 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
         
        //Gérer les cas spectateur/utilisateur standard
         boolean startSpectateur = true;
+       
         Game game = facadeData.getGame();
         LightPublicUser user = facadeData.getMyPublicUserProfile().getLightPublicUser();
-        for(int i=0;i<game.getPlayers().size() && !startSpectateur;++i)
-            if(game.getPlayers().get(i).getLightPublicUser().getId() == user.getId())
+        for(int i=0;i<game.getPlayers().size() && startSpectateur;++i)
+            if(game.getPlayers().get(i).getLightPublicUser().getId().equals(user.getId()))
                 startSpectateur = false;
         System.out.println(startSpectateur);
         if(startSpectateur && controller != null)
