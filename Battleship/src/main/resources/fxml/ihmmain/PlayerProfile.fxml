@@ -10,224 +10,180 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600" minWidth="800" prefHeight="768" prefWidth="1368" id="generalGrid"  stylesheets="@../../styles/ihmmain.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.PlayerProfileController">   
-    <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" />
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
-        <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
-        <RowConstraints percentHeight="70.0" vgrow="SOMETIMES" />
-        <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
-    </rowConstraints>  
-    <children>
-        <!-- Title -->
-        <Label fx:id="pageTitleLabel" textAlignment="CENTER" text="User Profile" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
-        <Line fx:id="lineDesign" endX="100.0" startX="-100.0" styleClass="lineDesign" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
-        
-        <!-- Body -->
-        <GridPane GridPane.rowIndex = "2">
-            <columnConstraints>
-                <ColumnConstraints percentWidth="100.0" hgrow="SOMETIMES"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints percentHeight="50.0" vgrow="SOMETIMES" />
-                <RowConstraints percentHeight="50.0" vgrow="SOMETIMES" />
-            </rowConstraints>
-            <children>
-                <!-- First row ( picture, edit, description ) -->
-                <GridPane GridPane.rowIndex = "0">
-                    <columnConstraints>
-                        <ColumnConstraints percentWidth="33.0" hgrow="SOMETIMES"/>
-                        <ColumnConstraints percentWidth="34.0" hgrow="SOMETIMES"/>
-                        <ColumnConstraints percentWidth="33.0" hgrow="SOMETIMES"/>
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints percentHeight="100.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                    <children>
-                        <!-- Picture -->
-                        <GridPane GridPane.columnIndex = "0">
-                            <columnConstraints>
-                                <ColumnConstraints percentWidth="100.0" hgrow="SOMETIMES"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints percentHeight="90.0" vgrow="SOMETIMES" />
-                                <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
-                            </rowConstraints>
-                            <children>
-                                <ImageView GridPane.rowIndex="0" GridPane.halignment="center" GridPane.valignment="center" fx:id="image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                                <GridPane GridPane.rowIndex="1">
-                                    <columnConstraints>
-                                        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES"/>
-                                        <ColumnConstraints percentWidth="30.0" hgrow="SOMETIMES"/>
-                                        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES"/>
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints percentHeight="100.0" vgrow="SOMETIMES" />
-                                    </rowConstraints>
-                                    <children>
-                                        <Button GridPane.columnIndex="1" maxWidth="Infinity" fx:id="avatar" mnemonicParsing="false" onAction="#editAvatar" text="Modify"/>
-                                    </children>
-                                </GridPane>
-                            </children>
+<GridPane alignment="CENTER" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #061f30;" stylesheets="@../../styles/ihmmain.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.PlayerProfileController">
+   <children>
+      <GridPane alignment="CENTER" prefHeight="0.0" prefWidth="800.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+         <children>
+            <Label fx:id="pageTitleLabel" alignment="CENTER" prefHeight="27.0" prefWidth="268.0" text="User Profile" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Line fx:id="lineDesign" endX="100.0" startX="-100.0" stroke="#cde862" styleClass="lineDesign" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+               <children>
+                  <VBox prefHeight="261.0" prefWidth="274.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="203.0" prefWidth="250.0">
+                           <children>
+                              <ImageView fx:id="image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Button fx:id="avatar" mnemonicParsing="false" onAction="#editAvatar" text="Modify">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <HBox.margin>
+                                    <Insets left="20.0" />
+                                 </HBox.margin></Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="261.0" prefWidth="291.0">
+                     <children>
+                        <GridPane alignment="CENTER" prefHeight="257.0" prefWidth="282.0">
+                           <children>
+                              <Label alignment="CENTER" text="Nickname" />
+                              <Label fx:id="userID" text="--" GridPane.columnIndex="1" />
+                              <Label text="First Name" GridPane.rowIndex="1" />
+                              <Label fx:id="firstNameText" text="--" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label text="Last Name" GridPane.rowIndex="2" />
+                              <Label fx:id="lastNameText" text="--" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label text="Birthday" GridPane.rowIndex="3" />
+                              <Label fx:id="birthdayText" text="--" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label text="Password" GridPane.rowIndex="4" />
+                              <Button fx:id="playerName" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" />
+                              <Button fx:id="firstName" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <Button fx:id="lastName" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <Button fx:id="birthday" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <Button fx:id="password" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                              <Label />
+                              <Label text="Nickname" />
+                              <Label fx:id="birthday1" text="********" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                           </rowConstraints>
                         </GridPane>
-
-                        <!-- Edit -->
-                        <GridPane GridPane.columnIndex = "1">
-                            <columnConstraints>
-                                <ColumnConstraints percentWidth="40.0" hgrow="SOMETIMES"/>
-                                <ColumnConstraints percentWidth="40.0" hgrow="SOMETIMES"/>
-                                <ColumnConstraints percentWidth="20.0" hgrow="SOMETIMES"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />
-                                <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />
-                                <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />
-                                <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />
-                                <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />                                
-                            </rowConstraints>
-                            <children>
-                                <Label alignment="CENTER" text="Nickname" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                                <Label fx:id="userID" text="" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                                <Label text="First Name" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                                <Label fx:id="firstNameText" text="" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <Label text="Last Name" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                                <Label fx:id="lastNameText" text="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                <Label text="Birthday" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                                <Label fx:id="birthdayText" text="" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                <Label text="Password" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                                <Label fx:id="birthday1" text="******" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                <Button fx:id="playerName" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" />
-                                <Button fx:id="firstName" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                <Button fx:id="lastName" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                <Button fx:id="birthday" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                                <Button fx:id="password" mnemonicParsing="false" onAction="#edit" text="edit" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                            </children>
-                        </GridPane>
-                        
-                        <!-- Description   -->                           
-                        <GridPane GridPane.columnIndex = "2">
-                            <columnConstraints>
-                                <ColumnConstraints percentWidth="90.0" hgrow="SOMETIMES"/>
-                                <ColumnConstraints percentWidth="10.0" hgrow="SOMETIMES"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints percentHeight="90.0" vgrow="SOMETIMES" />
-                                <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
-                            </rowConstraints>
-                            <children>
-                                <TextField GridPane.rowIndex="0" fx:id="description" editable="false" onKeyPressed="#closeEdit" prefHeight="144.0" prefWidth="219.0" text="Hello!" />
-                                    <GridPane GridPane.rowIndex="1">
-                                    <columnConstraints>
-                                        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES"/>
-                                        <ColumnConstraints percentWidth="30.0" hgrow="SOMETIMES"/>
-                                        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES"/>
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints percentHeight="100.0" vgrow="SOMETIMES" />
-                                    </rowConstraints>
-                                    <children>
-                                        <Button GridPane.columnIndex="1" maxWidth="Infinity" fx:id="Description" mnemonicParsing="false" onAction="#editDescription" text="edit" />
-                                    </children>
-                                </GridPane>
-                            </children>
-                        </GridPane>
-                    </children>
-                </GridPane>   
-                                  
-                <!-- Second row ( stats and chart ) -->
-                <GridPane GridPane.rowIndex = "1">
-                    <columnConstraints>
-                        <ColumnConstraints percentWidth="5.0" hgrow="SOMETIMES"/>
-                        <ColumnConstraints percentWidth="40.0" hgrow="SOMETIMES"/>
-                        <ColumnConstraints percentWidth="10.0" hgrow="SOMETIMES"/>
-                        <ColumnConstraints percentWidth="40.0" hgrow="SOMETIMES"/>
-                        <ColumnConstraints percentWidth="5.0" hgrow="SOMETIMES"/>
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints percentHeight="7.0" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="90.0" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="3.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                    <children>
-                        <!-- Stats -->
-                        <GridPane fx:id="statGrid" GridPane.columnIndex = "1" GridPane.rowIndex = "1">
-                            <columnConstraints>
-                                <ColumnConstraints percentWidth="20.0" hgrow="SOMETIMES"/>
-                                <ColumnConstraints percentWidth="20.0" hgrow="SOMETIMES"/>
-                                <ColumnConstraints percentWidth="20.0" hgrow="SOMETIMES"/>
-                                <ColumnConstraints percentWidth="20.0" hgrow="SOMETIMES"/>
-                                <ColumnConstraints percentWidth="20.0" hgrow="SOMETIMES"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
-                                <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
-                                <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
-                                <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
-                            </rowConstraints>
-                            <children>
-                                <Label text=" Total" GridPane.rowIndex="1"/>
-                                <Label text=" Classical Mode" GridPane.rowIndex="2"/>
-                                <Label text=" Belge Mode" GridPane.rowIndex="3"/>
-                                <Label text="Played" GridPane.columnIndex="1" GridPane.halignment="center"/>
-                                <Label text="Win" GridPane.columnIndex="2" GridPane.halignment="center"/>
-                                <Label text="Loss" GridPane.columnIndex="3" GridPane.halignment="center"/>
-                                <Label text="Abandoned" GridPane.columnIndex="4" GridPane.halignment="center"/>
-                                <Label text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.halignment="center"/>
-                                <Label text="0" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.halignment="center"/>
-                                <Label text="0" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.halignment="center"/>
-                                <Label text="0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.halignment="center"/>
-                                <Label text="0" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.halignment="center"/>
-                                <Label text="0" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.halignment="center"/>
-                                <Label text="0" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.halignment="center"/>
-                                <Label text="0" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.halignment="center"/>
-                                <Label text="0" GridPane.columnIndex="3" GridPane.rowIndex="3" GridPane.halignment="center"/>
-                                <Label text="0" GridPane.columnIndex="4" GridPane.rowIndex="1" GridPane.halignment="center"/>
-                                <Label text="0" GridPane.columnIndex="4" GridPane.rowIndex="2" GridPane.halignment="center"/>
-                                <Label text="0" GridPane.columnIndex="4" GridPane.rowIndex="3" GridPane.halignment="center"/>
-                            </children>
-                        </GridPane>
-                    
-                        <!-- Charts -->        
-                        <GridPane GridPane.columnIndex="3" GridPane.rowIndex="1">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="33.0" prefWidth="100.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="34.0" prefWidth="100.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="33.0" prefWidth="100.0" />
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints percentHeight="100.0" vgrow="SOMETIMES" />
-                            </rowConstraints>
-                            <children>
-                                <PieChart fx:id="allMode" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" title="All Mode" titleSide="BOTTOM" />
-                                <PieChart fx:id="classical" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" title="Classical" titleSide="BOTTOM" GridPane.columnIndex="1" />
-                                <PieChart fx:id="belge" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" title="Belge" titleSide="BOTTOM" GridPane.columnIndex="2" />
-                            </children>
-                        </GridPane>        
-                                
-                    </children>
-                </GridPane>                                        
-            </children>
-        </GridPane>
-        <!-- Button -->    
-        <GridPane GridPane.rowIndex = "3">
-                <columnConstraints>
-                    <ColumnConstraints percentWidth="30.0" hgrow="SOMETIMES"/>
-                    <ColumnConstraints percentWidth="15.0" hgrow="SOMETIMES"/>
-                    <ColumnConstraints percentWidth="10.0" hgrow="SOMETIMES"/>
-                    <ColumnConstraints percentWidth="15.0" hgrow="SOMETIMES"/>
-                    <ColumnConstraints percentWidth="30.0" hgrow="SOMETIMES"/>
-                </columnConstraints>
-                <rowConstraints>
-                    <RowConstraints percentHeight="100.0" vgrow="SOMETIMES" />
-                </rowConstraints>
-                <children>
-                    <Button GridPane.columnIndex="3" maxWidth="Infinity" fx:id="backButton" mnemonicParsing="false" onAction="#back" text="Return" GridPane.halignment="LEFT" GridPane.valignment="CENTER"/>
-                    <Button GridPane.columnIndex="1" maxWidth="Infinity" fx:id="playerList" mnemonicParsing="false" onAction="#toPlayerList" text="Other Player" GridPane.valignment="CENTER" />   
-                </children>
-            </GridPane>    
-    </children>
+                     </children></VBox>
+               </children>
+            </HBox>
+         </children>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="143.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="143.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="280.0" minHeight="10.0" prefHeight="273.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+      <GridPane alignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="139.71987915039062" minHeight="10.0" prefHeight="38.387481689453125" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="261.6125183105469" minHeight="10.0" prefHeight="204.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="261.6125183105469" minHeight="10.0" prefHeight="67.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Statistics" GridPane.halignment="LEFT">
+               <GridPane.margin>
+                  <Insets left="90.0" />
+               </GridPane.margin>
+            </Label>
+            <GridPane fx:id="stat" prefHeight="125.0" prefWidth="368.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <children>
+                  <Label GridPane.columnIndex="1" />
+                  <Label text="Classical" GridPane.rowIndex="1" />
+                  <Label text="Belgian" GridPane.rowIndex="2" />
+                  <Label text="Total" GridPane.rowIndex="3" />
+                  <Label text="Win" GridPane.columnIndex="1" />
+                  <Label text="Loss" GridPane.columnIndex="2" />
+                  <Label text="Abandoned" GridPane.columnIndex="3" />
+                  <Label text="Played" GridPane.columnIndex="4" />
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="121.50106811523438" minWidth="10.0" prefWidth="106.39501953125" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.50106811523438" minWidth="10.0" prefWidth="43.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="103.73809814453125" minWidth="10.0" prefWidth="40.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="99.23699951171875" minWidth="10.0" prefWidth="81.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="108.71102905273438" minWidth="10.0" prefWidth="56.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="63.0" minHeight="10.0" prefHeight="61.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="68.0" minHeight="10.0" prefHeight="53.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="74.0" minHeight="10.0" prefHeight="57.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <GridPane.margin>
+                  <Insets left="80.0" />
+               </GridPane.margin>
+            </GridPane>
+            <GridPane GridPane.rowIndex="2">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#back" text="Return" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets left="80.0" />
+                     </GridPane.margin></Button>
+                  <Button fx:id="playerList" mnemonicParsing="false" onAction="#toPlayerList" text="Other Player" GridPane.columnIndex="1" GridPane.valignment="TOP" />
+               </children>
+            </GridPane>
+            <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <PieChart fx:id="allMode" labelsVisible="false" legendVisible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="238.0" prefWidth="152.0" stylesheets="@../../styles/ihmmain.css" title="All Mode" titleSide="BOTTOM" />
+                  <PieChart fx:id="classical" labelsVisible="false" legendVisible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="235.0" prefWidth="156.0" stylesheets="@../../styles/ihmmain.css" title="Classical" titleSide="BOTTOM" GridPane.columnIndex="1" />
+                  <PieChart fx:id="belge" labelsVisible="false" legendVisible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="234.0" prefWidth="146.0" stylesheets="@../../styles/ihmmain.css" title="Belgian" titleSide="BOTTOM" GridPane.columnIndex="2" />
+               </children>
+            </GridPane>
+            <GridPane GridPane.columnIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label fx:id="rateClassic" text="win rate:" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                  <Label fx:id="rateAll" text="win  rate:" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <Label fx:id="rateBelgian" text="win rate:" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+               </children>
+            </GridPane>
+         </children>
+      </GridPane>
+   </children>
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+   </rowConstraints>
 </GridPane>
-                
