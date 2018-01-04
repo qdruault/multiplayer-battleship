@@ -159,10 +159,15 @@ public class PlayerProfileController extends AbstractController{
                 @Override
                 public void handle(ActionEvent event) {
                     try {
-                        Date birthDate = Date.from(date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                        getFacade().iDataIHMMain.updateBirthdate(birthDate);
-                        refresh();
-                        ((Node) (event.getSource())).getScene().getWindow().hide();
+                        if (date.getValue()!=null){
+                            Date birthDate = Date.from(date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                            getFacade().iDataIHMMain.updateBirthdate(birthDate);
+                            refresh();
+                            ((Node) (event.getSource())).getScene().getWindow().hide();
+                        }else{
+                             // Show popup error
+                             showErrorPopup("Error", "Required field aren't filled", "Empty fields : Date");
+                        }
                     } catch (DataException ex) {
                         Logger.getLogger(PlayerProfileController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -218,14 +223,14 @@ public class PlayerProfileController extends AbstractController{
     }
     public List<Integer> getData(PublicUser player,GameType type) throws DataException{
         List<Integer> data = new ArrayList<>();
-        float rate = 0;
+        double rate = 0;
         if (type == GameType.CLASSIC){
             data.add(player.getNumberVictoriesClassic());
             data.add(player.getNumberDefeatsClassic());
             data.add(player.getNumberAbandonsClassic());
             data.add(data.get(0)+data.get(1)+data.get(2));
             if (data.get(3)!=0){
-                rate = ((float)data.get(0))/((float)data.get(3))*100;
+                rate = ((double)data.get(0))/((double)data.get(3))*100;
             }
             rateClassic.setText("win rate: "+rate+"%");
         }else if (type == GameType.BELGIAN){
@@ -234,7 +239,7 @@ public class PlayerProfileController extends AbstractController{
             data.add(player.getNumberAbandonsBelgian());
             data.add(data.get(0)+data.get(1)+data.get(2));
             if (data.get(3)!=0){
-                rate = ((float)data.get(0))/((float)data.get(3))*100;
+                rate = ((double)data.get(0))/((double)data.get(3))*100;
             }
             rateBelgian.setText("win rate: "+rate+"%");
         }
@@ -242,14 +247,14 @@ public class PlayerProfileController extends AbstractController{
     }
     public List<Integer> getTotal( List<Integer> data1, List<Integer> data2){
         List<Integer> data = new ArrayList<>();
-        float rate = 0;
+        double rate = 0;
         int i = 0;
         for (int a : data1){
             data.add(data1.get(i)+data2.get(i));
             i++;
         }
         if (data.get(3)!=0){
-                rate = ((float)data.get(0))/((float)data.get(3))*100;
+                rate = ((double)data.get(0))/((double)data.get(3))*100;
         }
         rateAll.setText("win rate: "+rate+"%");
         return data;
