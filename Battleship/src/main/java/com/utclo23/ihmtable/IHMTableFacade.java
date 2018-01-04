@@ -232,7 +232,7 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
             // Check if the player is a spectator
             if(controller.isSpectator)
             {
-                sMessage = winner.concat("won the game!");
+                sMessage = winner.concat(" won the game!");
             }else{
                 // Game won.
                 sMessage = "Victory! I'm proud of you General!";
