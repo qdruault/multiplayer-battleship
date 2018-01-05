@@ -54,7 +54,9 @@ public class IHMMain {
         this.facade = facade;
         primaryStage = stage;
         primaryStage.setWidth(1300);
+        primaryStage.setMinWidth(800);
         primaryStage.setHeight(800);
+        primaryStage.setMinHeight(600);
 
         // Load the font for the css
        
