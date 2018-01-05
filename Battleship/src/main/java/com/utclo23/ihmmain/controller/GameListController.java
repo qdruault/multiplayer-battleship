@@ -151,6 +151,10 @@ public class GameListController extends AbstractController{
         modeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         modeColumn.getStyleClass().add(labelClass);
         
+        TableColumn aiColumn = new TableColumn("AI");
+        aiColumn.setCellValueFactory(new PropertyValueFactory<>("computerMode"));
+        aiColumn.getStyleClass().add(labelClass);
+        
         TableColumn chatColumn = new TableColumn("CHAT");
         chatColumn.setCellValueFactory(new PropertyValueFactory<>("spectatorChat"));
         chatColumn.getStyleClass().add(labelClass);
@@ -216,8 +220,12 @@ public class GameListController extends AbstractController{
     @FXML
     private void joinSelectedGame(ActionEvent event){
         if(selectedGame != null){
-            getFacade().iDataIHMMain.gameConnectionRequestGame(selectedGame.getId(), "player");
-            loadingScreen();
+            if(!selectedGame.isComputerMode()){
+                getFacade().iDataIHMMain.gameConnectionRequestGame(selectedGame.getId(), "player");
+                loadingScreen();
+            }else{
+                showSuccessPopup("You can't join a party VS AI","Click on watch if you want to watch it","Create a game by yourself if you want to play VS AI");
+            }
         }else{
             showSuccessPopup("Please select a game","Please select a game to join","Create a game or Find a friend and add his ip if you don't have any game in list");
         }
