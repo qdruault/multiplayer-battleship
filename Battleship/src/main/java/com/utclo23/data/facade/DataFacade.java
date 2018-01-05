@@ -591,6 +591,8 @@ public class DataFacade implements IDataCom, IDataIHMTable, IDataIHMMain {
         this.userMediator.updateUser(password, firstName, lastName, birthDate, fileImage);
     }
 
+    
+
     /**
      *
      * Get a user profile

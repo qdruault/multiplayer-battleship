@@ -587,6 +587,9 @@ public class GameMediator {
             }
             this.dataFacade.getIhmTablefacade().finishGame(this.currentGame.getStatGame());
 
+            this.dataFacade.getComfacade().removeGame(this.currentGame.getId());
+            this.removeGame(this.getCurrentGame().getId());
+            
             //if creator => delete game
             if (this.currentGame.getStatGame().getCreator().getId().equals(this.dataFacade.getMyPublicUserProfile().getId())) {
                 Logger.getLogger(GameMediator.class.getName()).info("delete game by creator after leave game");
