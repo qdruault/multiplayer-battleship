@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,8 +34,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
@@ -241,6 +240,7 @@ public class PlayerProfileController extends AbstractController{
             if (data.get(3)!=0){
                 rate = ((double)data.get(0))/((double)data.get(3))*100;
             }
+            new Formatter().format("%.2f", rate);
             rateBelgian.setText("win rate: "+rate+"%");
         }
         return data;
@@ -256,6 +256,7 @@ public class PlayerProfileController extends AbstractController{
         if (data.get(3)!=0){
                 rate = ((double)data.get(0))/((double)data.get(3))*100;
         }
+        new Formatter().format("%.2f", rate);
         rateAll.setText("win rate: "+rate+"%");
         return data;
     }

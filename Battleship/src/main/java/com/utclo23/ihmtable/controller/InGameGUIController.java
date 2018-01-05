@@ -73,16 +73,16 @@ public class InGameGUIController {
 
     //association ship <=> image
     Map<Ship, Button> listOfShipsOnTheGrid = new HashMap<Ship, Button>();
-    
+
     //Memorize destroyed ships so that spectators don't count their destruction multiple times while replaying an ongoing game
     ArrayList<Ship> listOfDestroyedShips = new ArrayList<Ship>();
-    
+
     //Associative Map (not HashMap because hashcode different with Coordinate) foreach grid
     ArrayList<Coordinate> minesCoordinatesGrid1 = new ArrayList<Coordinate>();
     ArrayList<AnchorPane> minesAnchorPaneGrid1 = new ArrayList<AnchorPane>();
     ArrayList<Coordinate> minesCoordinatesGrid2 = new ArrayList<Coordinate>();
     ArrayList<AnchorPane> minesAnchorPaneGrid2 = new ArrayList<AnchorPane>();
-    
+
 
     /**
     * IHMTable façade
@@ -288,7 +288,7 @@ public class InGameGUIController {
     @FXML
     private Pane paneChat;
 
-    private boolean isSpectator = false;
+    public boolean isSpectator = false;
 
     /**
     * Set the IHM Table facade.
@@ -461,8 +461,8 @@ public class InGameGUIController {
             nbTotalPassedTurns = 0;
 
         }
-        
-        
+
+
         // Init current player's stats of the match
         currentPlayerStats = new InGameStats();
         // Init opponent's stats of the match
@@ -574,8 +574,8 @@ public class InGameGUIController {
             }
         }
     }
-    
-    
+
+
     /**
      * Function to place a ship on the grid with its corresponding image
      * @param ship : the ship to place
@@ -801,13 +801,13 @@ void onClickFire(MouseEvent event) {
 
         return result;
     }
-    
+
      /**
      * Get the Node in the grid according to its positions
      * @param row
      * @param column
      * @param gridPane
-     * @param cssClass 
+     * @param cssClass
      * @return
      */
     private Node getNodeByRowColumnIndexAndCSSClass(final int row, final int column, GridPane gridPane, String cssClass)
@@ -827,10 +827,10 @@ void onClickFire(MouseEvent event) {
         return result;
     }
 
-    
-    
+
+
     /**
-     * Place a mine graphically 
+     * Place a mine graphically
      * @param x
      * @param y
      * @param class : css class associated
@@ -850,7 +850,7 @@ void onClickFire(MouseEvent event) {
             minesCoordinates = minesCoordinatesGrid2;
             minesAnchorPane = minesAnchorPaneGrid2;
         }
-        
+
         //Si une mine est déjà présente (cas spectateur rejoint en cours)
         Coordinate coord = new Coordinate(x,y);
         if(minesCoordinates.contains(coord))
@@ -868,14 +868,14 @@ void onClickFire(MouseEvent event) {
                 minesCoordinates.remove(index);
                 minesAnchorPane.remove(index);
             }
-                
+
         }
-        
-        
-        
+
+
+
         //Ajout d'une mine (image d'une mine dans un bouton)
         Button b = new Button();
-        
+
         b.setStyle("-fx-background-color: none;"
                    + "-fx-background-repeat: stretch;"
                    + "-fx-background-position: center center;"
@@ -896,8 +896,8 @@ void onClickFire(MouseEvent event) {
         minesCoordinates.add(coord);
         minesAnchorPane.add(wrapper);
     }
-    
-    
+
+
     /**
      * Generic method for placing a mine on the grid just with the coordinates
      * @param coord : where to place the mine
@@ -908,13 +908,15 @@ void onClickFire(MouseEvent event) {
         //System.out.println("TABLE: ON PLACE UNE MINE EN " + coord.getX() + " " + coord.getY());
         // Select the right grid which depends on the player
         GridPane grid;
-        
+
         //Cas non spectateur (J1 ou J2)
         if(!isSpectator)
         {
             System.out.println("Je suis pas un spectateur");
             if(player.getLightPublicUser().getId().equals(facade.getFacadeData().getMyPublicUserProfile().getId())) {
                 grid = opponentGrid;
+                // Reset the number of turns passed for J1.
+                nbPassedTurns = 0;
             } else {
                 grid = playerGrid;
             }
@@ -922,7 +924,7 @@ void onClickFire(MouseEvent event) {
         //Cas spectateur
         else
         {
-            
+
              System.out.println("Je suis  un spectateur");
             if(player.equals(facade.getFacadeData().getGame().getPlayers().get(0))) //Current Player is J1 (cf Slack)
             {
@@ -944,16 +946,16 @@ void onClickFire(MouseEvent event) {
         {
             throw new UnsupportedOperationException("ERROR: attack returned null ");
         }
-        
+
         //data from attack
         boolean touched = attack_result.getKey() == 1;
         boolean newShipDestroyed = attack_result.getValue() != null && !listOfDestroyedShips.contains(attack_result.getValue());
-        
+
         //If a mine did touch
         if (touched) {
             // Ship Touched!
             placeMineGraphics(grid, coord.getX(), coord.getY(), "inGameGUI_touched_cell");
-            
+
             // Check if the ship is destroyed.
             Ship destroyedShip = attack_result.getValue();
             if(destroyedShip != null) {
@@ -966,14 +968,12 @@ void onClickFire(MouseEvent event) {
                 destroyShip(destroyedShip, grid);
             }
 
-            // Reset the number of turns passed.
-            nbPassedTurns = 0;
         } else {
             placeMineGraphics(grid,coord.getX(), coord.getY(), "inGameGUI_missed_cell");
         }
         hitCell.toFront();
-        
-        
+
+
         // Update stats pannel
         InGameStats statsToUpdate = null;
         if(grid == opponentGrid){
@@ -1185,10 +1185,6 @@ void onClickFire(MouseEvent event) {
     * Function for initialize chrono
     */
     private void chronoTimeInit() {
-        // Stop the timer.
-        if (timer != null) {
-            timer.stop();
-        }
         switch (nbPassedTurns) {
             case 0:
                 countdown = 30;
@@ -1217,7 +1213,7 @@ void onClickFire(MouseEvent event) {
         if(timer!=null){
             timer.playFromStart();
         }
-        
+
     }
 
     /**
@@ -1246,7 +1242,7 @@ void onClickFire(MouseEvent event) {
                             nbTotalPassedTurns--;
 
                             // Fake an attack.
-                            facade.getFacadeData().attack(new Coordinate(nbTotalPassedTurns, nbTotalPassedTurns), true, null);
+                            facade.getFacadeData().attack(new Coordinate(nbTotalPassedTurns, nbTotalPassedTurns), true, myPlayer);
 
                             // Reinitialize chrono for the next turn
                             chronoTimeInit();
@@ -1511,7 +1507,7 @@ void onClickFire(MouseEvent event) {
 
                                     // Put the image on the board
                                     putShipOnBoard(ship, playerGrid);
-                                
+
 
                                     // ATTENTION! Grid size is out of control!
                                     // setShip didn't return any exception so the ship is correctly placed -> Update the label on the left panel
@@ -1568,7 +1564,7 @@ void onClickFire(MouseEvent event) {
     public void loadGame(Game game)
     {
         System.out.println("TABLE: ON LIT UNE GAME PAR UN SPECTATEUR");
-        
+
         // Place ships (disabled to avoid cheating)
         /*for (Player player : game.getPlayers()) {
             for (Ship ship : player.getShips()) {
@@ -1609,7 +1605,7 @@ void onClickFire(MouseEvent event) {
             cell.getStyleClass().add("inGameGUI_missed_cell");
         }
         cell.toFront();
-        
+
         // Ship destroyed.
         if (destroyedShip != null) {
             // Change the CSS class of the cells.
@@ -1639,6 +1635,6 @@ void onClickFire(MouseEvent event) {
 
             }
         }
-        
+
     }
 }
