@@ -57,25 +57,7 @@ public class IHMMain {
         primaryStage.setHeight(800);
 
         // Load the font for the css
-        String path = IHMMain.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        String decodedPath = URLDecoder.decode(path, "UTF-8");
-        System.out.println("=====> " + decodedPath);
-        //try {
-            URL resource = classLoader.getResource("/styles/space_age.ttf");
-            File is = null;
-            is = new File(resource.toURI());
-          /*
-            try {
-                FileInputStream input = new FileInputStream(is);
-            } catch (FileNotFoundException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }*/
-            //InputStream configStream = getClass().getResourceAsStream("/styles/space_age.ttf");
-          //  Font.loadFont(new FileInputStream(new File("styles/space_age.ttf")), 10);
-        //} catch (FileNotFoundException ex) {
-            //Logger.getLogger(PlayerListController.class.getName()).log(Level.SEVERE, null, ex);
-        //}
+       
         
         //load all scenes when app starts
         for(SceneName scenename : SceneName.values()){
