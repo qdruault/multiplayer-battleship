@@ -292,7 +292,7 @@ public class GameMediator {
                         if (this.currentGame.getComputerPlayer().getFocus() != null) {
                         }
                     }
-                    
+
                     Random r = new Random();
                     if(r.nextInt(6)==1){
                         this.sendMessageIA();
@@ -301,7 +301,7 @@ public class GameMediator {
 
             } else {
                 // In the case of a test, that's possible that the current player is not
-                // the right player to test the mine (that means the enemy of the player 
+                // the right player to test the mine (that means the enemy of the player
                 // is the right person to test the mine)
                 if (playerWhoPutTheMine != null) {
                     pairReturn = this.currentGame.attack(playerWhoPutTheMine, coordinate, isTrueAttack);
@@ -432,32 +432,32 @@ public class GameMediator {
         punchlines.add("Aie...");
         punchlines.add("><");
         punchlines.add("Je t'aurais un de ces jours.");
-        
+
         Random r = new Random();
         int i = r.nextInt(punchlines.size());
         String text = punchlines.get(i);
-        
+
         //get information of sender
         LightPublicUser sender = this.currentGame.getComputerPlayer().getLightPublicUser();
 
         //check if sender is spectator and if chat is allowed for spectators
-        
+
             if (!this.currentGame.getStatGame().isSpectatorChat()) {
                 return;
             }
-        
+
 
         Message msg = new Message(sender, text, this.currentGame.getRecipients(this.dataFacade.getMyPublicUserProfile().getPlayerName()));
         ComFacade comFacade = this.dataFacade.getComfacade();
         if (comFacade != null) {
             comFacade.notifyNewMessage(msg);
         }
-        
+
         this.forwardMessage(msg);
         System.out.println("IA send message end");
     }
 
-    
+
     /**
      * Forward a message
      *
