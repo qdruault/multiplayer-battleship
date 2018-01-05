@@ -20,8 +20,37 @@
         <name>lo23</name>
     </organization>
 
+<reporting>
+  <plugins>
+    <plugin>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>cobertura-maven-plugin</artifactId>
+      <version>2.4</version>
+    </plugin>
+  </plugins>
+</reporting>
+
     <build>
         <plugins>
+             <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.7.0.201403182114</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>prepare-agent</goal>
+                    </goals>
+                </execution>
+                <execution>
+                    <id>report</id>
+                    <phase>prepare-package</phase>
+                    <goals>
+                        <goal>report</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -155,6 +184,7 @@
                 <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
+               
                 <sonar.host.url>https://sonarcloud.io</sonar.host.url>
                 <sonar.organization>lo23</sonar.organization>
                 <sonar.login>a7f86fb85267f6c368ef07d969a16ccf4be0db4b</sonar.login>

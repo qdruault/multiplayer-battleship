@@ -15,6 +15,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -50,14 +54,12 @@ public class IHMMain {
         this.facade = facade;
         primaryStage = stage;
         primaryStage.setWidth(1300);
+        primaryStage.setMinWidth(800);
         primaryStage.setHeight(800);
+        primaryStage.setMinHeight(600);
 
         // Load the font for the css
-        try {
-            Font.loadFont(new FileInputStream(new File("./target/classes/styles/space_age.ttf")), 10);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(PlayerListController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
         
         //load all scenes when app starts
         for(SceneName scenename : SceneName.values()){
@@ -69,13 +71,7 @@ public class IHMMain {
         primaryStage.setTitle("Battle Ship");
         toNetworkInterfaceChoice();
         stage.show();
-        
-        // Load the font for the css
-        try {
-            Font.loadFont(new FileInputStream(new File("./target/classes/styles/space_age.ttf")), 10);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(PlayerListController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
         //add onClose event handler which handle the event when user clicks X
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
@@ -95,6 +91,7 @@ public class IHMMain {
     }
     
     public void toMenu() throws IOException{
+        primaryStage.setTitle("Battle Ship");
         toScene(SceneName.MENU);
     }
     

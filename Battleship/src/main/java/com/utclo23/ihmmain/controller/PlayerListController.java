@@ -161,7 +161,7 @@ public class PlayerListController extends AbstractController{
                                     PlayerProfileController.class.getName()).log(
                                             Level.INFO, "Waiting."
                                     );
-                            Thread.sleep(500);
+                            Thread.sleep(200);
                         }
                     } catch (InterruptedException e) {
                     }

@@ -11,7 +11,6 @@ import com.utclo23.data.module.GameFactory;
 import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.GameType;
 import com.utclo23.data.structure.LightPublicUser;
-import com.utclo23.data.structure.Player;
 import java.io.IOException;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,7 +26,25 @@ public class GameSerialTest {
     public ExpectedException expectedException = ExpectedException.none();
     
     @Test
-    public void testSerial() throws JsonProcessingException, IOException
+    public void testBelgianSerial() throws JsonProcessingException, IOException
+    {
+        GameFactory gameFactory = new GameFactory();
+        Game game = gameFactory.createGame("TEST-game", LightPublicUser.generateComputerProfile(), true, true, true, GameType.BELGIAN);
+        
+        ObjectMapper objectMapper = new ObjectMapper();
+        String s = objectMapper.writeValueAsString(game);
+        System.out.println("game "+game.getStatGame().getName());
+        
+        System.out.println(s);
+        
+        game = objectMapper.readValue(s, Game.class);
+        System.out.println("game "+game.getStatGame().getName());
+         
+        
+    }        
+     
+    @Test
+    public void testClassicSerial() throws JsonProcessingException, IOException
     {
         GameFactory gameFactory = new GameFactory();
         Game game = gameFactory.createGame("TEST-game", LightPublicUser.generateComputerProfile(), true, true, true, GameType.CLASSIC);
@@ -40,13 +57,10 @@ public class GameSerialTest {
         
         game = objectMapper.readValue(s, Game.class);
         System.out.println("game "+game.getStatGame().getName());
-  
-        
-        
-        
-        
+         
     }        
-     
+      
+    
   
     
 }

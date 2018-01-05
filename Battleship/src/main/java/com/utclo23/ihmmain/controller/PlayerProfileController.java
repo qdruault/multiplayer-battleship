@@ -6,6 +6,7 @@
 package com.utclo23.ihmmain.controller;
 
 import com.utclo23.data.module.DataException;
+import com.utclo23.data.structure.GameType;
 import com.utclo23.data.structure.PublicUser;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -14,18 +15,16 @@ import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -33,11 +32,9 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -58,9 +55,13 @@ public class PlayerProfileController extends AbstractController{
     @FXML
     private Label lastNameText;
     @FXML
-    private Label birthdayText;    
+    private Label birthdayText;
     @FXML
-    private TextField description;
+    private Label rateAll;
+    @FXML
+    private Label rateClassic;
+    @FXML
+    private Label rateBelgian;  
     @FXML
     private ImageView image;
     @FXML
@@ -82,14 +83,16 @@ public class PlayerProfileController extends AbstractController{
     @FXML
     private Button avatar;
     @FXML
-    private Button Description;
+    private GridPane stat;
     private PublicUser me;
     private PublicUser other;
     private boolean isOther; 
     private String attribut;
     private Image avatarImage;
+    private List<Integer> dataClassic;
+    private List<Integer> dataBelgian;
+    private List<Integer> dataTotal;
     private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
- 
    
     @FXML
     @Override
@@ -107,22 +110,6 @@ public class PlayerProfileController extends AbstractController{
         getIhmmain().toPlayerList();
     }
     
-    @FXML
-    private void editDescription(ActionEvent event) throws IOException{
-        String text;
-        description.setEditable(true);
-        text = description.getText();
-        description.setText(text);
-    }
-
-    @FXML
-    private void closeEdit(KeyEvent event) throws IOException{
-        KeyCode code = event.getCode();
-        if (code == KeyCode.ENTER){
-            description.setEditable(false);
-        }
-    }
-
     @FXML
     private void edit(ActionEvent event) throws IOException{
         attribut = ((Button)event.getSource()).getId();
@@ -171,10 +158,15 @@ public class PlayerProfileController extends AbstractController{
                 @Override
                 public void handle(ActionEvent event) {
                     try {
-                        Date birthDate = Date.from(date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                        getFacade().iDataIHMMain.updateBirthdate(birthDate);
-                        refresh();
-                        ((Node) (event.getSource())).getScene().getWindow().hide();
+                        if (date.getValue()!=null){
+                            Date birthDate = Date.from(date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                            getFacade().iDataIHMMain.updateBirthdate(birthDate);
+                            refresh();
+                            ((Node) (event.getSource())).getScene().getWindow().hide();
+                        }else{
+                             // Show popup error
+                             showErrorPopup("Error", "Required field aren't filled", "Empty fields : Date");
+                        }
                     } catch (DataException ex) {
                         Logger.getLogger(PlayerProfileController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -228,23 +220,94 @@ public class PlayerProfileController extends AbstractController{
        }
        
     }
-    public List<Integer> statTotal() throws DataException{
+    public List<Integer> getData(PublicUser player,GameType type) throws DataException{
         List<Integer> data = new ArrayList<>();
-        data.add(getFacade().iDataIHMMain.getNumberVictories());
-        data.add(getFacade().iDataIHMMain.getNumberDefeats());
-        data.add(getFacade().iDataIHMMain.getNumberAbandons());
+        double rate = 0;
+        if (type == GameType.CLASSIC){
+            data.add(player.getNumberVictoriesClassic());
+            data.add(player.getNumberDefeatsClassic());
+            data.add(player.getNumberAbandonsClassic());
+            data.add(data.get(0)+data.get(1)+data.get(2));
+            if (data.get(3)!=0){
+                rate = ((double)data.get(0))/((double)data.get(3))*100;
+            }
+            rateClassic.setText("win rate: "+rate+"%");
+        }else if (type == GameType.BELGIAN){
+            data.add(player.getNumberVictoriesBelgian());
+            data.add(player.getNumberDefeatsBelgian());
+            data.add(player.getNumberAbandonsBelgian());
+            data.add(data.get(0)+data.get(1)+data.get(2));
+            if (data.get(3)!=0){
+                rate = ((double)data.get(0))/((double)data.get(3))*100;
+            }
+            new Formatter().format("%.2f", rate);
+            rateBelgian.setText("win rate: "+rate+"%");
+        }
         return data;
     }
-    public void drawPieChart(PieChart chart) throws DataException{
+    public List<Integer> getTotal( List<Integer> data1, List<Integer> data2){
         List<Integer> data = new ArrayList<>();
-        data = statTotal();
-        //to do: get data from interface Data
+        double rate = 0;
+        int i = 0;
+        for (int a : data1){
+            data.add(data1.get(i)+data2.get(i));
+            i++;
+        }
+        if (data.get(3)!=0){
+                rate = ((double)data.get(0))/((double)data.get(3))*100;
+        }
+        new Formatter().format("%.2f", rate);
+        rateAll.setText("win rate: "+rate+"%");
+        return data;
+    }
+    
+    public void drawPieChart(PieChart chart,List<Integer> data) throws DataException{
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList( 
         new PieChart.Data("Win", data.get(0)), 
         new PieChart.Data("Loss", data.get(1)), 
         new PieChart.Data("Abandonned", data.get(2))
         );
         chart.setData(pieChartData);
+        int i = 0;
+        for (PieChart.Data eData: pieChartData){
+            Node node = eData.getNode();
+            node.getStyleClass().setAll("chart-pie", "data" + i, "default-color"+i%11);
+            //node.setStyle( "-fx-pie-color: #adff2f;");
+            i++;
+        }
+    }
+    public void loadStat(List<Integer> data1, List<Integer> data2,List<Integer> data3){
+        int i;
+        int j;
+        int index = 0;
+        boolean firstTime = true;
+        ObservableList<Node> children = stat.getChildren();
+        data1.addAll(data2);
+        data1.addAll(data3);
+        if (children.size()>8){
+            firstTime = false;
+        }
+        for (j=1;j<4;j++){
+            for (i=1;i<5;i++){
+                if (firstTime == true){
+                    Label value = new Label();
+                    value.setText(data1.get(index).toString());
+                    stat.add(value, i, j);
+                    GridPane.setColumnIndex(value, i);
+                    GridPane.setRowIndex(value, j);
+                }
+                else{
+                    for (Node node : children) {
+                        if (GridPane.getColumnIndex(node)!=null && GridPane.getRowIndex(node)!=null){
+                            if (GridPane.getColumnIndex(node) == i && GridPane.getRowIndex(node) == j) {
+                               ((Label)node).setText(data1.get(index).toString());
+                            }
+                        }
+                    }    
+                }
+                index++;
+            }
+        }
     }
     public void disableButton(){
         playerName.setDisable(true);
@@ -253,9 +316,8 @@ public class PlayerProfileController extends AbstractController{
         birthday.setDisable(true);
         password.setDisable(true);
         avatar.setDisable(true);
-        Description.setDisable(true);
     }
-
+   
     /**
      * Initializes all the info of profile.
      */
@@ -271,9 +333,15 @@ public class PlayerProfileController extends AbstractController{
                 firstNameText.setText(me.getFirstName());
                 lastNameText.setText(me.getLastName());
                 birthdayText.setText(formatter.format(me.getBirthDate()));
-                drawPieChart(allMode);
-                //drawPieChart(classical);
-                //drawPieChart(belge);
+                
+                //get data
+                dataClassic = getData(me,GameType.CLASSIC);
+                dataBelgian = getData(me,GameType.BELGIAN);
+                dataTotal = getTotal(dataClassic,dataBelgian);
+                loadStat(dataClassic,dataBelgian,dataTotal);
+                drawPieChart(allMode,dataTotal);
+                drawPieChart(classical,dataClassic);
+                drawPieChart(belge,dataBelgian);
             }
             catch(NullPointerException e){
                 e.printStackTrace();
@@ -284,7 +352,7 @@ public class PlayerProfileController extends AbstractController{
                         );
             } catch (DataException ex) {
                 Logger.getLogger(PlayerProfileController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } 
         }
         else{
             try{
@@ -295,13 +363,22 @@ public class PlayerProfileController extends AbstractController{
                 firstNameText.setText(other.getFirstName());
                 lastNameText.setText(other.getLastName());
                 birthdayText.setText(formatter.format(other.getBirthDate()));
-            }
-            catch(NullPointerException e){
+                //get data
+                dataClassic = getData(other,GameType.CLASSIC);
+                dataBelgian = getData(other,GameType.BELGIAN);
+                dataTotal = getTotal(dataClassic,dataBelgian);
+                loadStat(dataClassic,dataBelgian,dataTotal);
+                drawPieChart(allMode,dataTotal);
+                drawPieChart(classical,dataClassic);
+                drawPieChart(belge,dataBelgian);
+            }catch(NullPointerException e){
                 Logger.getLogger(
-                        PlayerProfileController.class.getName()).log(Level.INFO,
-                        "[PlayerProfile] - error - other profile is null."
-                        );
-            }
+                    PlayerProfileController.class.getName()).log(Level.INFO,
+                    "[PlayerProfile] - error - other profile is null."
+                );
+            } catch (DataException ex) {
+                Logger.getLogger(PlayerProfileController.class.getName()).log(Level.SEVERE, null, ex);
+            } 
         }
     }
     
@@ -322,6 +399,5 @@ public class PlayerProfileController extends AbstractController{
         birthday.setDisable(false);
         password.setDisable(false);
         avatar.setDisable(false);
-        Description.setDisable(false);
     }
 }

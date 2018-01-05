@@ -8,6 +8,7 @@ package com.utclo23.data.structure;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -19,7 +20,13 @@ public class Ship extends SerializableEntity{
     private int size;
     private List<Coordinate> listCoord;
     
-
+    /**
+     *
+     * @param type
+     * @param owner
+     * @param listCoord
+     * @param size
+     */
     public Ship(ShipType type, Player owner, List<Coordinate> listCoord, int size) {
         this.type = type;
         this.owner = owner;
@@ -27,18 +34,42 @@ public class Ship extends SerializableEntity{
         this.size = size;
     }   
     
-     public Ship(ShipType type, int size) {
+    /**
+     *
+     * @param type
+     * @param size
+     */
+    public Ship(ShipType type, int size) {
         this.type = type;
         this.size = size;
         this.owner = null;
         this.listCoord = new ArrayList<>();
     }   
 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 47 * hash + Objects.hashCode(this.type);
+        hash = 47 * hash + Objects.hashCode(this.owner);
+        hash = 47 * hash + this.size;
+        hash = 47 * hash + Objects.hashCode(this.listCoord);
+        return hash;
+    }
+
+    /**
+     *
+     */
     public Ship() {
+        this.type = ShipType.BATTLESHIP;
+        this.size = 0;
+        this.owner = null;
+        this.listCoord = new ArrayList<>();
     }
      
-     
-    
+    /**
+     *
+     * @return
+     */
     public ShipType getType() {
         return type;
     }
@@ -59,59 +90,86 @@ public class Ship extends SerializableEntity{
         return false;
     }
 
+    /**
+     *
+     * @param type
+     */
     public void setType(ShipType type) {
         this.type = type;
     }
 
+    /**
+     *
+     * @return
+     */
     public Player getOwner() {
         return owner;
     }
 
+    /**
+     *
+     * @param owner
+     */
     public void setOwner(Player owner) {
         this.owner = owner;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Coordinate> getListCoord() {
         return listCoord;
     }
 
+    /**
+     *
+     * @param listCoord
+     */
     public void setListCoord(List<Coordinate> listCoord) {
         this.listCoord = listCoord;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getSize() {
         return size;
     }
 
+    /**
+     *
+     * @param size
+     */
     public void setSize(int size) {
         this.size = size;
     }    
     
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
+        
+        boolean check = true;
        
-        if (obj == null)
-            return false;
-    
-        if (getClass() != obj.getClass())
-            return false;
+       
+     
+        if (null==obj || getClass() != obj.getClass())
+            check = false;
        
         Ship other = (Ship) obj;
         
-        if (type != other.type)
-            return false;
+        if (null == other || type != other.type)
+            check =  false;
        
-        if (!owner.getLightPublicUser().getId().equals(other.getOwner().getLightPublicUser().getId()))
-            return false;
+        if (null  == other || !owner.getLightPublicUser().getId().equals(other.getOwner().getLightPublicUser().getId()))
+            check =  false;
         
-        if (size != other.getSize())
-            return false;
+        if (null == other || size != other.getSize())
+            check =  false;
         
-        if (!listCoord.equals(other.getListCoord()))
-            return false;
+        if (null == other || !listCoord.equals(other.getListCoord()))
+            check = false;
         
-       return true;
+       return check;
     }
 }

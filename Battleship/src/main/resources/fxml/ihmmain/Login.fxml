@@ -8,10 +8,10 @@
 
 <GridPane id="generalGrid" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600" minWidth="800" prefHeight="768" prefWidth="1368" stylesheets="@../../styles/ihmmain.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utclo23.ihmmain.controller.LoginController">                 
     <columnConstraints>
-        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
-        <ColumnConstraints percentWidth="20.0" hgrow="SOMETIMES" />
-        <ColumnConstraints percentWidth="20.0" hgrow="SOMETIMES" />
-        <ColumnConstraints percentWidth="35.0" hgrow="SOMETIMES" />
+        <ColumnConstraints percentWidth="30.0" hgrow="SOMETIMES" minWidth="5.0"/>
+        <ColumnConstraints percentWidth="25.0" hgrow="SOMETIMES" minWidth="100.0"/>
+        <ColumnConstraints percentWidth="25.0" hgrow="SOMETIMES" minWidth="100.0"/>
+        <ColumnConstraints percentWidth="30.0" hgrow="SOMETIMES" minWidth="5.0"/>
     </columnConstraints>        
     <rowConstraints>
         <RowConstraints percentHeight="30.0" vgrow="SOMETIMES" />
@@ -43,12 +43,12 @@
                 <Tooltip text="Click to create a new local player account."/>
             </tooltip>
         </Button>
-        <Button fx:id="exitButton" onAction="#exitAction" text="Exit" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.halignment="CENTER" maxWidth="Infinity">
+        <Button fx:id="exitButton" onAction="#exitAction" text="Exit" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.halignment="CENTER" maxWidth="Infinity">
             <tooltip>
                 <Tooltip text="Click to exit the application."/>
             </tooltip>
         </Button>
-        <Button fx:id="loginButton" defaultButton="true" onAction="#loginAction" text="Login" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.halignment="CENTER" maxWidth="Infinity">
+        <Button fx:id="loginButton" defaultButton="true" onAction="#loginAction" text="Login" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.halignment="CENTER" maxWidth="Infinity">
             <tooltip>
                 <Tooltip text="Click to login once your username and password have been completed."/>
             </tooltip>

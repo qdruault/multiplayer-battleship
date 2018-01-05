@@ -26,15 +26,27 @@ public class Mine extends Event {
         this.result = MineResult.UNKNOWN;        
     }
 
+    /**
+     *
+     */
     public Mine() {
+        this.result = MineResult.UNKNOWN; 
+        this.owner= null;
+        this.coord = null;
     }
     
-    
-
+    /**
+     *
+     * @return
+     */
     public MineResult getResult() {
         return result;
     }
 
+    /**
+     *
+     * @param result
+     */
     public void setResult(MineResult result) {
         this.result = result;
     }

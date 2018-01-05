@@ -5,7 +5,6 @@
  */
 package com.utclo23.data.structure;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,26 +15,54 @@ public class Coordinate extends SerializableEntity{
     private int x;
     private int y;
 
+    /**
+     *
+     */
     public Coordinate() {
     }
 
-    
+    /**
+     *
+     * @return
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getY() {
         return y;
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     *
+     * @param x
+     */
     public void setX(int x) {
         this.x = x;
     }
 
+    /**
+     *
+     * @param y
+     */
     public void setY(int y) {
         this.y = y;
     }
 
+    /**
+     *
+     * @param x
+     * @param y
+     */
     public Coordinate(int x, int y) {
         this.x = x;
         this.y = y;

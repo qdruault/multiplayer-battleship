@@ -12,6 +12,7 @@ import com.utclo23.data.structure.Game;
 import com.utclo23.data.structure.Message;
 import com.utclo23.data.structure.Mine;
 import com.utclo23.data.structure.Player;
+import com.utclo23.data.structure.PublicUser;
 import com.utclo23.data.structure.Ship;
 import com.utclo23.data.structure.ShipType;
 import com.utclo23.ihmtable.structure.CoordinatesGenerator;
@@ -28,6 +29,7 @@ import java.util.Map;
 import java.util.Optional;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -46,7 +48,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.geometry.NodeOrientation;
-import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -71,7 +72,17 @@ public class InGameGUIController {
     Map<ShipType, String> shipsPictures = new HashMap<ShipType, String>();
 
     //association ship <=> image
-    Map<Ship, ImageView> listOfShipsOnTheGrid = new HashMap<Ship, ImageView>();
+    Map<Ship, Button> listOfShipsOnTheGrid = new HashMap<Ship, Button>();
+
+    //Memorize destroyed ships so that spectators don't count their destruction multiple times while replaying an ongoing game
+    ArrayList<Ship> listOfDestroyedShips = new ArrayList<Ship>();
+
+    //Associative Map (not HashMap because hashcode different with Coordinate) foreach grid
+    ArrayList<Coordinate> minesCoordinatesGrid1 = new ArrayList<Coordinate>();
+    ArrayList<AnchorPane> minesAnchorPaneGrid1 = new ArrayList<AnchorPane>();
+    ArrayList<Coordinate> minesCoordinatesGrid2 = new ArrayList<Coordinate>();
+    ArrayList<AnchorPane> minesAnchorPaneGrid2 = new ArrayList<AnchorPane>();
+
 
     /**
     * IHMTable façade
@@ -107,6 +118,7 @@ public class InGameGUIController {
 
     @FXML
     private GridPane playerGrid;
+
 
     /**
     * List of all the panes of the grid.
@@ -248,7 +260,12 @@ public class InGameGUIController {
      * Me.
      */
     private Player myPlayer;
-    
+
+    /**
+     * Me if I'm a spectator.
+     */
+    private PublicUser mySpectator;
+
 
     /**
      * True if playing review game
@@ -259,7 +276,7 @@ public class InGameGUIController {
      * Frame for reloading a game
      */
     private Timeline reloadTimeline = null;
-    
+
     /**
      * Timer
      */
@@ -271,7 +288,8 @@ public class InGameGUIController {
     @FXML
     private Pane paneChat;
 
-    
+    public boolean isSpectator = false;
+
     /**
     * Set the IHM Table facade.
     * @param facade : IHM Table facade.
@@ -296,7 +314,7 @@ public class InGameGUIController {
         buttonImage3.setDisable(true);
         buttonImage4.setDisable(true);
         buttonImage5.setDisable(true);
-        sendButton.setDisable(false);
+        //sendButton.setDisable(false);
         fireButton.setDisable(true);
         menuButton.setDisable(false);
         playerGrid.setDisable(false);
@@ -316,8 +334,32 @@ public class InGameGUIController {
         shipsPictures.put(ShipType.DESTROYER,  "images/ship4.png");
         shipsPictures.put(ShipType.SUBMARINE,  "images/ship5.png");
 
+        // Get the current player.
+        currentPlayer = facade.getFacadeData().getGame().getCurrentPlayer();
+        // Get my player.
+        myPlayer = facade.getFacadeData().getGame().getPlayer(facade.getFacadeData().getMyPublicUserProfile().getId());
+
+        
+        for(Player p : facade.getFacadeData().getGame().getPlayers())
+        {
+            System.out.println(p);
+        }
+        // Spectator.
+        if (myPlayer == null) {
+            
+            System.out.println("je suis spectator");
+           
+            isSpectator = true;
+            mySpectator = facade.getFacadeData().getMyPublicUserProfile();
+        }
+        else
+        {
+             System.out.println("je suis player");
+        }
+
         // Player not able to fire
         readyToAttack = false;
+
         // Fill in the opponent grid.
         opponentPanes = new ArrayList<>();
         for (int col = 0; col < opponentGrid.getColumnConstraints().size(); col++) {
@@ -328,7 +370,10 @@ public class InGameGUIController {
                 // Add it to the list to store it.
                 opponentPanes.add(pane);
                 // Add a onClick event on it.
-                pane.setOnMouseClicked(new AttackEvent(row, col));
+                if (!isSpectator) {
+                    pane.setOnMouseClicked(new AttackEvent(row, col));
+                }
+
                 opponentGrid.add(pane, col, row);
             }
         }
@@ -342,10 +387,13 @@ public class InGameGUIController {
 
                 // Add it to the list to store it.
                 playerPanes.add(pane);
-                // Add a CSS class to handle the hover effect.
-                pane.getStyleClass().add("inGameGUI_hover_cell");
-                // Add the click event on it.
-                pane.setOnMouseClicked(new ChooseCellEvent(row, col));
+                if (!isSpectator) {
+                    // Add a CSS class to handle the hover effect.
+                    pane.getStyleClass().add("inGameGUI_hover_cell");
+                    // Add the click event on it.
+                    pane.setOnMouseClicked(new ChooseCellEvent(row, col));
+                }
+
                 playerGrid.add(pane, col, row);
             }
         }
@@ -355,61 +403,65 @@ public class InGameGUIController {
         startPosition = null;
         endPosition = null;
 
-        try {
-            // Get the ships.
-            ships = facade.getFacadeData().getTemplateShips();
-        } catch (DataException ex) {
-            Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
+        if (!isSpectator) {
+            try {
+                // Get the ships.
+                ships = facade.getFacadeData().getTemplateShips();
+            } catch (DataException ex) {
+                Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            //Add manually the button to set them up
+            mapBtnType = new HashMap<>();
+            mapBtnType.put(ShipType.BATTLESHIP, buttonImage1);
+            mapBtnType.put(ShipType.CARRIER, buttonImage2);
+            mapBtnType.put(ShipType.CRUISER, buttonImage3);
+            mapBtnType.put(ShipType.DESTROYER, buttonImage4);
+            mapBtnType.put(ShipType.SUBMARINE, buttonImage5);
+
+            //Map to count the number of ship / type
+            mapShipCount = new HashMap<>();
+            mapShipCount.put(ShipType.CARRIER,0);
+            mapShipCount.put(ShipType.BATTLESHIP,0);
+            mapShipCount.put(ShipType.CRUISER,0);
+            mapShipCount.put(ShipType.DESTROYER,0);
+            mapShipCount.put(ShipType.SUBMARINE,0);
+
+            //Fill the mapShipCount from the list of ships obtained from Data
+            for(int i = 0; i<ships.size();i++)
+            {
+                mapShipCount.put(ships.get(i).getType(),mapShipCount.get(ships.get(i).getType())+1);
+            }
+
+            //Set the number of available ship in the label of the buttons
+            mapBtnType.get(ShipType.CARRIER).setText(mapShipCount.get(ShipType.CARRIER).toString());
+            System.out.println("CARRIER : " + mapBtnType.get(ShipType.CARRIER).getText());
+            mapBtnType.get(ShipType.BATTLESHIP).setText(mapShipCount.get(ShipType.BATTLESHIP).toString());
+            System.out.println("BATTLE : " + mapBtnType.get(ShipType.BATTLESHIP).getText());
+            mapBtnType.get(ShipType.CRUISER).setText(mapShipCount.get(ShipType.CRUISER).toString());
+            System.out.println("CRUISER : " + mapBtnType.get(ShipType.CRUISER).getText());
+            mapBtnType.get(ShipType.DESTROYER).setText(mapShipCount.get(ShipType.DESTROYER).toString());
+            System.out.println("DESTROYER : " + mapBtnType.get(ShipType.DESTROYER).getText());
+            mapBtnType.get(ShipType.SUBMARINE).setText(mapShipCount.get(ShipType.SUBMARINE).toString());
+            System.out.println("SUBMARINE : " + mapBtnType.get(ShipType.SUBMARINE).getText());
+
+            // Example ships.
+            buttonImage1.setOnMouseClicked(new SelectShipEvent(ShipType.BATTLESHIP));
+            buttonImage2.setOnMouseClicked(new SelectShipEvent(ShipType.CARRIER));
+            buttonImage3.setOnMouseClicked(new SelectShipEvent(ShipType.CRUISER));
+            buttonImage4.setOnMouseClicked(new SelectShipEvent(ShipType.DESTROYER));
+            buttonImage5.setOnMouseClicked(new SelectShipEvent(ShipType.SUBMARINE));
+
+            // Start chrono.
+            initTimer();
+            chronoTimeInit();
+
+            // Init the number of turns passed.
+            nbPassedTurns = 0;
+            nbTotalPassedTurns = 0;
+
         }
 
-        //Add manually the button to set them up
-        mapBtnType = new HashMap<>();
-        mapBtnType.put(ShipType.BATTLESHIP, buttonImage1);
-        mapBtnType.put(ShipType.CARRIER, buttonImage2);
-        mapBtnType.put(ShipType.CRUISER, buttonImage3);
-        mapBtnType.put(ShipType.DESTROYER, buttonImage4);
-        mapBtnType.put(ShipType.SUBMARINE, buttonImage5);
-
-        //Map to count the number of ship / type
-        mapShipCount = new HashMap<>();
-        mapShipCount.put(ShipType.CARRIER,0);
-        mapShipCount.put(ShipType.BATTLESHIP,0);
-        mapShipCount.put(ShipType.CRUISER,0);
-        mapShipCount.put(ShipType.DESTROYER,0);
-        mapShipCount.put(ShipType.SUBMARINE,0);
-
-        //Fill the mapShipCount from the list of ships obtained from Data
-        for(int i = 0; i<ships.size();i++)
-        {
-            mapShipCount.put(ships.get(i).getType(),mapShipCount.get(ships.get(i).getType())+1);
-        }
-
-        //Set the number of available ship in the label of the buttons
-        mapBtnType.get(ShipType.CARRIER).setText(mapShipCount.get(ShipType.CARRIER).toString());
-        System.out.println("CARRIER : " + mapBtnType.get(ShipType.CARRIER).getText());
-        mapBtnType.get(ShipType.BATTLESHIP).setText(mapShipCount.get(ShipType.BATTLESHIP).toString());
-        System.out.println("BATTLE : " + mapBtnType.get(ShipType.BATTLESHIP).getText());
-        mapBtnType.get(ShipType.CRUISER).setText(mapShipCount.get(ShipType.CRUISER).toString());
-        System.out.println("CRUISER : " + mapBtnType.get(ShipType.CRUISER).getText());
-        mapBtnType.get(ShipType.DESTROYER).setText(mapShipCount.get(ShipType.DESTROYER).toString());
-        System.out.println("DESTROYER : " + mapBtnType.get(ShipType.DESTROYER).getText());
-        mapBtnType.get(ShipType.SUBMARINE).setText(mapShipCount.get(ShipType.SUBMARINE).toString());
-        System.out.println("SUBMARINE : " + mapBtnType.get(ShipType.SUBMARINE).getText());
-
-        // Example ships.
-        buttonImage1.setOnMouseClicked(new SelectShipEvent(ShipType.BATTLESHIP));
-        buttonImage2.setOnMouseClicked(new SelectShipEvent(ShipType.CARRIER));
-        buttonImage3.setOnMouseClicked(new SelectShipEvent(ShipType.CRUISER));
-        buttonImage4.setOnMouseClicked(new SelectShipEvent(ShipType.DESTROYER));
-        buttonImage5.setOnMouseClicked(new SelectShipEvent(ShipType.SUBMARINE));
-
-        // Start chrono.
-        initTimer();
-        chronoTimeInit();
-
-        // Init the number of turns passed.
-        nbPassedTurns = 0;
-        nbTotalPassedTurns = 0;
 
         // Init current player's stats of the match
         currentPlayerStats = new InGameStats();
@@ -417,11 +469,7 @@ public class InGameGUIController {
         opponentStats = new InGameStats();
         // Init pannel with values
         updateStatsPannel();
-        // Get the current player.
-        currentPlayer = facade.getFacadeData().getGame().getCurrentPlayer();
-        // Get my player.
-        myPlayer = facade.getFacadeData().getGame().getPlayer(facade.getFacadeData().getMyPublicUserProfile().getId());
-        
+
         /**
         * Binding of key "enter" for sending message in tchat
         */
@@ -432,14 +480,14 @@ public class InGameGUIController {
                }
            }
         });
-       
+
        // If the chat is enabled for this game
        // isSpectatorChat() is true if the chat is enabled in the game settings
        if(!facade.getFacadeData().getGame().getStatGame().isSpectatorChat()) {
             paneChat.setOpacity(0);
             paneChat.setDisable(true);
         }
-       
+
         printMessageInChat("System", "Welcome to the game room !");
     }
 
@@ -464,28 +512,41 @@ public class InGameGUIController {
         // To know that the game is started.
         gameStarted = true;
 
-        // To know whose turn it is.
-        if (facade.getFacadeData().getGame().getCurrentPlayer().getLightPublicUser() == facade.getFacadeData().getMyPublicUserProfile().getLightPublicUser()) {
-            // I'm the first player to play.
-            readyToAttack = true;
+        if (isSpectator) {
+            // Display all the ships on the board.
+            // Left board.
+            for (Ship leftShip : facade.getFacadeData().getGame().getPlayers().get(0).getShips()) {
+                putShipOnBoard(leftShip, playerGrid);
+            }
+
+            // Right board.
+            for (Ship rightShip : facade.getFacadeData().getGame().getPlayers().get(1).getShips()) {
+                putShipOnBoard(rightShip, opponentGrid);
+            }
         } else {
-            // I'm not the first player to play.
-            readyToAttack = false;
-        }
+            // To know whose turn it is.
+            if (facade.getFacadeData().getGame().getCurrentPlayer().getLightPublicUser() == facade.getFacadeData().getMyPublicUserProfile().getLightPublicUser()) {
+                // I'm the first player to play.
+                readyToAttack = true;
+            } else {
+                // I'm not the first player to play.
+                readyToAttack = false;
+            }
 
-        // We can no longer hover the player panes.
-        for (Pane playerPane : playerPanes) {
-            playerPane.getStyleClass().removeAll("inGameGUI_hover_cell");
-        }
+            // We can no longer hover the player panes.
+            for (Pane playerPane : playerPanes) {
+                playerPane.getStyleClass().removeAll("inGameGUI_hover_cell");
+            }
 
-        // We can now hover the opponent panes.
-        for (Pane opponentPane : opponentPanes) {
-            opponentPane.getStyleClass().add("inGameGUI_hover_cell");
-        }
+            // We can now hover the opponent panes.
+            for (Pane opponentPane : opponentPanes) {
+                opponentPane.getStyleClass().add("inGameGUI_hover_cell");
+            }
 
-        // Start the timer if it is my turn.
-        if(readyToAttack) {
-            restartChronoTime();
+            // Start the timer if it is my turn.
+            if(readyToAttack) {
+                restartChronoTime();
+            }
         }
     }
 
@@ -513,28 +574,52 @@ public class InGameGUIController {
             }
         }
     }
+
+
     /**
      * Function to place a ship on the grid with its corresponding image
      * @param ship : the ship to place
      * @param grid : the grid to place the ship on
      * @return : the imageview of the ship placed
      */
-    private ImageView putShipOnBoard(Ship ship, GridPane grid)
+    private Button putShipOnBoard(Ship ship, GridPane grid)
     {
         // We assume the ship has the right coordinates.
         // Moreover, this function won't update the shipboard!
         try {
 
             // Load the image.
-            ImageView shipOnTheGrid = new ImageView(shipsPictures.get(ship.getType()));
+            //ImageView shipOnTheGrid2 = new ImageView(shipsPictures.get(ship.getType()));
+            Button shipOnTheGrid = new Button(); //Bouton pour ne pas imposer la taille de imageview à la grid
+            shipOnTheGrid.setStyle("-fx-background-color: none;"
+                    + "-fx-background-repeat: stretch;"
+                    + "-fx-background-position: center center;"
+                    + "-fx-background-size: 100% 100%;");
+
+            //Anchorpane en wrapper pour resize automatiquement le button
+            AnchorPane wrapper = new AnchorPane();
+            AnchorPane.setTopAnchor(shipOnTheGrid, 0.0);
+            AnchorPane.setBottomAnchor(shipOnTheGrid, 0.0);
+            AnchorPane.setLeftAnchor(shipOnTheGrid, 0.0);
+            AnchorPane.setRightAnchor(shipOnTheGrid, 0.0);
+            wrapper.toBack();
+            wrapper.getChildren().addAll(shipOnTheGrid);
+            double cellSizeW = (grid.getWidth()-11)/10;
+            double cellSizeH = (grid.getWidth()-11)/10;
+
+
             // For 1-cell ship.
             if (ship.getSize() == 1) {
                 // Set the size.
-                shipOnTheGrid.setFitWidth(grid.getWidth()/10.0);
-                shipOnTheGrid.setFitHeight(grid.getHeight()/10.0);
+                // shipOnTheGrid.setFitWidth(cellSizeW);
+                // shipOnTheGrid.setFitHeight(cellSizeH);
+
+
+                shipOnTheGrid.setStyle(shipOnTheGrid.getStyle() + "-fx-background-image: url('" + shipsPictures.get(ship.getType()) + "');");
+
                 // Place on the grid.
                 grid.add(
-                    shipOnTheGrid,
+                    wrapper,
                     ship.getListCoord().get(0).getX(),
                     ship.getListCoord().get(0).getY(),
                     ship.getSize(),
@@ -544,11 +629,14 @@ public class InGameGUIController {
                 if (ship.getListCoord().get(0).getY() == ship.getListCoord().get(1).getY()) {
                     // Horizontal.
                     // Set the size.
-                    shipOnTheGrid.setFitWidth(grid.getWidth()/10.0 * ship.getSize());
-                    shipOnTheGrid.setFitHeight(grid.getHeight()/10.0);
+                    // shipOnTheGrid.setFitWidth(cellSizeW * ship.getSize());
+                    // shipOnTheGrid.setFitHeight(cellSizeH);
+
+                    shipOnTheGrid.setStyle(shipOnTheGrid.getStyle() + "-fx-background-image: url('" + shipsPictures.get(ship.getType()) + "');");
+
                     // Place on the grid.
                     grid.add(
-                        shipOnTheGrid,
+                        wrapper,
                         Math.min(
                             ship.getListCoord().get(0).getX(),
                             ship.getListCoord().get(ship.getListCoord().size() - 1).getX()
@@ -561,13 +649,21 @@ public class InGameGUIController {
                 } else {
                     // Vertical
                     // Set the size.
-                    shipOnTheGrid.setFitHeight(grid.getWidth()/10.0);
-                    shipOnTheGrid.setFitWidth(grid.getHeight()/10.0 * ship.getSize());
+                    // shipOnTheGrid.setFitHeight(cellSizeW);
+                    // shipOnTheGrid.setFitWidth(cellSizeH * ship.getSize());
                     // Rotate the image.
-                    shipOnTheGrid.setRotate(90);
+                    //shipOnTheGrid.setRotate(90);
+
+                    //Image revert car pas de rotation de background en CSS
+                    String shipImgPath = shipsPictures.get(ship.getType());
+                    int len = shipImgPath.length();
+                    shipImgPath = shipImgPath.substring(0,len-4) + "rev" + shipImgPath.substring(len-4,len);
+                    shipOnTheGrid.setStyle(shipOnTheGrid.getStyle() + "-fx-background-image: url('" + shipImgPath + "');");
+
+
                     // Place on the grid.
                     grid.add(
-                        shipOnTheGrid,
+                        wrapper,
                         ship.getListCoord().get(0).getX(),
                         Math.min(
                             ship.getListCoord().get(0).getY(),
@@ -580,7 +676,7 @@ public class InGameGUIController {
                 }
             }
 
-
+            listOfShipsOnTheGrid.put(ship, shipOnTheGrid);
             return shipOnTheGrid;
 
         } catch (Exception ex) {
@@ -621,7 +717,7 @@ public class InGameGUIController {
     * @param event
     */
     @FXML
-    void onClickFire(MouseEvent event) {
+void onClickFire(MouseEvent event) {
         // Prevent to click if the game is not started and/or turn of the current player
         if (gameStarted && readyToAttack) {
             // Only if a cell has been aimed.
@@ -639,9 +735,6 @@ public class InGameGUIController {
                     Pair<Integer, Ship> fireResult = facade.getFacadeData().attack(cellToAttack, true, this.myPlayer);
                     placeMine(cellToAttack, myPlayer);
 
-                    // Update stats pannel
-                    currentPlayerStats.turnPlayed((fireResult.getKey() == 1), (fireResult.getValue() != null));
-                    updateStatsPannel();
 
                     // Reinitialize chrono for the next turn.
                     chronoTimeInit();
@@ -709,52 +802,187 @@ public class InGameGUIController {
         return result;
     }
 
+     /**
+     * Get the Node in the grid according to its positions
+     * @param row
+     * @param column
+     * @param gridPane
+     * @param cssClass
+     * @return
+     */
+    private Node getNodeByRowColumnIndexAndCSSClass(final int row, final int column, GridPane gridPane, String cssClass)
+    {
+        Node result = null;
+        ObservableList<Node> childrens = gridPane.getChildren();
+
+        for (Node node : childrens) {
+            if(node.hasProperties()) {
+                if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column && node.getStyleClass().contains(cssClass)) {
+                    result = node;
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+
+
+
+    /**
+     * Place a mine graphically
+     * @param x
+     * @param y
+     * @param class : css class associated
+     */
+    private void placeMineGraphics(GridPane grid, int x, int y, String classcss)
+    {
+        //Setup the arrayList for the selected grid for mine record
+        ArrayList<Coordinate> minesCoordinates = new ArrayList<Coordinate>();
+        ArrayList<AnchorPane> minesAnchorPane = new ArrayList<AnchorPane>();
+        if(grid == opponentGrid)
+        {
+            minesCoordinates = minesCoordinatesGrid1;
+            minesAnchorPane = minesAnchorPaneGrid1;
+        }
+        else
+        {
+            minesCoordinates = minesCoordinatesGrid2;
+            minesAnchorPane = minesAnchorPaneGrid2;
+        }
+
+        //Si une mine est déjà présente (cas spectateur rejoint en cours)
+        Coordinate coord = new Coordinate(x,y);
+        if(minesCoordinates.contains(coord))
+        {
+            int index = minesCoordinates.indexOf(coord);
+            AnchorPane a = minesAnchorPane.get(index);
+            Button b = (Button)a.getChildren().get(a.getChildren().size()-1);
+            if(b.getStyleClass().contains("inGameGUI_destroyed_cell")) //if ship destroyed, do nothing
+                return;
+            else if(b.getStyleClass().contains("inGameGUI_touched_cell") && classcss.equals("inGameGUI_touched_cell")) //if mine already placed, do nothing
+                return;
+            else if(b.getStyleClass().contains("inGameGUI_touched_cell") && classcss.equals("inGameGUI_destroyed_cell"))   //Si bateau non détruit, on la supprime
+            {
+                grid.getChildren().remove(a);
+                minesCoordinates.remove(index);
+                minesAnchorPane.remove(index);
+            }
+
+        }
+
+
+
+        //Ajout d'une mine (image d'une mine dans un bouton)
+        Button b = new Button();
+
+        b.setStyle("-fx-background-color: none;"
+                   + "-fx-background-repeat: stretch;"
+                   + "-fx-background-position: center center;"
+                   + "-fx-background-size: 100% 100%;");
+
+        //Anchorpane en wrapper pour resize automatiquement le button
+        AnchorPane wrapper = new AnchorPane();
+        AnchorPane.setTopAnchor(b, 0.0);
+        AnchorPane.setBottomAnchor(b, 0.0);
+        AnchorPane.setLeftAnchor(b, 0.0);
+        AnchorPane.setRightAnchor(b, 0.0);
+        wrapper.toFront();
+
+        wrapper.getChildren().addAll(b);
+        b.getStyleClass().add(classcss);
+        b.toFront();
+        grid.add(wrapper,x, y);
+        minesCoordinates.add(coord);
+        minesAnchorPane.add(wrapper);
+    }
+
+
     /**
      * Generic method for placing a mine on the grid just with the coordinates
      * @param coord : where to place the mine
      * @param player : who places the mine
      */
-    private void placeMine(Coordinate coord, Player player)
+    public void placeMine(Coordinate coord, Player player)
     {
-        // Select the right grid which depends on the player (TODO spectateur?)
+        //System.out.println("TABLE: ON PLACE UNE MINE EN " + coord.getX() + " " + coord.getY());
+        // Select the right grid which depends on the player
         GridPane grid;
-        if(player.getLightPublicUser().getId().equals(facade.getFacadeData().getMyPublicUserProfile().getId())) {
-            grid = opponentGrid;
-        } else {
-            grid = playerGrid;
+
+        //Cas non spectateur (J1 ou J2)
+        if(!isSpectator)
+        {
+            System.out.println("Je suis pas un spectateur");
+            if(player.getLightPublicUser().getId().equals(facade.getFacadeData().getMyPublicUserProfile().getId())) {
+                grid = opponentGrid;
+                // Reset the number of turns passed for J1.
+                nbPassedTurns = 0;
+            } else {
+                grid = playerGrid;
+            }
+        }
+        //Cas spectateur
+        else
+        {
+
+             System.out.println("Je suis  un spectateur");
+            if(player.equals(facade.getFacadeData().getGame().getPlayers().get(0))) //Current Player is J1 (cf Slack)
+            {
+                grid = playerGrid; //J1 on the left Grid for spectator
+            }
+            else
+            {
+                grid = opponentGrid; //J2 on the right grid
+            }
         }
 
         // Select the node in the grid and disable it when we lanch the attack
         Node hitCell = getNodeByRowColumnIndex(coord.getY(), coord.getX(), grid);
         hitCell.setDisable(true);
 
+        //Launch the attack
         Pair<Integer, Ship> attack_result = facade.getFacadeData().attack(coord, false, player);
-        // TODO: Voir si il faut demander à data une méthode "attack" neutralisée,
-        // on a besoin de pouvoir tester si une mine placée à un endroit provoque
-        // une explosion sans aucun autre effet (ou dire à data de tester si le joueur
-        // en local est le currentPlayer)
-        if (attack_result.getKey() == 1) {
+        if(attack_result == null) //Can't handle null
+        {
+            throw new UnsupportedOperationException("ERROR: attack returned null ");
+        }
+
+        //data from attack
+        boolean touched = attack_result.getKey() == 1;
+        boolean newShipDestroyed = attack_result.getValue() != null && !listOfDestroyedShips.contains(attack_result.getValue());
+
+        //If a mine did touch
+        if (touched) {
             // Ship Touched!
-            hitCell.getStyleClass().add("inGameGUI_touched_cell");
+            placeMineGraphics(grid, coord.getX(), coord.getY(), "inGameGUI_touched_cell");
+
             // Check if the ship is destroyed.
             Ship destroyedShip = attack_result.getValue();
             if(destroyedShip != null) {
-                if (grid == opponentGrid) {
+                if ((grid == opponentGrid || isSpectator) && !listOfShipsOnTheGrid.containsKey(destroyedShip)) {
                     // Add ship picture on the opponent grid.
-                    ImageView destroyedShipImage = putShipOnBoard(destroyedShip, opponentGrid);
-                    listOfShipsOnTheGrid.put(destroyedShip, destroyedShipImage);
+                    putShipOnBoard(destroyedShip, grid);
                 }
 
                 // Change the CSS class of the cells.
-                destroyShip(destroyedShip, opponentGrid);
+                destroyShip(destroyedShip, grid);
             }
 
-            // Reset the number of turns passed.
-            nbPassedTurns = 0;
         } else {
-            // Ship missed!
-            hitCell.getStyleClass().add("inGameGUI_missed_cell");
+            placeMineGraphics(grid,coord.getX(), coord.getY(), "inGameGUI_missed_cell");
         }
+        hitCell.toFront();
+
+
+        // Update stats pannel
+        InGameStats statsToUpdate = null;
+        if(grid == opponentGrid){
+            statsToUpdate = opponentStats;}
+        else{
+            statsToUpdate = this.currentPlayerStats;
+        }
+        statsToUpdate.turnPlayed(touched, newShipDestroyed);
+        updateStatsPannel();
     }
 
     /**
@@ -773,23 +1001,32 @@ public class InGameGUIController {
      */
     public void displayFinishPopup(String sMessage) {
 
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("End of the Game");
-        alert.setHeaderText(sMessage);
-        alert.setContentText("Do you want to save this game?");
+        final String message = sMessage;
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            // ... user chose OK
-            //facade.getFacadeData().save();
-        }
+        // Create a runLater Runnable so that the following code will be executed
+        // on the JavaFX thread and not in a random background thread
+        // To avoid crash
+        Platform.runLater(new Runnable() {
+            @Override public void run() {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("End of the Game");
+                alert.setHeaderText(message);
+                alert.setContentText("Do you want to save this game?");
 
-        try {
-            // Go back to the menu.
-            facade.getFacadeIHMMain().toMenu();
-        } catch (IOException ex) {
-            Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    // ... user chose OK
+                    //facade.getFacadeData().save();
+                }
+
+                try {
+                    // Go back to the menu.
+                    facade.getFacadeIHMMain().toMenu();
+                } catch (IOException ex) {
+                    Logger.getLogger(InGameGUIController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
     }
 
     /**
@@ -848,26 +1085,32 @@ public class InGameGUIController {
     /*
     * Function called when you click on the send button of the chat
     * It will send the message written in the textfield of the chat
-    * fx:controller="com.utclo23.ihmtable.controller.InGameGUIController" ==> all the windows 
+    * fx:controller="com.utclo23.ihmtable.controller.InGameGUIController" ==> all the windows
     */
     @FXML
     public void onClickSendButton(MouseEvent event) throws IOException {
         retrieveInformationAndSendMessage();
     }
-    
+
     /**
-     * Retrieve information from the textfield of the chat, clear the textfield 
+     * Retrieve information from the textfield of the chat, clear the textfield
      * and send the message to data
      */
     private void retrieveInformationAndSendMessage() {
-        String userName = myPlayer.getLightPublicUser().getPlayerName();
+        String userName;
+        if (isSpectator) {
+            userName = mySpectator.getPlayerName();
+        } else {
+            userName = myPlayer.getLightPublicUser().getPlayerName();;
+        }
+
         String text = retrieveAndClearMessage();
         if (text != null) {
             printMessageInChat(userName, text);
             facade.getFacadeData().sendMessage(text);
         }
     }
-    
+
     /**
      * Retrieve the message from the textfield of the chat and clear it
      * @return Text contained in the textfield of the chat
@@ -880,7 +1123,7 @@ public class InGameGUIController {
         }
         return text;
     }
-    
+
     /**
      * Create a message from the username and the message content, and display it
      * in the chat
@@ -890,7 +1133,7 @@ public class InGameGUIController {
     public void printMessageInChat(String userName, String msgContent) {
 
         HBox chatBox = new HBox();
-        Text chatText = new Text(userName + " :: " + msgContent); 
+        Text chatText = new Text(userName + " :: " + msgContent);
         chatBox.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
         chatText.setWrappingWidth(400);
         chatBox.getChildren().add(chatText);
@@ -942,10 +1185,6 @@ public class InGameGUIController {
     * Function for initialize chrono
     */
     private void chronoTimeInit() {
-        // Stop the timer.
-        if (timer != null) {
-            timer.stop();
-        }
         switch (nbPassedTurns) {
             case 0:
                 countdown = 30;
@@ -971,7 +1210,10 @@ public class InGameGUIController {
     private void restartChronoTime() {
         System.out.println("restartcronotime");
         chronoTimeInit();
-        timer.playFromStart();
+        if(timer!=null){
+            timer.playFromStart();
+        }
+
     }
 
     /**
@@ -998,9 +1240,9 @@ public class InGameGUIController {
                             // Increase the number of turns passed.
                             nbPassedTurns++;
                             nbTotalPassedTurns--;
-                            
+
                             // Fake an attack.
-                            facade.getFacadeData().attack(new Coordinate(nbTotalPassedTurns, nbTotalPassedTurns), true, null);
+                            facade.getFacadeData().attack(new Coordinate(nbTotalPassedTurns, nbTotalPassedTurns), true, myPlayer);
 
                             // Reinitialize chrono for the next turn
                             chronoTimeInit();
@@ -1261,12 +1503,11 @@ public class InGameGUIController {
 
                                     // No exception : Place the ship on the board.
                                     // Load the image.
-                                    ImageView shipOnTheGrid = new ImageView(shipsPictures.get(ship.getType()));
                                     //associate ship with its image on the grid
-                                    listOfShipsOnTheGrid.put(ship, shipOnTheGrid);
 
                                     // Put the image on the board
                                     putShipOnBoard(ship, playerGrid);
+
 
                                     // ATTENTION! Grid size is out of control!
                                     // setShip didn't return any exception so the ship is correctly placed -> Update the label on the left panel
@@ -1318,16 +1559,18 @@ public class InGameGUIController {
 
     /**
     * Method for loading a game
-    * @param game Game object (from saved game or for a second player / spectator)
+    * @param game Game object (for spectator)
     */
     public void loadGame(Game game)
     {
-        // Place ships.
-        for (Player player : game.getPlayers()) {
+        System.out.println("TABLE: ON LIT UNE GAME PAR UN SPECTATEUR");
+
+        // Place ships (disabled to avoid cheating)
+        /*for (Player player : game.getPlayers()) {
             for (Ship ship : player.getShips()) {
-                //placeShip(ship, player);
+                //placeShip(ship, player); use putShipOnBoard
             }
-        }
+        }*/
 
         // Place mines.
         for (Player player : game.getPlayers()) {
@@ -1345,12 +1588,12 @@ public class InGameGUIController {
      */
     public void displayOpponentAttack(Coordinate coord, boolean touched, Ship destroyedShip) {
         System.out.println("displayOpponentAttack : rdyToAttack : "  + readyToAttack);
-        
+
         // Return in case of fake attack
-        if (coord.getX() < 0 || coord.getY() < 0) { 
+        if (coord.getX() < 0 || coord.getY() < 0) {
             return;
         }
-        
+
         // Get the cell.
         Node cell = getNodeByRowColumnIndex(coord.getY(), coord.getX(), playerGrid);
         // The opponent has touched my ship.
@@ -1361,6 +1604,7 @@ public class InGameGUIController {
             // The opponent has missed.
             cell.getStyleClass().add("inGameGUI_missed_cell");
         }
+        cell.toFront();
 
         // Ship destroyed.
         if (destroyedShip != null) {
@@ -1368,9 +1612,6 @@ public class InGameGUIController {
             destroyShip(destroyedShip, playerGrid);
         }
 
-        // Update stats pannel
-        opponentStats.turnPlayed(touched, (destroyedShip != null));
-        updateStatsPannel();
     }
 
     /**
@@ -1380,14 +1621,20 @@ public class InGameGUIController {
      */
     private void destroyShip(Ship ship, GridPane grid)
     {
-        // Change the opacity.
-        listOfShipsOnTheGrid.get(ship).setOpacity(0.5);
+        if(!listOfDestroyedShips.contains(ship))
+        {
+                // Change the opacity.
+            listOfShipsOnTheGrid.get(ship).setOpacity(0.5);
+            listOfShipsOnTheGrid.get(ship).toBack();
+            listOfDestroyedShips.add(ship);
 
-        // Change the CSS class of the cells.
-        for (Coordinate coordinate : ship.getListCoord()) {
-            Node node = getNodeByRowColumnIndex(coordinate.getY(), coordinate.getX(), grid);
-            node.getStyleClass().removeAll("inGameGUI_touched_cell");
-            node.getStyleClass().add("inGameGUI_destroyed_cell");
+            // Change the CSS class of the cells.
+            for (Coordinate coord : ship.getListCoord()) {
+                placeMineGraphics(grid,coord.getX(), coord.getY(), "inGameGUI_destroyed_cell");
+
+
+            }
         }
+
     }
 }
