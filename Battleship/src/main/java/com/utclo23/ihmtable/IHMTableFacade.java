@@ -225,13 +225,19 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
     public void finishGame(StatGame stGame) {
         String sMessage;
         // Game lost.
-       
-        if(!stGame.getWinner().getPlayerName().equals(facadeData.getMyPublicUserProfile().getPlayerName()))
+        String winner = stGame.getWinner().getPlayerName();
+        if(!winner.equals(facadeData.getMyPublicUserProfile().getPlayerName()))
         {
             sMessage = "Defeat! You should train against AI! Hahahah!";
         } else {
-            // Game won.
-            sMessage = "Victory! I'm proud of you General!";
+            // Check if the player is a spectator
+            if(controller.isSpectator)
+            {
+                sMessage = winner.concat(" won the game!");
+            }else{
+                // Game won.
+                sMessage = "Victory! I'm proud of you General!";
+            }
         }
         // Display popup.
         controller.displayFinishPopup(sMessage);
@@ -242,6 +248,8 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void opponentHasLeftGame() {
+        if(controller.isSpectator)
+            return;
         // Display popup.
         controller.displayFinishPopup("Your opponent has left this game!");
     }
@@ -260,6 +268,8 @@ public class IHMTableFacade implements IIHMTableToIHMMain, IIHMTableToData {
      */
     @Override
     public void connectionLostWithOpponent() {
+        if(controller.isSpectator)
+            return;
         controller.displayFinishPopup("Connection has been lost with your opponent");
     }
 
