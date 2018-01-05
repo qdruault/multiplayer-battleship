@@ -50,7 +50,9 @@ public class IHMMain {
         this.facade = facade;
         primaryStage = stage;
         primaryStage.setWidth(1300);
+        primaryStage.setMinWidth(800);
         primaryStage.setHeight(800);
+        primaryStage.setMinHeight(600);
 
         // Load the font for the css
         try {
@@ -70,12 +72,6 @@ public class IHMMain {
         toNetworkInterfaceChoice();
         stage.show();
         
-        // Load the font for the css
-        try {
-            Font.loadFont(new FileInputStream(new File("./target/classes/styles/space_age.ttf")), 10);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(PlayerListController.class.getName()).log(Level.SEVERE, null, ex);
-        }
         //add onClose event handler which handle the event when user clicks X
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
