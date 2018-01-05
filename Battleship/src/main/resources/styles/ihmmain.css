@@ -228,7 +228,12 @@
     -fx-border-color: #ef8d00;
 }
 
-#statGrid {
+#stat {
     -fx-border-radius: 15px;
-    -fx-border-color: #ef8d00;   
+    -fx-border-color: #ef8d00; 
+}
+
+#gridBorderChart {
+    -fx-border-radius: 15px;
+    -fx-border-color: #ef8d00; 
 }

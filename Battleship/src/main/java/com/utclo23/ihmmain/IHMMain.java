@@ -15,6 +15,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -53,11 +57,25 @@ public class IHMMain {
         primaryStage.setHeight(800);
 
         // Load the font for the css
-        try {
-            Font.loadFont(new FileInputStream(new File("./target/classes/styles/space_age.ttf")), 10);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(PlayerListController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String path = IHMMain.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        String decodedPath = URLDecoder.decode(path, "UTF-8");
+        System.out.println("=====> " + decodedPath);
+        //try {
+            URL resource = classLoader.getResource("/styles/space_age.ttf");
+            File is = null;
+            is = new File(resource.toURI());
+          /*
+            try {
+                FileInputStream input = new FileInputStream(is);
+            } catch (FileNotFoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }*/
+            //InputStream configStream = getClass().getResourceAsStream("/styles/space_age.ttf");
+          //  Font.loadFont(new FileInputStream(new File("styles/space_age.ttf")), 10);
+        //} catch (FileNotFoundException ex) {
+            //Logger.getLogger(PlayerListController.class.getName()).log(Level.SEVERE, null, ex);
+        //}
         
         //load all scenes when app starts
         for(SceneName scenename : SceneName.values()){
@@ -69,13 +87,7 @@ public class IHMMain {
         primaryStage.setTitle("Battle Ship");
         toNetworkInterfaceChoice();
         stage.show();
-        
-        // Load the font for the css
-        try {
-            Font.loadFont(new FileInputStream(new File("./target/classes/styles/space_age.ttf")), 10);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(PlayerListController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
         //add onClose event handler which handle the event when user clicks X
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
