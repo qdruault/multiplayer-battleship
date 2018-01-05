@@ -288,7 +288,7 @@ public class InGameGUIController {
     @FXML
     private Pane paneChat;
 
-    private boolean isSpectator = false;
+    public boolean isSpectator = false;
 
     /**
     * Set the IHM Table facade.
