@@ -183,7 +183,7 @@ public class GameListController extends AbstractController{
         });
         
         gameList = new TableView<>();
-        gameList.getColumns().addAll(nameColumn, creatorColumn, modeColumn, chatColumn, playerNumberColumn);
+        gameList.getColumns().addAll(nameColumn, creatorColumn, modeColumn, aiColumn, chatColumn, playerNumberColumn);
         gameList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
     
@@ -239,7 +239,6 @@ public class GameListController extends AbstractController{
     @FXML
     private void watchSelectedGame(ActionEvent event){
         if(selectedGame != null){
-            System.out.println("ihm main watch request");
             getFacade().iDataIHMMain.gameConnectionRequestGame(selectedGame.getId(), "spectator");
             loadingScreen();
         }else{
