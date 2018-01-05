@@ -1242,7 +1242,7 @@ void onClickFire(MouseEvent event) {
                             nbTotalPassedTurns--;
 
                             // Fake an attack.
-                            facade.getFacadeData().attack(new Coordinate(nbTotalPassedTurns, nbTotalPassedTurns), true, null);
+                            facade.getFacadeData().attack(new Coordinate(nbTotalPassedTurns, nbTotalPassedTurns), true, myPlayer);
 
                             // Reinitialize chrono for the next turn
                             chronoTimeInit();
